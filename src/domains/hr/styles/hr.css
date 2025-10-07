@@ -1,0 +1,918 @@
+/* IBM Products Side Panel Override */
+.c4p--side-panel.c4p--side-panel--slide-in,
+.c4p--side-panel:not(.c4p--side-panel--has-overlay) {
+  z-index: 6000;
+  box-shadow: none !important;
+}
+
+/* Main Container */
+.hr-container {
+  background-color: var(--cds-ui-02);
+  min-height: 100vh;
+}
+
+/* Tab Styling */
+.hr-main-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--cds-ui-03);
+  margin-bottom: 1rem;
+}
+
+.hr-tab-button {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: var(--cds-text-02);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  font-weight: 400;
+}
+
+.hr-tab-button:hover:not(:disabled) {
+  color: var(--cds-text-01);
+  background-color: var(--cds-ui-02);
+}
+
+.hr-tab-button.active {
+  color: var(--cds-interactive-01);
+  border-bottom-color: var(--cds-interactive-01);
+  font-weight: 600;
+}
+
+.hr-tab-button:disabled {
+  color: var(--cds-text-03);
+  cursor: not-allowed;
+}
+
+.hr-tab-content {
+  padding: 0;
+}
+
+/* Translatable Field Styling */
+.translatable-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--cds-ui-03);
+  margin-bottom: 1rem;
+}
+
+.tab-button {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: var(--cds-text-02);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  font-weight: 400;
+}
+
+.tab-button:hover:not(:disabled) {
+  color: var(--cds-text-01);
+  background-color: var(--cds-ui-02);
+}
+
+.tab-button.active {
+  color: var(--cds-interactive-01);
+  border-bottom-color: var(--cds-interactive-01);
+  font-weight: 600;
+}
+
+.tab-button:disabled {
+  color: var(--cds-text-03);
+  cursor: not-allowed;
+}
+
+.tab-content {
+  padding: 0;
+}
+
+.translatable-field {
+  margin-bottom: 1rem;
+}
+
+/* Side by Side Translatable Fields */
+.translatable-field-side-by-side {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+/* Employee Photo Table Styling */
+.employee-photo-table {
+  width: 60px;
+  height: 60px;
+  overflow: hidden;
+  background-color: var(--cds-ui-02);
+  border: 1px solid var(--cds-ui-03);
+}
+
+.employee-photo-table .preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.employee-photo-table.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cds-text-03);
+  font-size: 0.75rem;
+}
+
+/* Employee Cards Grid */
+.employee-cards-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.employee-card {
+  background-color: var(--cds-ui-01);
+  border: 1px solid var(--cds-ui-03);
+  border-radius: 0;
+  padding: 0;
+  transition: all 0.1s ease;
+}
+
+.employee-card:hover {
+  border-color: var(--cds-interactive-01);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-image {
+  height: 160px;
+  position: relative;
+  background-color: var(--cds-ui-02);
+  overflow: hidden;
+}
+
+/* Position Badge with Overflow Menu */
+.position-badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Card Overflow Menu - positioned at bottom-right of entire card */
+.card-overflow-menu {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+  z-index: 15;
+}
+
+.employee-card:hover .card-overflow-menu {
+  opacity: 1;
+}
+
+.card-image-preview {
+  width: 100%;
+  height: 100%;
+}
+
+.card-image-preview .employee-photo-preview {
+  width: 100%;
+  height: 100%;
+}
+
+.card-image-preview .preview-image {
+  width: 100%;
+  height: 100%;
+}
+
+.card-content {
+  background-color: var(--cds-ui-01);
+  padding: 1rem;
+  text-align: left;
+}
+
+.card-title {
+  font-weight: 600;
+  color: var(--cds-text-01);
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.card-subtitle {
+  font-size: 0.875rem;
+  color: var(--cds-text-02);
+  margin: 0 0 0.5rem 0;
+  text-align: left;
+}
+
+.card-meta {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Responsive Grid */
+@media (max-width: 672px) {
+  .employee-cards-grid .bx--col-lg-6,
+  .employee-cards-grid .bx--col-md-4 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+/* Improved Empty State following IBM Carbon Design Guidelines */
+.empty-state {
+  background-color: var(--cds-ui-01);
+  border: 1px solid var(--cds-ui-03);
+  border-radius: 0;
+  padding: 3rem 2rem;
+  margin: 1rem 0;
+  text-align: left;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 300px;
+}
+
+.empty-state-content {
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.empty-state-icon {
+  color: var(--cds-text-03);
+  margin-bottom: 0.5rem;
+}
+
+.empty-state-title {
+  font-weight: 400;
+  color: var(--cds-text-01);
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.empty-state-description {
+  font-size: 0.875rem;
+  color: var(--cds-text-02);
+  margin: 0 0 1.5rem 0;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.empty-state-action {
+  min-width: 140px;
+}
+
+/* Flex Layout for Employee Cards */
+.employee-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  justify-content: flex-start;
+}
+
+.employee-flex-item {
+  flex: 1 1 calc(25% - 0.75rem);
+  min-width: 280px;
+  max-width: 340px;
+}
+
+@media (max-width: 1200px) {
+  .employee-flex-item {
+    flex: 1 1 calc(33.333% - 0.667rem);
+  }
+}
+
+@media (max-width: 900px) {
+  .employee-flex-item {
+    flex: 1 1 calc(50% - 0.5rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .employee-flex-item {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+.translatable-field-column {
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .translatable-field-side-by-side {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+/* Card Layout - Using Slider Card Patterns */
+.slider-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  justify-content: flex-start;
+}
+
+.slider-flex-item {
+  flex: 1 1 calc(25% - 0.75rem);
+  min-width: 280px;
+  max-width: 340px;
+}
+
+@media (max-width: 1200px) {
+  .slider-flex-item {
+    flex: 1 1 calc(33.333% - 0.667rem);
+  }
+}
+
+@media (max-width: 900px) {
+  .slider-flex-item {
+    flex: 1 1 calc(50% - 0.5rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .slider-flex-item {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+/* Slider Card Styling */
+.slider-card {
+  background-color: var(--cds-ui-01);
+  border: 1px solid var(--cds-ui-03);
+  border-radius: 0;
+  padding: 0;
+  transition: all 0.1s ease;
+  position: relative;
+}
+
+.slider-card:hover {
+  border-color: var(--cds-interactive-01);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.slider-card--compact {
+  min-height: 120px;
+}
+
+.card-content {
+  background-color: var(--cds-ui-01);
+  padding: 1rem;
+  text-align: left;
+}
+
+.card-content--compact {
+  padding: 1rem;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-weight: 600;
+  color: var(--cds-text-01);
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.card-title--compact {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-meta {
+  margin-top: auto;
+}
+
+.card-overflow-menu {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+  z-index: 15;
+}
+
+.slider-card:hover .card-overflow-menu {
+  opacity: 1;
+}
+
+/* Employee Photo Upload Styling */
+.employee-photo-upload {
+  margin-bottom: 1rem;
+}
+
+.upload-area {
+  border: 2px dashed var(--cds-ui-04);
+  border-radius: 0;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.1s ease;
+  background-color: var(--cds-ui-01);
+  cursor: pointer;
+}
+
+.upload-area:hover,
+.upload-area.drag-over {
+  border-color: var(--cds-interactive-01);
+  background-color: var(--cds-ui-02);
+}
+
+.upload-content {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  text-align: left;
+  gap: 1rem;
+}
+
+.upload-icon {
+  color: var(--cds-text-03);
+}
+
+.upload-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.upload-status {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: var(--cds-ui-01);
+  border: 1px solid var(--cds-ui-03);
+  border-radius: 0;
+}
+
+.upload-status-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.file-input {
+  display: none;
+}
+
+/* Employee Photo Preview Styling */
+.employee-photo-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.employee-photo-preview.empty,
+.employee-photo-preview.loading,
+.employee-photo-preview.hidden {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cds-ui-01);
+  border: 1px solid var(--cds-ui-03);
+  border-radius: 0;
+  color: var(--cds-text-03);
+}
+
+.preview-image {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+/* Validation Error Styling */
+.validation-error {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background-color: var(--cds-ui-error);
+  border: 1px solid var(--cds-error);
+  border-radius: 0;
+}
+
+.error-message {
+  margin: 0;
+  color: var(--cds-text-error);
+  font-size: 0.875rem;
+}
+
+/* Improved Empty State following IBM Carbon Design Guidelines */
+.empty-state {
+  background-color: var(--cds-ui-01);
+  border: 1px solid var(--cds-ui-03);
+  border-radius: 0;
+  padding: 3rem 2rem;
+  margin: 1rem 0;
+  text-align: left;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 300px;
+}
+
+.empty-state-content {
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.empty-state-title {
+  font-weight: 400;
+  color: var(--cds-text-01);
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.empty-state-description {
+  font-size: 0.875rem;
+  color: var(--cds-text-02);
+  margin: 0 0 1.5rem 0;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.empty-state-action {
+  min-width: 140px;
+}
+
+/* Loading Container */
+.loading-container {
+  background-color: var(--cds-ui-01);
+  border: 1px solid var(--cds-ui-03);
+  border-radius: 0;
+  margin: 0.5rem 0;
+  padding: 3rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 200px;
+}
+
+/* Pagination Container */
+.pagination-container {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+/* Employee Photo Upload Styling */
+.employee-photo-upload {
+  margin-bottom: 1rem;
+}
+
+.employee-photo-upload .upload-area {
+  border: 2px dashed var(--cds-ui-04);
+  background-color: var(--cds-ui-02);
+  border-radius: 0;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  position: relative;
+}
+
+.employee-photo-upload .upload-area:hover,
+.employee-photo-upload .upload-area:focus {
+  border-color: var(--cds-interactive-01);
+  background-color: var(--cds-ui-01);
+}
+
+.employee-photo-upload .upload-area.drag-over {
+  border-color: var(--cds-interactive-01);
+  background-color: var(--cds-ui-01);
+  box-shadow: 0 0 0 1px var(--cds-interactive-01);
+}
+
+.employee-photo-upload .upload-content {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  gap: 0.5rem;
+}
+
+.employee-photo-upload .file-input {
+  display: none;
+}
+
+/* Form Styling */
+.form-section {
+  margin-bottom: 2rem;
+}
+
+.form-section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--cds-text-01);
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--cds-ui-03);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--cds-ui-03);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hr-container {
+    padding: 1rem 0.5rem;
+  }
+
+  .slider-flex-item {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-actions .bx--btn {
+    width: 100%;
+  }
+}
+
+/* Font Classes */
+.font-dynamic {
+  font-family: inherit;
+}
+
+.font-en {
+  font-family:
+    "IBM Plex Sans",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+.font-ne {
+  font-family: "Noto Sans Devanagari", "IBM Plex Sans Devanagari", sans-serif;
+}
+
+.text-small {
+  font-size: 0.875rem;
+}
+
+/* Department hierarchy presentation inside cards */
+.card-breadcrumb {
+  margin: 0.25rem 0 0.25rem 0;
+}
+
+.hierarchy-visual {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.chip-row {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+/* --- Department Create Form Styles --- */
+.department-create-form-actionbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+.department-create-form-loading {
+  margin-bottom: 1rem;
+}
+
+.department-create-form-row {
+  margin-top: 1rem;
+}
+
+.department-create-form-status-section {
+  margin-top: 2rem;
+}
+
+/* --- Department Edit Form Styles --- */
+.department-edit-form-actionbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+.department-edit-form-loading {
+  margin-bottom: 1rem;
+}
+
+.department-edit-form-row {
+  margin-top: 1rem;
+}
+
+.department-edit-form-status-section {
+  margin-top: 2rem;
+}
+
+/* --- Department List Styles --- */
+.department-list-actions-cell {
+  text-align: right;
+}
+
+/* --- Employee List Table Cell Styles --- */
+.employee-photo-table-cell {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.employee-list-actions-cell {
+  text-align: right;
+}
+/* --- Employee Photo Upload Form Styles --- */
+.employee-photo-upload-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.employee-photo-upload-subtitle {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.employee-photo-upload-preview-stack {
+  align-items: flex-start;
+}
+
+.employee-photo-upload-remove-btn {
+  margin-top: 0.25rem;
+}
+
+.employee-photo-upload-placeholder {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.employee-photo-upload-types {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--cds-text-02);
+}
+
+.employee-photo-upload-btn {
+  margin-top: 0.25rem;
+}
+
+/* --- Employee Edit Form Specific Styles --- */
+.employee-form-actionbar--edit {
+  justify-content: flex-end;
+}
+
+.employee-form-field-row {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+/* --- Employee Create/Edit Form Styles --- */
+.employee-form-actionbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  margin-top: -2rem;
+}
+
+.employee-form-title {
+  font-size: 16px;
+  margin: 0;
+}
+
+.employee-form-loading {
+  margin-bottom: 1rem;
+}
+
+.employee-form-field-group {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.employee-form-photo-section {
+  margin-top: 1.5rem;
+}
+
+.employee-form-contact-section {
+  margin-top: 1.5rem;
+}
+
+.employee-form-status-section {
+  margin-top: 2.5rem;
+}
+
+.employee-form-homepage-section {
+  margin-top: 2.5rem;
+}
+
+.employee-form-homepage-desc {
+  margin-bottom: 1rem;
+}
+
+.employee-form-homepage-desc-text {
+  font-size: 0.875rem;
+  color: #525252;
+  margin-bottom: 1rem;
+}
+
+.employee-form-homepage-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* --- HR Dashboard Container & Header Styles --- */
+.hr-header {
+  padding: 2rem 1rem 1rem 1rem;
+}
+.hr-header-breadcrumb {
+  margin-bottom: 1.5rem;
+}
+.hr-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.hr-header-title-group {
+  flex: 1;
+}
+.hr-header-title {
+  font-size: 2rem;
+  font-weight: 400;
+  margin: 0 0 0.5rem 0;
+  text-align: left;
+}
+.hr-header-subtitle {
+  margin: 0;
+  color: var(--cds-text-secondary, #525252);
+  text-align: left;
+}
+.hr-header-actions {
+  display: flex;
+  gap: 1rem;
+}
+.hr-header-debug-btn {
+  border: 1px dashed #666;
+}
+
+/* --- HR Tabs --- */
+.hr-tabs-container {
+  padding: 0 1rem 1rem 1rem;
+}
+.hr-tab-pane {
+  padding: 0 0 1rem 0;
+}
+
+/* --- HR Sidepanel --- */
+.hr-sidepanel-close-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 10;
+}
+/* --- Contact Info Form Styles --- */
+.contact-info-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

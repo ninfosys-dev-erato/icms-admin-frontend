@@ -1,0 +1,94 @@
+{
+  "title": "प्रयोगकर्ताहरू",
+  "subtitle": "प्रयोगकर्ता, भूमिका र पहुँच व्यवस्थापन गर्नुहोस्।",
+  "breadcrumbs": { "home": "गृहपृष्ठ" },
+
+  "sections": { "basicInfo": "मूल जानकारी" },
+
+  "form": {
+    "createTitle": "प्रयोगकर्ता सिर्जना",
+    "editTitle": "प्रयोगकर्ता सम्पादन",
+    "email": { "label": "इमेल", "placeholder": "user@example.com", "validation": { "required": "मान्य इमेल आवश्यक छ" } },
+    "password": {
+      "labelCreate": "पासवर्ड",
+      "labelEdit": "पासवर्ड (बदल्न नचाहे खाली राख्नुहोस्)",
+      "validation": { "minLength": "पासवर्ड कम्तीमा ८ अक्षरको हुनुपर्छ" }
+    },
+    "firstName": { "label": "पहिलो नाम", "validation": { "required": "पहिलो नाम आवश्यक छ" } },
+    "lastName": { "label": "थर", "validation": { "required": "थर आवश्यक छ" } },
+    "role": { "label": "भूमिका" },
+    "isActive": { "label": "सक्रिय" }
+  },
+
+  "roles": {
+    "admin": "प्रशासक",
+    "editor": "सम्पादक",
+    "viewer": "दर्शक"
+  },
+
+  "status": {
+    "active": "सक्रिय",
+    "inactive": "निष्क्रिय",
+    "pending": "विचाराधीन",
+    "loading": "लोड हुँदै"
+  },
+
+  "filters": {
+    "search": "खोजी",
+    "searchPlaceholder": "नाम वा इमेलबाट खोज्नुहोस्",
+    "role": "भूमिका",
+    "status": "स्थिति",
+    "allRoles": "सबै भूमिका",
+    "allStatus": "सबै स्थिति",
+    "reset": "रिसेट"
+  },
+
+  "actions": {
+    "create": "प्रयोगकर्ता सिर्जना",
+    "creating": "सिर्जना हुँदै",
+    "update": "परिवर्तन बचत",
+    "updating": "बचत हुँदै",
+    "cancel": "रद्द",
+    "reset": "रिसेट",
+    "edit": "सम्पादन",
+    "delete": "मेट्नुहोस्",
+    "activate": "सक्रिय",
+    "deactivate": "निष्क्रिय"
+  },
+
+  "table": {
+    "headers": {
+      "name": "नाम",
+      "email": "इमेल",
+      "role": "भूमिका",
+      "status": "स्थिति",
+      "lastLogin": "अन्तिम लगइन"
+    },
+    "actions": {
+      "menu": "क्रियाकलाप",
+      "edit": "सम्पादन",
+      "delete": "मेट्नुहोस्",
+      "activate": "सक्रिय",
+      "deactivate": "निष्क्रिय"
+    }
+  },
+
+  "selection": { "count": "{count} चयन गरियो" },
+
+  "statistics": {
+    "title": "प्रयोगकर्ता तथ्याङ्क",
+    "total": "कुल प्रयोगकर्ता",
+    "active": "सक्रिय",
+    "inactive": "निष्क्रिय",
+    "pending": "विचाराधीन"
+  },
+
+  "detail": {
+    "role": "भूमिका",
+    "lastLogin": "अन्तिम लगइन",
+    "created": "सिर्जना गरिएको",
+    "updated": "परिमार्जन गरिएको"
+  }
+}
+
+

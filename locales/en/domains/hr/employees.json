@@ -1,0 +1,137 @@
+{
+  "title": "Employee Management",
+  "subtitle": "Manage organizational employees and personnel",
+  "list": {
+    "title": "Employees",
+    "subtitle": "Showing {count} employees",
+    "createNew": "Create Employee",
+    "createFirst": "Create First Employee",
+    "search": "Search employees",
+    "searchPlaceholder": "Search by name, position, or department...",
+    "filterByStatus": "Filter by Status",
+    "allStatuses": "All Statuses",
+    "clearFilters": "Clear Filters",
+    "resultsCount": "Showing {filtered} of {total} employees",
+    "noEmployees": "No employees found",
+    "noEmployeesDescription": "Get started by creating your first employee",
+    "noResults": "No employees match your search",
+    "noResultsDescription": "Try adjusting your search terms or filters"
+  },
+  "card": {
+    "actions": "Employee actions",
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+    "active": "Active",
+    "inactive": "Inactive",
+    "position": "Position",
+    "department": "Department",
+    "contactInfo": "Contact Information",
+    "updated": "Updated",
+    "noName": "Unnamed Employee"
+  },
+  "form": {
+    "createTitle": "Create Employee",
+    "editTitle": "Edit Employee",
+    "viewTitle": "View Employee",
+    "backToList": "Back to List",
+    "save": "Save Employee",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "name": {
+      "label": "Employee Name",
+      "placeholder": {
+        "en": "Enter employee name in English",
+        "ne": "Enter employee name in Nepali"
+      }
+    },
+    "position": {
+      "label": "Position",
+      "placeholder": "Enter employee position"
+    },
+    "department": {
+      "label": "Department",
+      "placeholder": "Select department"
+    },
+    "order": {
+      "label": "Display Order",
+      "placeholder": "Enter display order"
+    },
+    "photo": {
+      "label": "Employee Photo",
+      "subtitle": "Upload a professional photo for the employee",
+      "placeholder": "Drag and drop a photo here, or click to browse",
+      "uploadButton": "Choose Photo",
+      "remove": "Remove Photo",
+      "uploading": "Uploading photo...",
+      "loading": "Loading photo..."
+    },
+    "contactInfo": {
+      "label": "Contact Information",
+      "mobileNumber": "Mobile Number",
+      "telephone": "Telephone",
+      "email": "Email Address",
+      "roomNumber": "Room Number"
+    },
+    "status": {
+      "label": "Status"
+    },
+    "isActive": {
+      "label": "Active Status",
+      "description": "Active employees are visible to users"
+    },
+    "homepageDisplay": {
+      "label": "Homepage Display",
+      "description": "Control how this employee appears on the homepage",
+      "showUpInHomepage": {
+        "label": "Show in Top Section",
+        "description": "Display this employee in the top section of the homepage"
+      },
+      "showDownInHomepage": {
+        "label": "Show in Bottom Section",
+        "description": "Display this employee in the bottom section of the homepage"
+      }
+    }
+  },
+  "delete": {
+    "title": "Delete Employee",
+    "message": "Are you sure you want to delete the employee {name}?",
+    "warning": "This action cannot be undone. All associated data will be permanently deleted.",
+    "confirm": "Delete",
+    "cancel": "Cancel"
+  },
+  "errors": {
+    "title": "Error",
+    "loadFailed": "Failed to load employees",
+    "createFailed": "Failed to create employee",
+    "updateFailed": "Failed to update employee",
+    "deleteFailed": "Failed to delete employee",
+    "validation": {
+      "nameRequired": "Employee name is required",
+      "nameMinLength": "Employee name must be at least 3 characters",
+      "nameMaxLength": "Employee name cannot exceed 100 characters",
+      "positionRequired": "Position is required",
+      "departmentRequired": "Department is required",
+        "orderInvalid": "Order must be a positive number",
+        "nameEnRequired": "English employee name is required",
+        "nameNeRequired": "Nepali employee name is required",
+        "positionEnRequired": "English position is required",
+        "positionNeRequired": "Nepali position is required"
+    }
+  },
+  "status": {
+    "loading": "Loading employees...",
+    "saving": "Saving employee...",
+    "deleting": "Deleting employee...",
+    "success": "Employee saved successfully",
+    "deleted": "Employee deleted successfully"
+  },
+  "bulk": {
+    "activate": "Activate Selected",
+    "deactivate": "Deactivate Selected",
+    "delete": "Delete Selected",
+    "confirmDelete": "Are you sure you want to delete {count} employees?",
+    "success": "Bulk operation completed successfully",
+    "error": "Some operations failed"
+  }
+}

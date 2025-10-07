@@ -1,0 +1,333 @@
+/* ============================
+   IBM-like Login – clean white, perfect alignment, exact widths
+   ============================ */
+
+:root{
+  /* Push the FORM/TITLE horizontally to match your top “iCMS” brand.  
+     Increase → moves right, decrease → left. */
+  --gutter-form: 8px;
+
+  /* Footer padding stays independent of the form alignment */
+  --gutter-footer: 200px;
+
+  --ibm-bg:#ffffff;
+  --ibm-ink:#161616;
+  --ibm-ink-2:#525252;
+  --ibm-primary:#1f2f76;       /* deep IBM-ish blue for CTA */
+  --ibm-primary-ink:#ffffff;
+  --ibm-footer-bg:#161616;
+  --ibm-footer-ink:#f4f4f4;
+}
+
+:root {
+  --gutter-form: 0.15rem;          /* form + form title */
+  --gutter-header: 165px;          /* top iCMS title (independent) */
+  --gutter-footer: 400px;          /* footer right padding */
+  --gutter-footer-left: 200px;     /* NEW: footer left start */
+}
+
+/* Page wrapper */
+.login-page{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  background:#fff;
+  color:var(--ibm-ink);
+}
+
+/* ===== PURE WHITE CANVAS (no panel, no tint) ===== */
+.login-canvas{
+  position:relative;
+  flex:1;
+  display:flex;
+  align-items:flex-start;
+  box-sizing:border-box;
+  padding:48px var(--gutter-form) 116px var(--gutter-form);
+  background:#fff !important;
+  box-shadow:none !important;
+  border:0 !important;
+}
+
+/* Remove any accidental shadows/rounded corners from descendants */
+.login-canvas, .login-canvas *{
+  box-shadow:none !important;
+  border-radius:0 !important;
+}
+
+/* Right-side art removed → pure white */
+.login-canvas::after{
+  content:none;
+}
+
+.login-form-container {
+  margin-left: var(--gutter-footer-left) !important; 
+  width: 100%;
+  max-width: 520px;
+  margin-top: 0;
+  padding: 0;
+  background: transparent !important;
+  position: relative;
+  left: -30px;
+  transform: translateX(-260px);
+}
+
+.art-container, .login-art svg {
+  margin-top:0;
+}
+
+/* Title & subtitle */
+.login-form-header{ margin-bottom:28px; text-align:left; }
+.login-form-title{
+  margin:0 0 10px;
+  font-weight:700;
+  font-size:clamp(32px, 2.6vw, 42px);
+  line-height:1.15;
+  color:var(--ibm-ink);
+}
+.login-form-subtitle{
+  margin:0;
+  font-size:18px;
+  line-height:1.5;
+  color:var(--ibm-ink-2);
+}
+
+/* Fields */
+.login-form-content{ margin-bottom:28px; }
+.login-form-fields{ display:flex; flex-direction:column; gap:18px; }
+.login-form-field{ width:100%; }
+
+/* Ensure inputs are exactly the full container width */
+.cds--text-input, .cds--password-input{ width:100%; }
+.cds--text-input input, .cds--password-input input{ font-size:16px; }
+
+/* Checkbox row */
+.login-form-checkbox{ display:flex; align-items:center; padding-top:6px; }
+
+/* Button row uses the same width as inputs */
+.login-form-button-row{ width:100%; }
+
+/* Exact width button = inputs; bigger label; arrow at far right */
+.login-form-submit{
+  display:block;
+  width:100% !important;
+  min-height:56px;
+  height:56px;
+  font-size:18px;
+  font-weight:600;
+  background:var(--ibm-primary);
+  color:var(--ibm-primary-ink);
+  border:none;
+  padding-inline:16px;
+}
+/* make the button exactly the same width as the inputs */
+.login-form-container .cds--btn {
+  max-width: none !important;
+  inline-size: 100% !important;
+}
+
+/* keep the wrapper and button measuring like the inputs */
+.login-form-button-row,
+.login-form-submit {
+  box-sizing: border-box;
+}
+
+/* Put the Sign In arrow at the far right (icon size is set inline) */
+.login-form-submit {
+  position: relative;
+  padding-right: 90px;
+}
+.login-form-submit .cds--btn__icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+.login-form-submit .cds--btn__icon > svg {
+  display: block;
+}
+
+/* Hide the tiny helper footer under the form */
+.login-form-footer{ display:none !important; }
+
+/* ===== PAGE FOOTER (independent gutter) ===== */
+.login-page-footer{
+  position:fixed;
+  left:0; right:0; bottom:0;
+  z-index:10;
+  background:var(--ibm-footer-bg);
+  color:var(--ibm-footer-ink);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding: 20px var(--gutter-footer) 20px var(--gutter-footer-left);
+  font-size: 15px;
+}
+.login-page-footer a{ color:var(--ibm-footer-ink); text-decoration:none; opacity:.9; }
+.login-page-footer a:hover{ text-decoration:underline; opacity:1; }
+.login-page-footer-links{ display:flex; gap:20px; flex-wrap:wrap; }
+.login-page-footer-right{ white-space:nowrap; opacity:.85; }
+
+/* Make sure no other global footer appears */
+.login-page ~ footer,
+footer:not(.login-page-footer){ display:none !important; }
+
+/* Keep content above the fixed footer */
+@supports (padding: max(0px)) {
+  .login-canvas { padding-bottom: max(116px, 116px); }
+}
+
+/* Responsive */
+@media (max-width:1200px){
+  .login-canvas{ padding:40px 48px 124px 48px; }
+}
+@media (max-width:900px){
+  .login-canvas{ padding:32px 24px 128px 24px; }
+  .login-page-footer{
+    padding:12px 24px;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+  }
+}
+
+/* Align top brand "iCMS" header with the login form title */
+header .brand-title, 
+header h1, 
+header .icms-title {
+  margin-left: var(--gutter-form) !important;
+}
+/* Shift the top iCMS header */
+.login-title.font-dynamic {
+  margin-left: var(--gutter-header) !important;
+}
+/* Remove tile look, force pure white background */
+.cds--tile.login-tile {
+  background: #fff !important;
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+html, body {
+  overflow: hidden;
+}
+
+/* --------------------------------------------
+   Existing password-visibility helpers (kept)
+   -------------------------------------------- */
+
+/* Ensure the Carbon password visibility toggle shows and has room */
+.cds--password-input .cds--text-input__field-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.cds--password-input input.cds--text-input__field {
+  padding-right: 48px !important; /* room for the eye */
+}
+/* Carbon v11/v10 selector coverage */
+.cds--password-input .cds--text-input--password__visibility__toggle,
+.cds--password-input .cds--text-input__password__visibility__toggle,
+.cds--password-input .cds--password-input__visibility__toggle {
+  display: inline-flex !important;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+.cds--password-input .cds--text-input--password__visibility__toggle svg,
+.cds--password-input .cds--text-input__password__visibility__toggle svg,
+.cds--password-input .cds--password-input__visibility__toggle svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+/* Give room for the eye (dup kept intentionally; later rules win) */
+.cds--password-input input.cds--text-input__field {
+  padding-right: 48px !important;
+}
+/* Carbon renders the toggle with this data-attr */
+.cds--password-input [data-toggle-password-visibility] {
+  display: inline-flex !important;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+.cds--password-input [data-toggle-password-visibility] svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+/* Ensure wrapper can position the toggle */
+.cds--password-input .cds--text-input__field-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* =========================================================
+   ADDED (non-destructive) — ensure correct layout everywhere
+   ========================================================= */
+
+/* 1) Parent needs positioning context */
+.cds--password-input { position: relative; }
+
+/* 2) Wrapper should not be flex in this page; force inline-block
+      and allow the toggle to escape clipping */
+.cds--password-input .cds--text-input__field-wrapper {
+  position: relative !important;
+  display: inline-block !important;   /* prevent flex side-effects */
+  width: 100% !important;
+  overflow: visible !important;        /* <-- make sure toggle isn't clipped */
+}
+
+/* 3) Make room inside the input (final override) */
+.cds--password-input input.cds--text-input__field {
+  padding-right: 48px !important;
+}
+
+/* 4) Ensure the toggle is visible & clickable across versions */
+.cds--password-input .cds--text-input--password__visibility__toggle,
+.cds--password-input .cds--text-input__password__visibility__toggle,
+.cds--password-input .cds--password-input__visibility__toggle,
+.cds--password-input [data-toggle-password-visibility],
+/* very defensive: any icon-only button inside password input */
+.cds--password-input button[aria-label*="password"],
+.cds--password-input button[title*="password"] {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* 5) Icon sizing */
+.cds--password-input .cds--text-input--password__visibility__toggle svg,
+.cds--password-input .cds--text-input__password__visibility__toggle svg,
+.cds--password-input .cds--password-input__visibility__toggle svg,
+.cds--password-input [data-toggle-password-visibility] svg,
+.cds--password-input button[aria-label*="password"] svg,
+.cds--password-input button[title*="password"] svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}

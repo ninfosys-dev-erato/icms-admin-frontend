@@ -1,0 +1,549 @@
+@import "@carbon/styles/css/styles.css";
+
+/* iCMS Design System - Custom Properties */
+:root {
+  /* Primary Brand Color */
+  --color-primary: #123772;
+  --color-primary-rgb: 18, 55, 114;
+
+  /* Primary Navy */
+  --color-navy-primary: #123772;
+
+  /* Tints (Lighter Variants) */
+  --color-light-navy: #30568d;
+  --color-mist-blue: #5d7ba6;
+  --color-pale-sky: #a3b7d1;
+  --color-ice-blue: #dce6f2;
+
+  /* Shades (Darker Variants) */
+  --color-deep-night: #0e2c5a;
+  --color-inkwell-blue: #0a2041;
+  --color-midnight: #06172e;
+
+  /* Analogous Colors */
+  --color-ocean-teal: #127272;
+  --color-royal-indigo: #361272;
+
+  /* Complementary Colors */
+  --color-bronze: #726012;
+  --color-warm-sand: #a67c4d;
+
+  /* Interactive Elements */
+  --color-button-primary: var(--color-navy-primary);
+  --color-button-primary-hover: var(--color-light-navy);
+  --color-button-primary-active: var(--color-deep-night);
+
+  --color-button-secondary: var(--color-mist-blue);
+  --color-button-secondary-hover: var(--color-pale-sky);
+
+  --color-link: var(--color-navy-primary);
+  --color-link-hover: var(--color-light-navy);
+  --color-link-visited: var(--color-royal-indigo);
+
+  /* Status and Feedback Colors */
+  --color-success: var(--color-ocean-teal);
+  --color-success-light: #e8f5f5;
+  --color-success-dark: #0f5858;
+
+  --color-warning: var(--color-bronze);
+  --color-warning-light: #fbf6e8;
+  --color-warning-dark: #4a3b0b;
+
+  --color-error: #da1e28;
+  --color-error-light: #ffe6e6;
+  --color-error-dark: #a1181f;
+
+  --color-info: var(--color-mist-blue);
+  --color-info-light: var(--color-ice-blue);
+  --color-info-dark: var(--color-deep-night);
+
+  /* Background and Surface Colors */
+  --color-background-primary: #ffffff;
+  --color-background-secondary: var(--color-ice-blue);
+  --color-background-tertiary: var(--color-pale-sky);
+
+  --color-surface-primary: #ffffff;
+  --color-surface-secondary: #f8fafb;
+  --color-surface-elevated: #ffffff;
+
+  --color-border-light: var(--color-pale-sky);
+  --color-border-medium: var(--color-mist-blue);
+  --color-border-strong: var(--color-navy-primary);
+  --color-border-subtle: rgba(var(--color-primary-rgb), 0.08);
+
+  /* Text Color System */
+  --color-text-primary: var(--color-midnight);
+  --color-text-secondary: var(--color-inkwell-blue);
+  --color-text-tertiary: var(--color-deep-night);
+  --color-text-placeholder: var(--color-mist-blue);
+
+  --color-text-inverse: #ffffff;
+  --color-text-inverse-secondary: var(--color-ice-blue);
+
+  /* Spacing System */
+  --spacing-base: 1rem;
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
+  --spacing-4xl: 6rem;
+
+  /* Component Spacing */
+  --spacing-component-xs: var(--spacing-sm);
+  --spacing-component-sm: var(--spacing-md);
+  --spacing-component-md: var(--spacing-lg);
+  --spacing-component-lg: var(--spacing-xl);
+
+  /* Section Spacing */
+  --spacing-section-sm: var(--spacing-xl);
+  --spacing-section-md: var(--spacing-2xl);
+  --spacing-section-lg: var(--spacing-3xl);
+
+  /* Page Spacing */
+  --spacing-page-margin: var(--spacing-lg);
+  --spacing-page-padding: var(--spacing-md);
+
+  /* Elevation and Shadows */
+  --shadow-level-1: 0 1px 3px rgba(var(--color-primary-rgb), 0.1);
+  --shadow-level-2: 0 4px 6px rgba(var(--color-primary-rgb), 0.1);
+  --shadow-level-3: 0 10px 15px rgba(var(--color-primary-rgb), 0.1);
+  --shadow-level-4: 0 20px 25px rgba(var(--color-primary-rgb), 0.15);
+
+  --shadow-focus: 0 0 0 3px rgba(var(--color-primary-rgb), 0.2);
+  --shadow-focus-error: 0 0 0 3px rgba(218, 30, 40, 0.2);
+
+  /* Border Radius System */
+  --border-radius-none: 0;
+  --border-radius-sm: 0.125rem;
+  --border-radius-md: 0.25rem;
+  --border-radius-lg: 0.5rem;
+  --border-radius-xl: 1rem;
+  --border-radius-full: 9999px;
+
+  /* Button Design Tokens */
+  --button-primary-bg: var(--color-navy-primary);
+  --button-primary-hover-bg: var(--color-light-navy);
+  --button-primary-active-bg: var(--color-deep-night);
+  --button-primary-text: #ffffff;
+
+  --button-secondary-bg: transparent;
+  --button-secondary-border: var(--color-navy-primary);
+  --button-secondary-text: var(--color-navy-primary);
+  --button-secondary-hover-bg: var(--color-ice-blue);
+
+  --button-height-sm: 2rem;
+  --button-height-md: 2.5rem;
+  --button-height-lg: 3rem;
+
+  --button-padding-x-sm: var(--spacing-md);
+  --button-padding-x-md: var(--spacing-lg);
+  --button-padding-x-lg: var(--spacing-xl);
+
+  /* Form Design Tokens */
+  --input-bg: #ffffff;
+  --input-border: var(--color-mist-blue);
+  --input-border-focus: var(--color-navy-primary);
+  --input-border-error: var(--color-error);
+  --input-text: var(--color-text-primary);
+  --input-placeholder: var(--color-text-placeholder);
+
+  --input-height-sm: 2rem;
+  --input-height-md: 2.5rem;
+  --input-height-lg: 3rem;
+
+  --input-padding-x: var(--spacing-md);
+  --input-border-radius: var(--border-radius-md);
+
+  /* Navigation Design Tokens */
+  --nav-bg: var(--color-navy-primary);
+  --nav-text: #ffffff;
+  --nav-text-active: var(--color-ice-blue);
+  --nav-border: var(--color-light-navy);
+
+  --nav-sidebar-width: 240px;
+  --nav-sidebar-collapsed-width: 48px;
+  --nav-topbar-height: 60px;
+  --nav-item-height: 40px;
+
+  /* Typography */
+  --font-family-primary:
+    "IBM Plex Sans", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-family-mono: "IBM Plex Mono", "Courier New", monospace;
+  --font-family-nepali: "Noto Sans Devanagari", "IBM Plex Sans", sans-serif;
+
+  /* Language-specific font families */
+  --font-family-en:
+    "IBM Plex Sans", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-family-ne: "Noto Sans Devanagari", "IBM Plex Sans", sans-serif;
+
+  /* Dynamic font family that changes based on locale */
+  --font-family-dynamic: var(--font-family-en);
+
+  /* Font weights for different languages */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Language-specific font weights */
+  --font-weight-en-normal: 400;
+  --font-weight-en-medium: 500;
+  --font-weight-en-semibold: 600;
+  --font-weight-en-bold: 700;
+
+  --font-weight-ne-normal: 400;
+  --font-weight-ne-medium: 500;
+  --font-weight-ne-semibold: 600;
+  --font-weight-ne-bold: 700;
+
+  /* Dynamic font weight */
+  --font-weight-dynamic: var(--font-weight-en-normal);
+
+  /* Line Heights */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-loose: 1.75;
+
+  /* Letter Spacing */
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+
+  /* Transition Durations */
+  --transition-fast: 150ms;
+  --transition-normal: 200ms;
+  --transition-slow: 300ms;
+
+  /* Easing Functions */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background-primary: var(--color-midnight);
+    --color-background-secondary: var(--color-inkwell-blue);
+    --color-surface-primary: var(--color-deep-night);
+
+    --color-text-primary: var(--color-black);
+    --color-text-secondary: var(--color-black);
+
+    --input-bg: var(--color-deep-night);
+    --nav-bg: var(--color-midnight);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --color-border-strong: #000000;
+    --color-text-primary: #000000;
+    --shadow-focus: 0 0 0 3px #000000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-duration: 0ms;
+  }
+
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Custom utility classes */
+.text-primary {
+  color: var(--color-text-primary);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.bg-primary {
+  background-color: var(--color-background-primary);
+}
+
+.bg-secondary {
+  background-color: var(--color-background-secondary);
+}
+
+.border-primary {
+  border-color: var(--color-border-medium);
+}
+
+.shadow-elevation-1 {
+  box-shadow: var(--shadow-level-1);
+}
+
+.shadow-elevation-2 {
+  box-shadow: var(--shadow-level-2);
+}
+
+.shadow-elevation-3 {
+  box-shadow: var(--shadow-level-3);
+}
+
+.focus-ring {
+  box-shadow: var(--shadow-focus);
+}
+
+.focus-ring-error {
+  box-shadow: var(--shadow-focus-error);
+}
+
+/* Language-specific font utilities */
+.font-en {
+  font-family: var(--font-family-en) !important;
+}
+
+.font-ne {
+  font-family: var(--font-family-ne) !important;
+}
+
+.font-dynamic {
+  font-family: var(--font-family-dynamic) !important;
+}
+
+/* Language-specific font weight utilities */
+.font-weight-en-normal {
+  font-weight: var(--font-weight-en-normal) !important;
+}
+
+.font-weight-en-medium {
+  font-weight: var(--font-weight-en-medium) !important;
+}
+
+.font-weight-en-semibold {
+  font-weight: var(--font-weight-en-semibold) !important;
+}
+
+.font-weight-en-bold {
+  font-weight: var(--font-weight-en-bold) !important;
+}
+
+.font-weight-ne-normal {
+  font-weight: var(--font-weight-ne-normal) !important;
+}
+
+.font-weight-ne-medium {
+  font-weight: var(--font-weight-ne-medium) !important;
+}
+
+.font-weight-ne-semibold {
+  font-weight: var(--font-weight-ne-semibold) !important;
+}
+
+.font-weight-ne-bold {
+  font-weight: var(--font-weight-ne-bold) !important;
+}
+
+.font-weight-dynamic {
+  font-weight: var(--font-weight-dynamic) !important;
+}
+
+/* Mixed content utilities for fields that should always be English */
+.font-english-only {
+  font-family: var(--font-family-en) !important;
+  font-weight: var(--font-weight-en-normal) !important;
+}
+
+/* Language-specific body styles */
+body[data-locale="en"] {
+  font-family: var(--font-family-en);
+  font-weight: var(--font-weight-en-normal);
+}
+
+body[data-locale="ne"] {
+  font-family: var(--font-family-ne);
+  font-weight: var(--font-weight-ne-normal);
+}
+
+/* Language-specific heading styles */
+body[data-locale="en"] h1,
+body[data-locale="en"] h2,
+body[data-locale="en"] h3,
+body[data-locale="en"] h4,
+body[data-locale="en"] h5,
+body[data-locale="en"] h6 {
+  font-family: var(--font-family-en);
+  font-weight: var(--font-weight-en-semibold);
+}
+
+body[data-locale="ne"] h1,
+body[data-locale="ne"] h2,
+body[data-locale="ne"] h3,
+body[data-locale="ne"] h4,
+body[data-locale="ne"] h5,
+body[data-locale="ne"] h6 {
+  font-family: var(--font-family-ne);
+  font-weight: var(--font-weight-ne-semibold);
+}
+
+/* Language-specific paragraph styles */
+body[data-locale="en"] p {
+  font-family: var(--font-family-en);
+  font-weight: var(--font-weight-en-normal);
+}
+
+body[data-locale="ne"] p {
+  font-family: var(--font-family-ne);
+  font-weight: var(--font-weight-ne-normal);
+}
+
+/* Custom component styles */
+.btn-primary {
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text);
+  border: none;
+  padding: var(--button-padding-x-md) var(--spacing-lg);
+  border-radius: var(--border-radius-md);
+  font-weight: 500;
+  transition: background-color var(--transition-normal) var(--ease-out);
+}
+
+.btn-primary:hover {
+  background-color: var(--button-primary-hover-bg);
+}
+
+.btn-primary:active {
+  background-color: var(--button-primary-active-bg);
+}
+
+.input-field {
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: var(--input-border-radius);
+  padding: var(--spacing-md);
+  color: var(--input-text);
+  transition: border-color var(--transition-normal) var(--ease-out);
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--input-border-focus);
+  box-shadow: var(--shadow-focus);
+}
+
+.input-field:invalid {
+  border-color: var(--input-border-error);
+}
+
+/* Carbon Design System Overrides for iCMS */
+
+/* Remove shadows and rounded corners from Carbon components */
+.cds--text-input,
+.cds--password-input,
+.cds--btn,
+.cds--checkbox,
+.cds--inline-notification {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Text input styling to match iCMS design */
+.cds--text-input__field-wrapper,
+.cds--password-input__field-wrapper {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.cds--text-input__field,
+.cds--password-input__field {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  border-bottom: 1px solid var(--color-border-light) !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  background-color: var(--color-background-secondary) !important;
+}
+
+.cds--text-input__field:focus,
+.cds--password-input__field:focus {
+  border-bottom-color: var(--color-link) !important;
+  box-shadow: none !important;
+}
+
+/* Button styling to match iCMS design */
+.cds--btn--primary {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background-color: var(--color-link) !important;
+  border: none !important;
+}
+
+.cds--btn--primary:hover {
+  background-color: var(--color-link-hover) !important;
+  box-shadow: none !important;
+}
+
+.cds--btn--tertiary {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  border: 1px solid var(--color-link) !important;
+  color: var(--color-link) !important;
+}
+
+.cds--btn--tertiary:hover {
+  background-color: var(--color-background-secondary) !important;
+  box-shadow: none !important;
+}
+
+/* Checkbox styling */
+.cds--checkbox-wrapper {
+  border-radius: 0 !important;
+}
+
+.cds--checkbox {
+  border-radius: 0 !important;
+}
+
+/* Inline notification styling */
+.cds--inline-notification {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Label styling */
+.cds--label {
+  font-weight: 400 !important;
+  color: var(--color-text-primary) !important;
+}
+
+/* Remove focus rings that don't match iCMS design */
+.cds--text-input__field:focus,
+.cds--password-input__field:focus,
+.cds--btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* drop down shows all content length */
+.cds--list-box {
+  min-width: 100px;
+  width: auto;
+  max-width: 100%;
+}
+
+.cds--list-box__menu {
+  min-width: 100%;
+  width: max-content;
+  max-width: 400px;
+}
+
+
+.cds--popover-caret,
+.cds--popover-content.cds--tooltip-content {
+  display: none !important;
+}

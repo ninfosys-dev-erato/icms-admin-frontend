@@ -1,0 +1,302 @@
+{
+    "title": "Header Management",
+    "subtitle": "Manage your website header configuration, logos and styling.",
+    "description": "Manage website headers, typography, layouts, and logo configurations",
+    "createHeader": "Create Header",
+    "totalHeaders": "Total Headers",
+    "publishedHeaders": "Published",
+    "activeHeaders": "Active",
+    "noPreview": "No Header Selected",
+    "noPreviewDescription": "Select a header from the list to preview its configuration",
+    "viewHeaders": "View Headers",
+
+    "breadcrumbs": {
+      "home": "Home"
+    },
+
+    "filters": {
+      "status": "Status",
+      "all": "All",
+      "reset": "Reset Filters"
+    },
+
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "loading": "Loading headers..."
+    },
+
+    "actions": {
+      "createNew": "Create New",
+      "cancel": "Cancel",
+      "view": "View",
+      "preview": "Preview",
+      "edit": "Edit",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "delete": "Delete",
+      "bulkPublish": "Publish",
+      "bulkUnpublish": "Unpublish",
+      "bulkDelete": "Delete",
+      "creating": "Creating...",
+      "updating": "Updating...",
+      "update": "Update",
+      "reset": "Reset"
+    },
+
+    "sections": {
+      "basicInfo": "Basic Information"
+    },
+
+    "languages": {
+      "english": "English",
+      "nepali": "नेपाली"
+    },
+
+    "tabs": {
+      "headers": "Headers",
+      "statistics": "Statistics",
+      "preview": "Preview"
+    },
+    "form": {
+      "createTitle": "Create New Header",
+      "editTitle": "Edit Header",
+      "tabs": {
+        "basic": "Basic Settings",
+        "typography": "Typography",
+        "layout": "Layout",
+        "logo": "Logo",
+        "preview": "Preview"
+      },
+      "basic": {
+        "title": "Basic Information",
+        "name": "Header Name",
+        "namePlaceholder": {
+          "en": "Enter header name in English",
+          "ne": "नेपालीमा हेडर नाम लेख्नुहोस्"
+        },
+        "order": "Display Order",
+        "alignment": "Text Alignment",
+        "alignmentLeft": "Left",
+        "alignmentCenter": "Center",
+        "alignmentRight": "Right",
+        "alignmentJustify": "Justify",
+        "status": "Status",
+        "isActive": "Active",
+        "isPublished": "Published (Live on website)"
+      },
+      "typography": {
+        "title": "Typography Settings",
+        "fontFamily": "Font Family",
+        "fontSize": "Font Size",
+        "fontWeight": "Font Weight",
+        "color": "Text Color",
+        "lineHeight": "Line Height",
+        "letterSpacing": "Letter Spacing"
+      },
+      "layout": {
+        "title": "Layout Configuration",
+        "headerHeight": "Header Height",
+        "backgroundColor": "Background Color",
+        "borderColor": "Border Color",
+        "borderWidth": "Border Width",
+        "padding": "Padding",
+        "paddingDescription": "Set the internal spacing around the header content",
+        "paddingTop": "Top",
+        "paddingRight": "Right", 
+        "paddingBottom": "Bottom",
+        "paddingLeft": "Left",
+        "margin": "Margin",
+        "marginDescription": "Set the external spacing around the header",
+        "marginTop": "Top",
+        "marginRight": "Right",
+        "marginBottom": "Bottom", 
+        "marginLeft": "Left"
+      },
+      "logo": {
+        "title": "Logo Configuration",
+        "leftLogo": "Left Logo",
+        "rightLogo": "Right Logo",
+        "alignment": "Logo Alignment",
+        "spacing": "Logo Spacing",
+        "altText": "Alt Text",
+        "altTextPlaceholder": {
+          "en": "Enter alt text for accessibility",
+          "ne": "सुलभताको लागि alt text लेख्नुहोस्"
+        },
+        "width": "Width",
+        "height": "Height"
+      },
+      "preview": {
+        "title": "Header Preview"
+      }
+    },
+    "logo": {
+      "title": "Logo Configuration",
+      "alignment": "Logo Alignment",
+      "spacing": "Logo Spacing",
+      "leftLogo": "Left Logo",
+      "rightLogo": "Right Logo",
+      "altText": "Alt Text",
+      "altTextPlaceholder": {
+        "en": "Logo description in English",
+        "ne": "Logo description in Nepali"
+      },
+      "width": "Width",
+      "height": "Height"
+    },
+    "typography": {
+      "title": "Typography Settings",
+      "description": "Configure font family, size, weight, color, and spacing",
+      "fontFamily": "Font Family",
+      "fontSize": "Font Size",
+      "fontWeight": "Font Weight",
+      "color": "Color",
+      "lineHeight": "Line Height",
+      "letterSpacing": "Letter Spacing",
+      "preview": "Preview",
+      "previewText": "Sample text to preview typography settings",
+      "fontFamilyRequired": "Font family is required",
+      "fontSizeInvalid": "Font size must be between 8 and 72",
+      "colorRequired": "Color is required",
+      "lineHeightInvalid": "Line height must be greater than 0",
+      "letterSpacingInvalid": "Letter spacing must be at least -2"
+    },
+    "layout": {
+      "title": "Layout Configuration",
+      "description": "Configure the visual layout and spacing of the header",
+      "dimensions": "Dimensions",
+      "headerHeight": "Header Height",
+      "colors": "Colors",
+      "backgroundColor": "Background Color",
+      "borderColor": "Border Color",
+      "borderWidth": "Border Width",
+      "padding": "Padding",
+      "paddingDescription": "Set the internal spacing around the header content",
+      "paddingTop": "Top",
+      "paddingRight": "Right", 
+      "paddingBottom": "Bottom",
+      "paddingLeft": "Left",
+      "margin": "Margin",
+      "marginDescription": "Set the external spacing around the header",
+      "marginTop": "Top",
+      "marginRight": "Right",
+      "marginBottom": "Bottom", 
+      "marginLeft": "Left",
+      "responsive": {
+        "title": "Responsive Breakpoints",
+        "description": "Configure layout for different screen sizes",
+        "desktop": "Desktop",
+        "tablet": "Tablet",
+        "mobile": "Mobile"
+      },
+      "headerHeightInvalid": "Header height must be greater than 0",
+      "backgroundColorRequired": "Background color is required",
+      "preview": "Layout Preview",
+      "previewText": "Header Preview"
+    },
+    "preview": {
+      "title": "Header Preview",
+      "description": "Preview your header configuration in real-time. Generate CSS for production use.",
+      "live": "Live Preview",
+      "css": "Generated CSS",
+      "livePreview": "Live Preview",
+      "generateCSS": "Generate CSS",
+      "generatedCSS": "Generated CSS",
+      "copyCSS": "Copy CSS",
+      "downloadCSS": "Download CSS",
+      "cssNote": "This CSS includes all your header configuration settings. Copy and paste it into your stylesheet.",
+      "configuration": "Configuration Summary"
+    },
+    "statistics": {
+      "title": "Header Statistics",
+      "description": "Overview of your header configurations and usage statistics.",
+      "totalHeaders": "Total Headers",
+      "totalHeadersDescription": "All configured headers",
+      "activeHeaders": "Active Headers",
+      "activeHeadersDescription": "Currently enabled headers",
+      "publishedHeaders": "Published Headers",
+      "publishedHeadersDescription": "Live on website",
+      "averageOrder": "Average Order",
+      "averageOrderDescription": "Mean position value",
+      "alignmentDistribution": "Alignment Distribution",
+      "alignment": {
+        "left": "Left",
+        "center": "Center",
+        "right": "Right",
+        "justify": "Justify"
+      },
+      "quickActions": "Quick Actions",
+      "viewHeaders": "View All Headers",
+      "editHeaders": "Edit Headers",
+      "publishHeaders": "Publish Headers",
+      "deleteHeaders": "Delete Headers",
+      "statusSummary": "Status Summary",
+      "published": "Published",
+      "active": "Active",
+      "inactive": "Inactive",
+      "insights": "Insights",
+      "insight1": "of headers are live on the website",
+      "insight2": "of headers are currently enabled",
+      "insight3": "Average header order is",
+      "noData": "No Statistics Available",
+      "noDataDescription": "Statistics will appear here once you have headers configured."
+    },
+    "list": {
+      "title": "Header Management",
+      "createHeader": "Create Header",
+      "search": "Search headers",
+      "searchPlaceholder": "Search by name...",
+      "sortBy": "Sort by",
+      "sortByName": "Name",
+      "sortByOrder": "Order",
+      "sortByCreated": "Created",
+      "sortByUpdated": "Updated",
+      "sortOrder": "Order",
+      "ascending": "Ascending",
+      "descending": "Descending",
+      "pageSize": "Page size",
+      "noHeaders": "No headers found",
+      "noHeadersSearch": "No headers match",
+      "noHeadersDescription": "Get started by creating your first header configuration.",
+      "createFirst": "Create Header"
+    },
+    "empty": {
+      "title": "No Header Configuration",
+      "message": "No header configuration has been set up yet. Create your first header to get started."
+    },
+    "panel": {
+      "createTitle": "Create New Header",
+      "editTitle": "Edit Header",
+      "createDescription": "Configure a new header for your website",
+      "editDescription": "Update header configuration and settings",
+      "cancel": "Cancel",
+      "saving": "Saving..."
+    },
+    "validation": {
+      "nameRequired": "Name in English is required",
+      "orderInvalid": "Order must be at least 1",
+      "fontFamilyRequired": "Font family is required",
+      "fontSizeInvalid": "Font size must be between 8 and 72",
+      "colorRequired": "Color is required",
+      "headerHeightInvalid": "Header height must be between 40 and 200",
+      "backgroundColorRequired": "Background color is required"
+    },
+    "errors": {
+      "loadingFailed": "Failed to load headers",
+      "loadingFailedDescription": "There was an error loading the headers. Please try again.",
+      "loadFailed": "Failed to load headers",
+      "retry": "Retry"
+    },
+    "image": {
+      "preview": {
+        "remove": "Remove Logo",
+        "loading": "Loading..."
+      },
+      "upload": {
+        "placeholder": "Drop logo file here or click to browse",
+        "button": "Browse Files",
+        "uploading": "Uploading..."
+      }
+    }
+}

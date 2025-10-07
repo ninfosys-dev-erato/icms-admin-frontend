@@ -1,0 +1,57 @@
+{
+  "title": "Human Resources",
+  "subtitle": "Manage departments, employees, and organizational structure",
+  "sections": {
+    "basicInfo": "Basic Information"
+  },
+  "actions": {
+    "cancel": "Cancel",
+    "createNew": "Create New",
+    "creating": "Creating...",
+    "updating": "Updating...",
+    "update": "Update",
+    "reset": "Reset"
+  },
+  "breadcrumbs": {
+    "home": "Home"
+  },
+  "overview": {
+    "loading": "Loading HR data...",
+    "totalDepartments": "Total Departments",
+    "totalEmployees": "Total Employees",
+    "avgEmployeesPerDept": "Avg Employees/Dept",
+    "departmentsWithHead": "Depts with Head",
+    "active": "active",
+    "inactive": "inactive",
+    "perDepartment": "per department",
+    "withoutHead": "without head",
+    "manageDepartments": "Manage Departments",
+    "manageEmployees": "Manage Employees",
+    "recentDepartments": "Recent Departments",
+    "recentEmployees": "Recent Employees",
+    "viewAll": "View All",
+    "createdOn": "Created on",
+    "noRecentDepartments": "No recent departments",
+    "noRecentEmployees": "No recent employees"
+  },
+  "list": {
+    "backToOverview": "Back to Overview",
+    "departmentsTitle": "Departments",
+    "employeesTitle": "Employees"
+  },
+  "detail": {
+    "backToOverview": "Back to Overview",
+    "departmentTitle": "Department Details",
+    "employeeTitle": "Employee Details"
+  },
+  "delete": {
+    "title": "Confirm Delete",
+    "message": "Are you sure you want to delete {type}?",
+    "warning": "This action cannot be undone.",
+    "confirm": "Delete",
+    "cancel": "Cancel"
+  },
+  "errors": {
+    "loadFailed": "Failed to load data"
+  }
+}

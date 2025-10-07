@@ -1,0 +1,18 @@
+{
+  "generic": {
+    "somethingWentWrong": "केहि गलत भयो",
+    "tryAgain": "कृपया फेरि प्रयास गर्नुहोस्",
+    "contactSupport": "समस्या कायम रह्यो भने सहयोगलाई सम्पर्क गर्नुहोस्"
+  },
+  "network": {
+    "connectionError": "जडान त्रुटि",
+    "timeout": "अनुरोध समय समाप्त",
+    "offline": "तपाईं अफलाइन हुनुहुन्छ"
+  },
+  "validation": {
+    "required": "यो क्षेत्र आवश्यक छ",
+    "invalid": "अमान्य मान",
+    "tooShort": "मान धेरै छोटो छ",
+    "tooLong": "मान धेरै लामो छ"
+  }
+} 

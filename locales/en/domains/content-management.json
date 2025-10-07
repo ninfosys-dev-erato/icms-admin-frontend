@@ -1,0 +1,404 @@
+{
+  "title": "Content Management",
+  "subtitle": "Manage your content, articles, and pages.",
+  "breadcrumbs": {
+    "home": "Home",
+    "contentManagement": "Content Management"
+  },
+  
+  "actions": {
+    "createNew": "New Content",
+    "edit": "Edit",
+    "duplicate": "Duplicate",
+    "archive": "Archive",
+    "delete": "Delete",
+    "save": "Save Draft",
+    "publish": "Publish",
+    "update": "Update",
+    "cancel": "Cancel",
+    "reset": "Reset",
+    "saveDraft": "Save Draft",
+    "hideStatistics": "Hide Statistics",
+    "showStatistics": "Show Statistics",
+    "showFilters": "Show Filters",
+    "hideFilters": "Hide Filters",
+    "switchToList": "Switch to List",
+    "switchToGrid": "Switch to Grid",
+    "creating": "Creating...",
+    "updating": "Updating..."
+  },
+
+  "filters": {
+    "viewMode": "View Mode",
+    "gridView": "Grid View",
+    "listView": "List View",
+    "search": "Search",
+    "searchPlaceholder": "Search content...",
+    "clearSearch": "Clear search",
+    "category": "Category",
+    "allCategories": "All Categories",
+    "status": "Status",
+    "allStatuses": "All Statuses",
+    "visibility": "Visibility",
+    "allVisibilities": "All Visibilities",
+    "language": "Language",
+    "allLanguages": "All Languages",
+    "dateFrom": "Date From",
+    "dateTo": "Date To",
+    "tags": "Tags",
+    "tagsPlaceholder": "Enter tags...",
+    "hasFeaturedImage": "Has Featured Image",
+    "isPublished": "Is Published",
+    "isFeatured": "Is Featured",
+    "featuredImage": "Featured Image",
+    "published": "Published",
+    "orderMin": "Min Order",
+    "orderMax": "Max Order",
+    "showAdvanced": "Show Advanced Filters",
+    "hideAdvanced": "Hide Advanced Filters",
+    "reset": "Reset Filters"
+  },
+
+  "status": {
+    "draft": "Draft",
+    "published": "Published",
+    "archived": "Archived",
+    "scheduled": "Scheduled",
+    "loading": "Loading..."
+  },
+
+  "visibility": {
+    "public": "Public",
+    "private": "Private",
+    "roleBased": "Role-based"
+  },
+
+  "form": {
+    "createTitle": "Create New Content",
+    "editTitle": "Edit Content",
+    "cancel": "Cancel",
+    "title": {
+      "label": "Title",
+      "placeholder": {
+        "en": "Enter title in English",
+        "ne": "Enter title in Nepali"
+      }
+    },
+    "slug": {
+      "label": "Slug",
+      "placeholder": "Enter URL-friendly slug",
+      "helperText": "URL-friendly version of the title (e.g., 'new-policy-announcement')"
+    },
+    "slugPlaceholder": "auto-generated-from-title",
+    "description": "Description",
+    "descriptionPlaceholder": "Enter description",
+    "content": {
+      "label": "Content",
+      "placeholder": {
+        "en": "Enter content in English",
+        "ne": "Enter content in Nepali"
+      }
+    },
+    "excerpt": {
+      "label": "Excerpt",
+      "placeholder": {
+        "en": "Enter excerpt in English",
+        "ne": "Enter excerpt in Nepali"
+      }
+    },
+    "excerptPlaceholder": "Enter excerpt",
+    "category": {
+      "label": "Category"
+    },
+    "tags": "Tags",
+    "tagPlaceholder": "Enter a tag and press Enter",
+    "priority": "Priority",
+    "status": {
+      "label": "Publication Status"
+    },
+    "visibility": "Visibility",
+    "featured": {
+      "label": "Featured"
+    },
+    "notFeatured": "Not Featured",
+    "order": {
+      "label": "Order",
+      "helperText": "Display order (lower numbers appear first)"
+    },
+    "author": "Author",
+    "publishedAt": "Published Date",
+    "expiresAt": "Expiration Date",
+    "seoTitle": "SEO Title",
+    "seoTitlePlaceholder": "Enter SEO title",
+    "seoDescription": "SEO Description",
+    "seoDescriptionPlaceholder": "Enter SEO description",
+    "seoKeywords": "SEO Keywords",
+    "keywordPlaceholder": "Enter a keyword and press Enter",
+    "reset": "Reset",
+    "create": "Create",
+    "update": "Update",
+    "submitting": "Submitting..."
+  },
+
+  "excerpt": "Excerpt",
+  "excerptPlaceholder": "Enter excerpt",
+  "content": "Content",
+  "contentPlaceholder": "Enter content",
+  "category": "Category",
+
+  "sections": {
+    "basicInfo": "Basic Information",
+    "categoryAndSettings": "Category & Settings",
+    "categorization": "Categorization",
+    "settings": "Settings",
+    "mediaAssets": "Media & Assets",
+    "attachments": "Attachments",
+    "publishing": "Publishing Settings",
+    "seo": "SEO Settings",
+    "accessControl": "Access Control"
+  },
+
+  "validation": {
+    "errorsTitle": "Validation Errors",
+    "titleRequired": "Title is required",
+    "slugRequired": "Slug is required",
+    "slugFormat": "Slug may contain lowercase letters, numbers and hyphens only",
+    "excerptRequired": "Excerpt is required",
+    "contentRequired": "Content is required",
+    "categoryRequired": "Category is required",
+    "categoryNameRequired": "Category name required (EN/NE)",
+    "orderRange": "Order must be a positive number"
+  },
+
+  "attachments": {
+    "title": "Attachments",
+    "subtitle": "Upload documents and files related to this content",
+    "uploadButton": "Upload Files",
+    "dragDropText": "Drag and drop files here, or click to browse",
+    "supportedFormats": "Supported formats: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, TXT, ZIP, RAR",
+    "maxFileSize": "Maximum file size: 10MB",
+    "uploading": "Uploading...",
+    "uploadSuccess": "File uploaded successfully",
+    "uploadError": "Upload failed",
+    "removeFile": "Remove file",
+    "downloadFile": "Download file",
+    "previewFile": "Preview file",
+    "fileSize": "File size",
+    "uploadDate": "Upload date",
+    "noAttachments": "No attachments uploaded yet",
+    "createFirst": "Please create/save the content first, then upload attachments.",
+    "reorder": "Reorder",
+    "reorderTitle": "Reorder Attachments",
+    "reorderDescription": "Set the display order for attachments. Lower numbers appear first.",
+    "saveOrder": "Save Order",
+    "cancel": "Cancel",
+    "list": {
+      "title": "Attachments"
+    },
+    "table": {
+      "preview": "Preview",
+      "fileName": "File Name",
+      "fileSize": "Size",
+      "fileType": "Type",
+      "order": "Order",
+      "createdAt": "Created",
+      "actions": "Actions",
+      "actionItems": {
+        "menu": "Actions menu",
+        "edit": "Edit",
+        "download": "Download",
+        "delete": "Delete"
+      }
+    },
+    "contentSelector": {
+      "placeholder": "Select content to manage attachments...",
+      "title": "Select Content",
+      "help": "Choose the content item to manage its attachments"
+    },
+    "noContent": {
+      "title": "Select Content",
+      "message": "Please select a content item from the dropdown above to manage its attachments."
+    },
+    "empty": {
+      "title": "No Attachments",
+      "message": "This content has no attachments yet. Upload some files to get started.",
+      "noContentSelected": "No Content Selected",
+      "selectContentMessage": "Please select a content item from the dropdown above to view and manage its attachments."
+    },
+    "status": {
+      "loading": "Loading attachments..."
+    },
+    "errors": {
+      "title": "Error Loading Attachments"
+    },
+    "actions": {
+      "upload": "Upload Files"
+    },
+    "upload": {
+      "title": "Upload Files",
+      "subtitle": "Drag and drop files here or click to browse",
+      "dragDrop": "Drag and drop files here or click to browse",
+      "supportedTypes": "Supported: Documents, Images, Audio, Video, Archives (max 50MB)",
+      "browse": "Browse Files",
+      "basicInfo": "Basic Info",
+      "fileLabel": "File(s)",
+      "filePlaceholder": "File(s)",
+      "selectFiles": "Please select at least one file",
+      "chooseFiles": "Choose files"
+    },
+    "modal": {
+      "title": "Manage Attachments",
+      "subtitle": "Upload and manage content attachments",
+      "formTitle": "Attachment Management",
+      "close": "Close",
+      "cancel": "Cancel"
+    },
+
+    "preview": {
+      "loading": "Loading preview...",
+      "error": "Preview not available",
+      "view": "View",
+      "download": "Download"
+    }
+  },
+
+  "table": {
+    "headers": {
+      "title": "Title",
+      "slug": "Slug",
+      "category": "Category",
+      "status": "Status",
+      "order": "Order",
+      "visibility": "Visibility",
+      "author": "Author",
+      "createdAt": "Created",
+      "views": "Views",
+      "attachments": "Attachments",
+      "actions": "Actions"
+    },
+    "actions": {
+      "menu": "Actions menu",
+      "edit": "Edit",
+      "duplicate": "Duplicate",
+      "archive": "Archive",
+      "delete": "Delete",
+      "attachments": "Attachments",
+      "manageAttachments": "Manage Attachments"
+    }
+  },
+
+  "card": {
+    "actions": {
+      "menu": "Content actions menu",
+      "edit": "Edit",
+      "duplicate": "Duplicate",
+      "archive": "Archive",
+      "delete": "Delete"
+    }
+  },
+
+  "statistics": {
+    "title": "Content Statistics",
+    "subtitle": "Overview of your content performance",
+    "total": "Total Content",
+    "totalDescription": "All content items in the system",
+    "published": "Published",
+    "publishedDescription": "Content currently live on the site",
+    "draft": "Draft",
+    "draftDescription": "Content being worked on",
+    "archived": "Archived",
+    "archivedDescription": "Content no longer active",
+    "totalViews": "Total Views",
+    "totalViewsDescription": "Combined view count across all content",
+    "averageViews": "Average Views",
+    "averageViewsDescription": "Average views per content item",
+    "totalContent": "Total Content",
+    "totalLikes": "Total Likes",
+    "totalShares": "Total Shares",
+    "categoryBreakdown": "Category Breakdown",
+    "byCategory": "By Category",
+    "topViewed": "Top Viewed Content",
+    "topViewedContent": "Top Viewed Content",
+    "recentActivity": "Recent Activity",
+    "content": "content",
+    "views": "views"
+  },
+
+  "categories": {
+    "general": "General",
+    "news": "News",
+    "tutorials": "Tutorials",
+    "technology": "Technology",
+    "list": {
+      "title": "Categories",
+      "empty": "No categories yet",
+      "emptyDescription": "Create your first category to organize content."
+    },
+    "subtitle": "Manage content categories",
+    "actions": {
+      "createNew": "Create Category",
+      "creating": "Creating...",
+      "updating": "Updating..."
+    },
+    "form": {
+      "createTitle": "Create Category",
+      "editTitle": "Edit Category",
+      "create": "Create",
+      "update": "Update",
+      "name": {
+        "label": "Name",
+        "placeholder": {
+          "en": "English",
+          "ne": "नेपाली"
+        }
+      },
+      "parent": { "label": "Parent Category" },
+      "order": { "label": "Order" },
+      "isActive": { "label": "Active" }
+    },
+    "sections": {
+      "basicInfo": "Basic Information"
+    },
+    "card": {
+      "parent": "Parent",
+      "active": "Active",
+      "inactive": "Inactive",
+      "actions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
+
+  "activity": {
+    "created": "Created",
+    "updated": "Updated",
+    "published": "Published",
+    "archived": "Archived",
+    "deleted": "Deleted"
+  },
+
+  "languages": {
+    "english": "English",
+    "nepali": "नेपाली"
+  },
+
+  "empty": {
+    "title": "No content found",
+    "message": "Create your first piece of content to get started"
+  },
+
+  "common": {
+    "loading": "Loading...",
+    "noData": "No content found",
+    "error": "An error occurred",
+    "success": "Operation completed successfully",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No"
+  },
+
+  "list": {
+    "title": "Contents"
+  }
+} 
+

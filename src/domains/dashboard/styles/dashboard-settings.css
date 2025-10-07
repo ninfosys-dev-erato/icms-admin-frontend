@@ -1,0 +1,350 @@
+/* Dashboard Settings Styles */
+
+.dashboard-settings-form {
+  padding: 1rem 0;
+}
+
+/* Setting Items */
+.setting-item {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: var(--cds-ui-02);
+  border-radius: 0.5rem;
+  border: 1px solid var(--cds-ui-03);
+}
+
+.setting-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Refresh Interval Setting */
+.refresh-interval-setting {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--cds-ui-03);
+}
+
+.refresh-interval-setting label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--cds-text-01);
+  margin-bottom: 0.5rem;
+}
+
+/* Current Configuration Tile */
+.current-config-tile {
+  background-color: var(--cds-ui-02);
+  border: 1px solid var(--cds-ui-03);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+}
+
+.config-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.config-info:last-child {
+  margin-bottom: 0;
+}
+
+.config-label {
+  font-size: 0.75rem;
+  color: var(--cds-text-02);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.config-value {
+  font-size: 1rem;
+  color: var(--cds-text-01);
+  font-weight: 600;
+}
+
+/* Settings Error */
+.settings-error {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: var(--cds-support-error-10);
+  border: 1px solid var(--cds-support-error);
+  border-radius: 0.5rem;
+}
+
+.error-message {
+  color: var(--cds-support-error);
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Settings Skeleton */
+.dashboard-settings-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* Form Group Enhancements */
+.dashboard-settings-form .bx--form-group {
+  margin-bottom: 2rem;
+}
+
+.dashboard-settings-form .bx--form-group__legend {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--cds-text-01);
+  margin-bottom: 1rem;
+}
+
+/* Toggle Enhancements */
+.dashboard-settings-form .bx--toggle {
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-settings-form .bx--toggle__label {
+  font-size: 0.875rem;
+  color: var(--cds-text-01);
+  font-weight: 500;
+}
+
+/* Select Enhancements */
+.dashboard-settings-form .bx--select {
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-settings-form .bx--select-input {
+  background-color: var(--cds-ui-01);
+  border-color: var(--cds-ui-04);
+}
+
+.dashboard-settings-form .bx--select-input:focus {
+  border-color: var(--cds-interactive-01);
+  box-shadow: 0 0 0 2px var(--cds-interactive-01);
+}
+
+/* Slider Enhancements */
+.dashboard-settings-form .bx--slider {
+  margin-top: 0.5rem;
+}
+
+.dashboard-settings-form .bx--slider__thumb {
+  background-color: var(--cds-interactive-01);
+}
+
+.dashboard-settings-form .bx--slider__track {
+  background-color: var(--cds-ui-04);
+}
+
+.dashboard-settings-form .bx--slider__filled-track {
+  background-color: var(--cds-interactive-01);
+}
+
+/* Modal Enhancements */
+.dashboard-settings-form .bx--modal {
+  z-index: 9999;
+}
+
+.dashboard-settings-form .bx--modal-header {
+  border-bottom: 1px solid var(--cds-ui-03);
+  padding-bottom: 1rem;
+}
+
+.dashboard-settings-form .bx--modal-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--cds-text-01);
+  margin: 0;
+}
+
+.dashboard-settings-form .bx--modal-header p {
+  font-size: 0.875rem;
+  color: var(--cds-text-02);
+  margin: 0.5rem 0 0 0;
+}
+
+.dashboard-settings-form .bx--modal-body {
+  padding: 1.5rem 0;
+}
+
+.dashboard-settings-form .bx--modal-footer {
+  border-top: 1px solid var(--cds-ui-03);
+  padding-top: 1rem;
+}
+
+/* Button Enhancements */
+.dashboard-settings-form .bx--btn {
+  min-width: 100px;
+}
+
+.dashboard-settings-form .bx--btn--secondary {
+  color: var(--cds-text-01);
+  border-color: var(--cds-ui-04);
+}
+
+.dashboard-settings-form .bx--btn--secondary:hover {
+  background-color: var(--cds-ui-02);
+  border-color: var(--cds-interactive-01);
+}
+
+.dashboard-settings-form .bx--btn--primary {
+  background-color: var(--cds-interactive-01);
+  border-color: var(--cds-interactive-01);
+}
+
+.dashboard-settings-form .bx--btn--primary:hover {
+  background-color: var(--cds-interactive-02);
+  border-color: var(--cds-interactive-02);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-settings-form {
+    padding: 0.5rem 0;
+  }
+  
+  .setting-item {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  
+  .current-config-tile {
+    padding: 1rem;
+  }
+  
+  .config-info {
+    margin-bottom: 0.75rem;
+  }
+  
+  .dashboard-settings-form .bx--form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .dashboard-settings-form .bx--modal-header h2 {
+    font-size: 1.25rem;
+  }
+  
+  .dashboard-settings-form .bx--modal-body {
+    padding: 1rem 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .setting-item {
+    padding: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .current-config-tile {
+    padding: 0.75rem;
+  }
+  
+  .config-info {
+    margin-bottom: 0.5rem;
+  }
+  
+  .config-label {
+    font-size: 0.7rem;
+  }
+  
+  .config-value {
+    font-size: 0.875rem;
+  }
+  
+  .dashboard-settings-form .bx--btn {
+    min-width: 80px;
+    font-size: 0.875rem;
+  }
+}
+
+/* Dark Theme Support */
+@media (prefers-color-scheme: dark) {
+  .setting-item {
+    background-color: var(--cds-ui-04);
+    border-color: var(--cds-ui-05);
+  }
+  
+  .current-config-tile {
+    background-color: var(--cds-ui-04);
+    border-color: var(--cds-ui-05);
+  }
+  
+  .dashboard-settings-form .bx--select-input {
+    background-color: var(--cds-ui-05);
+    border-color: var(--cds-ui-06);
+  }
+}
+
+/* High Contrast Support */
+@media (prefers-contrast: high) {
+  .setting-item,
+  .current-config-tile {
+    border-width: 2px;
+  }
+  
+  .dashboard-settings-form .bx--select-input {
+    border-width: 2px;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-settings-form * {
+    transition: none;
+  }
+}
+
+/* Focus Management */
+.dashboard-settings-form *:focus {
+  outline: 2px solid var(--cds-interactive-01);
+  outline-offset: 2px;
+}
+
+/* Loading States */
+.dashboard-settings-form .bx--btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Success States */
+.dashboard-settings-form .bx--toggle--toggled {
+  background-color: var(--cds-support-success);
+}
+
+/* Hover Effects */
+.setting-item:hover {
+  background-color: var(--cds-ui-03);
+  transition: background-color var(--cds-transition-normal);
+}
+
+/* Accessibility Enhancements */
+.dashboard-settings-form .bx--toggle__label {
+  cursor: pointer;
+}
+
+.dashboard-settings-form .bx--select-input {
+  cursor: pointer;
+}
+
+/* Print Styles */
+@media print {
+  .dashboard-settings-form {
+    padding: 0;
+  }
+  
+  .setting-item,
+  .current-config-tile {
+    border: 1px solid #000;
+    background-color: transparent;
+    box-shadow: none;
+  }
+  
+  .dashboard-settings-form .bx--modal-footer {
+    display: none;
+  }
+}
+

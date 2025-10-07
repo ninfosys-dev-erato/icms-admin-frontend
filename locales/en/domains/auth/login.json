@@ -1,0 +1,41 @@
+{
+  "title": "Log in to iCMS",
+  "subtitle": "Access your iCMS dashboard",
+  "form": {
+    "email": {
+      "label": "Email",
+      "placeholder": "Enter your email address",
+      "validation": {
+        "required": "Email is required",
+        "invalid": "Please enter a valid email address"
+      }
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter your password",
+      "validation": {
+        "required": "Password is required",
+        "minLength": "Password must be at least 8 characters"
+      }
+    },
+    "rememberMe": "Remember me"
+  },
+  "actions": {
+    "signIn": "Sign In",
+    "contactHelp": "Contact Help Desk"
+  },
+  "sections": {
+    "forgotPassword": "Need assistance?",
+    "helpText": "Contact the help desk for assistance"
+  },
+  "errors": {
+    "invalidCredentials": "Invalid email or password",
+    "accountLocked": "Account has been locked due to multiple failed attempts",
+    "rateLimited": "Too many failed attempts. Please try again later.",
+    "networkError": "Network error. Please check your connection and try again.",
+    "serverError": "Server error. Please try again later."
+  },
+  "success": {
+    "loginSuccess": "Successfully signed in"
+  }
+} 

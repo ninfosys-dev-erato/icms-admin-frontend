@@ -1,0 +1,169 @@
+{
+  "title": "Office Settings",
+  "subtitle": "Manage your office information and contact details",
+  "form": {
+    "directorate": {
+      "label": "Directorate",
+      "placeholder": {
+        "en": "Enter directorate name in English",
+        "ne": "Enter directorate name in Nepali"
+      },
+      "validation": {
+        "required": "Directorate is required",
+        "invalid": "Please enter a valid directorate name"
+      }
+    },
+    "officeName": {
+      "label": "Office Name",
+      "placeholder": {
+        "en": "Enter office name in English",
+        "ne": "Enter office name in Nepali"
+      },
+      "validation": {
+        "required": "Office name is required",
+        "invalid": "Please enter a valid office name"
+      }
+    },
+    "officeAddress": {
+      "label": "Office Address",
+      "placeholder": {
+        "en": "Enter office address in English",
+        "ne": "Enter office address in Nepali"
+      },
+      "validation": {
+        "required": "Office address is required",
+        "invalid": "Please enter a valid office address"
+      }
+    },
+    "email": {
+      "label": "Email Address",
+      "placeholder": "Enter office email address",
+      "validation": {
+        "required": "Email is required",
+        "invalid": "Please enter a valid email address"
+      }
+    },
+    "phoneNumber": {
+      "label": "Phone Number",
+      "placeholder": {
+        "en": "Enter phone number in English",
+        "ne": "Enter phone number in Nepali"
+      },
+      "validation": {
+        "required": "Phone number is required",
+        "invalid": "Please enter a valid phone number"
+      }
+    },
+    "website": {
+      "label": "Website",
+      "placeholder": "https://example.gov.np",
+      "validation": {
+        "invalid": "Please enter a valid website URL"
+      }
+    },
+    "xLink": {
+      "label": "X (Twitter) Profile",
+      "placeholder": "https://x.com/example",
+      "validation": {
+        "invalid": "Please enter a valid X (Twitter) URL"
+      }
+    },
+    "youtube": {
+      "label": "YouTube Channel",
+      "placeholder": "https://youtube.com/example",
+      "validation": {
+        "invalid": "Please enter a valid YouTube URL"
+      }
+    },
+    "mapIframe": {
+      "label": "Map Embed Code",
+      "placeholder": "Enter Google Maps iframe code",
+      "validation": {
+        "invalid": "Please enter a valid iframe code"
+      }
+    }
+  },
+  "backgroundPhoto": {
+    "title": "Background Photo",
+    "subtitle": "Upload a background photo for your office",
+    "upload": {
+      "label": "Upload Photo",
+      "placeholder": "Drag and drop an image here, or click to select",
+      "button": "Choose File",
+      "requirements": "Maximum file size: 5MB. Supported formats: JPEG, PNG, WebP"
+    },
+    "preview": {
+      "title": "Current Photo",
+      "remove": "Remove Photo",
+      "noPhoto": "No background photo uploaded",
+      "noImage": "No image available",
+      "hide": "Hide Photo",
+      "show": "Show Photo",
+      "loading": "Loading photo...",
+      "error": "Failed to load photo",
+      "retry": "Retry"
+    },
+    "validation": {
+      "fileRequired": "Please select a file to upload",
+      "fileType": "Only image files (JPEG, PNG, WebP) are allowed",
+      "fileSize": "File size must be less than 5MB"
+    }
+  },
+  "actions": {
+    "save": "Save Settings",
+    "update": "Update Settings",
+    "create": "Create Settings",
+    "edit": "Edit Settings",
+    "cancel": "Cancel",
+    "delete": "Delete Settings",
+    "confirmDelete": "Are you sure you want to delete these settings?",
+    "uploadPhoto": "Upload Photo",
+    "removePhoto": "Remove Photo"
+  },
+  "sections": {
+    "basicInfo": "Basic Information",
+    "contactInfo": "Contact Information",
+    "socialMedia": "Social Media & Links",
+    "appearance": "Appearance"
+  },
+  "languageTabs": {
+    "english": "English",
+    "nepali": "नेपाली"
+  },
+  "errors": {
+    "loadFailed": "Failed to load office settings",
+    "saveFailed": "Failed to save office settings",
+    "updateFailed": "Failed to update office settings",
+    "deleteFailed": "Failed to delete office settings",
+    "uploadFailed": "Failed to upload photo",
+    "removeFailed": "Failed to remove photo",
+    "validationError": "Please check the form for errors",
+    "networkError": "Network error. Please check your connection and try again.",
+    "serverError": "Server error. Please try again later.",
+    "unauthorized": "You are not authorized to perform this action",
+    "notFound": "Office settings not found"
+  },
+  "success": {
+    "saved": "Office settings saved successfully",
+    "updated": "Office settings updated successfully",
+    "created": "Office settings created successfully",
+    "deleted": "Office settings deleted successfully",
+    "photoUploaded": "Background photo uploaded successfully",
+    "photoRemoved": "Background photo removed successfully"
+  },
+  "status": {
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "uploading": "Uploading...",
+    "removing": "Removing...",
+    "deleting": "Deleting..."
+  },
+  "view": {
+    "noSettings": "No office settings found",
+    "createSettings": "Create your first office settings",
+    "viewSettings": "Office Settings",
+    "editSettings": "Edit Office Settings",
+    "lastUpdated": "Last updated",
+    "createdAt": "Created at"
+  }
+} 

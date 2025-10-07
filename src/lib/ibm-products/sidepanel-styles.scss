@@ -1,0 +1,9 @@
+// Localized IBM Products styles for SidePanel and ActionBar only
+// Imported by dashboard layout to avoid pulling the entire dist CSS globally
+
+@forward '@carbon/ibm-products/scss/config';
+@forward '@carbon/ibm-products/scss/components/SidePanel';
+@forward '@carbon/ibm-products/scss/components/ActionBar';
+@forward '@carbon/ibm-products/scss/components/CreateSidePanel';
+
+

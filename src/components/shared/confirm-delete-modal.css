@@ -1,0 +1,10 @@
+/* Hide the close (X) button for this specific modal */
+.confirm-delete-modal .cds--modal-close,
+.confirm-delete-modal .bx--modal-close {
+  display: none !important;
+}
+
+/* Ensure focus styles remain accessible when close is hidden */
+.confirm-delete-modal .cds--modal {
+  outline: none;
+}

@@ -1,0 +1,127 @@
+{
+  "title": "Media Library",
+  "subtitle": "Upload, manage, and organize your media files",
+  "breadcrumbs": {
+    "home": "Home"
+  },
+  "filters": {
+    "search": "Search",
+    "searchPlaceholder": "Search media…",
+    "status": "Status",
+    "visibility": "Visibility",
+    "all": "All",
+    "active": "Active",
+    "inactive": "Inactive",
+    "public": "Public",
+    "private": "Private",
+    "reset": "Reset"
+  },
+  "actions": {
+    "create": "Upload",
+    "update": "Update",
+    "cancel": "Cancel",
+    "reset": "Reset",
+    "chooseFiles": "Choose files",
+    "remove": "Remove"
+  },
+  "list": {
+    "title": "Media",
+    "loading": "Loading media…",
+    "emptyTitle": "No media found",
+    "emptyDescription": "Try adjusting filters or upload new media",
+    "items": "items"
+  },
+  "card": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "public": "Public",
+    "private": "Private",
+    "actions": "Media actions",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "form": {
+    "uploadTitle": "Upload Media",
+    "editTitle": "Edit Media",
+    "files": "File(s)",
+    "details": "Details",
+    "title": "Title",
+    "description": "Description",
+    "altText": "Alt text",
+    "folder": "Folder",
+    "isPublic": "Public",
+    "isActive": "Active",
+    "tags": "Tags (comma separated)",
+    "saving": "Saving…",
+    "validation": {
+      "fileRequired": "Please select at least one file",
+      "folderRequired": "Folder is required",
+      "nameRequiredBoth": "Name is required in both languages"
+    }
+    ,
+    "image": {
+      "upload": {
+        "uploading": "Uploading…",
+        "placeholder": "Drag files here or choose files",
+        "button": "Choose files"
+      }
+    }
+  },
+  "albums": {
+    "formTitle": "Album",
+    "title": "Albums",
+    "subtitle": "Create and organize albums of media",
+    "create": "Create Album",
+    "breadcrumbs": {
+      "home": "Home"
+    },
+    "filters": {
+      "searchPlaceholder": "Search albums…",
+      "searchAlbumsPlaceholder": "Search albums…",
+      "search": "Search",
+      "status": "Status",
+      "all": "All",
+      "active": "Active",
+      "inactive": "Inactive",
+      "reset": "Reset",
+      "open": "Open filters"
+    },
+    "list": {
+      "loading": "Loading albums…",
+      "emptyTitle": "No albums found",
+      "emptyDescription": "Create a new album to get started",
+      "items": "items"
+    },
+    "actions": {
+      "update": "Update",
+      "cancel": "Cancel",
+      "reset": "Reset"
+    },
+    "form": {
+      "createTitle": "Create Album",
+      "editTitle": "Edit Album",
+      "formTitle": "Album",
+      "basicInfo": "Basic Information",
+      "nameEn": "Name",
+      "nameNe": "Name (Nepali)",
+      "descriptionEn": "Description",
+      "descriptionNe": "Description (Nepali)",
+      "isActive": "Active",
+      "saving": "Saving…",
+      "validation": {
+        "nameRequiredBoth": "Name is required in both languages"
+      }
+      ,
+      "media": "Media",
+      "sortBy": "Sort by",
+      "preview": "Preview",
+      "sort": {
+        "recent": "Recently added",
+        "alphabet": "Name",
+        "date": "Date"
+      },
+      "select": "Select",
+      "selected": "Selected"
+    }
+  }
+}

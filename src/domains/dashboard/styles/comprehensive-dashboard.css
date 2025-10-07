@@ -1,0 +1,618 @@
+/* Comprehensive Dashboard Styles */
+
+.comprehensive-dashboard-container {
+  min-height: 100vh;
+  background-color: var(--cds-ui-background);
+}
+
+.comprehensive-dashboard {
+  padding: 1.5rem;
+}
+
+/* ========================================
+   DASHBOARD SECTIONS
+   ======================================== */
+
+.dashboard-section {
+  margin-bottom: 2.5rem;
+}
+
+.dashboard-section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--cds-text-01);
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--cds-ui-03);
+}
+
+/* ========================================
+   SYSTEM HEALTH STATUS
+   ======================================== */
+
+.dashboard-health-status {
+  margin-bottom: 2rem;
+}
+
+.health-status-tile {
+  background: linear-gradient(135deg, var(--cds-ui-01) 0%, var(--cds-ui-02) 100%);
+  border: 1px solid var(--cds-ui-03);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  transition: all var(--cds-transition-normal);
+}
+
+.health-status-tile:hover {
+  box-shadow: var(--cds-shadow-02);
+  transform: translateY(-2px);
+}
+
+.health-status-content {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.health-status-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  background-color: var(--cds-ui-02);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.health-status-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.health-status-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--cds-text-01);
+  margin: 0 0 0.5rem 0;
+}
+
+.health-status-message {
+  font-size: 0.875rem;
+  color: var(--cds-text-02);
+  margin: 0 0 1rem 0;
+  line-height: 1.4;
+}
+
+/* ========================================
+   ROLE DISTRIBUTION TILE
+   ======================================== */
+
+.role-distribution-tile {
+  height: 100%;
+  min-height: 12rem;
+  padding: 1.5rem;
+}
+
+.role-distribution-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--cds-text-01);
+  margin: 0 0 1rem 0;
+}
+
+.role-distribution-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.role-distribution-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.role-distribution-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background-color: var(--cds-ui-02);
+  border-radius: 0.5rem;
+  transition: background-color var(--cds-transition-normal);
+}
+
+.role-distribution-item:hover {
+  background-color: var(--cds-ui-03);
+}
+
+.role-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--cds-text-01);
+  text-transform: capitalize;
+}
+
+.role-count {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--cds-interactive-01);
+  background-color: var(--cds-ui-01);
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  min-width: 2rem;
+  text-align: center;
+}
+
+/* ========================================
+   RECENT ACTIVITY TILE
+   ======================================== */
+
+.recent-activity-tile {
+  height: auto;
+  min-height: 12rem;
+  padding: 1.5rem;
+}
+
+.recent-activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--cds-ui-03);
+}
+
+.recent-activity-header h3 {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--cds-text-01);
+  margin: 0;
+}
+
+.recent-activity-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.activity-skeleton-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+}
+
+.activity-skeleton-item .bx--skeleton__text:first-child {
+  width: 60%;
+}
+
+.activity-skeleton-item .bx--skeleton__text:last-child {
+  width: 40%;
+}
+
+.recent-activity-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.activity-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background-color: var(--cds-ui-02);
+  border-radius: 0.5rem;
+  transition: all var(--cds-transition-normal);
+}
+
+.activity-item:hover {
+  background-color: var(--cds-ui-03);
+  transform: translateX(4px);
+}
+
+.activity-user {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.user-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--cds-text-01);
+}
+
+.user-role {
+  font-size: 0.75rem;
+  color: var(--cds-text-03);
+  text-transform: capitalize;
+}
+
+.activity-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+.activity-actions {
+  font-size: 0.75rem;
+  color: var(--cds-text-02);
+}
+
+.activity-time {
+  font-size: 0.75rem;
+  color: var(--cds-text-03);
+}
+
+/* ========================================
+   DASHBOARD ERROR STATES
+   ======================================== */
+
+.dashboard-error {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+}
+
+.dashboard-error-tile {
+  max-width: 500px;
+  text-align: center;
+  padding: 2rem;
+  border-color: var(--cds-support-error);
+  background-color: var(--cds-support-error-10);
+}
+
+.dashboard-error-content h2 {
+  color: var(--cds-support-error);
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+}
+
+.dashboard-error-content p {
+  color: var(--cds-text-02);
+  margin: 0 0 1.5rem 0;
+  line-height: 1.5;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 1056px) {
+  .comprehensive-dashboard {
+    padding: 1.25rem;
+  }
+  
+  .dashboard-section {
+    margin-bottom: 2rem;
+  }
+  
+  .dashboard-section-title {
+    font-size: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .health-status-content {
+    gap: 1rem;
+  }
+  
+  .health-status-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .comprehensive-dashboard {
+    padding: 1rem;
+  }
+  
+  .dashboard-section {
+    margin-bottom: 1.5rem;
+  }
+  
+  .dashboard-section-title {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+  
+  .health-status-tile {
+    padding: 1.25rem;
+  }
+  
+  .health-status-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .health-status-icon {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .role-distribution-tile,
+  .recent-activity-tile {
+    padding: 1.25rem;
+  }
+  
+  .recent-activity-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .activity-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .activity-stats {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .comprehensive-dashboard {
+    padding: 0.75rem;
+  }
+  
+  .dashboard-section {
+    margin-bottom: 1.25rem;
+  }
+  
+  .dashboard-section-title {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .health-status-tile {
+    padding: 1rem;
+  }
+  
+  .health-status-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .health-status-title {
+    font-size: 1.125rem;
+  }
+  
+  .health-status-message {
+    font-size: 0.8rem;
+  }
+  
+  .role-distribution-tile,
+  .recent-activity-tile {
+    padding: 1rem;
+  }
+  
+  .role-distribution-item,
+  .activity-item {
+    padding: 0.5rem;
+  }
+  
+  .role-name,
+  .user-name {
+    font-size: 0.8rem;
+  }
+  
+  .role-count,
+  .activity-actions,
+  .activity-time {
+    font-size: 0.7rem;
+  }
+}
+
+/* ========================================
+   DARK THEME SUPPORT
+   ======================================== */
+
+@media (prefers-color-scheme: dark) {
+  .health-status-tile {
+    background: linear-gradient(135deg, var(--cds-ui-05) 0%, var(--cds-ui-04) 100%);
+  }
+  
+  .role-distribution-item,
+  .activity-item {
+    background-color: var(--cds-ui-04);
+  }
+  
+  .role-distribution-item:hover,
+  .activity-item:hover {
+    background-color: var(--cds-ui-05);
+  }
+  
+  .role-count {
+    background-color: var(--cds-ui-05);
+  }
+}
+
+/* ========================================
+   HIGH CONTRAST SUPPORT
+   ======================================== */
+
+@media (prefers-contrast: high) {
+  .dashboard-section-title {
+    border-bottom-width: 3px;
+    border-bottom-color: var(--cds-text-01);
+  }
+  
+  .health-status-tile,
+  .role-distribution-tile,
+  .recent-activity-tile {
+    border-width: 2px;
+  }
+  
+  .role-distribution-item,
+  .activity-item {
+    border: 1px solid var(--cds-ui-04);
+  }
+}
+
+/* ========================================
+   REDUCED MOTION SUPPORT
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .health-status-tile,
+  .activity-item {
+    transition: none;
+  }
+  
+  .health-status-tile:hover {
+    transform: none;
+  }
+  
+  .activity-item:hover {
+    transform: none;
+  }
+}
+
+/* ========================================
+   FOCUS MANAGEMENT
+   ======================================== */
+
+.health-status-tile:focus,
+.role-distribution-tile:focus,
+.recent-activity-tile:focus {
+  outline: 2px solid var(--cds-interactive-01);
+  outline-offset: 2px;
+}
+
+.role-distribution-item:focus,
+.activity-item:focus {
+  outline: 2px solid var(--cds-interactive-01);
+  outline-offset: 1px;
+}
+
+/* ========================================
+   LOADING STATES
+   ======================================== */
+
+.dashboard-section.loading .dashboard-section-title {
+  opacity: 0.7;
+}
+
+/* ========================================
+   SUCCESS STATES
+   ======================================== */
+
+.health-status-tile.healthy {
+  border-color: var(--cds-support-success);
+  background: linear-gradient(135deg, var(--cds-support-success-10) 0%, var(--cds-ui-01) 100%);
+}
+
+.health-status-tile.degraded {
+  border-color: var(--cds-support-warning);
+  background: linear-gradient(135deg, var(--cds-support-warning-10) 0%, var(--cds-ui-01) 100%);
+}
+
+.health-status-tile.unhealthy {
+  border-color: var(--cds-support-error);
+  background: linear-gradient(135deg, var(--cds-support-error-10) 0%, var(--cds-ui-01) 100%);
+}
+
+/* ========================================
+   HOVER EFFECTS
+   ======================================== */
+
+.role-distribution-item:hover .role-count {
+  background-color: var(--cds-interactive-01);
+  color: white;
+  transform: scale(1.05);
+  transition: all var(--cds-transition-normal);
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dashboard-section {
+  animation: slideInFromTop 0.5s ease-out;
+}
+
+.dashboard-section:nth-child(2) { animation-delay: 0.1s; }
+.dashboard-section:nth-child(3) { animation-delay: 0.2s; }
+.dashboard-section:nth-child(4) { animation-delay: 0.3s; }
+.dashboard-section:nth-child(5) { animation-delay: 0.4s; }
+.dashboard-section:nth-child(6) { animation-delay: 0.5s; }
+
+/* ========================================
+   ACCESSIBILITY ENHANCEMENTS
+   ======================================== */
+
+/* Note: ARIA attributes should be set in HTML/JSX, not in CSS */
+/* These selectors are kept for styling purposes only */
+
+.health-status-tile[role="status"] {
+  /* ARIA attributes are handled in the component markup */
+}
+
+.role-distribution-item[role="listitem"] {
+  /* ARIA attributes are handled in the component markup */
+}
+
+.activity-item[role="listitem"] {
+  /* ARIA attributes are handled in the component markup */
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+  .comprehensive-dashboard {
+    padding: 0;
+  }
+  
+  .dashboard-section {
+    margin-bottom: 1rem;
+    page-break-inside: avoid;
+  }
+  
+  .health-status-tile,
+  .role-distribution-tile,
+  .recent-activity-tile {
+    border: 1px solid #000;
+    box-shadow: none;
+  }
+  
+  .activity-item:hover,
+  .role-distribution-item:hover {
+    background-color: transparent;
+    transform: none;
+  }
+}
+

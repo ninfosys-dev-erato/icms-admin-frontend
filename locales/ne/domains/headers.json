@@ -1,0 +1,302 @@
+{
+    "title": "हेडर व्यवस्थापन",
+    "subtitle": "आफ्नो वेबसाइट हेडर कन्फिगरेसन, लोगोहरू र स्टाइलिङ व्यवस्थापन गर्नुहोस्।",
+    "description": "वेबसाइट हेडरहरू, टाइपोग्राफी, लेआउट, र लोगो कन्फिगरेसनहरू व्यवस्थापन गर्नुहोस्",
+    "createHeader": "हेडर सिर्जना गर्नुहोस्",
+    "totalHeaders": "कुल हेडरहरू",
+    "publishedHeaders": "प्रकाशित",
+    "activeHeaders": "सक्रिय",
+    "noPreview": "कुनै हेडर छानिएको छैन",
+    "noPreviewDescription": "हेडर कन्फिगरेसन हेर्न सूचीबाट हेडर छान्नुहोस्",
+    "viewHeaders": "हेडरहरू हेर्नुहोस्",
+
+    "breadcrumbs": {
+      "home": "गृह"
+    },
+
+    "filters": {
+      "status": "स्थिति",
+      "all": "सबै",
+      "reset": "फिल्टरहरू रीसेट गर्नुहोस्"
+    },
+
+    "status": {
+      "active": "सक्रिय",
+      "inactive": "निष्क्रिय",
+      "loading": "हेडरहरू लोड गर्दै..."
+    },
+
+    "actions": {
+      "createNew": "नयाँ सिर्जना गर्नुहोस्",
+      "cancel": "रद्द गर्नुहोस्",
+      "view": "हेर्नुहोस्",
+      "preview": "पूर्वावलोकन",
+      "edit": "सम्पादन गर्नुहोस्",
+      "publish": "प्रकाशित गर्नुहोस्",
+      "unpublish": "अप्रकाशित गर्नुहोस्",
+      "delete": "मेटाउनुहोस्",
+      "bulkPublish": "प्रकाशित गर्नुहोस्",
+      "bulkUnpublish": "अप्रकाशित गर्नुहोस्",
+      "bulkDelete": "मेटाउनुहोस्",
+      "creating": "सिर्जना गर्दै...",
+      "updating": "अपडेट गर्दै...",
+      "update": "अपडेट गर्नुहोस्",
+      "reset": "रीसेट"
+    },
+
+    "sections": {
+      "basicInfo": "आधारभूत जानकारी"
+    },
+
+    "languages": {
+      "english": "English",
+      "nepali": "नेपाली"
+    },
+
+    "tabs": {
+      "headers": "हेडरहरू",
+      "statistics": "तथ्यांक",
+      "preview": "पूर्वावलोकन"
+    },
+    "form": {
+      "createTitle": "नयाँ हेडर सिर्जना गर्नुहोस्",
+      "editTitle": "हेडर सम्पादन गर्नुहोस्",
+      "tabs": {
+        "basic": "आधारभूत सेटिङहरू",
+        "typography": "टाइपोग्राफी",
+        "layout": "लेआउट",
+        "logo": "लोगो",
+        "preview": "पूर्वावलोकन"
+      },
+      "basic": {
+        "title": "आधारभूत जानकारी",
+        "name": "हेडर नाम",
+        "namePlaceholder": {
+          "en": "Enter header name in English",
+          "ne": "नेपालीमा हेडर नाम लेख्नुहोस्"
+        },
+        "order": "प्रदर्शन क्रम",
+        "alignment": "टेक्स्ट संरेखण",
+        "alignmentLeft": "बायाँ",
+        "alignmentCenter": "मध्य",
+        "alignmentRight": "दायाँ",
+        "alignmentJustify": "जस्टिफाई",
+        "status": "स्थिति",
+        "isActive": "सक्रिय",
+        "isPublished": "प्रकाशित (वेबसाइटमा लाइभ)"
+      },
+      "typography": {
+        "title": "टाइपोग्राफी सेटिङहरू",
+        "fontFamily": "फन्ट परिवार",
+        "fontSize": "फन्ट साइज",
+        "fontWeight": "फन्ट वजन",
+        "color": "टेक्स्ट रंग",
+        "lineHeight": "लाइन उचाई",
+        "letterSpacing": "अक्षर स्पेसिङ"
+      },
+      "layout": {
+        "title": "लेआउट कन्फिगरेसन",
+        "headerHeight": "हेडर उचाई",
+        "backgroundColor": "पृष्ठभूमि रंग",
+        "borderColor": "बर्डर रंग",
+        "borderWidth": "बर्डर चौडाई",
+        "padding": "प्याडिङ",
+        "paddingDescription": "हेडर सामग्रीको वरिपरि आन्तरिक स्पेसिङ सेट गर्नुहोस्",
+        "paddingTop": "माथि",
+        "paddingRight": "दायाँ", 
+        "paddingBottom": "तल",
+        "paddingLeft": "बायाँ",
+        "margin": "मार्जिन",
+        "marginDescription": "हेडरको वरिपरि बाह्य स्पेसिङ सेट गर्नुहोस्",
+        "marginTop": "माथि",
+        "marginRight": "दायाँ",
+        "marginBottom": "तल", 
+        "marginLeft": "बायाँ"
+      },
+      "logo": {
+        "title": "लोगो कन्फिगरेसन",
+        "leftLogo": "बायाँ लोगो",
+        "rightLogo": "दायाँ लोगो",
+        "alignment": "लोगो संरेखण",
+        "spacing": "लोगो स्पेसिङ",
+        "altText": "Alt टेक्स्ट",
+        "altTextPlaceholder": {
+          "en": "Enter alt text for accessibility",
+          "ne": "सुलभताको लागि alt text लेख्नुहोस्"
+        },
+        "width": "चौडाई",
+        "height": "उचाई"
+      },
+      "preview": {
+        "title": "हेडर पूर्वावलोकन"
+      }
+    },
+    "logo": {
+      "title": "लोगो कन्फिगरेसन",
+      "alignment": "लोगो एलाइनमेन्ट",
+      "spacing": "लोगो स्पेसिङ",
+      "leftLogo": "बायाँ लोगो",
+      "rightLogo": "दायाँ लोगो",
+      "altText": "एल्ट टेक्स्ट",
+      "altTextPlaceholder": {
+        "en": "Logo description in English",
+        "ne": "नेपालीमा लोगोको विवरण"
+      },
+      "width": "चौडाई",
+      "height": "उचाई"
+    },
+    "typography": {
+      "title": "टाइपोग्राफी सेटिङ्गहरू",
+      "description": "फन्ट परिवार, साइज, वजन, रंग, र स्पेसिङ कन्फिगर गर्नुहोस्",
+      "fontFamily": "फन्ट परिवार",
+      "fontSize": "फन्ट साइज",
+      "fontWeight": "फन्ट वजन",
+      "color": "रंग",
+      "lineHeight": "लाइन उचाई",
+      "letterSpacing": "अक्षर स्पेसिङ",
+      "preview": "पूर्वावलोकन",
+      "previewText": "टाइपोग्राफी सेटिङ्गहरू पूर्वावलोकन गर्न नमूना टेक्स्ट",
+      "fontFamilyRequired": "फन्ट परिवार आवश्यक छ",
+      "fontSizeInvalid": "फन्ट साइज ८ र ७२ बीचमा हुनुपर्छ",
+      "colorRequired": "रंग आवश्यक छ",
+      "lineHeightInvalid": "लाइन उचाई ० भन्दा ठूलो हुनुपर्छ",
+      "letterSpacingInvalid": "अक्षर स्पेसिङ कम्तिमा -२ हुनुपर्छ"
+    },
+    "layout": {
+      "title": "लेआउट कन्फिगरेसन",
+      "description": "हेडरको दृश्य लेआउट र स्पेसिङ कन्फिगर गर्नुहोस्",
+      "dimensions": "आयामहरू",
+      "headerHeight": "हेडर उचाई",
+      "colors": "रंगहरू",
+      "backgroundColor": "पृष्ठभूमि रंग",
+      "borderColor": "बर्डर रंग",
+      "borderWidth": "बर्डर चौडाई",
+      "padding": "प्याडिङ",
+      "paddingDescription": "हेडर सामग्रीको वरिपरि आन्तरिक स्पेसिङ सेट गर्नुहोस्",
+      "paddingTop": "माथि",
+      "paddingRight": "दायाँ",
+      "paddingBottom": "तल",
+      "paddingLeft": "बायाँ",
+      "margin": "मार्जिन",
+      "marginDescription": "हेडरको वरिपरि बाह्य स्पेसिङ सेट गर्नुहोस्",
+      "marginTop": "माथि",
+      "marginRight": "दायाँ",
+      "marginBottom": "तल",
+      "marginLeft": "बायाँ",
+      "responsive": {
+        "title": "प्रतिक्रियाशील ब्रेकपोइन्टहरू",
+        "description": "विभिन्न स्क्रिन साइजहरूको लागि लेआउट कन्फिगर गर्नुहोस्",
+        "desktop": "डेस्कटप",
+        "tablet": "ट्याबलेट",
+        "mobile": "मोबाइल"
+      },
+      "headerHeightInvalid": "हेडर उचाई ० भन्दा ठूलो हुनुपर्छ",
+      "backgroundColorRequired": "पृष्ठभूमि रंग आवश्यक छ",
+      "preview": "लेआउट पूर्वावलोकन",
+      "previewText": "हेडर पूर्वावलोकन"
+    },
+    "preview": {
+      "title": "हेडर पूर्वावलोकन",
+      "description": "आफ्नो हेडर कन्फिगरेसन रियल-टाइममा पूर्वावलोकन गर्नुहोस्। उत्पादन प्रयोगको लागि CSS सिर्जना गर्नुहोस्।",
+      "live": "लाइभ पूर्वावलोकन",
+      "css": "सिर्जना गरिएको CSS",
+      "livePreview": "लाइभ पूर्वावलोकन",
+      "generateCSS": "CSS सिर्जना गर्नुहोस्",
+      "generatedCSS": "सिर्जना गरिएको CSS",
+      "copyCSS": "CSS कपी गर्नुहोस्",
+      "downloadCSS": "CSS डाउनलोड गर्नुहोस्",
+      "cssNote": "यो CSS मा तपाईंको सबै हेडर कन्फिगरेसन सेटिङ्गहरू समावेश छन्। यसलाई आफ्नो स्टाइलशीटमा कपी र पेस्ट गर्नुहोस्।",
+      "configuration": "कन्फिगरेसन सारांश"
+    },
+    "statistics": {
+      "title": "हेडर तथ्यांक",
+      "description": "तपाईंको हेडर कन्फिगरेसन र प्रयोग तथ्यांकको अवलोकन।",
+      "totalHeaders": "कुल हेडरहरू",
+      "totalHeadersDescription": "सबै कन्फिगर गरिएका हेडरहरू",
+      "activeHeaders": "सक्रिय हेडरहरू",
+      "activeHeadersDescription": "हाल सक्षम गरिएका हेडरहरू",
+      "publishedHeaders": "प्रकाशित हेडरहरू",
+      "publishedHeadersDescription": "वेबसाइटमा लाइभ",
+      "averageOrder": "औसत क्रम",
+      "averageOrderDescription": "मध्यमान स्थिति मान",
+      "alignmentDistribution": "संरेखण वितरण",
+      "alignment": {
+        "left": "बायाँ",
+        "center": "मध्य",
+        "right": "दायाँ",
+        "justify": "जस्टिफाई"
+      },
+      "quickActions": "द्रुत कार्यहरू",
+      "viewHeaders": "सबै हेडरहरू हेर्नुहोस्",
+      "editHeaders": "हेडरहरू सम्पादन गर्नुहोस्",
+      "publishHeaders": "हेडरहरू प्रकाशित गर्नुहोस्",
+      "deleteHeaders": "हेडरहरू मेटाउनुहोस्",
+      "statusSummary": "स्थिति सारांश",
+      "published": "प्रकाशित",
+      "active": "सक्रिय",
+      "inactive": "निष्क्रिय",
+      "insights": "अन्तर्दृष्टिहरू",
+      "insight1": "हेडरहरू वेबसाइटमा लाइभ छन्",
+      "insight2": "हेडरहरू हाल सक्षम छन्",
+      "insight3": "औसत हेडर क्रम छ",
+      "noData": "कुनै तथ्यांक उपलब्ध छैन",
+      "noDataDescription": "तपाईंले हेडरहरू कन्फिगर गर्नुभएपछि तथ्यांकहरू यहाँ देखा पर्नेछन्।"
+    },
+    "list": {
+      "title": "हेडर व्यवस्थापन",
+      "createHeader": "हेडर सिर्जना गर्नुहोस्",
+      "search": "हेडरहरू खोज्नुहोस्",
+      "searchPlaceholder": "नामले खोज्नुहोस्...",
+      "sortBy": "यसले क्रमबद्ध गर्नुहोस्",
+      "sortByName": "नाम",
+      "sortByOrder": "क्रम",
+      "sortByCreated": "सिर्जना गरिएको",
+      "sortByUpdated": "अपडेट गरिएको",
+      "sortOrder": "क्रम",
+      "ascending": "आरोही",
+      "descending": "अवरोही",
+      "pageSize": "पृष्ठ साइज",
+      "noHeaders": "कुनै हेडरहरू फेला परेनन्",
+      "noHeadersSearch": "कुनै हेडरहरू मेल खाँदैनन्",
+      "noHeadersDescription": "आफ्नो पहिलो हेडर कन्फिगरेसन सिर्जना गरेर सुरु गर्नुहोस्।",
+      "createFirst": "हेडर सिर्जना गर्नुहोस्"
+    },
+    "empty": {
+      "title": "कुनै हेडर कन्फिगरेसन छैन",
+      "message": "अहिलेसम्म कुनै हेडर कन्फिगरेसन सेटअप गरिएको छैन। सुरु गर्न आफ्नो पहिलो हेडर सिर्जना गर्नुहोस्।"
+    },
+    "panel": {
+      "createTitle": "नयाँ हेडर सिर्जना गर्नुहोस्",
+      "editTitle": "हेडर सम्पादन गर्नुहोस्",
+      "createDescription": "आफ्नो वेबसाइटको लागि नयाँ हेडर कन्फिगर गर्नुहोस्",
+      "editDescription": "हेडर कन्फिगरेसन र सेटिङ्गहरू अपडेट गर्नुहोस्",
+      "cancel": "रद्द गर्नुहोस्",
+      "saving": "सुरक्षित गर्दै..."
+    },
+    "validation": {
+      "nameRequired": "अंग्रेजीमा नाम आवश्यक छ",
+      "orderInvalid": "क्रम कम्तिमा १ हुनुपर्छ",
+      "fontFamilyRequired": "फन्ट परिवार आवश्यक छ",
+      "fontSizeInvalid": "फन्ट साइज ८ र ७२ बीचमा हुनुपर्छ",
+      "colorRequired": "रंग आवश्यक छ",
+      "headerHeightInvalid": "हेडर उचाई ४० र २०० बीचमा हुनुपर्छ",
+      "backgroundColorRequired": "पृष्ठभूमि रंग आवश्यक छ"
+    },
+    "errors": {
+      "loadingFailed": "हेडरहरू लोड गर्न असफल",
+      "loadingFailedDescription": "हेडरहरू लोड गर्दै गर्दा त्रुटि भयो। कृपया फेरि प्रयास गर्नुहोस्।",
+      "loadFailed": "हेडरहरू लोड गर्न असफल",
+      "retry": "फेरि प्रयास गर्नुहोस्"
+    },
+    "image": {
+      "preview": {
+        "remove": "लोगो हटाउनुहोस्",
+        "loading": "लोड गर्दै..."
+      },
+      "upload": {
+        "placeholder": "लोगो फाइल यहाँ छोड्नुहोस् वा ब्राउज गर्न क्लिक गर्नुहोस्",
+        "button": "फाइलहरू ब्राउज गर्नुहोस्",
+        "uploading": "अपलोड गर्दै..."
+      }
+    }
+}

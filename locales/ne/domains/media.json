@@ -1,0 +1,129 @@
+{
+  "title": "मिडिया लाइब्रेरी",
+  "subtitle": "आफ्ना मिडिया फाइलहरू अपलोड, व्यवस्थापन, र व्यवस्थित गर्नुहोस्",
+  "breadcrumbs": {
+    "home": "गृह"
+  },
+  "filters": {
+    "search": "खोज",
+    "searchPlaceholder": "मिडिया खोज्नुहोस्…",
+    "status": "स्थिति",
+    "visibility": "दृश्यता",
+    "all": "सबै",
+    "active": "सक्रिय",
+    "inactive": "निष्क्रिय",
+    "public": "सार्वजनिक",
+    "private": "निजी",
+    "reset": "रिसेट"
+  },
+  "actions": {
+    "create": "अपलोड",
+    "update": "अपडेट",
+    "cancel": "रद्द",
+    "reset": "रिसेट",
+    "chooseFiles": "फाइल छान्नुहोस्",
+    "remove": "हटाउनुहोस्"
+  },
+  "list": {
+    "title": "मिडिया",
+    "loading": "मिडिया लोड हुँदै…",
+    "emptyTitle": "कुनै मिडिया फेला परेन",
+    "emptyDescription": "फिल्टरहरू समायोजन गर्नुहोस् वा नयाँ मिडिया अपलोड गर्नुहोस्",
+    "items": "वस्तुहरू"
+  },
+  "card": {
+    "active": "सक्रिय",
+    "inactive": "निष्क्रिय",
+    "public": "सार्वजनिक",
+    "private": "निजी",
+    "actions": "मिडिया कार्यहरू",
+    "edit": "सम्पादन",
+    "delete": "मेटाउनुहोस्"
+  },
+  "form": {
+    "uploadTitle": "मिडिया अपलोड",
+    "editTitle": "मिडिया सम्पादन",
+    "files": "फाइल(हरू)",
+    "details": "विवरण",
+    "title": "शीर्षक",
+    "description": "वर्णन",
+    "altText": "Alt पाठ",
+    "tags": "ट्यागहरू (कमाले अलग)",
+    "folder": "फोल्डर",
+    "isPublic": "सार्वजनिक",
+    "isActive": "सक्रिय",
+    "saving": "सुरक्षित गर्दै…",
+    "validation": {
+      "fileRequired": "कृपया कम्तिमा एउटा फाइल छान्नुहोस्",
+      "folderRequired": "फोल्डर आवश्यक छ",
+      "nameRequiredBoth": "दुवै भाषामा नाम आवश्यक छ"
+    }
+    ,
+    "image": {
+      "upload": {
+        "uploading": "अपलोड हुँदैछ…",
+        "placeholder": "यहाँ फाइलहरू तान्नुहोस् वा फाइलहरू छान्नुहोस्",
+        "button": "फाइल छान्नुहोस्"
+      }
+    }
+  },
+  "albums": {
+    "formTitle": "एल्बम",
+    "title": "एल्बमहरू",
+    "subtitle": "मिडियाका एल्बमहरू सिर्जना र व्यवस्थित गर्नुहोस्",
+    "create": "एल्बम सिर्जना गर्नुहोस्",
+    "breadcrumbs": {
+      "home": "गृह"
+    },
+    "filters": {
+      "searchPlaceholder": "एल्बमहरू खोज्नुहोस्…",
+      "searchAlbumsPlaceholder": "एल्बमहरू खोज्नुहोस्…",
+      "search": "खोज",
+      "status": "स्थिति",
+      "all": "सबै",
+      "active": "सक्रिय",
+      "inactive": "निष्क्रिय",
+      "reset": "रिसेट",
+      "open": "फिल्टरहरू खोल्नुहोस्"
+    },
+    "list": {
+      "loading": "एल्बमहरू लोड हुँदै…",
+      "emptyTitle": "कुनै एल्बम फेला परेन",
+      "emptyDescription": "सुरु गर्न नयाँ एल्बम सिर्जना गर्नुहोस्",
+      "items": "वस्तुहरू"
+    },
+    "actions": {
+      "update": "अपडेट",
+      "cancel": "रद्द",
+      "reset": "रिसेट"
+    },
+    "form": {
+      "createTitle": "एल्बम सिर्जना गर्नुहोस्",
+      "editTitle": "एल्बम सम्पादन गर्नुहोस्",
+      "formTitle": "एल्बम",
+      "basicInfo": "आधारभूत जानकारी",
+      "nameEn": "नाम (अंग्रेजी)",
+      "nameNe": "नाम (नेपाली)",
+      "descriptionEn": "वर्णन (अंग्रेजी)",
+      "descriptionNe": "वर्णन (नेपाली)",
+      "isActive": "सक्रिय",
+      "saving": "सुरक्षित गर्दै…",
+      "validation": {
+        "nameRequiredBoth": "दुवै भाषामा नाम आवश्यक छ"
+      }
+      ,
+      "media": "मिडिया",
+      "sortBy": "क्रमबद्ध गर्नुहोस्",
+      "preview": "पूर्वावलोकन",
+      "sort": {
+        "recent": "भर्खर थपिएका",
+        "alphabet": "नाम",
+        "date": "मिति"
+      },
+      "select": "छान्नुहोस्",
+      "selected": "छानिएको"
+    }
+  }
+}
+
+

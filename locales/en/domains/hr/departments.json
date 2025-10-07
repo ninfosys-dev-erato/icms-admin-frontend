@@ -1,0 +1,110 @@
+{
+  "title": "Department Management",
+  "subtitle": "Manage organizational departments and structure",
+  "list": {
+    "title": "Departments",
+    "subtitle": "Showing {count} departments",
+    "createNew": "Create Department",
+    "createFirst": "Create First Department",
+    "search": "Search departments",
+    "searchPlaceholder": "Search by name, parent, or head...",
+    "filterByType": "Filter by Status",
+    "allTypes": "All Statuses",
+    "clearFilters": "Clear Filters",
+    "resultsCount": "Showing {filtered} of {total} departments",
+    "noDepartments": "No departments found",
+    "noDepartmentsDescription": "Get started by creating your first department",
+    "noResults": "No departments match your search",
+    "noResultsDescription": "Try adjusting your search terms or filters"
+  },
+  "card": {
+    "actions": "Department actions",
+    "view": "View",
+    "edit": "Edit",
+    "delete": "Delete",
+    "viewEmployees": "View Employees",
+    "active": "Active",
+    "inactive": "Inactive",
+    "order": "Order",
+    "parentDepartment": "Parent Department",
+    "departmentHead": "Department Head",
+    "employeeCount": "Employees",
+    "childDepartments": "Child Departments",
+    "updated": "Updated"
+  },
+  "form": {
+    "createTitle": "Create Department",
+    "editTitle": "Edit Department",
+    "viewTitle": "View Department",
+    "createByType": "Create {type}",
+    "backToList": "Back to List",
+    "save": "Save Department",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "name": {
+      "label": "Department Name",
+      "placeholder": {
+        "en": "Enter department name in English",
+        "ne": "Enter department name in Nepali"
+      }
+    },
+    "parent": {
+      "label": "Parent Department",
+      "placeholder": "Select parent department"
+    },
+    "head": {
+      "label": "Department Head",
+      "placeholder": "Select department head"
+    },
+    "order": {
+      "label": "Display Order",
+      "placeholder": "Enter display order"
+    },
+    "isActive": {
+      "label": "Active Status",
+      "description": "Active departments are visible to users"
+    },
+    "status": {
+      "label": "Status"
+    }
+  },
+  "delete": {
+    "title": "Delete Department",
+    "message": "Are you sure you want to delete the {type} department?",
+    "warning": "This action cannot be undone. All associated data will be permanently deleted.",
+    "confirm": "Delete",
+    "cancel": "Cancel"
+  },
+  "errors": {
+    "title": "Error",
+    "loadFailed": "Failed to load departments",
+    "createFailed": "Failed to create department",
+    "updateFailed": "Failed to update department",
+    "deleteFailed": "Failed to delete department",
+    "validation": {
+      "nameRequired": "Department name is required",
+      "nameMinLength": "Department name must be at least 3 characters",
+      "nameMaxLength": "Department name cannot exceed 100 characters",
+      "orderInvalid": "Order must be a positive number",
+      "parentNotFound": "Parent department not found",
+        "headNotFound": "Department head not found",
+        "nameEnRequired": "English department name is required",
+        "nameNeRequired": "Nepali department name is required"
+    }
+  },
+  "status": {
+    "loading": "Loading departments...",
+    "saving": "Saving department...",
+    "deleting": "Deleting department...",
+    "success": "Department saved successfully",
+    "deleted": "Department deleted successfully"
+  },
+  "bulk": {
+    "activate": "Activate Selected",
+    "deactivate": "Deactivate Selected",
+    "delete": "Delete Selected",
+    "confirmDelete": "Are you sure you want to delete {count} departments?",
+    "success": "Bulk operation completed successfully",
+    "error": "Some operations failed"
+  }
+}

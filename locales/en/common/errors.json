@@ -1,0 +1,18 @@
+{
+  "generic": {
+    "somethingWentWrong": "Something went wrong",
+    "tryAgain": "Please try again",
+    "contactSupport": "Contact support if the problem persists"
+  },
+  "network": {
+    "connectionError": "Connection error",
+    "timeout": "Request timeout",
+    "offline": "You are offline"
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalid": "Invalid value",
+    "tooShort": "Value is too short",
+    "tooLong": "Value is too long"
+  }
+} 

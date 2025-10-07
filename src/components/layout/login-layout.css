@@ -1,0 +1,252 @@
+
+
+:root {
+    --color-text-primary: #5e5e5e; /* grayish header */
+    --login-page-bg: #ffffff; /* white background */
+    --header-height: 64px;
+    --footer-height: 56px;
+}
+
+.login-layout-root {
+    min-height: 100vh;
+    background: var(--login-page-bg);
+    display: flex;
+    flex-direction: column;
+}
+
+.login-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    width: 100%;
+    height: var(--header-height);
+    background: var(--login-page-bg);
+}
+
+/* fixed header/footer modifiers */
+.login-header.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.login-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text-primary, #161616);
+}
+
+.login-language {
+    display: flex;
+    align-items: center;
+}
+
+.login-tile { /* form card */
+    margin: 2rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.06);
+    width: 100%;
+    max-width: 640px; /* allow wider form */
+}
+
+/* utility class to make the form column span full width and center content */
+.fullwidth-centered {
+    width: 100%;
+    display: flex; /* ensure the container becomes a flex container */
+    flex-direction: row; /* place main and aside side-by-side */
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    padding: 2rem 1rem; /* carbon-like spacing around content */
+}
+
+/* main area that accounts for fixed header/footer heights */
+.login-main {
+    min-height: calc(100vh - var(--header-height) - var(--footer-height));
+    padding-top: var(--header-height);
+    padding-bottom: var(--footer-height);
+    background: var(--login-page-bg);
+    display: flex;              /* allow easy centering */
+    align-items: center;        /* vertical center */
+    justify-content: center;    /* horizontal center */
+}
+
+.login-content {
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+
+
+/* aside that contains the illustration */
+.illustration-aside {
+    display: flex;
+    align-items:flex-start;
+    justify-content: center;
+    flex: 1 1 auto; /* allow illustration to breathe */
+}
+
+
+/* Make the right-side illustration bigger */
+.illustration-aside { 
+  flex: 0 0 auto;                 /* don't let flex shrink it */
+  display: flex; 
+  align-items: center;            /* vertical alignment */
+  justify-content: center;        /* horizontal alignment */
+}
+
+/* Actual size control for the SVG */
+.login-illustration {
+  width: clamp(480px, 50vw, 730px) !important;   /* increase/decrease here */
+  height: clamp(480px, 50vw, 730px) !important;  /* keep it square */
+}
+.login-illustration {
+  margin-top: -40px;   /* negative value moves it up */
+}
+
+
+
+
+.login-footer {
+    padding: 0 1.5rem;
+    border-top: 1px solid rgba(0,0,0,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    background: var(--login-page-bg);
+    height: var(--footer-height);
+}
+
+/* fix footer to the bottom by making parent a column flex and letting it sit after flexing content */
+.login-footer {
+    flex-shrink: 0;
+}
+
+.login-footer.fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.footer-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Base (desktop) spacing for grouped footer links */
+.footer-col {
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem; /* spacing between menu items */
+    align-items: center;
+}
+
+.footer-col span {
+    white-space: nowrap; /* keep each label intact */
+}
+
+.footer-powered { white-space: nowrap; }
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+    /* Increase reserved footer area on small screens where footer wraps */
+    .fixed-layout {
+    --footer-height: 120px; /* allow for multi-line wrapped footer */
+    }
+
+    /* Stack form and hide illustration on small screens */
+    .fullwidth-centered {
+    flex-direction: column;
+    align-items: center;     /* center horizontally */
+    justify-content: center; /* center vertically within main */
+    gap: 0.5rem;
+    }
+
+    .illustration-aside {
+        display: none; /* hide illustration on mobile to preserve space */
+    }
+
+    .login-tile {
+    margin: 1.5rem 1rem;
+    width: 100%;
+    max-width: 420px; /* comfortable mobile width */
+    }
+
+    .login-footer {
+        flex-direction: column; /* stack footer content */
+        align-items: stretch;
+        text-align: left;
+        height: auto;            /* allow content to wrap */
+        padding-top: 0.875rem;   /* ~$spacing-05 */
+        padding-bottom: 0.875rem;
+        gap: 0.75rem;            /* ~$spacing-04 */
+        background: var(--login-page-bg);
+        box-shadow: none;        /* keep it clean */
+        border-top-color: rgba(0,0,0,0.06);
+    }
+
+    .footer-powered {
+        margin-top: 0.25rem;
+        font-size: 0.875rem;
+        color: rgba(0,0,0,0.7);
+        text-align: center;  /* centered final line */
+    }
+
+    .footer-links {
+    width: 100%;
+    display: grid;               /* two columns wrapper */
+    grid-template-columns: 1fr 1fr;
+    gap: 0;                      /* reset any inherited gap */
+    column-gap: 0.75rem;         /* slightly tighter */
+    row-gap: 0;                  /* columns control their spacing */
+    align-items: start;          /* top align */
+    align-content: start;
+    }
+
+    .footer-col {
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;                /* tighter spacing between items */
+    }
+
+    .footer-col.left { grid-column: 1; }
+    .footer-col.right { grid-column: 2; }
+
+    .footer-col span {
+        display: block;
+        font-size: 0.875rem;
+        color: #3d3d3d;
+        line-height: 1.25rem; /* consistent rhythm */
+        margin: 0;
+    }
+}
+
+/* Tablet and below adjustments: hide illustration and center form */
+@media (max-width: 1023px) {
+    .illustration-aside {
+        display: none !important;
+    }
+
+    .fullwidth-centered {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* Desktop spacing tweaks */
+@media (min-width: 1024px) {
+    .login-header {
+        padding: 0 2.5rem;
+    }
+}

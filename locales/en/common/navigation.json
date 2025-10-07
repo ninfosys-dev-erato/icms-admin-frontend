@@ -1,0 +1,44 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "contentManagement": "Content Management",
+    "humanResources": "Human Resources",
+    "sliders": "Sliders",
+    "importantLinks": "Important Links",
+    "navigation": "Navigation",
+    "headers": "Headers",
+    "officeSettings": "Office Settings",
+    "officeDescriptions": "Office Descriptions",
+    "media": "Media",
+    "settings": "Settings",
+    "users": "User Settings",
+    "internationalization": "Internationalization",
+    "logout": "Logout",
+    "documents": "Documents"
+  },
+  "languages": {
+    "english": "English",
+    "nepali": "नेपाली"
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "back": "Back",
+    "dashboard": "Dashboard"
+  },
+  "brand": {
+    "title": "iCMS",
+    "subtitle": "Integrated Content Management System"
+  },
+  "footer": {
+    "contact": "Contact",
+    "privacy": "Privacy",
+    "terms": "Terms of Service",
+    "copyright": "© 2024 iCMS. All rights reserved."
+  },
+  "contact": "Contact",
+  "privacy": "Privacy",
+  "termsOfUse": "Terms of Use",
+  "accessibility": "Accessibility",
+  "cookiePreferences": "Cookie Preferences",
+  "poweredBy": "Powered by iCMS"
+} 

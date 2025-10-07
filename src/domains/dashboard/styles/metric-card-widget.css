@@ -1,0 +1,620 @@
+/* Metric Card Widget Styles */
+
+/* ========================================
+   BASE METRIC CARD WIDGET
+   ======================================== */
+
+.metric-card-widget {
+  height: auto;
+  min-height: 8rem;
+  transition: all var(--cds-transition-normal);
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card-widget:hover {
+  box-shadow: var(--cds-shadow-02);
+  transform: translateY(-2px);
+}
+
+.metric-card-widget.metric-card-clickable {
+  cursor: pointer;
+}
+
+.metric-card-widget.metric-card-clickable:hover {
+  background-color: var(--cds-ui-02);
+  border-color: var(--cds-interactive-01);
+}
+
+.metric-card-widget.metric-card-loading {
+  cursor: default;
+}
+
+.metric-card-widget.metric-card-error {
+  border-color: var(--cds-support-error);
+  background-color: var(--cds-support-error-10);
+}
+
+/* Content Layout */
+.metric-card-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  height: 100%;
+}
+
+/* Icon Styles */
+.metric-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background-color: var(--cds-ui-02);
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+  transition: background-color var(--cds-transition-normal);
+}
+
+.metric-card-widget:hover .metric-card-icon {
+  background-color: var(--cds-ui-03);
+}
+
+.metric-icon-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--cds-support-error);
+  color: white;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+/* Info Section */
+.metric-card-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.metric-card-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--cds-text-02);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.metric-card-value {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.metric-value-number {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--cds-text-01);
+  line-height: 1;
+}
+
+.metric-card-subtitle {
+  font-size: 0.75rem;
+  color: var(--cds-text-03);
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Trend Tag */
+.metric-trend-tag {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Click Indicator */
+.metric-card-click-indicator {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  opacity: 0;
+  transition: opacity var(--cds-transition-normal);
+}
+
+.metric-card-widget:hover .metric-card-click-indicator {
+  opacity: 1;
+}
+
+.click-arrow {
+  color: var(--cds-interactive-01);
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Size Variants */
+.metric-card-small {
+  min-height: 6rem;
+}
+
+.metric-card-small .metric-card-content {
+  padding: 0.75rem;
+}
+
+.metric-card-small .metric-card-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.metric-card-small .metric-value-number {
+  font-size: 1.25rem;
+}
+
+.metric-card-small .metric-card-title {
+  font-size: 0.75rem;
+}
+
+.metric-card-large {
+  min-height: 10rem;
+}
+
+.metric-card-large .metric-card-content {
+  padding: 1.25rem;
+}
+
+.metric-card-large .metric-card-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.metric-card-large .metric-value-number {
+  font-size: 2rem;
+}
+
+.metric-card-large .metric-card-title {
+  font-size: 1rem;
+}
+
+/* ========================================
+   COMPOSITE METRIC CARD
+   ======================================== */
+
+.composite-metric-card {
+  height: auto;
+  min-height: 12rem;
+}
+
+.composite-metric-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--cds-text-01);
+  margin: 0 0 1rem 0;
+  padding: 0 1rem;
+  padding-top: 1rem;
+}
+
+.composite-metric-content {
+  padding: 0 1rem 1rem 1rem;
+}
+
+/* Layout Variants */
+.composite-metric-horizontal {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.composite-metric-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.composite-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.composite-metric-item {
+  flex-shrink: 0;
+  min-width: 200px;
+}
+
+.composite-metric-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background-color: var(--cds-ui-02);
+  border-radius: 0.5rem;
+  min-height: 6rem;
+}
+
+.composite-metric-error {
+  border-color: var(--cds-support-error);
+  background-color: var(--cds-support-error-10);
+}
+
+.composite-metric-error-content {
+  padding: 1rem;
+  text-align: center;
+}
+
+.composite-metric-error-text {
+  color: var(--cds-support-error);
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+/* ========================================
+   STATISTIC METRIC CARD
+   ======================================== */
+
+.statistic-metric-card {
+  height: auto;
+  min-height: 8rem;
+  transition: all var(--cds-transition-normal);
+}
+
+.statistic-metric-card:hover {
+  box-shadow: var(--cds-shadow-02);
+}
+
+.statistic-metric-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  height: 100%;
+}
+
+.statistic-metric-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background-color: var(--cds-ui-02);
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+  color: var(--cds-interactive-01);
+  transition: background-color var(--cds-transition-normal);
+}
+
+.statistic-metric-card:hover .statistic-metric-icon {
+  background-color: var(--cds-ui-03);
+}
+
+.statistic-metric-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.statistic-metric-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--cds-text-02);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.statistic-metric-value {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.statistic-value-number {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--cds-text-01);
+  line-height: 1;
+}
+
+.statistic-value-unit {
+  font-size: 0.875rem;
+  color: var(--cds-text-03);
+  font-weight: 500;
+}
+
+.statistic-metric-change {
+  margin-top: 0.25rem;
+}
+
+.statistic-metric-error {
+  border-color: var(--cds-support-error);
+  background-color: var(--cds-support-error-10);
+}
+
+.statistic-metric-error-content {
+  padding: 1rem;
+  text-align: center;
+}
+
+.statistic-metric-error-text {
+  color: var(--cds-support-error);
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 1056px) {
+  .composite-metric-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+  
+  .composite-metric-horizontal {
+    flex-wrap: wrap;
+  }
+  
+  .composite-metric-item {
+    min-width: 180px;
+    flex: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .metric-card-content {
+    padding: 0.75rem;
+  }
+  
+  .metric-card-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .metric-value-number {
+    font-size: 1.25rem;
+  }
+  
+  .composite-metric-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .composite-metric-horizontal {
+    flex-direction: column;
+  }
+  
+  .composite-metric-item {
+    min-width: auto;
+  }
+  
+  .statistic-metric-content {
+    padding: 0.75rem;
+  }
+  
+  .statistic-metric-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  
+  .statistic-value-number {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .metric-card-widget {
+    min-height: 6rem;
+  }
+  
+  .metric-card-content {
+    padding: 0.5rem;
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+  
+  .metric-card-icon {
+    width: 2rem;
+    height: 2rem;
+    align-self: center;
+  }
+  
+  .metric-value-number {
+    font-size: 1.125rem;
+  }
+  
+  .metric-card-value {
+    justify-content: center;
+  }
+  
+  .composite-metric-card {
+    min-height: 10rem;
+  }
+  
+  .composite-metric-title {
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+  
+  .composite-metric-content {
+    padding: 0 0.75rem 0.75rem 0.75rem;
+  }
+  
+  .statistic-metric-card {
+    min-height: 6rem;
+  }
+  
+  .statistic-metric-content {
+    padding: 0.5rem;
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+  
+  .statistic-metric-icon {
+    width: 2rem;
+    height: 2rem;
+    align-self: center;
+  }
+  
+  .statistic-value-number {
+    font-size: 1.125rem;
+  }
+  
+  .statistic-metric-value {
+    justify-content: center;
+  }
+}
+
+/* ========================================
+   DARK THEME SUPPORT
+   ======================================== */
+
+@media (prefers-color-scheme: dark) {
+  .metric-card-icon,
+  .statistic-metric-icon {
+    background-color: var(--cds-ui-04);
+  }
+  
+  .metric-card-widget:hover .metric-card-icon,
+  .statistic-metric-card:hover .statistic-metric-icon {
+    background-color: var(--cds-ui-05);
+  }
+  
+  .composite-metric-skeleton {
+    background-color: var(--cds-ui-04);
+  }
+}
+
+/* ========================================
+   HIGH CONTRAST SUPPORT
+   ======================================== */
+
+@media (prefers-contrast: high) {
+  .metric-card-widget,
+  .composite-metric-card,
+  .statistic-metric-card {
+    border-width: 2px;
+  }
+  
+  .metric-card-icon,
+  .statistic-metric-icon {
+    border: 2px solid var(--cds-text-01);
+  }
+}
+
+/* ========================================
+   REDUCED MOTION SUPPORT
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .metric-card-widget,
+  .statistic-metric-card {
+    transition: none;
+  }
+  
+  .metric-card-widget:hover {
+    transform: none;
+  }
+  
+  .metric-card-click-indicator {
+    transition: none;
+  }
+}
+
+/* ========================================
+   FOCUS MANAGEMENT
+   ======================================== */
+
+.metric-card-widget:focus,
+.composite-metric-card:focus,
+.statistic-metric-card:focus {
+  outline: 2px solid var(--cds-interactive-01);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   LOADING STATES
+   ======================================== */
+
+.metric-card-loading .metric-card-icon,
+.statistic-metric-card .metric-card-icon {
+  background-color: var(--cds-ui-03);
+}
+
+/* ========================================
+   ERROR STATES
+   ======================================== */
+
+.metric-card-error .metric-card-icon,
+.statistic-metric-error .statistic-metric-icon {
+  background-color: var(--cds-support-error-20);
+}
+
+/* ========================================
+   SUCCESS STATES
+   ======================================== */
+
+.metric-card-widget:not(.metric-card-error):not(.metric-card-loading) .metric-card-icon {
+  background-color: var(--cds-support-success-20);
+}
+
+/* ========================================
+   HOVER EFFECTS
+   ======================================== */
+
+.metric-card-widget:hover .metric-card-icon {
+  transform: scale(1.05);
+  transition: transform var(--cds-transition-normal);
+}
+
+.statistic-metric-card:hover .statistic-metric-icon {
+  transform: scale(1.05);
+  transition: transform var(--cds-transition-normal);
+}
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+
+@keyframes metricCardPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.metric-card-widget.metric-card-loading {
+  animation: metricCardPulse 2s ease-in-out infinite;
+}
+
+/* ========================================
+   ACCESSIBILITY ENHANCEMENTS
+   ======================================== */
+
+.metric-card-widget[role="button"]:focus {
+  outline: 2px solid var(--cds-interactive-01);
+  outline-offset: 2px;
+}
+
+.metric-card-widget[role="button"]:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

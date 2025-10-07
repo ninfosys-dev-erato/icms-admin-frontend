@@ -1,0 +1,399 @@
+.media-container {
+  width: 100%;
+}
+
+/* Translatable field tabs (shared look with sliders/HR) */
+.translatable-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--cds-ui-03);
+  margin-bottom: 0.5rem;
+}
+
+.tab-button {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--cds-text-02);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  font-weight: 400;
+}
+
+.tab-button:hover:not(:disabled) {
+  color: var(--cds-text-01);
+  background-color: var(--cds-ui-02);
+}
+
+.tab-button.active {
+  color: var(--cds-interactive-01);
+  border-bottom-color: var(--cds-interactive-01);
+  font-weight: 600;
+}
+
+.tab-button:disabled {
+  color: var(--cds-text-03);
+  cursor: not-allowed;
+}
+
+.tab-content {
+  padding: 0;
+}
+
+/* Ensure SidePanel overlays correctly within Content Management segment */
+.c4p--side-panel.c4p--side-panel--slide-in,
+.c4p--side-panel:not(.c4p--side-panel--has-overlay) {
+  z-index: 6000;
+  box-shadow: none !important;
+}
+
+/* Tabs like HR */
+.media-main-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--cds-ui-03);
+  margin-bottom: 1rem;
+}
+
+.media-tab-button {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: var(--cds-text-02);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  font-weight: 400;
+}
+
+.media-tab-button:hover:not(:disabled) {
+  color: var(--cds-text-01);
+  background-color: var(--cds-ui-02);
+}
+
+.media-tab-button.active {
+  color: var(--cds-interactive-01);
+  border-bottom-color: var(--cds-interactive-01);
+  font-weight: 600;
+}
+
+.media-tab-button:disabled {
+  color: var(--cds-text-03);
+  cursor: not-allowed;
+}
+
+/* Card-based layout (mirrors sliders) */
+.media-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  justify-content: flex-start;
+}
+
+.media-flex-item {
+  flex: 1 1 calc(25% - 0.75rem);
+  min-width: 280px;
+  max-width: 340px;
+}
+
+@media (max-width: 1200px) {
+  .media-flex-item {
+    flex: 1 1 calc(33.333% - 0.667rem);
+  }
+}
+@media (max-width: 900px) {
+  .media-flex-item {
+    flex: 1 1 calc(50% - 0.5rem);
+  }
+}
+@media (max-width: 600px) {
+  .media-flex-item {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+.media-card {
+  position: relative;
+  background-color: var(--cds-ui-01);
+  border: 1px solid var(--cds-ui-03);
+  border-radius: 0;
+  padding: 0;
+  transition: all 0.1s ease;
+}
+
+.media-card:hover {
+  border-color: var(--cds-interactive-01);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-image {
+  height: 160px;
+  position: relative;
+  background-color: var(--cds-ui-02);
+  overflow: hidden;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media-card__placeholder {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cds-layer-02);
+}
+
+.card-overflow-menu {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+  z-index: 15;
+}
+
+.media-card:hover .card-overflow-menu {
+  opacity: 1;
+}
+
+/* Meta overlay for edit preview */
+.media-preview-meta {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.card-content {
+  background-color: var(--cds-ui-01);
+  padding: 1rem;
+  text-align: left;
+}
+
+.card-title {
+  font-weight: 600;
+  color: var(--cds-text-01);
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.media-card__meta {
+  margin-top: 0.25rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.empty-state {
+  background-color: var(--cds-ui-01);
+  border: 1px solid var(--cds-ui-03);
+  border-radius: 0;
+  padding: 3rem 2rem;
+  margin: 1rem 0;
+  text-align: left;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 300px;
+}
+
+.empty-state-content {
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.empty-state-title {
+  font-weight: 400;
+  color: var(--cds-text-01);
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.empty-state-description {
+  font-size: 0.875rem;
+  color: var(--cds-text-02);
+  margin: 0 0 1.5rem 0;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.loading-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+/* Multi upload previews reuse slider card styles; add minimal preview-specific tweaks */
+.media-file-preview {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cds-ui-02);
+}
+.media-file-preview__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.media-file-preview--placeholder {
+  color: var(--cds-text-02);
+  gap: 0.5rem;
+}
+
+/* Hide native file input (we trigger it via a styled button) */
+.file-input {
+  display: none;
+}
+
+/* Utility classes to replace inline styles */
+.m--mt-1 { margin-top: 1rem; }
+.m--mb-1 { margin-bottom: 1rem; }
+.m--mb-075 { margin-bottom: 0.75rem; }
+.m--mb-15 { margin-bottom: 1.5rem; }
+.m--mb-05 { margin-bottom: 0.5rem; }
+.m--mb-0 { margin-bottom: 0; }
+.m--0 { margin: 0; }
+.p--card-padding { padding: 2rem 1rem 1rem 1rem; }
+.p--card-padding-sm { padding: 0 1rem 2rem 1rem; }
+.text--left { text-align: left; }
+.text--right { text-align: right; }
+.flex--row-space { display: flex; justify-content: space-between; align-items: flex-start; }
+.flex--row-end { display: flex; justify-content: flex-end; }
+.flex--1 { flex: 1; }
+.hidden { display: none !important; }
+
+/* Breadcrumb tweaks used in album/media containers */
+.breadcrumb--spacing { margin-bottom: 1.5rem; }
+
+/* Text utilities */
+.text--small { font-size: 0.875rem; }
+.text--xsmall { font-size: 0.75rem; }
+.text--muted { color: var(--cds-text-02); }
+
+/* Titles and subtitles used in containers */
+.media-title { font-size: 2rem; font-weight: 400; margin: 0 0 0.5rem 0; text-align: left; }
+.media-subtitle { margin: 0; color: var(--cds-text-secondary, #525252); text-align: left; }
+
+/* Filters row used across media and albums */
+.filters-row {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.panel-close-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 10;
+}
+
+/* Actions variant for filters where items/actions are right-aligned */
+.filters-row--actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.media-edit-image--height { height: 180px; }
+
+.flex--row-gap { display: flex; gap: 1rem; }
+
+
+/* Upload grid for selected files (Carbon-aligned spacing) */
+.media-multi-upload {
+  margin-bottom: 1rem; /* extra space before Details section */
+}
+
+.media-upload-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0.75rem; /* breathing room under grid */
+}
+
+.media-upload-card {
+  background: var(--cds-ui-01);
+  border: 1px solid var(--cds-ui-03);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.media-upload-card__preview {
+  height: 140px;
+}
+
+.media-upload-card__content {
+  padding: 0.75rem;
+}
+
+.media-upload-card__title {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.media-upload-card__meta {
+  margin-top: 0.25rem;
+  color: var(--cds-text-02);
+  font-size: 0.875rem;
+}
+
+.media-upload-card__actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5rem 0.75rem 0.75rem 0.75rem;
+}
+
+.media-status-dropdown {
+  min-width: 125px;
+  width: 125px;
+}
+.media-status-dropdown .cds--label {
+  color: black !important; 
+}
+.media-form-accordion, .cds--accordion {
+  width: 100%;
+  margin-top: 5px;
+  padding: 1rem 0;
+  box-sizing: border-box;
+}
+.cds--accordion__item {
+  width: 100%;
+}
+.cds--accordion__content {
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 0;
+}

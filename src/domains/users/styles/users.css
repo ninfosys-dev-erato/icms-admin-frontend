@@ -1,0 +1,76 @@
+/* Full-bleed container background like sliders */
+.users-container {
+  background-color: var(--cds-ui-02);
+  min-height: 100vh;
+}
+/* Users domain styles */
+
+.users-filters {
+  padding: 0 1rem 1rem 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.users-filters .search-wrap {
+  flex: 1 1 420px;
+  min-width: 280px;
+}
+
+.users-filters .search-wrap .cds--search {
+  width: 100%;
+}
+
+/* Boxed search look (override Carbon's underline style) */
+.users-filters .search-wrap .cds--search .cds--search-input {
+  background-color: var(--cds-ui-01);
+  border: 1px solid var(--cds-ui-03);
+  border-radius: 0;
+  height: 3rem;
+  padding: 0.75rem 3rem 0.75rem 2.5rem;
+  box-shadow: none;
+}
+
+.users-filters .search-wrap .cds--search .cds--search-input:focus {
+  outline: none;
+  border-color: var(--cds-interactive-01);
+  box-shadow: 0 0 0 1px var(--cds-interactive-01);
+}
+
+.users-filters .search-wrap .cds--search .cds--search-magnifier {
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.users-filters .right-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Apply boxed style to filters' top search when rendered without .users-filters wrapper */
+.search-box .cds--search .cds--search-input {
+  background-color: var(--cds-ui-01);
+  border: 1px solid var(--cds-ui-03);
+  border-radius: 0;
+  height: 3rem;
+  padding: 0.75rem 3rem 0.75rem 2.5rem;
+  box-shadow: none;
+}
+
+.search-box .cds--search .cds--search-input:focus {
+  outline: none;
+  border-color: var(--cds-interactive-01);
+  box-shadow: 0 0 0 1px var(--cds-interactive-01);
+}
+
+.search-box .cds--search .cds--search-magnifier {
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+

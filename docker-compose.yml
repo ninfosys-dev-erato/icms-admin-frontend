@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  nextjs-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+      args:
+        # Build-time: these MUST be present for client bundle
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL}
+        NEXT_PUBLIC_API_MOCKING: ${NEXT_PUBLIC_API_MOCKING:-disabled}
+        NEXT_PUBLIC_DEBUG: ${NEXT_PUBLIC_DEBUG:-false}
+        NEXT_PUBLIC_LOG_LEVEL: ${NEXT_PUBLIC_LOG_LEVEL:-info}
+    image: demo-admin-frontend:${APP_VERSION:-latest}
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-12006}:3000"
+
+    # Runtime env (server-only secrets, tuning, etc.)
+    env_file:
+      - .env.production
+
+    environment:
+      NODE_ENV: production
+      NEXT_TELEMETRY_DISABLED: "1"
+      PORT: "3000"
+      HOSTNAME: 0.0.0.0
+      NODE_OPTIONS: --max-old-space-size=2048
+
+      # Optional hardening/tuning — use your .env/.env.production to override
+      FORCE_HTTPS: ${FORCE_HTTPS:-false}
+      TRUST_PROXY: ${TRUST_PROXY:-false}
+      APP_ENV: ${APP_ENV:-production}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      API_TIMEOUT: ${API_TIMEOUT:-30000}
+

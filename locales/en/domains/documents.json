@@ -1,0 +1,197 @@
+{
+  "title": "Documents",
+  "subtitle": "Manage official documents, reports, forms and policies.",
+  "breadcrumbs": {
+    "home": "Home"
+  },
+  "actions": {
+    "createNew": "Create New",
+    "creating": "Creating...",
+    "updating": "Updating...",
+    "update": "Update",
+    "cancel": "Cancel",
+    "reset": "Reset",
+    "import": "Import",
+    "export": "Export",
+    "createVersion": "Create Version",
+    "hideVersionForm": "Hide Version Form"
+  },
+  "table": {
+    "noTitle": "Untitled Document",
+    "documentNumber": "Document Number",
+  "publishedDate": "Published",
+    "version": "Version",
+    "downloads": "Downloads",
+    "actions": {
+      "menu": "Document Actions",
+      "view": "View",
+      "download": "Download",
+      "edit": "Edit",
+      "publish": "Publish",
+      "archive": "Archive",
+      "delete": "Delete"
+    }
+  },
+  "filters": {
+    "status": "Status",
+    "category": "Category",
+    "type": "Type",
+    "all": "All",
+    "reset": "Reset",
+    "other": "Other"
+  },
+  "status": {
+    "draft": "Draft",
+    "published": "Published",
+    "archived": "Archived",
+    "expired": "Expired",
+    "loading": "Loading..."
+  },
+  "categories": {
+    "official": "Official",
+    "report": "Report",
+    "form": "Form",
+    "policy": "Policy",
+    "procedure": "Procedure",
+    "guideline": "Guideline",
+    "notice": "Notice",
+    "circular": "Circular",
+    "other": "Other"
+  },
+  "sections": {
+    "basicInfo": "Basic Information",
+    "file": "File"
+  },
+  "upload": {
+    "title": "Document Upload",
+    "subtitle": "Upload your document file",
+    "placeholder": "Drag and drop a document here, or click to browse",
+    "button": "Choose File",
+    "remove": "Remove",
+    "uploading": "Uploading...",
+    "selectedFile": "Selected file",
+    "fileSize": "File size",
+    "fileType": "File type",
+    "removeFile": "Remove file",
+    "validation": {
+      "fileType": "Invalid file type. Please select a supported document format.",
+      "fileSize": "File size must be less than 100MB.",
+      "required": "Document file is required."
+    }
+  },
+  "statistics": {
+    "title": "Document Statistics",
+    "subtitle": "Overview of your document collection",
+    "total": "Total Documents",
+    "totalDescription": "Total number of documents in the system",
+    "published": "Published",
+    "publishedDescription": "Number of published documents",
+    "draft": "Draft",
+    "draftDescription": "Number of draft documents",
+    "archived": "Archived",
+    "archivedDescription": "Number of archived documents",
+    "totalDownloads": "Total Downloads",
+    "totalDownloadsDescription": "Total downloads across all documents",
+    "averageDownloads": "Average Downloads",
+    "averageDownloadsDescription": "Average downloads per document",
+    "byType": "By Document Type",
+    "byCategory": "By Category",
+    "storage": "Storage Information",
+    "totalSize": "Total Size",
+    "averageSize": "Average Size",
+    "documents": "Documents"
+  },
+  "empty": {
+    "title": "No documents yet",
+    "message": "Create your first document to get started with document management.",
+    "filteredTitle": "No documents found",
+    "filteredMessage": "Try adjusting your filters or create a new document."
+  },
+  "form": {
+    "tTitle": "Basic Information",
+    "createTitle": "Create New Document",
+    "editTitle": "Edit Document",
+    "version": {
+      "title": "Create New Version",
+      "versionNumber": "Version Number",
+      "changeLog": "Change Log",
+      "changeLogEn": "Change log in English",
+      "changeLogNe": "Change log in Nepali",
+      "uploadNewFile": "Upload New File",
+      "label": "Version",
+      "placeholder": "1.0"
+    },
+    "title": {
+      "label": "Title",
+      "placeholder": {
+        "en": "Enter document title in English",
+        "ne": "Enter document title in Nepali"
+      },
+      "validation": {
+        "required": "Title is required in both languages"
+      }
+    },
+    "description": {
+      "label": "Description",
+      "placeholder": {
+        "en": "Enter document description in English",
+        "ne": "Enter document description in Nepali"
+      }
+    },
+    "category": {
+      "label": "Category",
+      "validation": {
+        "required": "Category is required"
+      }
+    },
+    "status": {
+      "label": "Status",
+      "validation": {
+        "required": "Status is required"
+      }
+    },
+    "documentNumber": {
+      "label": "Document Number",
+      "placeholder": "Enter document number"
+    },
+    
+    "publishDate": {
+      "label": "Publish Date"
+    },
+    "expiryDate": {
+      "label": "Expiry Date"
+    },
+    "order": {
+      "label": "Order",
+      "placeholder": "Enter order number",
+      "validation": {
+        "minimum": "Order must be non-negative"
+      }
+    },
+    "tags": {
+      "label": "Tags",
+      "placeholder": "Add a tag and press Enter",
+      "addTag": "Add Tag"
+    },
+    "isPublic": {
+      "label": "Public Document"
+    },
+    "requiresAuth": {
+      "label": "Requires Authentication"
+    },
+    "isActive": {
+      "label": "Active"
+    },
+    "file": {
+      "validation": {
+        "required": "Please select a file to upload"
+      }
+    },
+    "createVersion": {
+      "title": "Create New Version",
+      "version": "Version Number",
+      "changeLog": "Change Log",
+      "changeLogPlaceholder": "Describe the changes in this version"
+    }
+  }
+}

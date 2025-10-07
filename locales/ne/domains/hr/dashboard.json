@@ -1,0 +1,57 @@
+{
+  "title": "मानव संसाधन",
+  "subtitle": "विभागहरू, कर्मचारीहरू, र संगठनात्मक संरचना व्यवस्थापन गर्नुहोस्",
+  "sections": {
+    "basicInfo": "आधारभूत जानकारी"
+  },
+  "actions": {
+    "cancel": "रद्द गर्नुहोस्",
+    "createNew": "नयाँ सिर्जना गर्नुहोस्",
+    "creating": "सिर्जना गर्दै...",
+    "updating": "अपडेट गर्दै...",
+    "update": "अपडेट गर्नुहोस्",
+    "reset": "रिसेट गर्नुहोस्"
+  },
+  "breadcrumbs": {
+    "home": "गृह"
+  },
+  "overview": {
+    "loading": "मानव संसाधन डाटा लोड गर्दै...",
+    "totalDepartments": "कुल विभागहरू",
+    "totalEmployees": "कुल कर्मचारीहरू",
+    "avgEmployeesPerDept": "औसत कर्मचारी/विभाग",
+    "departmentsWithHead": "प्रमुख सहित विभागहरू",
+    "active": "सक्रिय",
+    "inactive": "निष्क्रिय",
+    "perDepartment": "प्रति विभाग",
+    "withoutHead": "प्रमुख बिना",
+    "manageDepartments": "विभागहरू व्यवस्थापन गर्नुहोस्",
+    "manageEmployees": "कर्मचारीहरू व्यवस्थापन गर्नुहोस्",
+    "recentDepartments": "हालका विभागहरू",
+    "recentEmployees": "हालका कर्मचारीहरू",
+    "viewAll": "सबै हेर्नुहोस्",
+    "createdOn": "सिर्जना गरियो",
+    "noRecentDepartments": "कुनै हालका विभागहरू छैनन्",
+    "noRecentEmployees": "कुनै हालका कर्मचारीहरू छैनन्"
+  },
+  "list": {
+    "backToOverview": "अवलोकनमा फिर्ता",
+    "departmentsTitle": "विभागहरू",
+    "employeesTitle": "कर्मचारीहरू"
+  },
+  "detail": {
+    "backToOverview": "अवलोकनमा फिर्ता",
+    "departmentTitle": "विभाग विवरणहरू",
+    "employeeTitle": "कर्मचारी विवरणहरू"
+  },
+  "delete": {
+    "title": "मेटाउन पुष्टि गर्नुहोस्",
+    "message": "के तपाईं {type} मेटाउन निश्चित हुनुहुन्छ?",
+    "warning": "यो कार्य फिर्ता गर्न सकिँदैन।",
+    "confirm": "मेटाउनुहोस्",
+    "cancel": "रद्द गर्नुहोस्"
+  },
+  "errors": {
+    "loadFailed": "डाटा लोड गर्न असफल"
+  }
+}

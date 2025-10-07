@@ -1,0 +1,256 @@
+/* Notification Container */
+.notification-container {
+  position: fixed;
+  top: 1rem;
+  right: 2rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  /* Increased width so notification boxes look more like the success message in screenshot */
+  /* max-width: 520px;
+  min-width: 480px; */
+  pointer-events: none; /* Allow clicks to pass through container */
+}
+
+/* Individual Notification Items */
+.notification-item {
+  pointer-events: auto; /* Re-enable clicks on notifications */
+  animation: slideInRight 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  box-shadow: none;
+  border-radius: 0;
+  max-width: 100%;
+  background: transparent; /* Ensure background is transparent */
+}
+
+/* Ensure Carbon notifications are properly positioned and can receive clicks */
+.notification-container .cds--actionable-notification,
+.notification-container .cds--inline-notification {
+  margin-bottom: 0; /* Override Carbon's default margin */
+  position: relative; /* Ensure proper positioning */
+  pointer-events: auto !important; /* Force enable clicks on Carbon notifications */
+  cursor: pointer; /* Show pointer cursor */
+  width: 100%; /* Ensure full width */
+  border-radius: 0 !important; /* Remove rounded corners */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important; /* Add proper shadow for visibility */
+}
+
+/* Ensure warning notifications have proper contrast */
+.notification-container .cds--actionable-notification--warning {
+  background-color: var(--cds-support-warning) !important;
+  border-left: 4px solid var(--cds-support-warning-hover) !important;
+}
+
+.notification-container .cds--actionable-notification--warning .cds--actionable-notification__title {
+  color: var(--cds-text-inverse) !important;
+  font-weight: 600 !important;
+}
+
+.notification-container .cds--actionable-notification--warning .cds--actionable-notification__subtitle {
+  color: var(--cds-text-inverse) !important;
+}
+
+/* Ensure error notifications have proper contrast */
+.notification-container .cds--actionable-notification--error {
+  /* Keep the same dark/dim background used for neutral notifications so it visually
+     matches the success/update style, but add a red left accent strip to indicate danger. */
+  background-color: #393939 !important;
+  border-left: 6px solid var(--cds-support-error) !important;
+  min-width: 350px;
+}
+
+.cds--actionable-notification .cds--actionable-notification--toast .cds--actionable-notification--error{
+  min-width: 350px;
+}
+
+.notification-container .cds--actionable-notification--error .cds--actionable-notification__title,
+.notification-container .cds--actionable-notification--error .cds--actionable-notification__subtitle {
+  color: var(--cds-text-inverse) !important;
+}
+
+/* Ensure close buttons are clickable and properly styled */
+.notification-container .cds--actionable-notification .cds--actionable-notification__close,
+.notification-container .cds--inline-notification .cds--inline-notification__close {
+  pointer-events: auto !important;
+  cursor: pointer;
+  color: var(--cds-text-inverse) !important;
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0.5rem !important;
+}
+
+.notification-container .cds--actionable-notification .cds--actionable-notification__close:hover,
+.notification-container .cds--inline-notification .cds--inline-notification__close:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.notification-container .cds--actionable-notification .cds--actionable-notification__close:focus,
+.notification-container .cds--inline-notification .cds--inline-notification__close:focus {
+  outline: 2px solid var(--cds-focus) !important;
+  outline-offset: 2px !important;
+}
+
+/* Ensure action buttons are clickable and properly styled */
+.notification-container .cds--actionable-notification .cds--btn {
+  pointer-events: auto !important;
+  cursor: pointer;
+  background-color: #ffffff !important;
+  color: #161616 !important;
+  border: 2px solid #ffffff !important;
+  /* Increase button height and padding to make primary action more prominent */
+  min-height: 3rem;
+  padding: 0.75rem 1.25rem;
+  font-weight: 700 !important;
+  border-radius: 0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+  transition: all 0.15s ease-in-out !important;
+}
+
+.notification-container .cds--actionable-notification .cds--btn:hover {
+  background-color: #f4f4f4 !important;
+  border-color: #f4f4f4 !important;
+  color: #161616 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+}
+
+.notification-container .cds--actionable-notification .cds--btn:focus {
+  outline: 3px solid #0f62fe !important;
+  outline-offset: 2px !important;
+  background-color: #ffffff !important;
+  color: #161616 !important;
+}
+
+.notification-container .cds--actionable-notification .cds--btn:active {
+  background-color: #e0e0e0 !important;
+  border-color: #e0e0e0 !important;
+  color: #161616 !important;
+  transform: translateY(0) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Special styling for warning/error notifications to ensure high contrast */
+.notification-container .cds--actionable-notification--warning .cds--btn,
+.notification-container .cds--actionable-notification--error .cds--btn {
+  background-color: #ffffff !important;
+  color: #161616 !important;
+  border: 2px solid #ffffff !important;
+  font-weight: 700 !important;
+}
+
+/* Ensure notification icons are properly styled */
+.notification-container .cds--actionable-notification__icon,
+.notification-container .cds--inline-notification__icon {
+  color: var(--cds-text-inverse) !important;
+  fill: currentColor !important;
+}
+
+.notification-container .cds--actionable-notification--warning .cds--actionable-notification__icon {
+  color: #ffffff !important;
+  fill: #ffffff !important;
+}
+
+.notification-container .cds--actionable-notification--error .cds--actionable-notification__icon {
+  /* Show a red/danger icon while keeping the notification body dark */
+  color: var(--cds-support-error) !important;
+  fill: var(--cds-support-error) !important;
+}
+
+/* Ensure text content is properly spaced and readable */
+.notification-container .cds--actionable-notification__content {
+  /* Reduced padding to make notifications more compact */
+  padding: 0.6rem 0.75rem !important;
+  flex: 1 !important;
+}
+.notification-container .cds--actionable-notification__title {
+  /* Slightly smaller title to reduce vertical space */
+  font-size: 0.8125rem !important;
+  line-height: 1.1rem !important;
+  margin-bottom: 0.125rem !important;
+  font-weight: 600 !important;
+}
+
+.notification-container .cds--actionable-notification__subtitle {
+  /* Slightly smaller subtitle for compactness */
+  font-size: 0.75rem !important;
+  line-height: 1rem !important;
+  opacity: 0.9 !important;
+}
+
+/* Remove default padding around actionable notification text wrapper for toast variants */
+.cds--actionable-notification--toast .cds--actionable-notification__text-wrapper {
+  padding: 0 !important;
+}
+
+/* Ensure all interactive elements within notifications are clickable */
+.notification-item * {
+  pointer-events: auto;
+}
+
+/* Override any Carbon CSS that might interfere with pointer events */
+.notification-container .cds--actionable-notification *,
+.notification-container .cds--inline-notification * {
+  pointer-events: auto !important;
+}
+
+/* Animation for notification entrance */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Animation for notification exit */
+.notification-item--exiting {
+  animation: slideOutRight 0.3s ease-in forwards;
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .notification-container {
+    top: 0.5rem;
+    right: 0.5rem;
+    left: 0.5rem;
+    max-width: none;
+    min-width: auto;
+  }
+  
+  .notification-item {
+    width: 100%;
+  }
+}
+
+/* Ensure proper stacking for multiple notifications */
+.notification-container > * {
+  position: relative;
+}
+
+/* Focus styles for accessibility */
+.notification-item:focus-within {
+  outline: 2px solid var(--cds-focus);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .notification-item {
+    border: 2px solid;
+  }
+}

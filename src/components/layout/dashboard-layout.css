@@ -1,0 +1,256 @@
+/* ========================================
+   DASHBOARD LAYOUT - CARBON DESIGN SYSTEM UI SHELL
+   ======================================== */
+
+/* Root Layout */
+.dashboard-layout {
+  min-height: 100vh;
+  background-color: var(--cds-ui-background);
+}
+
+/* ========================================
+   CARBON DESIGN SYSTEM VARIABLES
+   ======================================== */
+
+:root {
+  /* Carbon Design System Colors */
+  --cds-ui-background: #f4f4f4;
+  --cds-ui-01: #ffffff;
+  --cds-ui-02: #f4f4f4;
+  --cds-ui-03: #e0e0e0;
+  --cds-ui-04: #8d8d8d;
+  --cds-text-01: #161616;
+  --cds-text-02: #525252;
+  --cds-text-03: #a8a8a8;
+  --cds-interactive-01: #0f62fe;
+  --cds-interactive-02: #393939;
+  --cds-support-error: #da1e28;
+  --cds-support-error-inverse: #ffd7d9;
+  --cds-support-success: #24a148;
+  --cds-support-warning: #f1c21b;
+  --cds-support-info: #0043ce;
+  
+  /* Typography */
+  --cds-font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  
+  /* Spacing */
+  --cds-spacing-01: 0.125rem;
+  --cds-spacing-02: 0.25rem;
+  --cds-spacing-03: 0.5rem;
+  --cds-spacing-04: 0.75rem;
+  --cds-spacing-05: 1rem;
+  --cds-spacing-06: 1.5rem;
+  --cds-spacing-07: 2rem;
+  --cds-spacing-08: 2.5rem;
+  --cds-spacing-09: 3rem;
+  
+  /* Layout */
+  --cds-header-height: 3rem;
+  --cds-sidebar-width: 16rem;
+  --cds-sidebar-width-mobile: 14rem;
+  --cds-sidebar-width-small: 12rem;
+  
+  /* Transitions */
+  --cds-transition-fast: 0.1s ease;
+  --cds-transition-normal: 0.2s ease-in-out;
+  --cds-transition-slow: 0.3s ease-in-out;
+  
+  /* Shadows */
+  --cds-shadow-01: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --cds-shadow-02: 0 2px 6px rgba(0, 0, 0, 0.1);
+  --cds-shadow-03: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ========================================
+   CARBON UI SHELL CUSTOMIZATION
+   ======================================== */
+
+/* Header customization (Carbon v11 + IBM Products v2) */
+.cds--header,
+.bx--header {
+  background-color: var(--cds-ui-01);
+  border-bottom: 1px solid var(--cds-ui-03);
+}
+
+.cds--header__name,
+.bx--header__name {
+  font-weight: 600;
+  color: var(--cds-text-01);
+}
+
+.cds--header__name:hover,
+.bx--header__name:hover {
+  color: var(--cds-interactive-01);
+  text-decoration: none;
+}
+
+/* SideNav customization */
+.cds--side-nav,
+.bx--side-nav {
+  background-color: var(--cds-ui-01);
+  border-right: 1px solid var(--cds-ui-03);
+}
+
+.cds--side-nav__item,
+.bx--side-nav__item {
+  border-left: 3px solid transparent;
+  transition: all var(--cds-transition-normal);
+}
+
+.cds--side-nav__item:hover,
+.bx--side-nav__item:hover {
+  background-color: var(--cds-ui-02);
+  border-left-color: var(--cds-interactive-01);
+}
+
+.cds--side-nav__item--current,
+.bx--side-nav__item--current {
+  background-color: var(--cds-ui-02);
+  border-left-color: var(--cds-interactive-01);
+}
+
+.cds--side-nav__link,
+.bx--side-nav__link {
+  color: var(--cds-text-01);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: var(--cds-spacing-03);
+  padding: var(--cds-spacing-04) var(--cds-spacing-05);
+  transition: all var(--cds-transition-normal);
+}
+
+.cds--side-nav__link:hover,
+.bx--side-nav__link:hover {
+  color: var(--cds-interactive-01);
+  text-decoration: none;
+}
+
+.cds--side-nav__link--current,
+.bx--side-nav__link--current {
+  color: var(--cds-interactive-01);
+  background-color: var(--cds-ui-02);
+}
+
+/* Enhanced SideNav icon styling */
+.cds--side-nav__link .cds--side-nav__link-text,
+.bx--side-nav__link .bx--side-nav__link-text {
+  display: flex;
+  align-items: center;
+  gap: var(--cds-spacing-03);
+  width: 100%;
+}
+
+.cds--side-nav__link svg,
+.bx--side-nav__link svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  flex-shrink: 0;
+  transition: all var(--cds-transition-normal);
+}
+
+.cds--side-nav__link:hover svg,
+.bx--side-nav__link:hover svg {
+  transform: scale(1.1);
+}
+
+.cds--side-nav__link--current svg,
+.bx--side-nav__link--current svg {
+  color: var(--cds-interactive-01);
+}
+
+/* Content area */
+.cds--content,
+.bx--content {
+  background-color: var(--cds-ui-background);
+  padding: var(--cds-spacing-06);
+}
+
+/* ========================================
+   RESPONSIVE SIDENAV BEHAVIOR
+   - Desktop (>=1024px): fixed rail is visible
+   - Tablet/Mobile (<1024px): hidden until expanded and shown as overlay
+   ======================================== */
+
+@media (max-width: 1023px) {
+  /* Hide the rail by default on small screens */
+  .cds--side-nav:not(.cds--side-nav--expanded) {
+    display: none;
+  }
+
+  /* When expanded, show as overlay panel below the header */
+  .cds--side-nav.cds--side-nav--expanded {
+    display: block;
+    position: fixed;
+    top: 3rem; /* header height */
+    left: 0;
+    bottom: 0;
+    z-index: 8000;
+    width: var(--cds-sidebar-width-mobile);
+  }
+
+  /* Enhanced mobile sidebar styling */
+  .cds--side-nav__link,
+  .bx--side-nav__link {
+    padding: var(--cds-spacing-05);
+    font-size: 1rem;
+  }
+
+  .cds--side-nav__link svg,
+  .bx--side-nav__link svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .cds--side-nav.cds--side-nav--expanded {
+    width: var(--cds-sidebar-width-small);
+  }
+
+  .cds--side-nav__link,
+  .bx--side-nav__link {
+    padding: var(--cds-spacing-04);
+    font-size: 0.875rem;
+  }
+
+  .cds--side-nav__link svg,
+  .bx--side-nav__link svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* ========================================
+   LANGUAGE FONT SUPPORT
+   ======================================== */
+
+/* Apply dynamic font classes to Carbon components */
+.bx--header__name.font-dynamic,
+.bx--side-nav__link.font-dynamic {
+  font-family: var(--font-family-dynamic);
+}
+
+/* ========================================
+   COMPONENT SPECIFIC STYLES
+   ======================================== */
+
+/* Language switcher in header */
+.cds--header__global .language-switcher,
+.bx--header__global .language-switcher {
+  margin-right: var(--cds-spacing-03);
+}
+
+/* User profile menu in header */
+.cds--header__global .user-profile-menu,
+.bx--header__global .user-profile-menu {
+  margin-left: var(--cds-spacing-03);
+}
+
+/* Notification center in header */
+.cds--header__global .notification-center,
+.bx--header__global .notification-center {
+  margin-left: var(--cds-spacing-03);
+}

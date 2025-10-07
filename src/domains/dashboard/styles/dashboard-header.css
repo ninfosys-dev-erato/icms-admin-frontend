@@ -1,0 +1,374 @@
+/* Dashboard Header Styles */
+
+.dashboard-header {
+  margin-bottom: 2rem;
+}
+
+/* Controls and Filters Section */
+.dashboard-header-controls {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background-color: var(--cds-ui-01);
+  border: 1px solid var(--cds-ui-03);
+  border-radius: 0.5rem;
+}
+
+/* Filters Section */
+.dashboard-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dashboard-filters-basic {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dashboard-filter-select {
+  min-width: 150px;
+}
+
+.dashboard-filter-toggle {
+  margin-left: auto;
+}
+
+.dashboard-filters-advanced {
+  padding-top: 1rem;
+  border-top: 1px solid var(--cds-ui-03);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Date Range */
+.dashboard-date-range {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Trends Toggle */
+.dashboard-trends-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.dashboard-reset-filters {
+  margin-top: 0.5rem;
+}
+
+/* Actions Section */
+.dashboard-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.dashboard-actions .bx--btn-set {
+  gap: 0.5rem;
+}
+
+.dashboard-refresh-btn,
+.dashboard-settings-btn {
+  min-width: 100px;
+}
+
+/* Status Bar */
+.dashboard-status-bar {
+  margin-top: 1rem;
+  padding: 1rem 1.5rem;
+  background-color: var(--cds-ui-02);
+  border: 1px solid var(--cds-ui-03);
+  border-radius: 0.5rem;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.dashboard-status-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dashboard-status-label {
+  font-size: 0.875rem;
+  color: var(--cds-text-02);
+  font-weight: 500;
+}
+
+.dashboard-status-value {
+  font-size: 0.875rem;
+  color: var(--cds-text-01);
+  font-weight: 600;
+}
+
+.dashboard-status-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dashboard-loading-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dashboard-error-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cds-support-error);
+}
+
+.dashboard-error-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Filter Select Styles */
+.dashboard-filter-select .bx--select-input {
+  background-color: var(--cds-ui-01);
+  border-color: var(--cds-ui-04);
+}
+
+.dashboard-filter-select .bx--select-input:focus {
+  border-color: var(--cds-interactive-01);
+  box-shadow: 0 0 0 2px var(--cds-interactive-01);
+}
+
+/* Date Picker Styles */
+.dashboard-date-range .bx--date-picker {
+  width: 100%;
+}
+
+.dashboard-date-range .bx--date-picker-input {
+  background-color: var(--cds-ui-01);
+  border-color: var(--cds-ui-04);
+}
+
+.dashboard-date-range .bx--date-picker-input:focus {
+  border-color: var(--cds-interactive-01);
+  box-shadow: 0 0 0 2px var(--cds-interactive-01);
+}
+
+/* Toggle Styles */
+.dashboard-trends-toggle .bx--toggle {
+  margin-right: 0.5rem;
+}
+
+.dashboard-trends-toggle .bx--toggle__label {
+  font-size: 0.875rem;
+  color: var(--cds-text-01);
+}
+
+/* Button Styles */
+.dashboard-filter-toggle,
+.dashboard-reset-filters {
+  color: var(--cds-interactive-01);
+  border-color: var(--cds-ui-04);
+}
+
+.dashboard-filter-toggle:hover,
+.dashboard-reset-filters:hover {
+  background-color: var(--cds-ui-02);
+  border-color: var(--cds-interactive-01);
+}
+
+.dashboard-refresh-btn {
+  color: var(--cds-interactive-01);
+}
+
+.dashboard-refresh-btn:hover {
+  background-color: var(--cds-ui-02);
+}
+
+.dashboard-settings-btn {
+  color: var(--cds-text-02);
+}
+
+.dashboard-settings-btn:hover {
+  background-color: var(--cds-ui-02);
+  color: var(--cds-text-01);
+}
+
+/* Dropdown Styles */
+.dashboard-actions .bx--dropdown {
+  background-color: var(--cds-ui-01);
+  border-color: var(--cds-ui-04);
+}
+
+.dashboard-actions .bx--dropdown:focus {
+  border-color: var(--cds-interactive-01);
+  box-shadow: 0 0 0 2px var(--cds-interactive-01);
+}
+
+/* Responsive Design */
+@media (max-width: 1056px) {
+  .dashboard-filters-basic {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .dashboard-filter-select {
+    min-width: auto;
+    width: 100%;
+  }
+  
+  .dashboard-filter-toggle {
+    margin-left: 0;
+    align-self: flex-start;
+  }
+  
+  .dashboard-actions {
+    justify-content: flex-start;
+    margin-top: 1rem;
+  }
+  
+  .dashboard-actions .bx--btn-set {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .dashboard-refresh-btn,
+  .dashboard-settings-btn {
+    min-width: auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-header-controls {
+    padding: 1rem;
+  }
+  
+  .dashboard-status-bar {
+    padding: 0.75rem 1rem;
+  }
+  
+  .dashboard-filters-advanced .bx--grid {
+    margin: 0;
+  }
+  
+  .dashboard-filters-advanced .bx--col {
+    padding: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .dashboard-filters-advanced .bx--col:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard-header-controls {
+    padding: 0.75rem;
+  }
+  
+  .dashboard-status-bar {
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .dashboard-status-info,
+  .dashboard-status-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .dashboard-status-actions {
+    align-items: flex-end;
+  }
+}
+
+/* Dark Theme Support */
+@media (prefers-color-scheme: dark) {
+  .dashboard-header-controls {
+    background-color: var(--cds-ui-05);
+    border-color: var(--cds-ui-04);
+  }
+  
+  .dashboard-status-bar {
+    background-color: var(--cds-ui-04);
+    border-color: var(--cds-ui-05);
+  }
+}
+
+/* High Contrast Support */
+@media (prefers-contrast: high) {
+  .dashboard-header-controls,
+  .dashboard-status-bar {
+    border-width: 2px;
+  }
+  
+  .dashboard-filter-select .bx--select-input,
+  .dashboard-date-range .bx--date-picker-input,
+  .dashboard-actions .bx--dropdown {
+    border-width: 2px;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-filters-advanced {
+    animation: none;
+  }
+}
+
+/* Focus Management */
+.dashboard-header *:focus {
+  outline: 2px solid var(--cds-interactive-01);
+  outline-offset: 2px;
+}
+
+/* Loading States */
+.dashboard-header .bx--btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Error States */
+.dashboard-error-indicator {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* Success States */
+.dashboard-status-value {
+  transition: color 0.2s ease-in-out;
+}
+
+.dashboard-status-value:not(:empty) {
+  color: var(--cds-support-success);
+}
+
+/* Hover Effects */
+.dashboard-header-controls:hover {
+  box-shadow: var(--cds-shadow-01);
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.dashboard-status-bar:hover {
+  background-color: var(--cds-ui-03);
+  transition: background-color 0.2s ease-in-out;
+}

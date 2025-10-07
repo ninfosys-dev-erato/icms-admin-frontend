@@ -1,0 +1,44 @@
+{
+  "nav": {
+    "dashboard": "ड्यासबोर्ड",
+    "contentManagement": "सामग्री व्यवस्थापन",
+    "humanResources": "मानव संसाधन",
+    "sliders": "स्लाइडरहरू",
+    "importantLinks": "महत्वपूर्ण लिङ्कहरू",
+    "navigation": "नेभिगेसन",
+    "headers": "हेडरहरू",
+    "officeSettings": "कार्यालय सेटिङ्गहरू",
+    "officeDescriptions": "कार्यालय विवरणहरू",
+    "media": "मिडिया",
+    "settings": "सेटिङ्गहरू",
+    "users": "उपयोगकर्ता सेटिङ्गहरू",
+    "internationalization": "अन्तर्राष्ट्रियीकरण",
+    "logout": "लगआउट",
+    "documents": "कागजातहरू"
+  },
+  "languages": {
+    "english": "English",
+    "nepali": "नेपाली"
+  },
+  "breadcrumbs": {
+    "home": "गृह",
+    "back": "फिर्ता",
+    "dashboard": "ड्यासबोर्ड"
+  },
+  "brand": {
+    "title": "iCMS",
+    "subtitle": "एकीकृत सामग्री व्यवस्थापन प्रणाली"
+  },
+  "footer": {
+    "contact": "सम्पर्क",
+    "privacy": "गोपनीयता",
+    "terms": "सेवा सर्तहरू",
+    "copyright": "© २०२४ iCMS. सर्वाधिकार सुरक्षित।"
+  },
+  "contact": "सम्पर्क",
+  "privacy": "गोपनीयता",
+  "termsOfUse": "प्रयोगका सर्तहरू",
+  "accessibility": "पहुँच",
+  "cookiePreferences": "कुकी प्राथमिकताहरू",
+  "poweredBy": "iCMS द्वारा संचालित"
+} 

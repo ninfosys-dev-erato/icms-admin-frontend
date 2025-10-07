@@ -1,0 +1,192 @@
+{
+  "title": "Sliders",
+  "subtitle": "Manage homepage sliders, images and visibility.",
+  "breadcrumbs": {
+    "home": "Home"
+  },
+
+  "sections": {
+    "basicInfo": "Basic Info",
+    "image": "Image"
+  },
+
+  "form": {
+    "createTitle": "New Slider",
+    "editTitle": "Edit Slider",
+    "title": {
+      "label": "Title",
+      "placeholder": {
+        "en": "English title",
+        "ne": "Nepali title"
+      },
+      "validation": {
+        "tooShort": "Too short",
+        "required": {
+          "en": "English title is required",
+          "ne": "Nepali title is required"
+        }
+      }
+    },
+    "image": {
+      "validation": {
+        "required": "Required"
+      },
+      "preview":{
+        "change": "Change Image"
+      },
+      "selectedFile": "File",
+      "fileSize": "Size",
+      "currentFile": "Current"
+    },
+    "position": {
+      "label": "Position",
+      "helper": "Display order (1 = first)",
+      "validation": {
+        "minimum": "Must be 1 or more"
+      }
+    },
+    "displayTime": {
+      "label": "Display Time (ms)",
+      "helper": "Milliseconds",
+      "validation": {
+        "minimum": "Must be 1000ms or more"
+      }
+    },
+    "isActive": {
+      "label": "Active"
+    }
+  },
+
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "loading": "Loading..."
+  },
+
+  "empty": {
+    "title": "No sliders yet",
+    "message": "Create your first slider to get started with your homepage carousel.",
+    "filteredTitle": "No {status} sliders found",
+    "filteredMessage": "Try adjusting your filters or create a new slider."
+  },
+
+  "create": {
+    "success": {
+      "title": "Created",
+      "message": "Slider created successfully!"
+    }
+  },
+
+  "update": {
+    "success": {
+      "title": "Updated",
+      "message": "Slider updated successfully!"
+    }
+  },
+
+  "actions": {
+    "createNew": "Create New Slider",
+    "creating": "Creating...",
+    "edit": "Edit",
+    "update": "Update",
+    "updating": "Updating...",
+    "cancel": "Cancel",
+    "reset": "Reset",
+    "delete": "Delete",
+    "view": "View",
+    "analytics": "Analytics",
+    "publish": "Publish",
+    "unpublish": "Unpublish",
+    "reorder": "Reorder"
+  },
+
+  "filters": {
+    "status": "Status",
+    "all": "All",
+    "reset": "Reset"
+  },
+
+  "errors": {
+    "title": "Error",
+    "operationFailed": "Operation failed",
+    "loadFailed": "Failed to load sliders",
+    "deleteConfirmation": "Are you sure you want to delete this slider?",
+    "bulkDeleteConfirmation": "Are you sure you want to delete {count} sliders?"
+  },
+
+  "notifications": {
+    "created": "Slider created successfully",
+    "updated": "Slider updated successfully",
+    "deleted": "Slider deleted successfully",
+    "published": "Slider published successfully",
+    "unpublished": "Slider unpublished successfully",
+    "reordered": "Sliders reordered successfully",
+    "imageUploaded": "Image uploaded successfully",
+    "imageRemoved": "Image removed successfully"
+  },
+
+  "statistics": {
+    "title": "Slider Statistics",
+    "subtitle": "Overview of slider performance and usage",
+    "total": "Total Sliders",
+    "totalDescription": "Total number of sliders",
+    "active": "Active",
+    "activeDescription": "Currently active sliders",
+    "inactive": "Inactive",
+    "inactiveDescription": "Currently inactive sliders",
+    "published": "Published",
+    "publishedDescription": "Published sliders",
+    "unpublished": "Unpublished",
+    "unpublishedDescription": "Unpublished sliders",
+    "totalViews": "Total Views",
+    "totalViewsDescription": "Total slider views",
+    "totalClicks": "Total Clicks",
+    "totalClicksDescription": "Total slider clicks",
+    "averageCtr": "Average CTR",
+    "averageCtrDescription": "Average click-through rate",
+    "byPosition": "Sliders by Position",
+    "position": "Position",
+    "sliders": "sliders"
+  },
+
+  "list": {
+    "noResults": "No sliders found",
+    "loading": "Loading sliders...",
+    "error": "Error loading sliders"
+  },
+
+  "languages": {
+    "english": "English",
+    "nepali": "Nepali"
+  },
+
+  "table": {
+    "actions": {
+      "menu": "Slider actions",
+      "edit": "Edit",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "delete": "Delete"
+    },
+    "noTitle": "Untitled"
+  },
+
+  "image": {
+    "title": "Slider Image",
+    "subtitle": "Upload an image for your slider",
+    "preview": {
+      "title": "Image Preview",
+      "remove": "Remove Image",
+      "noImage": "No image available",
+      "error": "Failed to load image",
+      "retry": "Retry",
+      "loading": "Loading image"
+    },
+    "upload": {
+      "placeholder": "Drag and drop image or click to browse",
+      "requirements": "JPG, PNG, GIF up to 10MB",
+      "button": "Browse",
+      "uploading": "Uploading"
+    }
+  }
+}

@@ -1,0 +1,401 @@
+{
+  "title": "सामग्री व्यवस्थापन",
+  "subtitle": "आफ्नो सामग्री, लेखहरू र पृष्ठहरू व्यवस्थापन गर्नुहोस्।",
+  "breadcrumbs": {
+    "home": "गृह",
+    "contentManagement": "सामग्री व्यवस्थापन"
+  },
+  
+  "actions": {
+    "createNew": "नयाँ सामग्री",
+    "edit": "सम्पादन गर्नुहोस्",
+    "duplicate": "डुप्लिकेट गर्नुहोस्",
+    "archive": "अभिलेखमा राख्नुहोस्",
+    "delete": "मेटाउनुहोस्",
+    "save": "मस्यौदा सुरक्षित गर्नुहोस्",
+    "publish": "प्रकाशित गर्नुहोस्",
+    "update": "अपडेट गर्नुहोस्",
+    "cancel": "रद्द गर्नुहोस्",
+    "reset": "रीसेट गर्नुहोस्",
+    "saveDraft": "मस्यौदा सुरक्षित गर्नुहोस्",
+    "hideStatistics": "तथ्यांक लुकाउनुहोस्",
+    "showStatistics": "तथ्यांक देखाउनुहोस्",
+    "showFilters": "फिल्टरहरू देखाउनुहोस्",
+    "hideFilters": "फिल्टरहरू लुकाउनुहोस्",
+    "switchToList": "सूचीमा स्विच गर्नुहोस्",
+    "switchToGrid": "ग्रिडमा स्विच गर्नुहोस्",
+    "creating": "सिर्जना गर्दै...",
+    "updating": "अपडेट गर्दै..."
+  },
+
+  "filters": {
+    "viewMode": "भ्यू मोड",
+    "gridView": "ग्रिड भ्यू",
+    "listView": "सूची भ्यू",
+    "search": "खोज्नुहोस्",
+    "searchPlaceholder": "सामग्री खोज्नुहोस्...",
+    "clearSearch": "खोज सफा गर्नुहोस्",
+    "category": "श्रेणी",
+    "allCategories": "सबै श्रेणीहरू",
+    "status": "स्थिति",
+    "allStatuses": "सबै स्थितिहरू",
+    "visibility": "दृश्यता",
+    "allVisibilities": "सबै दृश्यताहरू",
+    "language": "भाषा",
+    "allLanguages": "सबै भाषाहरू",
+    "dateFrom": "मिति बाट",
+    "dateTo": "मिति सम्म",
+    "tags": "ट्यागहरू",
+    "tagsPlaceholder": "ट्यागहरू लेख्नुहोस्...",
+    "hasFeaturedImage": "फिचर्ड छवि छ",
+    "isPublished": "प्रकाशित छ",
+    "isFeatured": "विशेष छ",
+    "featuredImage": "फिचर्ड छवि",
+    "published": "प्रकाशित",
+    "orderMin": "न्यूनतम क्रम",
+    "orderMax": "अधिकतम क्रम",
+    "showAdvanced": "उन्नत फिल्टरहरू देखाउनुहोस्",
+    "hideAdvanced": "उन्नत फिल्टरहरू लुकाउनुहोस्",
+    "reset": "फिल्टरहरू रीसेट गर्नुहोस्"
+  },
+
+  "status": {
+    "draft": "मस्यौदा",
+    "published": "प्रकाशित",
+    "archived": "अभिलेखमा",
+    "scheduled": "तोकिएको",
+    "loading": "लोड हुँदै..."
+  },
+
+  "visibility": {
+    "public": "सार्वजनिक",
+    "private": "निजी",
+    "roleBased": "भूमिका-आधारित"
+  },
+
+  "form": {
+    "createTitle": "नयाँ सामग्री सिर्जना गर्नुहोस्",
+    "editTitle": "सामग्री सम्पादन गर्नुहोस्",
+    "cancel": "रद्द गर्नुहोस्",
+    "title": {
+      "label": "शीर्षक",
+      "placeholder": {
+        "en": "Enter title in English",
+        "ne": "शीर्षक लेख्नुहोस्"
+      }
+    },
+    "slug": {
+      "label": "स्लग",
+      "placeholder": "URL-मैत्री स्लग लेख्नुहोस्",
+      "helperText": "शीर्षकको URL-मैत्री संस्करण (उदाहरण: 'नयाँ-नीति-घोषणा')"
+    },
+    "slugPlaceholder": "शीर्षकबाट स्वचालित-सिर्जना",
+    "description": "विवरण",
+    "descriptionPlaceholder": "विवरण लेख्नुहोस्",
+    "content": {
+      "label": "सामग्री",
+      "placeholder": {
+        "en": "Enter content in English",
+        "ne": "सामग्री लेख्नुहोस्"
+      }
+    },
+    "excerpt": {
+      "label": "सारांश",
+      "placeholder": {
+        "en": "Enter excerpt in English",
+        "ne": "सारांश लेख्नुहोस्"
+      }
+    },
+    "category": {
+      "label": "श्रेणी"
+    },
+    "tags": "ट्यागहरू",
+    "tagPlaceholder": "एउटा ट्याग लेख्नुहोस् र Enter थिच्नुहोस्",
+    "priority": "प्राथमिकता",
+    "status": {
+      "label": "प्रकाशन स्थिति"
+    },
+    "visibility": "दृश्यता",
+    "featured": {
+      "label": "विशेष"
+    },
+    "notFeatured": "विशेष होइन",
+    "order": {
+      "label": "क्रम",
+      "helperText": "प्रदर्शन क्रम (कम संख्याहरू पहिले देखिन्छन्)"
+    },
+    "author": "लेखक",
+    "publishedAt": "प्रकाशन मिति",
+    "expiresAt": "समाप्ति मिति",
+    "seoTitle": "SEO शीर्षक",
+    "seoTitlePlaceholder": "SEO शीर्षक लेख्नुहोस्",
+    "seoDescription": "SEO विवरण",
+    "seoDescriptionPlaceholder": "SEO विवरण लेख्नुहोस्",
+    "seoKeywords": "SEO कीवर्डहरू",
+    "keywordPlaceholder": "एउटा कीवर्ड लेख्नुहोस् र Enter थिच्नुहोस्",
+    "reset": "रीसेट",
+    "create": "सिर्जना गर्नुहोस्",
+    "update": "अपडेट गर्नुहोस्",
+    "submitting": "पेश गर्दै..."
+  },
+
+  "excerpt": "सारांश",
+  "excerptPlaceholder": "सारांश लेख्नुहोस्",
+  "content": "सामग्री",
+  "contentPlaceholder": "सामग्री लेख्नुहोस्",
+  "category": "श्रेणी",
+
+  "sections": {
+    "basicInfo": "आधारभूत जानकारी",
+    "categoryAndSettings": "श्रेणी र सेटिङहरू",
+    "categorization": "वर्गीकरण",
+    "settings": "सेटिङहरू",
+    "mediaAssets": "मिडिया र सम्पत्तिहरू",
+    "attachments": "संलग्नकहरू",
+    "publishing": "प्रकाशन सेटिङहरू",
+    "seo": "SEO सेटिङहरू",
+    "accessControl": "पहुँच नियन्त्रण"
+  },
+
+  "validation": {
+    "errorsTitle": "प्रमाणीकरण त्रुटिहरू",
+    "titleRequired": "शीर्षक आवश्यक छ",
+    "slugRequired": "स्लग आवश्यक छ",
+    "slugFormat": "स्लगमा केवल सानो अक्षरहरू, संख्याहरू र हाइफनहरू हुन सक्छन्",
+    "excerptRequired": "सारांश आवश्यक छ",
+    "contentRequired": "सामग्री आवश्यक छ",
+    "categoryRequired": "श्रेणी आवश्यक छ",
+    "categoryNameRequired": "श्रेणीको नाम आवश्यक छ (EN/NE)",
+    "orderRange": "क्रम धनात्मक संख्या हुनुपर्छ"
+  },
+
+  "attachments": {
+    "title": "संलग्नकहरू",
+    "subtitle": "यो सामग्रीसँग सम्बन्धित कागजात र फाइलहरू अपलोड गर्नुहोस्",
+    "uploadButton": "फाइलहरू अपलोड गर्नुहोस्",
+    "dragDropText": "यहाँ फाइलहरू तान्नुहोस् र छोड्नुहोस्, वा ब्राउज गर्न क्लिक गर्नुहोस्",
+    "supportedFormats": "समर्थित फारमेटहरू: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, TXT, ZIP, RAR",
+    "maxFileSize": "अधिकतम फाइल साइज: १०MB",
+    "uploading": "अपलोड हुँदै...",
+    "uploadSuccess": "फाइल सफलतापूर्वक अपलोड भयो",
+    "uploadError": "अपलोड असफल भयो",
+    "removeFile": "फाइल हटाउनुहोस्",
+    "downloadFile": "फाइल डाउनलोड गर्नुहोस्",
+    "previewFile": "फाइल पूर्वावलोकन गर्नुहोस्",
+    "fileSize": "फाइल साइज",
+    "uploadDate": "अपलोड मिति",
+    "noAttachments": "अहिलेसम्म कुनै संलग्नक अपलोड गरिएको छैन",
+    "createFirst": "कृपया पहिला सामग्री सिर्जना/सेभ गर्नुहोस्, त्यसपछि संलग्नकहरू अपलोड गर्नुहोस्।",
+    "reorder": "क्रम बदल्नुहोस्",
+    "reorderTitle": "संलग्नकहरूको क्रम बदल्नुहोस्",
+    "reorderDescription": "संलग्नकहरूको प्रदर्शन क्रम सेट गर्नुहोस्। कम संख्याहरू पहिले देखिन्छन्।",
+    "saveOrder": "क्रम सेभ गर्नुहोस्",
+    "cancel": "रद्द गर्नुहोस्",
+    "list": {
+      "title": "संलग्नकहरू"
+    },
+    "table": {
+      "preview": "पूर्वावलोकन",
+      "fileName": "फाइल नाम",
+      "fileSize": "साइज",
+      "fileType": "प्रकार",
+      "order": "क्रम",
+      "createdAt": "सिर्जना गरिएको",
+      "actions": "कार्यहरू",
+      "actionItems": {
+        "menu": "कार्यहरूको मेनु",
+        "edit": "सम्पादन गर्नुहोस्",
+        "download": "डाउनलोड गर्नुहोस्",
+        "delete": "मेटाउनुहोस्"
+      }
+    },
+    "contentSelector": {
+      "placeholder": "संलग्नकहरू व्यवस्थापन गर्न सामग्री छान्नुहोस्...",
+      "title": "सामग्री छान्नुहोस्",
+      "help": "यसको संलग्नकहरू व्यवस्थापन गर्न सामग्री वस्तु छान्नुहोस्"
+    },
+    "noContent": {
+      "title": "सामग्री छान्नुहोस्",
+      "message": "कृपया माथिको ड्रपडाउनबाट सामग्री वस्तु छान्नुहोस् जसको संलग्नकहरू व्यवस्थापन गर्नुहुन्छ।"
+    },
+    "empty": {
+      "title": "कुनै संलग्नकहरू छैनन्",
+      "message": "यो सामग्रीमा अहिलेसम्म कुनै संलग्नकहरू छैनन्। सुरु गर्न केही फाइलहरू अपलोड गर्नुहोस्।",
+      "noContentSelected": "कुनै सामग्री छानिएको छैन",
+      "selectContentMessage": "यसका संलग्नकहरू हेर्न र व्यवस्थापन गर्न माथिको ड्रपडाउनबाट सामग्री छान्नुहोस्।"
+    },
+    "status": {
+      "loading": "संलग्नकहरू लोड हुँदै..."
+    },
+    "errors": {
+      "title": "संलग्नकहरू लोड गर्न त्रुटि"
+    },
+    "actions": {
+      "upload": "फाइलहरू अपलोड गर्नुहोस्"
+    },
+    "upload": {
+      "title": "फाइलहरू अपलोड गर्नुहोस्",
+      "subtitle": "फाइलहरू यहाँ तान्नुहोस् र छोड्नुहोस् वा ब्राउज गर्न क्लिक गर्नुहोस्",
+      "dragDrop": "फाइलहरू यहाँ तान्नुहोस् र छोड्नुहोस् वा ब्राउज गर्न क्लिक गर्नुहोस्",
+      "supportedTypes": "समर्थित: कागजातहरू, छविहरू, ध्वनिहरू, भिडियोहरू, अभिलेखहरू (अधिकतम 50MB)",
+      "browse": "फाइलहरू ब्राउज गर्नुहोस्",
+      "basicInfo": "आधारभूत जानकारी",
+      "fileLabel": "फाइल(हरू)",
+      "filePlaceholder": "फाइल(हरू)",
+      "selectFiles": "कृपया कम्तिमा एउटा फाइल छान्नुहोस्",
+      "chooseFiles": "फाइलहरू छान्नुहोस्"
+    },
+    "preview": {
+      "loading": "पूर्वावलोकन लोड हुँदै...",
+      "error": "पूर्वावलोकन उपलब्ध छैन",
+      "view": "हेर्नुहोस्",
+      "download": "डाउनलोड गर्नुहोस्"
+    },
+    "modal": {
+      "title": "संलग्नकहरू व्यवस्थापन गर्नुहोस्",
+      "subtitle": "सामग्री संलग्नकहरू अपलोड र व्यवस्थापन गर्नुहोस्",
+      "formTitle": "संलग्नक व्यवस्थापन",
+      "close": "बन्द गर्नुहोस्",
+      "cancel": "रद्द गर्नुहोस्"
+    }
+  },
+
+  "table": {
+    "headers": {
+      "title": "शीर्षक",
+      "slug": "स्लग",
+      "category": "श्रेणी",
+      "status": "स्थिति",
+      "order": "क्रम",
+      "visibility": "दृश्यता",
+      "author": "लेखक",
+      "createdAt": "सिर्जना गरिएको",
+      "views": "देखावटहरू",
+      "attachments": "संलग्नकहरू",
+      "actions": "कार्यहरू"
+    },
+    "actions": {
+      "menu": "कार्यहरूको मेनु",
+      "edit": "सम्पादन गर्नुहोस्",
+      "duplicate": "डुप्लिकेट गर्नुहोस्",
+      "archive": "अभिलेखमा राख्नुहोस्",
+      "delete": "मेटाउनुहोस्",
+      "attachments": "संलग्नकहरू",
+      "manageAttachments": "संलग्नकहरू व्यवस्थापन गर्नुहोस्"
+    }
+  },
+
+  "card": {
+    "actions": {
+      "menu": "सामग्री कार्यहरूको मेनु",
+      "edit": "सम्पादन गर्नुहोस्",
+      "duplicate": "डुप्लिकेट गर्नुहोस्",
+      "archive": "अभिलेखमा राख्नुहोस्",
+      "delete": "मेटाउनुहोस्"
+    }
+  },
+
+  "statistics": {
+    "title": "सामग्री तथ्यांक",
+    "subtitle": "तपाईंको सामग्री प्रदर्शनको अवलोकन",
+    "total": "कुल सामग्री",
+    "totalDescription": "सिस्टममा सबै सामग्री वस्तुहरू",
+    "published": "प्रकाशित",
+    "publishedDescription": "साइटमा हाल लाइभ भएका सामग्रीहरू",
+    "draft": "मस्यौदा",
+    "draftDescription": "काम गरिँदै गरेका सामग्रीहरू",
+    "archived": "अभिलेखमा",
+    "archivedDescription": "अब सक्रिय नभएका सामग्रीहरू",
+    "totalViews": "कुल देखावटहरू",
+    "totalViewsDescription": "सबै सामग्रीमा संयुक्त देखावट गणना",
+    "averageViews": "औसत देखावटहरू",
+    "averageViewsDescription": "प्रति सामग्री वस्तु औसत देखावटहरू",
+    "totalContent": "कुल सामग्री",
+    "totalLikes": "कुल मन पराउनेहरू",
+    "totalShares": "कुल शेयरहरू",
+    "categoryBreakdown": "श्रेणी विभाजन",
+    "byCategory": "श्रेणी अनुसार",
+    "topViewed": "सबैभन्दा धेरै हेरिएका सामग्रीहरू",
+    "topViewedContent": "सबैभन्दा धेरै हेरिएका सामग्रीहरू",
+    "recentActivity": "हालैको गतिविधि",
+    "content": "सामग्री",
+    "views": "देखावटहरू"
+  },
+
+  "categories": {
+    "general": "सामान्य",
+    "news": "समाचार",
+    "tutorials": "ट्युटोरियलहरू",
+    "technology": "प्रविधि",
+    "list": {
+      "title": "श्रेणीहरू",
+      "empty": "अहिलेसम्म कुनै श्रेणी छैन",
+      "emptyDescription": "सामग्री व्यवस्थापनका लागि पहिलो श्रेणी सिर्जना गर्नुहोस्।"
+    },
+    "subtitle": "सामग्रीका श्रेणीहरू व्यवस्थापन गर्नुहोस्",
+    "actions": {
+      "createNew": "नयाँ श्रेणी",
+      "creating": "सिर्जना गर्दै...",
+      "updating": "अपडेट गर्दै..."
+    },
+    "form": {
+      "createTitle": "श्रेणी सिर्जना गर्नुहोस्",
+      "editTitle": "श्रेणी सम्पादन गर्नुहोस्",
+      "create": "सिर्जना गर्नुहोस्",
+      "update": "अपडेट गर्नुहोस्",
+      "name": {
+        "label": "नाम",
+        "placeholder": {
+          "en": "English",
+          "ne": "नेपाली"
+        }
+      },
+      "parent": { "label": "मुख्य श्रेणी" },
+      "order": { "label": "क्रम" },
+      "isActive": { "label": "सक्रिय" }
+    },
+    "sections": {
+      "basicInfo": "आधारभूत जानकारी"
+    },
+    "card": {
+      "parent": "मुख्य",
+      "active": "सक्रिय",
+      "inactive": "निष्क्रिय",
+      "actions": "कार्यहरू",
+      "edit": "सम्पादन",
+      "delete": "मेटाउनुहोस्"
+    }
+  },
+
+  "activity": {
+    "created": "सिर्जना गरियो",
+    "updated": "अपडेट गरियो",
+    "published": "प्रकाशित गरियो",
+    "archived": "अभिलेखमा राखियो",
+    "deleted": "मेटियो"
+  },
+
+  "languages": {
+    "english": "English",
+    "nepali": "नेपाली"
+  },
+
+  "empty": {
+    "title": "कुनै सामग्री फेला परेनन्",
+    "message": "सुरु गर्न आफ्नो पहिलो सामग्री सिर्जना गर्नुहोस्"
+  },
+
+  "common": {
+    "loading": "लोड हुँदै...",
+    "noData": "कुनै सामग्री फेला परेनन्",
+    "error": "एउटा त्रुटि भयो",
+    "success": "कार्य सफलतापूर्वक पूरा भयो",
+    "confirm": "पुष्टि गर्नुहोस्",
+    "yes": "हो",
+    "no": "होइन"
+  },
+
+  "list": {
+    "title": "सामग्रीहरू"
+  }
+} 

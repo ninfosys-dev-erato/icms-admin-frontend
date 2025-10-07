@@ -1,0 +1,239 @@
+/* IBM Products Side Panel Override */
+.c4p--side-panel.c4p--side-panel--slide-in,
+.c4p--side-panel:not(.c4p--side-panel--has-overlay) {
+  z-index: 6000;
+  box-shadow: none !important;
+}
+
+/* Main Container */
+.office-description-container {
+  background-color: var(--cds-ui-02);
+  min-height: 100vh;
+}
+
+/* Translatable Field Styling */
+.translatable-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--cds-ui-03);
+  margin-bottom: 1rem;
+}
+
+.tab-button {
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: var(--cds-text-02);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  font-weight: 400;
+}
+
+.tab-button:hover:not(:disabled) {
+  color: var(--cds-text-01);
+  background-color: var(--cds-ui-02);
+}
+
+.tab-button.active {
+  color: var(--cds-interactive-01);
+  border-bottom-color: var(--cds-interactive-01);
+  font-weight: 600;
+}
+
+.tab-button:disabled {
+  color: var(--cds-text-03);
+  cursor: not-allowed;
+}
+
+.tab-content {
+  padding: 0;
+}
+
+.translatable-field {
+  margin-bottom: 1rem;
+}
+
+/* Search Box Styling */
+.search-box {
+  margin-bottom: 1rem;
+}
+
+/* Card Layout - Using HR Card Patterns */
+.office-description-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  justify-content: flex-start;
+}
+
+.office-description-flex-item {
+  flex: 1 1 calc(25% - 0.75rem);
+  min-width: 280px;
+  max-width: 340px;
+}
+
+@media (max-width: 1200px) {
+  .office-description-flex-item {
+    flex: 1 1 calc(33.333% - 0.667rem);
+  }
+}
+
+@media (max-width: 900px) {
+  .office-description-flex-item {
+    flex: 1 1 calc(50% - 0.5rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .office-description-flex-item {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+/* Office Description Card Styling */
+.office-description-card {
+  background-color: var(--cds-ui-01);
+  border: 1px solid var(--cds-ui-03);
+  border-radius: 0;
+  padding: 0;
+  transition: all 0.1s ease;
+  position: relative;
+  height: 100%;
+}
+
+.office-description-card:hover {
+  border-color: var(--cds-interactive-01);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-content {
+  background-color: var(--cds-ui-01);
+  padding: 1rem;
+  text-align: left;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.card-title-section {
+  flex: 1;
+}
+
+.type-badge {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-overflow-menu {
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+
+.office-description-card:hover .card-overflow-menu {
+  opacity: 1;
+}
+
+.card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-content-text {
+  font-size: 0.875rem;
+  color: var(--cds-text-02);
+  margin: 0;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.content-english {
+  margin-bottom: 0.5rem;
+  color: var(--cds-text-01);
+  font-weight: 500;
+}
+
+.content-nepali {
+  color: var(--cds-text-02);
+  font-size: 0.8rem;
+}
+
+/* Empty State Styling */
+.empty-state {
+  background-color: var(--cds-ui-01);
+  border: 1px solid var(--cds-ui-03);
+  border-radius: 0;
+  padding: 3rem 2rem;
+  margin: 1rem 0;
+  text-align: left;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 300px;
+}
+
+.empty-state-content {
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.empty-state-icon {
+  color: var(--cds-text-03);
+}
+
+.empty-state-title {
+  font-weight: 400;
+  color: var(--cds-text-01);
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.empty-state-description {
+  font-size: 0.875rem;
+  color: var(--cds-text-02);
+  margin: 0 0 1.5rem 0;
+  line-height: 1.5;
+  text-align: left;
+}
+
+/* List Styling */
+.office-description-list {
+  margin-top: 1rem;
+}
+
+/* Font Classes */
+.font-en {
+  font-family:
+    "IBM Plex Sans",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+.font-ne {
+  font-family: "Noto Sans Devanagari", "IBM Plex Sans Devanagari", sans-serif;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .office-description-container {
+    padding: 1rem 0.5rem;
+  }
+}

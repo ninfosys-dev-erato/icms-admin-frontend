@@ -1,0 +1,98 @@
+{
+  "title": "Users",
+  "subtitle": "Manage users, roles and access.",
+  "breadcrumbs": { "home": "Home" },
+
+  "sections": {
+    "basicInfo": "Basic information"
+  },
+
+  "form": {
+    "createTitle": "Create user",
+    "editTitle": "Edit user",
+    "email": { "label": "Email", "placeholder": "user@example.com", "validation": { "required": "Valid email is required" } },
+    "password": {
+      "labelCreate": "Password",
+      "labelEdit": "Password (leave blank to keep)",
+      "validation": { "minLength": "Password must be at least 8 characters" }
+    },
+    "firstName": { "label": "First name", "validation": { "required": "First name is required" } },
+    "lastName": { "label": "Last name", "validation": { "required": "Last name is required" } },
+    "role": { "label": "Role" },
+    "isActive": { "label": "Active" }
+  },
+
+  "roles": {
+    "admin": "Admin",
+    "editor": "Editor",
+    "viewer": "Viewer"
+  },
+
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "pending": "Pending",
+    "loading": "Loading"
+  },
+
+  "filters": {
+    "search": "Search",
+    "searchPlaceholder": "Search by name or email",
+    "role": "Role",
+    "status": "Status",
+    "allRoles": "All roles",
+    "allStatus": "All status",
+    "reset": "Reset"
+  },
+
+  "actions": {
+    "create": "Create user",
+    "creating": "Creating",
+    "update": "Save changes",
+    "updating": "Saving",
+    "cancel": "Cancel",
+    "reset": "Reset",
+    "edit": "Edit",
+    "delete": "Delete",
+    "activate": "Activate",
+    "deactivate": "Deactivate"
+  },
+
+  "table": {
+    "headers": {
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "lastLogin": "Last login"
+    },
+    "actions": {
+      "menu": "Actions",
+      "edit": "Edit",
+      "delete": "Delete",
+      "activate": "Activate",
+      "deactivate": "Deactivate"
+    }
+  },
+
+  "selection": {
+    "count": "{count} selected"
+  },
+
+  "statistics": {
+    "title": "User Statistics",
+    "total": "Total Users",
+    "active": "Active",
+    "inactive": "Inactive",
+    "pending": "Pending"
+  },
+
+  "detail": {
+    "role": "Role",
+    "lastLogin": "Last login",
+    "created": "Created",
+    "updated": "Updated"
+  }
+}
+
+

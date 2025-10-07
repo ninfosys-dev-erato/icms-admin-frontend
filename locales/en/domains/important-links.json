@@ -1,0 +1,200 @@
+{
+  "title": "Important Links",
+  "subtitle": "Manage important links, URLs and visibility for the website.",
+  "breadcrumbs": {
+    "home": "Home"
+  },
+  
+  "sections": {
+    "basicInfo": "Basic Information"
+  },
+  
+  "form": {
+    "createTitle": "New Important Link",
+    "editTitle": "Edit Important Link",
+    "linkTitle": {
+      "label": "Link Title",
+      "placeholder": {
+        "en": "English title",
+        "ne": "Nepali title"
+      },
+      "validation": {
+        "required": "Title is required in at least one language"
+      }
+    },
+    "linkUrl": {
+      "label": "Link URL",
+      "placeholder": "https://example.com",
+      "iconDescription": "Link icon",
+      "validation": {
+        "required": "URL is required",
+        "invalid": "Please enter a valid URL"
+      }
+    },
+    "order": {
+      "label": "Order",
+      "helper": "Display order (1 = first)",
+      "validation": {
+        "minimum": "Must be 1 or more"
+      }
+    },
+    "isActive": {
+      "label": "Active"
+    }
+  },
+  
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "loading": "Loading..."
+  },
+  
+  "empty": {
+    "title": "No important links yet",
+    "message": "Create your first important link to get started with your website navigation.",
+    "filteredTitle": "No {status} links found",
+    "filteredMessage": "Try adjusting your filters or create a new link.",
+    "searchTitle": "No results for '{term}'",
+    "searchMessage": "Try adjusting your search terms or create a new link."
+  },
+  
+  "create": {
+    "success": {
+      "title": "Created",
+      "message": "Important link created successfully!"
+    }
+  },
+  
+  "update": {
+    "success": {
+      "title": "Updated",
+      "message": "Important link updated successfully!"
+    }
+  },
+  
+  "actions": {
+    "createNew": "New Link",
+    "creating": "Creating...",
+    "edit": "Edit",
+    "update": "Update",
+    "updating": "Updating...",
+    "cancel": "Cancel",
+    "reset": "Reset",
+    "delete": "Delete",
+    "view": "View",
+    "openLink": "Open Link",
+    "publish": "Publish",
+    "unpublish": "Unpublish",
+    "reorder": "Reorder",
+    "showStats": "Show Statistics",
+    "hideStats": "Hide Statistics"
+  },
+
+  "filters": {
+    "status": "Status",
+    "all": "All",
+    "reset": "Reset"
+  },
+
+  "search": {
+    "placeholder": "Search important links..."
+  },
+  
+  "errors": {
+    "title": "Error",
+    "operationFailed": "Operation failed",
+    "loadFailed": "Failed to load important links",
+    "deleteConfirmation": "Are you sure you want to delete this important link?",
+    "bulkDeleteConfirmation": "Are you sure you want to delete {count} important links?"
+  },
+
+  "delete": {
+    "title": "Confirm Deletion",
+    "confirmation": "Are you sure you want to delete \"{title}\"? This action cannot be undone."
+  },
+
+  "notifications": {
+    "created": "Important link created successfully",
+    "updated": "Important link updated successfully",
+    "deleted": "Important link deleted successfully",
+    "published": "Important link published successfully",
+    "unpublished": "Important link unpublished successfully",
+    "reordered": "Important links reordered successfully"
+  },
+
+  "statistics": {
+    "title": "Important Links Statistics",
+    "subtitle": "Overview of important links and usage",
+    "total": "Total Links",
+    "totalDescription": "Total number of important links",
+    "active": "Active",
+    "activeDescription": "Currently active links",
+    "inactive": "Inactive",
+    "inactiveDescription": "Currently inactive links",
+    "lastUpdated": "Last Updated",
+    "lastUpdatedDescription": "Last modification date",
+    "never": "Never",
+    "insights": "Additional Insights",
+    "activePercentage": "Active Percentage",
+    "inactivePercentage": "Inactive Percentage",
+    "averageOrder": "Average Order"
+  },
+
+  "list": {
+    "noResults": "No important links found",
+    "loading": "Loading important links...",
+    "error": "Error loading important links"
+  },
+
+  "languages": {
+    "english": "English",
+    "nepali": "Nepali"
+  },
+
+  "table": {
+    "actions": {
+      "menu": "Link actions",
+      "edit": "Edit",
+      "view": "View",
+      "openLink": "Open Link",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "delete": "Delete"
+    },
+    "noTitle": "Untitled Link"
+  },
+
+  "bulk": {
+    "operations": {
+      "publish": "Publish Selected",
+      "unpublish": "Unpublish Selected",
+      "delete": "Delete Selected",
+      "reorder": "Reorder Selected"
+    },
+    "confirmations": {
+      "publish": "Publish {count} important links?",
+      "unpublish": "Unpublish {count} important links?",
+      "delete": "Delete {count} important links?",
+      "reorder": "Reorder {count} important links?"
+    }
+  },
+
+  "import": {
+    "title": "Import Important Links",
+    "subtitle": "Upload a CSV file to import multiple links",
+    "file": "Choose CSV file",
+    "upload": "Upload",
+    "uploading": "Uploading...",
+    "success": "Import completed successfully",
+    "error": "Import failed"
+  },
+
+  "export": {
+    "title": "Export Important Links",
+    "subtitle": "Download all important links as CSV",
+    "download": "Download CSV",
+    "downloading": "Preparing download...",
+    "success": "Export completed successfully",
+    "error": "Export failed"
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "title": "Office Descriptions",
+  "subtitle": "Manage different types of office descriptions and content",
+  "breadcrumbs": {
+    "home": "Home"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "officeDescriptions": "Office Descriptions"
+  },
+  "filters": {
+    "search": "Search",
+    "searchPlaceholder": "Search descriptions...",
+    "type": "Type",
+    "allTypes": "All Types",
+    "reset": "Reset"
+  },
+  "types": {
+    "INTRODUCTION": "Introduction",
+    "OBJECTIVE": "Objective",
+    "WORK_DETAILS": "Work Details",
+    "ORGANIZATIONAL_STRUCTURE": "Organizational Structure",
+    "DIGITAL_CHARTER": "Digital Charter",
+    "EMPLOYEE_SANCTIONS": "Employee Sanctions"
+  },
+  "actions": {
+    "createNew": "Create New",
+    "edit": "Edit",
+    "update": "Update",
+    "updating": "Updating...",
+    "creating": "Creating...",
+    "cancel": "Cancel"
+  },
+  "sections": {
+    "basicInfo": "Basic Information"
+  },
+  "form": {
+    "createTitle": "Create Office Description",
+    "editTitle": "Edit Office Description",
+    "saving": "Saving...",
+    "reset": "Reset",
+    "type": {
+      "label": "Description Type",
+      "placeholder": "Select a description type"
+    },
+    "content": {
+      "label": "Content",
+      "placeholder": {
+        "en": "Enter content in English",
+        "ne": "Enter content in Nepali"
+      }
+    }
+  },
+  "list": {
+    "title": "Office Descriptions",
+    "subtitle": "All available office descriptions"
+  },
+  "card": {
+    "actions": "Actions",
+    "edit": "Edit",
+    "noContent": "No content available"
+  },
+  "empty": {
+    "title": "No Office Descriptions",
+    "message": "No office descriptions found. Create your first description to get started."
+  },
+  "errors": {
+    "title": "Error",
+    "validation": {
+      "typeRequired": "Description type is required",
+      "contentRequired": "Content is required in at least one language"
+    }
+  }
+} 
