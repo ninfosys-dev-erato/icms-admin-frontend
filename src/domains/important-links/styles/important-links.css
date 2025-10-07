@@ -25,7 +25,10 @@
 .important-links-toggle-margin {
   margin-top: 1.5rem;
 }
-
+.important-links-form-action-bar{
+  display: flex;
+  justify-content: flex-end;
+}
 /* NumberInput Full Width for Create/Edit Form */
 .important-links-number-input {
   width: 100%;
