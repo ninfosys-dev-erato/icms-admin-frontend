@@ -133,6 +133,9 @@
     },
     "description": {
       "label": "Description",
+      "validation": {
+        "required": "Description is required in both languages"
+      },
       "placeholder": {
         "en": "Enter document description in English",
         "ne": "Enter document description in Nepali"

@@ -71,8 +71,10 @@ export const DocumentEditForm: React.FC<DocumentEditFormProps> = ({
 
   // Validation state
   const [validationErrors, setValidationErrors] = useState<
-    Record<string, string>
+    Record<string, string | { en?: string; ne?: string }>
   >({});
+  const [titleTab, setTitleTab] = useState<"en" | "ne">("en");
+  const [descTab, setDescTab] = useState<"en" | "ne">("en");
   const [tags, setTags] = useState<string[]>(
     formState?.tags || document.tags || []
   );
@@ -146,14 +148,38 @@ export const DocumentEditForm: React.FC<DocumentEditFormProps> = ({
   }, [document.id, formState, updateFormFieldById]);
 
   const validateForm = (): boolean => {
-    const errors: Record<string, string> = {};
+    const errors: Record<string, string | { en?: string; ne?: string }> = {};
+    let firstInvalidTitleLang: "en" | "ne" | null = null;
+    let firstInvalidDescLang: "en" | "ne" | null = null;
 
-    // Validate title
+    // Validate title (per language, only first error shown)
     if (!formState?.title?.en?.trim()) {
-      errors.title = t("form.title.validation.required");
+      errors.title = {
+        ...((errors.title as any) || {}),
+        en: t("form.title.validation.required"),
+      };
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "en";
+    } else if (!formState?.title?.ne?.trim()) {
+      errors.title = {
+        ...((errors.title as any) || {}),
+        ne: t("form.title.validation.required"),
+      };
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "ne";
     }
-    if (!formState?.title?.ne?.trim()) {
-      errors.title = t("form.title.validation.required");
+
+    // Validate description (per language, only first error shown)
+    if (!formState?.description?.en?.trim()) {
+      errors.description = {
+        ...((errors.description as any) || {}),
+        en: t("form.description.validation.required"),
+      };
+      if (!firstInvalidDescLang) firstInvalidDescLang = "en";
+    } else if (!formState?.description?.ne?.trim()) {
+      errors.description = {
+        ...((errors.description as any) || {}),
+        ne: t("form.description.validation.required"),
+      };
+      if (!firstInvalidDescLang) firstInvalidDescLang = "ne";
     }
 
     // Validate category
@@ -172,6 +198,8 @@ export const DocumentEditForm: React.FC<DocumentEditFormProps> = ({
     }
 
     setValidationErrors(errors);
+    if (firstInvalidTitleLang) setTitleTab(firstInvalidTitleLang);
+    if (firstInvalidDescLang) setDescTab(firstInvalidDescLang);
     return Object.keys(errors).length === 0;
   };
 
@@ -397,7 +425,14 @@ export const DocumentEditForm: React.FC<DocumentEditFormProps> = ({
                 ne: t("form.title.placeholder.ne"),
               }}
               invalid={!!validationErrors.title}
-              invalidText={validationErrors.title}
+              invalidText={
+                validationErrors.title &&
+                typeof validationErrors.title === "object"
+                  ? validationErrors.title.en || validationErrors.title.ne
+                  : validationErrors.title
+              }
+              activeTab={titleTab}
+              setActiveTab={setTitleTab}
               required
             />
 
@@ -413,6 +448,16 @@ export const DocumentEditForm: React.FC<DocumentEditFormProps> = ({
                 ne: t("form.description.placeholder.ne"),
               }}
               type="textarea"
+              invalid={!!validationErrors.description}
+              invalidText={
+                validationErrors.description &&
+                typeof validationErrors.description === "object"
+                  ? validationErrors.description.en ||
+                    validationErrors.description.ne
+                  : validationErrors.description
+              }
+              activeTab={descTab}
+              setActiveTab={setDescTab}
             />
 
             {/* Category and Status */}
@@ -426,7 +471,11 @@ export const DocumentEditForm: React.FC<DocumentEditFormProps> = ({
                     handleInputChange("category", event.target.value)
                   }
                   invalid={!!validationErrors.category}
-                  invalidText={validationErrors.category}
+                  invalidText={
+                    typeof validationErrors.category === "string"
+                      ? validationErrors.category
+                      : undefined
+                  }
                   required
                 >
                   {Object.values(DocumentCategory).map((category) => (
@@ -448,7 +497,11 @@ export const DocumentEditForm: React.FC<DocumentEditFormProps> = ({
                     handleInputChange("status", event.target.value)
                   }
                   invalid={!!validationErrors.status}
-                  invalidText={validationErrors.status}
+                  invalidText={
+                    typeof validationErrors.status === "string"
+                      ? validationErrors.status
+                      : undefined
+                  }
                   required
                 >
                   {Object.values(DocumentStatus).map((status) => (
@@ -542,7 +595,11 @@ export const DocumentEditForm: React.FC<DocumentEditFormProps> = ({
                 min={0}
                 step={1}
                 invalid={!!validationErrors.order}
-                invalidText={validationErrors.order}
+                invalidText={
+                  typeof validationErrors.order === "string"
+                    ? validationErrors.order
+                    : undefined
+                }
               />
             </div>
 
