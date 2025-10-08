@@ -4,14 +4,12 @@
   "breadcrumbs": {
     "home": "Home"
   },
-  
   "sections": {
     "basicInfo": "Basic Information",
     "menuItems": "Menu Items",
     "structure": "Menu Structure",
     "menuItemInfo": "Menu Item Information"
   },
-  
   "form": {
     "createTitle": "Create New Menu",
     "editTitle": "Edit Menu",
@@ -29,8 +27,8 @@
     "description": {
       "label": "Description",
       "placeholder": {
-        "en": "Enter menu description in English",
-        "ne": "Enter menu description in Nepali"
+        "en": "Enter item description in English",
+        "ne": "Enter item description in Nepali"
       }
     },
     "location": {
@@ -58,7 +56,6 @@
       "label": "Published"
     }
   },
-  
   "status": {
     "active": "Active",
     "inactive": "Inactive",
@@ -68,28 +65,24 @@
     "draft": "Draft",
     "loading": "Loading..."
   },
-  
   "empty": {
     "title": "No menus yet",
     "message": "Create your first menu to get started with navigation management.",
     "filteredTitle": "No {status} menus found",
     "filteredMessage": "Try adjusting your filters to see more results."
   },
-  
   "create": {
     "success": {
       "title": "Created",
       "message": "Menu created successfully!"
     }
   },
-  
   "update": {
     "success": {
       "title": "Updated",
       "message": "Menu updated successfully!"
     }
   },
-  
   "actions": {
     "createNew": "Create New Menu",
     "creating": "Creating...",
@@ -106,14 +99,12 @@
     "backToMenus": "Back to Menus",
     "create": "Create"
   },
-
   "filters": {
     "status": "Status",
     "location": "Location",
     "all": "All",
     "reset": "Reset Filters"
   },
-  
   "errors": {
     "title": "Error",
     "operationFailed": "Operation failed",
@@ -121,7 +112,6 @@
     "deleteConfirmation": "Are you sure you want to delete this menu?",
     "bulkDeleteConfirmation": "Are you sure you want to delete {count} menus?"
   },
-
   "notifications": {
     "created": "Menu created successfully",
     "updated": "Menu updated successfully",
@@ -132,7 +122,6 @@
     "menuItemUpdated": "Menu item updated successfully",
     "menuItemDeleted": "Menu item deleted successfully"
   },
-
   "statistics": {
     "title": "Navigation Statistics",
     "subtitle": "Overview of navigation performance and usage",
@@ -150,18 +139,15 @@
     "location": "Location",
     "menus": "menus"
   },
-
   "list": {
     "noResults": "No menus found",
     "loading": "Loading menus...",
     "error": "Error loading menus"
   },
-
   "languages": {
     "english": "English",
     "nepali": "Nepali"
   },
-
   "table": {
     "noName": "Untitled",
     "items": "items",
@@ -174,7 +160,6 @@
       "delete": "Delete"
     }
   },
-
   "menuItems": {
     "title": "Menu Items",
     "subtitle": "Manage the structure and hierarchy of menu items",
@@ -302,7 +287,6 @@
       "error": "Failed to delete menu item \"{title}\""
     }
   },
-
   "locations": {
     "HEADER": "Header",
     "FOOTER": "Footer",
@@ -310,12 +294,21 @@
     "MOBILE": "Mobile",
     "CUSTOM": "Custom"
   },
-
   "delete": {
     "confirmation": "Are you sure you want to delete \"{title}\"? This action cannot be undone."
   },
-
   "bulk": {
     "deleteConfirmation": "Are you sure you want to delete {count} menus?"
+  },
+  "modals": {
+    "confirm": { "title": "Confirm Deletion" },
+    "deleteMenu": {
+      "title": "Delete \"{name}\"",
+      "subtitle": "Are you sure you want to delete \"{name}\"? This action cannot be undone."
+    },
+    "deleteMenuItem": {
+      "title": "Delete \"{name}\"",
+      "subtitle": "Are you sure you want to delete \"{name}\"? This action cannot be undone."
+    }
   }
 }
