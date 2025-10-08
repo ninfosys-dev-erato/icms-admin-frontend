@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import type { TranslatableEntity } from "@/domains/content-management/types/content";
 import {
   Button,
   Column,
@@ -18,7 +19,7 @@ import { useTranslations } from "next-intl";
 import { Reset, Image as ImageIcon } from "@carbon/icons-react";
 import { useMediaStore } from "../stores/media-store";
 import { useUpdateMedia } from "../hooks/use-media-queries";
-import { TranslatableField } from "@/components/shared/translatable-field";
+import TranslatableField from "@/components/shared/translatable-field";
 // no file upload in edit mode
 import type { Media } from "../types/media";
 import MediaUrlService from "@/services/media-url-service";
@@ -44,19 +45,73 @@ export const MediaEditForm: React.FC<{
     isPublic: !!media.isPublic,
     isActive: !!media.isActive,
   };
-  const [validationErrors, setValidationErrors] = useState<
-    Record<string, string>
-  >({});
+  // Single errors state for robust validation
+  const [errors, setErrors] = useState<Record<string, any>>({});
+  const [titleTab, setTitleTab] = useState<"en" | "ne">("en");
+  const [descTab, setDescTab] = useState<"en" | "ne">("en");
+  const [altTab, setAltTab] = useState<"en" | "ne">("en");
   const updateMutation = useUpdateMedia();
   const t = useTranslations("media");
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isPreviewLoading, setIsPreviewLoading] = useState<boolean>(false);
 
+  // Robust per-language validation and tab switching
   const validate = (): boolean => {
-    const errors: Record<string, string> = {};
-    if (!formData.folder) errors.folder = t("form.validation.folderRequired");
-    setValidationErrors(errors);
-    return Object.keys(errors).length === 0;
+    const errs: Record<string, any> = {};
+    let firstInvalidTitleLang: "en" | "ne" | null = null;
+    let firstInvalidDescLang: "en" | "ne" | null = null;
+    let firstInvalidAltLang: "en" | "ne" | null = null;
+
+    const title = formData.title ?? { en: "", ne: "" };
+    const description = formData.description ?? { en: "", ne: "" };
+    const altText = formData.altText ?? { en: "", ne: "" };
+
+    // Title validation
+    if (!title.en?.trim()) {
+      errs.title = {
+        ...(errs.title || {}),
+        en: t("form.validation.titleRequired.en"),
+      };
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "en";
+    }
+    if (!title.ne?.trim()) {
+      errs.title = {
+        ...(errs.title || {}),
+        ne: t("form.validation.titleRequired.ne"),
+      };
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "ne";
+    }
+
+    // Description validation (if required)
+    // if (!description.en?.trim()) {
+    //   errs.description = { ...(errs.description || {}), en: t("form.validation.descriptionRequiredEn") };
+    //   if (!firstInvalidDescLang) firstInvalidDescLang = "en";
+    // }
+    // if (!description.ne?.trim()) {
+    //   errs.description = { ...(errs.description || {}), ne: t("form.validation.descriptionRequiredNe") };
+    //   if (!firstInvalidDescLang) firstInvalidDescLang = "ne";
+    // }
+
+    // AltText validation (if required)
+    // if (!altText.en?.trim()) {
+    //   errs.altText = { ...(errs.altText || {}), en: t("form.validation.altTextRequiredEn") };
+    //   if (!firstInvalidAltLang) firstInvalidAltLang = "en";
+    // }
+    // if (!altText.ne?.trim()) {
+    //   errs.altText = { ...(errs.altText || {}), ne: t("form.validation.altTextRequiredNe") };
+    //   if (!firstInvalidAltLang) firstInvalidAltLang = "ne";
+    // }
+
+    if (!formData.folder) errs.folder = t("form.validation.folderRequired");
+
+    setErrors(errs);
+
+    // Switch tabs for first invalid language in each field
+    if (firstInvalidTitleLang) setTitleTab(firstInvalidTitleLang);
+    if (firstInvalidDescLang) setDescTab(firstInvalidDescLang);
+    if (firstInvalidAltLang) setAltTab(firstInvalidAltLang);
+
+    return Object.keys(errs).length === 0;
   };
 
   useEffect(() => {
@@ -98,12 +153,12 @@ export const MediaEditForm: React.FC<{
     if (form) {
       form.addEventListener("submit", handler);
     }
-    container?.addEventListener('media:submit', custom as any);
+    container?.addEventListener("media:submit", custom as any);
     return () => {
       if (form) form.removeEventListener("submit", handler);
-      container?.removeEventListener('media:submit', custom as any);
+      container?.removeEventListener("media:submit", custom as any);
+      mounted = false;
     };
-    return undefined;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [media.id, media.presignedUrl, media.url, formData]);
 
@@ -115,7 +170,7 @@ export const MediaEditForm: React.FC<{
     }
     try {
       await updateMutation.mutateAsync({ id: media.id, data: formData as any });
-      setValidationErrors({});
+      setErrors({});
       onSuccess?.();
     } catch (err) {
       // handled upstream
@@ -134,7 +189,7 @@ export const MediaEditForm: React.FC<{
           renderIcon={Reset}
           onClick={() => {
             resetFormState(media.id);
-            setValidationErrors({});
+            setErrors({});
           }}
           disabled={isSubmitting}
         >
@@ -171,7 +226,17 @@ export const MediaEditForm: React.FC<{
             <TranslatableField
               label={t("form.title") as any}
               value={formData.title as any}
-              onChange={(val) => updateFormField(media.id, "title", val)}
+              onChange={(val: TranslatableEntity) => {
+                updateFormField(media.id, "title", val);
+              }}
+              invalid={!!errors.title}
+              invalidText={
+                errors.title && (errors.title.en || errors.title.ne)
+                  ? `${errors.title.en || ""} ${errors.title.ne || ""}`.trim()
+                  : undefined
+              }
+              activeTab={titleTab}
+              setActiveTab={setTitleTab}
             />
             <div className="m--mt-1">
               <Dropdown
@@ -198,8 +263,8 @@ export const MediaEditForm: React.FC<{
                 }
                 label={t("form.folder")}
                 titleText={t("form.folder")}
-                invalid={!!validationErrors.folder}
-                invalidText={validationErrors.folder}
+                invalid={!!errors.folder}
+                invalidText={errors.folder}
               />
             </div>
             <div className="m--mt-1">
@@ -230,18 +295,22 @@ export const MediaEditForm: React.FC<{
                     type="textarea"
                     label={t("form.description") as any}
                     value={formData.description as any}
-                    onChange={(val) =>
+                    onChange={(val: TranslatableEntity) =>
                       updateFormField(media.id, "description", val)
                     }
+                    activeTab={descTab}
+                    setActiveTab={setDescTab}
                   />
                 </div>
                 <div className="m--mt-1">
                   <TranslatableField
                     label={t("form.altText") as any}
                     value={formData.altText as any}
-                    onChange={(val) =>
+                    onChange={(val: TranslatableEntity) =>
                       updateFormField(media.id, "altText", val)
                     }
+                    activeTab={altTab}
+                    setActiveTab={setAltTab}
                   />
                 </div>
                 <div className="m--mt-1">
