@@ -16,3 +16,4 @@ export const LoginPageFooter: React.FC = () => {
     </div>
   );
 };
+
