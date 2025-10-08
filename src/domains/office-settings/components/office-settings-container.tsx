@@ -67,9 +67,10 @@ export const OfficeSettingsContainer: React.FC = () => {
       )}
 
       {/* Content */}
-      <div className="office-settings-content">
+      <div className="office-settings-content font-dynamic">
         <OfficeSettingsForm settings={settings} onSuccess={handleSuccess} />
       </div>
     </div>
   );
 };
+
