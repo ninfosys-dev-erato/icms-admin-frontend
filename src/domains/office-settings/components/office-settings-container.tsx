@@ -1,8 +1,7 @@
-
 "use client";
 
 import React, { useEffect } from "react";
-import { InlineLoading, Breadcrumb, BreadcrumbItem } from "@carbon/react";
+import { InlineLoading } from "@carbon/react";
 import { useTranslations } from "next-intl";
 import { OfficeSettingsForm } from "./office-settings-form";
 import { useOfficeSettingsStore } from "../stores/office-settings-store";
@@ -15,11 +14,13 @@ export const OfficeSettingsContainer: React.FC = () => {
     useOfficeSettingsStore();
 
   useEffect(() => {
+    // Load settings on component mount
     loadSettings();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); // Empty dependency array - only load on mount
 
   const handleSuccess = () => {
+    // Reload settings after successful operation
     loadSettings();
   };
 
@@ -35,16 +36,6 @@ export const OfficeSettingsContainer: React.FC = () => {
     <div className="office-settings-container">
       {/* Page Header */}
       <div className="page-header">
-        {/* Breadcrumb (align + spacing like Header page) */}
-        <div className="breadcrumb-wrapper" style={{ padding: "1.5rem 1rem 1rem 1rem" }}>
-          <Breadcrumb noTrailingSlash style={{ marginBottom: "1rem" }}>
-            <BreadcrumbItem href="#">
-              {t("breadcrumbs.home", { default: "Home" })}
-            </BreadcrumbItem>
-            <BreadcrumbItem isCurrentPage>{t("title")}</BreadcrumbItem>
-          </Breadcrumb>
-        </div>
-
         <div className="page-header-content">
           <div className="page-header-text">
             <h1 className="page-title font-dynamic">{t("title")}</h1>
@@ -67,7 +58,7 @@ export const OfficeSettingsContainer: React.FC = () => {
       )}
 
       {/* Content */}
-      <div className="office-settings-content font-dynamic">
+      <div className="office-settings-content">
         <OfficeSettingsForm settings={settings} onSuccess={handleSuccess} />
       </div>
     </div>
