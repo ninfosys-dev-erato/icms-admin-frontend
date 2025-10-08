@@ -26,11 +26,9 @@ interface ImportantLinksCreateFormProps {
   className?: string;
 }
 
-export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> = ({
-  onSuccess,
-  onCancel,
-  className,
-}) => {
+export const ImportantLinksCreateForm: React.FC<
+  ImportantLinksCreateFormProps
+> = ({ onSuccess, onCancel, className }) => {
   const t = useTranslations("important-links");
   const createMutation = useCreateImportantLink();
   const {
@@ -45,13 +43,19 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
   >({});
+  const [titleTab, setTitleTab] = useState<"en" | "ne">("en");
 
   const validateForm = (): boolean => {
     const errors: Record<string, string> = {};
+    let firstInvalidTitleLang: "en" | "ne" | null = null;
 
-    // Validate title (at least one language required)
-    if (!createFormState.linkTitle.en.trim() && !createFormState.linkTitle.ne.trim()) {
+    // Validate title (per language, only first error shown)
+    if (!createFormState.linkTitle.en.trim()) {
       errors.linkTitle = t("form.linkTitle.validation.required");
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "en";
+    } else if (!createFormState.linkTitle.ne.trim()) {
+      errors.linkTitle = t("form.linkTitle.validation.required");
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "ne";
     }
 
     // Validate URL
@@ -71,6 +75,7 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
     }
 
     setValidationErrors(errors);
+    if (firstInvalidTitleLang) setTitleTab(firstInvalidTitleLang);
     return Object.keys(errors).length === 0;
   };
 
@@ -80,7 +85,7 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
       e.preventDefault();
       e.stopPropagation();
       setSubmitting(true);
-      
+
       // Validate and submit the form
       if (!validateForm()) {
         setSubmitting(false);
@@ -107,17 +112,24 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
       }
     };
 
-    const formContainer = document.getElementById('important-links-form');
-    const parentForm = formContainer?.closest('form');
-    
+    const formContainer = document.getElementById("important-links-form");
+    const parentForm = formContainer?.closest("form");
+
     if (parentForm) {
-      parentForm.addEventListener('submit', handleParentFormSubmit);
+      parentForm.addEventListener("submit", handleParentFormSubmit);
       return () => {
-        parentForm.removeEventListener('submit', handleParentFormSubmit);
+        parentForm.removeEventListener("submit", handleParentFormSubmit);
       };
     }
     return undefined;
-  }, [createFormState, createMutation, onSuccess, t, resetCreateForm, setSubmitting]);
+  }, [
+    createFormState,
+    createMutation,
+    onSuccess,
+    t,
+    resetCreateForm,
+    setSubmitting,
+  ]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -145,8 +157,11 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
     }
   };
 
-  const handleInputChange = (field: keyof ImportantLinkFormData, value: unknown) => {
-    updateFormField('create', field, value);
+  const handleInputChange = (
+    field: keyof ImportantLinkFormData,
+    value: unknown
+  ) => {
+    updateFormField("create", field, value);
 
     // Clear validation error for this field
     if (validationErrors[field]) {
@@ -190,13 +205,17 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
             <TranslatableField
               label={t("form.linkTitle.label")}
               value={createFormState.linkTitle}
-              onChange={(linkTitle) => handleInputChange("linkTitle", linkTitle)}
+              onChange={(linkTitle) =>
+                handleInputChange("linkTitle", linkTitle)
+              }
               placeholder={{
                 en: t("form.linkTitle.placeholder.en"),
                 ne: t("form.linkTitle.placeholder.ne"),
               }}
               invalid={!!validationErrors.linkTitle}
               invalidText={validationErrors.linkTitle}
+              activeTab={titleTab}
+              setActiveTab={setTitleTab}
             />
 
             {/* Link URL */}
@@ -260,5 +279,3 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
     </div>
   );
 };
-
-

@@ -60,6 +60,7 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
   >({});
+  const [titleTab, setTitleTab] = useState<"en" | "ne">("en");
   const [hasChanges, setHasChanges] = useState(false);
 
   // Check for changes
@@ -76,10 +77,15 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
 
   const validateForm = (): boolean => {
     const errors: Record<string, string> = {};
+    let firstInvalidTitleLang: "en" | "ne" | null = null;
 
-    // Validate title (at least one language required)
-    if (!formData.linkTitle.en.trim() && !formData.linkTitle.ne.trim()) {
+    // Validate title (per language, only first error shown)
+    if (!formData.linkTitle.en.trim()) {
       errors.linkTitle = t("form.linkTitle.validation.required");
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "en";
+    } else if (!formData.linkTitle.ne.trim()) {
+      errors.linkTitle = t("form.linkTitle.validation.required");
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "ne";
     }
 
     // Validate URL
@@ -99,6 +105,7 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
     }
 
     setValidationErrors(errors);
+    if (firstInvalidTitleLang) setTitleTab(firstInvalidTitleLang);
     return Object.keys(errors).length === 0;
   };
 
@@ -108,7 +115,7 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
       e.preventDefault();
       e.stopPropagation();
       setSubmitting(true);
-      
+
       // Validate and submit the form
       if (!validateForm()) {
         setSubmitting(false);
@@ -120,14 +127,14 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
 
     const handleFormSubmission = async () => {
       try {
-        await updateMutation.mutateAsync({ 
-          id: link.id, 
+        await updateMutation.mutateAsync({
+          id: link.id,
           data: {
             linkTitle: formData.linkTitle,
             linkUrl: formData.linkUrl,
             order: formData.order,
             isActive: formData.isActive,
-          }
+          },
         });
 
         setValidationErrors({});
@@ -139,13 +146,13 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
       }
     };
 
-    const formContainer = document.getElementById('important-links-form');
-    const parentForm = formContainer?.closest('form');
-    
+    const formContainer = document.getElementById("important-links-form");
+    const parentForm = formContainer?.closest("form");
+
     if (parentForm) {
-      parentForm.addEventListener('submit', handleParentFormSubmit);
+      parentForm.addEventListener("submit", handleParentFormSubmit);
       return () => {
-        parentForm.removeEventListener('submit', handleParentFormSubmit);
+        parentForm.removeEventListener("submit", handleParentFormSubmit);
       };
     }
     return undefined;
@@ -162,19 +169,18 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
     }
 
     try {
-      await updateMutation.mutateAsync({ 
-        id: link.id, 
+      await updateMutation.mutateAsync({
+        id: link.id,
         data: {
           linkTitle: formData.linkTitle,
           linkUrl: formData.linkUrl,
           order: formData.order,
           isActive: formData.isActive,
-        }
+        },
       });
 
       setValidationErrors({});
       onSuccess?.();
-      
     } catch (error) {
       console.error("❌ Important link update error:", error);
     } finally {
@@ -182,7 +188,10 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
     }
   };
 
-  const handleInputChange = (field: keyof ImportantLinkFormData, value: unknown) => {
+  const handleInputChange = (
+    field: keyof ImportantLinkFormData,
+    value: unknown
+  ) => {
     updateFormField(link.id, field, value);
 
     // Clear validation error for this field
@@ -201,7 +210,7 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
             <InlineLoading description={t("actions.updating")} />
           </div>
         )}
-        
+
         <Grid fullWidth>
           {/* Basic Information Section */}
           <Column lg={16} md={8} sm={4}>
@@ -209,15 +218,18 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
             <TranslatableField
               label={t("form.linkTitle.label")}
               value={formData.linkTitle}
-              onChange={(linkTitle) => handleInputChange("linkTitle", linkTitle)}
+              onChange={(linkTitle) =>
+                handleInputChange("linkTitle", linkTitle)
+              }
               placeholder={{
                 en: t("form.linkTitle.placeholder.en"),
                 ne: t("form.linkTitle.placeholder.ne"),
               }}
               invalid={!!validationErrors.linkTitle}
               invalidText={validationErrors.linkTitle}
+              activeTab={titleTab}
+              setActiveTab={setTitleTab}
             />
-
 
             {/* Link URL */}
             <div className="important-links-field-margin">
@@ -231,7 +243,6 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
                 invalidText={validationErrors.linkUrl}
               />
             </div>
-
 
             {/* Order and Active Status - VERTICAL LAYOUT */}
             {/* Order Input */}
@@ -252,7 +263,6 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
                 className="important-links-number-input"
               />
             </div>
-
 
             {/* Active Status Toggle - Positioned below Order */}
             <div className="important-links-toggle-margin">
@@ -281,6 +291,3 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
     </div>
   );
 };
-
-
-
