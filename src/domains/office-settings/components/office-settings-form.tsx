@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -187,14 +186,12 @@ export const OfficeSettingsForm: React.FC<OfficeSettingsFormProps> = ({
       if (settings) {
         // Update existing settings
         await updateSettings(settings.id, formData);
-        // Return to single Edit button AFTER the store finishes, without breaking Edit flow
-        setTimeout(() => setEditing(false), 0);
       } else {
         // Create new settings
         await upsertSettings(formData);
-        // Keep your original behavior for create
-        setEditing(true);
       }
+      // Set to view mode after successful submission
+      setEditing(true);
       onSuccess?.();
     } catch (error) {
       // Error is handled by the store
@@ -222,15 +219,11 @@ export const OfficeSettingsForm: React.FC<OfficeSettingsFormProps> = ({
     }
   };
 
-  const handleEdit = (e?: React.MouseEvent) => {
-    // Make sure Edit never submits the form
-    if (e) { e.preventDefault(); e.stopPropagation(); }
+  const handleEdit = () => {
     setEditing(true);
   };
 
-  const handleCancel = (e?: React.MouseEvent) => {
-    // Make sure Cancel never submits the form
-    if (e) { e.preventDefault(); e.stopPropagation(); }
+  const handleCancel = () => {
     setEditing(false);
     // Reset form data to original settings
     if (settings) {
@@ -262,8 +255,7 @@ export const OfficeSettingsForm: React.FC<OfficeSettingsFormProps> = ({
     clearError();
   };
 
-  const handleCreate = (e?: React.MouseEvent) => {
-    if (e) { e.preventDefault(); e.stopPropagation(); }
+  const handleCreate = () => {
     setEditing(true);
     // Initialize empty form for creation
     setFormData({
@@ -331,7 +323,6 @@ export const OfficeSettingsForm: React.FC<OfficeSettingsFormProps> = ({
                             : t("actions.create")}
                       </Button>
                       <Button
-                        type="button"              // ensure no submit
                         kind="secondary"
                         renderIcon={Close}
                         onClick={handleCancel}
@@ -344,7 +335,6 @@ export const OfficeSettingsForm: React.FC<OfficeSettingsFormProps> = ({
                     <div className="action-buttons">
                       {settings ? (
                         <Button
-                          type="button"            // ensure no submit
                           renderIcon={Edit}
                           onClick={handleEdit}
                           disabled={loading}
@@ -354,7 +344,6 @@ export const OfficeSettingsForm: React.FC<OfficeSettingsFormProps> = ({
                         </Button>
                       ) : (
                         <Button
-                          type="button"            // ensure no submit
                           renderIcon={Edit}
                           onClick={handleCreate}
                           disabled={loading}
