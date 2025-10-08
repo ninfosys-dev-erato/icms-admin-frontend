@@ -55,17 +55,23 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
   >({});
+  const [nameTab, setNameTab] = useState<"en" | "ne">("en");
 
   const validateForm = (): boolean => {
     const errors: Record<string, string> = {};
+    let firstInvalidNameLang: "en" | "ne" | null = null;
 
-    // Validate name (required in both languages)
-    if (!createFormState.name.en.trim() && !createFormState.name.ne.trim()) {
+    // Validate name (per language, only first error shown)
+    if (!createFormState.name.en.trim()) {
       errors.name = t("form.name.validation.required", {
         default: "Menu name is required in at least one language",
       });
-    } else {
-      // Name validation passed
+      if (!firstInvalidNameLang) firstInvalidNameLang = "en";
+    } else if (!createFormState.name.ne.trim()) {
+      errors.name = t("form.name.validation.required", {
+        default: "Menu name is required in at least one language",
+      });
+      if (!firstInvalidNameLang) firstInvalidNameLang = "ne";
     }
 
     // Validate location
@@ -73,8 +79,6 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
       errors.location = t("form.location.validation.required", {
         default: "Menu location is required",
       });
-    } else {
-      // Location validation passed
     }
 
     // Validate order
@@ -85,6 +89,7 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
     }
 
     setValidationErrors(errors);
+    if (firstInvalidNameLang) setNameTab(firstInvalidNameLang);
     return Object.keys(errors).length === 0;
   };
 
@@ -244,22 +249,24 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
           {/* Basic Information Section */}
           <Column lg={16} md={8} sm={4}>
             {/* Name */}
-              <TranslatableField
-                label={t("form.name.label", { default: "Menu Name" })}
-                value={createFormState.name}
-                onChange={(name) => handleInputChange("name", name)}
-                placeholder={{
-                  en: t("form.name.placeholder.en", {
-                    default: "Enter menu name in English",
-                  }),
-                  ne: t("form.name.placeholder.ne", {
-                    default: "नेपालीमा मेनुको नाम लेख्नुहोस्",
-                  }),
-                }}
-                invalid={!!validationErrors.name}
-                invalidText={validationErrors.name}
-                required
-              />
+            <TranslatableField
+              label={t("form.name.label", { default: "Menu Name" })}
+              value={createFormState.name}
+              onChange={(name) => handleInputChange("name", name)}
+              placeholder={{
+                en: t("form.name.placeholder.en", {
+                  default: "Enter menu name in English",
+                }),
+                ne: t("form.name.placeholder.ne", {
+                  default: "नेपालीमा मेनुको नाम लेख्नुहोस्",
+                }),
+              }}
+              invalid={!!validationErrors.name}
+              invalidText={validationErrors.name}
+              required
+              activeTab={nameTab}
+              setActiveTab={setNameTab}
+            />
 
             {/* Description removed as per compliance */}
 

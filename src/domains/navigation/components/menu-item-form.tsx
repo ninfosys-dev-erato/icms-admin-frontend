@@ -10,7 +10,7 @@ import {
   Select,
   SelectItem,
   TextInput,
-  Toggle
+  Toggle,
 } from "@carbon/react";
 import { useTranslations } from "next-intl";
 import React, { useCallback, useEffect, useState } from "react";
@@ -37,6 +37,8 @@ interface MenuItemFormProps {
   onCancel?: () => void;
   className?: string;
   basicOnly?: boolean;
+  titleTab?: "en" | "ne";
+  setTitleTab?: (tab: "en" | "ne") => void;
 }
 
 export const MenuItemForm: React.FC<MenuItemFormProps> = ({
@@ -121,15 +123,23 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
   >({});
+  const [titleTab, setTitleTab] = useState<"en" | "ne">("en");
 
   const validateForm = useCallback((): boolean => {
     const errors: Record<string, string> = {};
+    let firstInvalidTitleLang: "en" | "ne" | null = null;
 
-    // Validate title (required in at least one language)
-    if (!formData.title.en.trim() && !formData.title.ne.trim()) {
+    // Validate title (per language, only first error shown)
+    if (!formData.title.en.trim()) {
       errors.title = t("menuItems.form.name.validation.required", {
         default: "Title is required in at least one language",
       });
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "en";
+    } else if (!formData.title.ne.trim()) {
+      errors.title = t("menuItems.form.name.validation.required", {
+        default: "Title is required in at least one language",
+      });
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "ne";
     }
 
     // Validate item type
@@ -154,6 +164,7 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
     }
 
     setValidationErrors(errors);
+    if (firstInvalidTitleLang) setTitleTab(firstInvalidTitleLang);
     return Object.keys(errors).length === 0;
   }, [formData, t]);
 
@@ -339,6 +350,8 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
                   invalid={!!validationErrors.title}
                   invalidText={validationErrors.title}
                   required
+                  activeTab={titleTab}
+                  setActiveTab={setTitleTab}
                 />
               </div>
               {!basicOnly && (

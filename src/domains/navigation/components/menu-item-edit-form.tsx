@@ -26,6 +26,7 @@ export const MenuItemEditForm: React.FC<MenuItemEditFormProps> = ({
   basicOnly,
 }) => {
   const t = useTranslations("navigation");
+  const [titleTab, setTitleTab] = React.useState<"en" | "ne">("en");
 
   return (
     <div className={`menu-item-edit-form ${className || ""}`}>
@@ -36,6 +37,8 @@ export const MenuItemEditForm: React.FC<MenuItemEditFormProps> = ({
         onSuccess={onSuccess}
         onCancel={onCancel}
         basicOnly={basicOnly}
+        titleTab={titleTab}
+        setTitleTab={setTitleTab}
       />
     </div>
   );
