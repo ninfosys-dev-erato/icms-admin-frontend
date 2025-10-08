@@ -1,12 +1,9 @@
 /* Office Settings Container */
 .office-settings-container {
   width: 100%;
-  /* match Header page: no centered fixed width */
-  max-width: none;
-  margin: 0;
-  padding: 0;                 /* Header/Content blocks control their own padding */
-  background: var(--cds-ui-02);
-  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
 /* Page Header */
@@ -14,13 +11,6 @@
   margin-bottom: 2rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--cds-ui-03);
-}
-
-/* Keep header/content paddings consistent with Header page */
-.page-header > .page-header-content,
-.page-header > .breadcrumb-wrapper {
-  padding-left: 1rem;
-  padding-right: 1rem;
 }
 
 .page-title {
@@ -82,7 +72,7 @@
   border: 1px solid var(--cds-error-02);
   border-radius: 0;
   padding: 1rem;
-  margin: 0 1rem 1rem;  /* align with page paddings */
+  margin-bottom: 1rem;
   position: relative;
 }
 
@@ -131,7 +121,6 @@
   background: var(--cds-ui-01);
   border-radius: 0;
   border: 1px solid var(--cds-ui-03);
-  margin: 0 1rem;
 }
 
 .empty-state-icon {
@@ -152,10 +141,8 @@
   justify-content: center;
 }
 
-/* Content wrapper — match Header main content padding */
 .office-settings-content {
-  margin-top: 0;
-  padding: 0 1rem 1.5rem 1rem; /* exactly like Header page */
+  margin-top: 2rem;
 }
 
 /* Loading Container */
@@ -180,11 +167,13 @@
   border: 1px solid var(--cds-ui-03);
   border-radius: 0;
   padding: 1.5rem;
-  margin: 0 0 1rem 0;
+  margin-bottom: 1rem;
   box-shadow: none;
 }
 
-.form-section-tile:last-child { margin-bottom: 0; }
+.form-section-tile:last-child {
+  margin-bottom: 0;
+}
 
 /* Section Titles */
 .section-title {
@@ -205,7 +194,9 @@
 }
 
 /* Translatable Field */
-.translatable-field { margin-bottom: 0; }
+.translatable-field {
+  margin-bottom: 0;
+}
 
 /* Custom Translatable Tabs */
 .translatable-tabs {
@@ -246,10 +237,14 @@
   background: var(--cds-ui-01);
 }
 
-.tab-content { min-height: 80px; }
+.tab-content {
+  min-height: 80px;
+}
 
 /* Background Photo Upload */
-.background-photo-upload { margin-top: 0; }
+.background-photo-upload {
+  margin-top: 0;
+}
 
 .background-photo-upload h3 {
   margin-bottom: 0.5rem;
@@ -286,7 +281,10 @@
   gap: 1rem;
 }
 
-.upload-icon { color: var(--cds-text-03); font-size: 2rem; }
+.upload-icon {
+  color: var(--cds-text-03);
+  font-size: 2rem;
+}
 
 .upload-area p {
   margin: 0;
@@ -300,8 +298,13 @@
   color: var(--cds-text-03);
 }
 
-.file-input { display: none; }
-.upload-button { cursor: pointer; }
+.file-input {
+  display: none;
+}
+
+.upload-button {
+  cursor: pointer;
+}
 
 .upload-status {
   margin-top: 1rem;
@@ -311,7 +314,9 @@
 }
 
 /* Photo Preview */
-.current-photo-section { margin-top: 1rem; }
+.current-photo-section {
+  margin-top: 1rem;
+}
 
 .photo-preview {
   display: flex;
@@ -328,7 +333,9 @@
   border: 1px solid var(--cds-ui-03);
 }
 
-.remove-button { align-self: flex-start; }
+.remove-button {
+  align-self: flex-start;
+}
 
 /* Background Photo Preview Component */
 .background-photo-preview {
@@ -386,7 +393,9 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .office-settings-container { padding: 0; }
+  .office-settings-container {
+    padding: 0 0.5rem;
+  }
 
   .form-header-content {
     flex-direction: column;
@@ -394,7 +403,9 @@
     gap: 1rem;
   }
 
-  .form-title { font-size: 1.25rem; }
+  .form-title {
+    font-size: 1.25rem;
+  }
 
   .form-header-actions {
     align-self: stretch;
@@ -407,9 +418,13 @@
     gap: 0.5rem;
   }
 
-  .form-header-actions .action-buttons .cds--btn { width: 100%; }
+  .form-header-actions .action-buttons .cds--btn {
+    width: 100%;
+  }
 
-  .form-section-tile { padding: 1rem; }
+  .form-section-tile {
+    padding: 1rem;
+  }
 
   .preview-image {
     max-width: 100%;
@@ -434,13 +449,26 @@
 }
 
 /* Language-specific styles */
-.font-dynamic { font-family: var(--font-family-dynamic); }
-.font-english-only { font-family: var(--font-family-en); }
-.font-ne { font-family: var(--font-family-ne); }
+.font-dynamic {
+  font-family: var(--font-family-dynamic);
+}
+
+.font-english-only {
+  font-family: var(--font-family-en);
+}
+
+.font-ne {
+  font-family: var(--font-family-ne);
+}
 
 /* Text utilities */
-.text-secondary { color: var(--cds-text-02); }
-.text-small { font-size: 0.875rem; }
+.text-secondary {
+  color: var(--cds-text-02);
+}
+
+.text-small {
+  font-size: 0.875rem;
+}
 
 /* Carbon Design System Variables */
 :root {
@@ -454,15 +482,4 @@
   --cds-interactive-01: #0f62fe;
   --cds-error-01: #fff1f1;
   --cds-error-02: #da1e28;
-}
-/* Match the form title indent to the Tile's inner padding (1.5rem) */
-.form-header .form-title {
-  padding-left: 1.5rem;
-}
-
-/* Optional: tighter on small screens */
-@media (max-width: 672px) {
-  .form-header .form-title {
-    padding-left: 1rem;
-  }
-}
+} 
