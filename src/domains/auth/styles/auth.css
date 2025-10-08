@@ -1,2196 +1,333 @@
-/* ============================ 
-
-IBM-like Login – clean white, perfect alignment, exact widths 
-
-============================ */ 
-
- 
-
-:root{ 
-
-/* Push the FORM/TITLE horizontally to match your top “iCMS” brand.  
-
-Increase → moves right, decrease → left. */ 
-
---gutter-form: 8px; 
-
- 
-
-/* Footer padding stays independent of the form alignment */ 
-
---gutter-footer: 200px; 
-
- 
-
---ibm-bg:#ffffff; 
-
---ibm-ink:#161616; 
-
---ibm-ink-2:#525252; 
-
---ibm-primary:#1f2f76; /* deep IBM-ish blue for CTA */ 
-
---ibm-primary-ink:#ffffff; 
-
---ibm-footer-bg:#161616; 
-
---ibm-footer-ink:#f4f4f4; 
-
-} 
-
- 
-
- 
-
- 
-
-:root { 
-
---gutter-form: 0.15rem; /* form + form title */ 
-
---gutter-header: 165px; /* top iCMS title (independent) */ 
-
---gutter-footer: 400px; /* footer right padding */ 
-
---gutter-footer-left: 200px; /* NEW: footer left start */ 
-
-} 
-
- 
-
- 
-
- 
-
-/* Page wrapper */ 
-
-.login-page{ 
-
-min-height:100vh; 
-
-display:flex; 
-
-flex-direction:column; 
-
-background:#fff; 
-
-color:var(--ibm-ink); 
-
-} 
-
- 
-
-/* ===== PURE WHITE CANVAS (no panel, no tint) ===== */ 
-
-.login-canvas{ 
-
-position:relative; 
-
-flex:1; 
-
-display:flex; 
-
-align-items:flex-start; 
-
-box-sizing:border-box; 
-
-padding:48px var(--gutter-form) 116px var(--gutter-form); 
-
-background:#fff !important; 
-
-box-shadow:none !important; 
-
-border:0 !important; 
-
-} 
-
- 
-
- 
-
- 
-
- 
-
-/* Remove any accidental shadows/rounded corners from descendants */ 
-
-.login-canvas, .login-canvas *{ 
-
-box-shadow:none !important; 
-
-border-radius:0 !important; 
-
-} 
-
- 
-
-/* Right-side art removed → pure white */ 
-
-.login-canvas::after{ 
-
-content:none; 
-
-} 
-
- 
-
- 
-
- 
-
-.login-form-container { 
-
-margin-left: var(--gutter-footer-left) !important;  
-
-width: 100%; 
-
-max-width: 520px; /* match Carbon input width nicely */ 
-
-margin-top: 0; 
-
-padding: 0; 
-
-background: transparent !important; 
-
-position: relative; 
-
-left: -30px; /* still here but won’t take effect */ 
-
-transform: translateX(-260px); /* 🔥 shift left (negative), right (positive) */ 
-
-} 
-
- 
-
- 
-
- 
-
-.art-container, .login-art svg { 
-
-margin-top:0; /* make sure no extra offset on art */ 
-
-} 
-
- 
-
- 
-
-/* Title & subtitle */ 
-
-.login-form-header{ margin-bottom:28px; text-align:left; } 
-
-.login-form-title{ 
-
-margin:0 0 10px; 
-
-font-weight:700; 
-
-font-size:clamp(32px, 2.6vw, 42px); 
-
-line-height:1.15; 
-
-color:var(--ibm-ink); 
-
-} 
-
-.login-form-subtitle{ 
-
-margin:0; 
-
-font-size:18px; 
-
-line-height:1.5; 
-
-color:var(--ibm-ink-2); 
-
-} 
-
- 
-
-/* Fields */ 
-
-.login-form-content{ margin-bottom:28px; } 
-
-.login-form-fields{ display:flex; flex-direction:column; gap:18px; } 
-
-.login-form-field{ width:100%; } 
-
- 
-
-/* Ensure inputs are exactly the full container width */ 
-
-.cds--text-input, .cds--password-input{ width:100%; } 
-
-.cds--text-input input, .cds--password-input input{ font-size:16px; } 
-
- 
-
-/* Checkbox row */ 
-
-.login-form-checkbox{ display:flex; align-items:center; padding-top:6px; } 
-
- 
-
-/* Button row uses the same width as inputs */ 
-
-.login-form-button-row{ width:100%; } 
-
- 
-
-/* Exact width button = inputs; bigger label; arrow at far right */ 
-
-.login-form-submit{ 
-
-display:block; 
-
-width:100% !important; /* EXACTLY the text input width */ 
-
-min-height:56px; 
-
-height:56px; 
-
-font-size:18px; 
-
-font-weight:600; 
-
-background:var(--ibm-primary); 
-
-color:var(--ibm-primary-ink); 
-
-border:none; 
-
-padding-inline:16px; 
-
-} 
-
-/* make the button exactly the same width as the inputs */ 
-
-.login-form-container .cds--btn { 
-
-max-width: none !important; /* override Carbon's default cap */ 
-
-inline-size: 100% !important; /* same as width:100% in logical props */ 
-
-} 
-
- 
-
-/* keep the wrapper and button measuring like the inputs */ 
-
-.login-form-button-row, 
-
-.login-form-submit { 
-
-box-sizing: border-box; /* padding included in width */ 
-
-} 
-
- 
-
- 
-
-/* Put the Sign In arrow at the far right (icon size is set inline) */ 
-
-.login-form-submit { 
-
-position: relative; 
-
-padding-right: 90px; /* leave room for the icon */ 
-
-} 
-
- 
-
-.login-form-submit .cds--btn__icon { 
-
-position: absolute; 
-
-right: 16px; 
-
-top: 50%; 
-
-transform: translateY(-50%); 
-
-display: flex; 
-
-align-items: center; 
-
-justify-content: center; 
-
-margin: 0; /* kill default gap if any */ 
-
-} 
-
- 
-
-/* (optional) keep svg tidy; size comes from inline style */ 
-
-.login-form-submit .cds--btn__icon > svg { 
-
-display: block; 
-
-} 
-
- 
-
- 
-
- 
-
- 
-
-/* Hide the tiny helper footer under the form */ 
-
-.login-form-footer{ display:none !important; } 
-
- 
-
-/* ===== PAGE FOOTER (independent gutter) ===== */ 
-
-.login-page-footer{ 
-
-position:fixed; 
-
-left:0; right:0; bottom:0; 
-
-z-index:10; 
-
-background:var(--ibm-footer-bg); 
-
-color:var(--ibm-footer-ink); 
-
-display:flex; 
-
-align-items:center; 
-
-justify-content:space-between; 
-
-gap:16px; 
-
-padding: 20px var(--gutter-footer) 20px var(--gutter-footer-left); 
-
-font-size: 15px; 
-
-} 
-
-.login-page-footer a{ color:var(--ibm-footer-ink); text-decoration:none; opacity:.9; } 
-
-.login-page-footer a:hover{ text-decoration:underline; opacity:1; } 
-
-.login-page-footer-links{ display:flex; gap:20px; flex-wrap:wrap; } 
-
-.login-page-footer-right{ white-space:nowrap; opacity:.85; } 
-
- 
-
-/* Make sure no other global footer appears */ 
-
-.login-page ~ footer, 
-
-footer:not(.login-page-footer){ display:none !important; } 
-
- 
-
-/* Keep content above the fixed footer */ 
-
-@supports (padding: max(0px)) { 
-
-.login-canvas { padding-bottom: max(116px, 116px); } 
-
-} 
-
- 
-
-/* Responsive */ 
-
-@media (max-width:1200px){ 
-
-.login-canvas{ padding:40px 48px 124px 48px; } 
-
-} 
-
-@media (max-width:900px){ 
-
-.login-canvas{ padding:32px 24px 128px 24px; } 
-
-.login-page-footer{ 
-
-padding:12px 24px; 
-
-flex-direction:column; 
-
-align-items:flex-start; 
-
-gap:8px; 
-
-} 
-
-} 
-
- 
-
-/* Align top brand "iCMS" header with the login form title */ 
-
-header .brand-title,  
-
-header h1,  
-
-header .icms-title { 
-
-/* Adjust this until it lines up perfectly */ 
-
-margin-left: var(--gutter-form) !important; 
-
-} 
-
-/* Shift the top iCMS header */ 
-
-.login-title.font-dynamic { 
-
-margin-left: var(--gutter-header) !important; 
-
-} 
-
-/* Remove tile look, force pure white background */ 
-
-.cds--tile.login-tile { 
-
-background: #fff !important; 
-
-box-shadow: none !important; 
-
-border: none !important; 
-
-border-radius: 0 !important; 
-
-} 
-
- 
-
- 
-
-html, body { 
-
-overflow: hidden; 
-
-} 
-
- 
-
- /* =========================================
-   RESPONSIVE — keep desktop identical; fix small screens
-   ========================================= */
-
-/* Use mobile-safe viewport height when available */
-.login-page{ min-height:100vh; }
-@supports (height: 100svh){
-  .login-page{ min-height:100svh; }
+/* ============================
+   IBM-like Login – clean white, perfect alignment, exact widths
+   ============================ */
+
+:root{
+  /* Push the FORM/TITLE horizontally to match your top “iCMS” brand.  
+     Increase → moves right, decrease → left. */
+  --gutter-form: 8px;
+
+  /* Footer padding stays independent of the form alignment */
+  --gutter-footer: 200px;
+
+  --ibm-bg:#ffffff;
+  --ibm-ink:#161616;
+  --ibm-ink-2:#525252;
+  --ibm-primary:#1f2f76;       /* deep IBM-ish blue for CTA */
+  --ibm-primary-ink:#ffffff;
+  --ibm-footer-bg:#161616;
+  --ibm-footer-ink:#f4f4f4;
 }
 
-/* Large tablets / small laptops */
-@media (max-width: 1200px){
+:root {
+  --gutter-form: 0.15rem;          /* form + form title */
+  --gutter-header: 165px;          /* top iCMS title (independent) */
+  --gutter-footer: 400px;          /* footer right padding */
+  --gutter-footer-left: 200px;     /* NEW: footer left start */
+}
+
+/* Page wrapper */
+.login-page{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  background:#fff;
+  color:var(--ibm-ink);
+}
+
+/* ===== PURE WHITE CANVAS (no panel, no tint) ===== */
+.login-canvas{
+  position:relative;
+  flex:1;
+  display:flex;
+  align-items:flex-start;
+  box-sizing:border-box;
+  padding:48px var(--gutter-form) 116px var(--gutter-form);
+  background:#fff !important;
+  box-shadow:none !important;
+  border:0 !important;
+}
+
+/* Remove any accidental shadows/rounded corners from descendants */
+.login-canvas, .login-canvas *{
+  box-shadow:none !important;
+  border-radius:0 !important;
+}
+
+/* Right-side art removed → pure white */
+.login-canvas::after{
+  content:none;
+}
+
+.login-form-container {
+  margin-left: var(--gutter-footer-left) !important; 
+  width: 100%;
+  max-width: 520px;
+  margin-top: 0;
+  padding: 0;
+  background: transparent !important;
+  position: relative;
+  left: -30px;
+  transform: translateX(-260px);
+}
+
+.art-container, .login-art svg {
+  margin-top:0;
+}
+
+/* Title & subtitle */
+.login-form-header{ margin-bottom:28px; text-align:left; }
+.login-form-title{
+  margin:0 0 10px;
+  font-weight:700;
+  font-size:clamp(32px, 2.6vw, 42px);
+  line-height:1.15;
+  color:var(--ibm-ink);
+}
+.login-form-subtitle{
+  margin:0;
+  font-size:18px;
+  line-height:1.5;
+  color:var(--ibm-ink-2);
+}
+
+/* Fields */
+.login-form-content{ margin-bottom:28px; }
+.login-form-fields{ display:flex; flex-direction:column; gap:18px; }
+.login-form-field{ width:100%; }
+
+/* Ensure inputs are exactly the full container width */
+.cds--text-input, .cds--password-input{ width:100%; }
+.cds--text-input input, .cds--password-input input{ font-size:16px; }
+
+/* Checkbox row */
+.login-form-checkbox{ display:flex; align-items:center; padding-top:6px; }
+
+/* Button row uses the same width as inputs */
+.login-form-button-row{ width:100%; }
+
+/* Exact width button = inputs; bigger label; arrow at far right */
+.login-form-submit{
+  display:block;
+  width:100% !important;
+  min-height:56px;
+  height:56px;
+  font-size:18px;
+  font-weight:600;
+  background:var(--ibm-primary);
+  color:var(--ibm-primary-ink);
+  border:none;
+  padding-inline:16px;
+}
+/* make the button exactly the same width as the inputs */
+.login-form-container .cds--btn {
+  max-width: none !important;
+  inline-size: 100% !important;
+}
+
+/* keep the wrapper and button measuring like the inputs */
+.login-form-button-row,
+.login-form-submit {
+  box-sizing: border-box;
+}
+
+/* Put the Sign In arrow at the far right (icon size is set inline) */
+.login-form-submit {
+  position: relative;
+  padding-right: 90px;
+}
+.login-form-submit .cds--btn__icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+.login-form-submit .cds--btn__icon > svg {
+  display: block;
+}
+
+/* Hide the tiny helper footer under the form */
+.login-form-footer{ display:none !important; }
+
+/* ===== PAGE FOOTER (independent gutter) ===== */
+.login-page-footer{
+  position:fixed;
+  left:0; right:0; bottom:0;
+  z-index:10;
+  background:var(--ibm-footer-bg);
+  color:var(--ibm-footer-ink);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding: 20px var(--gutter-footer) 20px var(--gutter-footer-left);
+  font-size: 15px;
+}
+.login-page-footer a{ color:var(--ibm-footer-ink); text-decoration:none; opacity:.9; }
+.login-page-footer a:hover{ text-decoration:underline; opacity:1; }
+.login-page-footer-links{ display:flex; gap:20px; flex-wrap:wrap; }
+.login-page-footer-right{ white-space:nowrap; opacity:.85; }
+
+/* Make sure no other global footer appears */
+.login-page ~ footer,
+footer:not(.login-page-footer){ display:none !important; }
+
+/* Keep content above the fixed footer */
+@supports (padding: max(0px)) {
+  .login-canvas { padding-bottom: max(116px, 116px); }
+}
+
+/* Responsive */
+@media (max-width:1200px){
   .login-canvas{ padding:40px 48px 124px 48px; }
 }
-
-/* Tablets & phones */
-@media (max-width: 900px){
-  /* Allow page to scroll on small screens (desktop remains hidden) */
-  html, body{ overflow:auto; }
-
-  /* Keep the form fully visible on narrow viewports.
-     Desktop alignment is unchanged; on small screens we neutralize the big left shift
-     so the form fits without altering visuals. */
-  .login-form-container{
-    margin: 0 auto !important;
-    transform: none !important;     /* neutralize translateX(-260px) on small screens */
-    left: auto;
-    max-width: 520px;
-    width: 100%;
-  }
-
-  /* Tighten canvas padding for smaller screens */
-  .login-canvas{
-    /* ensure content never hides behind fixed footer */
-    padding: 32px 24px calc(140px + env(safe-area-inset-bottom)) 24px;
-  }
-
-  /* Footer stays fixed; just reduce its horizontal padding */
+@media (max-width:900px){
+  .login-canvas{ padding:32px 24px 128px 24px; }
   .login-page-footer{
-    position: fixed;
-    left: 0; right: 0; bottom: 0;
-    padding: 12px 24px;
-    flex-wrap: wrap;
-    gap: 8px;
+    padding:12px 24px;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
   }
 }
 
-/* Phones */
-@media (max-width: 680px){
-  .login-canvas{
-    padding: 24px 16px calc(140px + env(safe-area-inset-bottom)) 16px;
-  }
+/* Align top brand "iCMS" header with the login form title */
+header .brand-title, 
+header h1, 
+header .icms-title {
+  margin-left: var(--gutter-form) !important;
+}
+/* Shift the top iCMS header */
+.login-title.font-dynamic {
+  margin-left: var(--gutter-header) !important;
+}
+/* Remove tile look, force pure white background */
+.cds--tile.login-tile {
+  background: #fff !important;
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 0 !important;
 }
 
-/* Small phones */
-@media (max-width: 480px){
-  .login-canvas{
-    padding: 20px 14px calc(140px + env(safe-area-inset-bottom)) 14px;
-  }
-  .login-page-footer{
-    padding: 12px 14px calc(12px + env(safe-area-inset-bottom)) 14px;
-  }
-}
-
-/* Very small phones */
-@media (max-width: 360px){
-  .login-canvas{
-    padding: 18px 12px calc(140px + env(safe-area-inset-bottom)) 12px;
-  }
-}
-
-/* Short landscape phones: keep footer fixed but compact spacing */
-@media (max-height: 480px) and (orientation: landscape){
-  .login-page-footer{ padding: 8px 16px; }
-}
-
-/* Avoid accidental horizontal scrollbars on odd DPIs */
-html{ overflow-x: hidden; }
-
-/* Make focusing inputs scroll them into view nicely */
-:focus{ scroll-margin-top: 12px; }
-
-/* Extra protection: ensure content sits above the fixed footer on capable engines */
-@supports (padding: max(0px)){
-  .login-canvas{
-    padding-bottom: max(140px, calc(140px + env(safe-area-inset-bottom)));
-  }
-  .login-page-footer{
-    padding-bottom: max(12px, env(safe-area-inset-bottom));
-  }
-}
-/* ==== unify footer selectors (layout + page variants) ==== */
-.login-page-footer,
-.login-footer {
-  position: fixed;
-  left: 0; right: 0; bottom: 0;
-  z-index: 10;
-}
-
-/* Ensure content never hides behind the fixed footer */
-@supports (padding: max(0px)) {
-  .login-canvas,
-  .login-main { /* layout uses .login-main; page variant uses .login-canvas */
-    padding-bottom: max(140px, calc(140px + env(safe-area-inset-bottom)));
-  }
-  .login-page-footer,
-  .login-footer {
-    padding-bottom: max(12px, env(safe-area-inset-bottom));
-  }
-}
-
-/* Allow scrolling on small screens (your base sets overflow: hidden) */
-@media (max-width: 900px) {
-  html, body { overflow: auto; }
-
-  /* Neutralize the desktop nudge so the form isn’t pushed off-screen */
-  .login-form-container {
-    margin: 0 auto !important;
-    transform: none !important;
-    left: auto !important;
-    max-width: 520px;
-    width: 100%;
-  }
-
-  /* Tighten paddings and keep footer fixed */
-  .login-canvas,
-  .login-main {
-    padding: 32px 24px calc(140px + env(safe-area-inset-bottom)) 24px;
-  }
-
-  .login-page-footer,
-  .login-footer {
-    position: fixed;
-    padding: 12px 24px;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  /* Hide the right-side illustration on phones/tablets so it doesn’t crowd the form */
-  .illustration-aside { display: none !important; }
-}
-
-/* Phones */
-@media (max-width: 680px) {
-  .login-canvas,
-  .login-main {
-    padding: 24px 16px calc(140px + env(safe-area-inset-bottom)) 16px;
-  }
-}
-
-/* Small phones */
-@media (max-width: 480px) {
-  .login-canvas,
-  .login-main {
-    padding: 20px 14px calc(140px + env(safe-area-inset-bottom)) 14px;
-  }
-  .login-page-footer,
-  .login-footer {
-    padding: 12px 14px calc(12px + env(safe-area-inset-bottom)) 14px;
-  }
-}
-
-/* Very small phones */
-@media (max-width: 360px) {
-  .login-canvas,
-  .login-main {
-    padding: 18px 12px calc(140px + env(safe-area-inset-bottom)) 12px;
-  }
-}
-
-/* Short landscape phones: keep footer fixed but compact spacing */
-@media (max-height: 480px) and (orientation: landscape) {
-  .login-page-footer,
-  .login-footer { padding: 8px 16px; }
-}
-
-/* Avoid accidental horizontal scrollbars */
-html { overflow-x: hidden; }
-
-/* Better focus scroll */
-:focus { scroll-margin-top: 12px; }
-/* === FINAL PATCH (auth.css) ==================================== */
-/* 0) Base: do NOT nudge by default; only on wide screens */
-.login-form-container {
-  transform: none !important;
-  left: auto !important;
-}
-
-/* 1) Keep the IBM desktop alignment only on wide desktops */
-@media (min-width: 1280px){
-  .login-form-container {
-    transform: translateX(-260px) !important;
-    left: -30px !important;
-  }
-}
-
-/* 2) Allow scrolling on small/medium viewports (your base hid it) */
-@media (max-width: 1280px){
-  html, body { overflow: auto; }
-}
-
-/* 3) Pad the main canvas so the fixed footer never overlaps content */
-.login-canvas { padding-bottom: 140px; }
-@supports (padding: max(0px)){
-  .login-canvas { padding-bottom: max(140px, calc(140px + env(safe-area-inset-bottom))); }
-}
-
-/* 4) Footer stays fixed (page variant) */
-.login-page-footer {
-  position: fixed !important;
-  left: 0; right: 0; bottom: 0;
-  z-index: 1000;
-}
-
-/* 5) Tablet/phone tightening */
-@media (max-width: 1024px){
-  .login-canvas { padding: 32px 24px calc(140px + env(safe-area-inset-bottom)) 24px; }
-}
-@media (max-width: 680px){
-  .login-canvas { padding: 24px 16px calc(140px + env(safe-area-inset-bottom)) 16px; }
-}
-@media (max-width: 480px){
-  .login-canvas { padding: 20px 14px calc(140px + env(safe-area-inset-bottom)) 14px; }
-  .login-page-footer { padding: 12px 14px calc(12px + env(safe-area-inset-bottom)) 14px; }
-}
-
-/* 6) No accidental horizontal scroll */
-html { overflow-x: hidden; }
-/* ========= FINAL, STRONG OVERRIDES ========= */
-
-/* 0) Wide desktops keep your original left nudge; everything else centers */
-.login-form-container { transform: none !important; left: auto !important; }
-@media (min-width: 1366px){
-  .login-form-container { transform: translateX(-260px) !important; left: -30px !important; }
-}
-
-/* 1) Use a reliable grid for the main content and collapse early */
-.login-content { display: grid !important; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
-.illustration-aside { display: flex !important; justify-content: center; }
-@media (max-width: 1280px){
-  .login-content { grid-template-columns: 1fr !important; }
-  .illustration-aside { display: none !important; } /* hide the big graphic on tablets/phones */
-}
-
-/* 2) Fixed footer (both class variants) + reserve space above it */
-.login-page-footer,
-.login-footer,
-.login-footer.fixed {
-  position: fixed !important;
-  left: 0; right: 0; bottom: 0;
-  z-index: 1000;
-  width: 100%;
-}
-
-/* Reserve space so content never hides behind the fixed footer */
-.login-canvas,
-.login-main {
-  padding-bottom: 140px !important;
-}
-@supports (padding: max(0px)){
-  .login-canvas,
-  .login-main {
-    padding-bottom: max(140px, calc(140px + env(safe-area-inset-bottom))) !important;
-  }
-}
-
-/* 3) Enable scrolling on small/medium (your base set overflow:hidden) */
-@media (max-width: 1366px){
-  html, body { overflow: auto !important; }
-}
-
-/* 4) Tighten paddings on smaller devices (applies to both variants) */
-@media (max-width: 1024px){
-  .login-canvas, .login-main { padding: 32px 24px calc(140px + env(safe-area-inset-bottom)) 24px !important; }
-}
-@media (max-width: 680px){
-  .login-canvas, .login-main { padding: 24px 16px calc(140px + env(safe-area-inset-bottom)) 16px !important; }
-}
-@media (max-width: 480px){
-  .login-canvas, .login-main { padding: 20px 14px calc(140px + env(safe-area-inset-bottom)) 14px !important; }
-  .login-page-footer, .login-footer { padding: 12px 14px calc(12px + env(safe-area-inset-bottom)) 14px !important; }
-}
-
-/* 5) No horizontal scrollbars + nicer focus jump */
-html { overflow-x: hidden !important; }
-:focus { scroll-margin-top: 12px; }
-/* ===== KEEP DESKTOP EXACT; FIX SMALL SCREENS (final overrides) ===== */
-
-/* A) Desktop stays exactly as you designed (nudge on wide) */
-.login-form-container { transform: none !important; left: auto !important; }
-@media (min-width: 1366px){
-  .login-form-container { transform: translateX(-260px) !important; left: -30px !important; }
-}
-
-/* B) Two-column ➜ one-column. Hide the big art below 1280px */
-@media (max-width: 1280px){
-  /* if your layout has this wrapper, collapse it; harmless if absent */
-  .login-content { display: grid !important; grid-template-columns: 1fr !important; }
-  .illustration-aside { display: none !important; }
-
-  /* allow scrolling (your base sets overflow:hidden) */
-  html, body { overflow: auto !important; }
-}
-
-/* C) Footer truly fixed (both variants) + reserve space above it */
-.login-page-footer,
-.login-footer { position: fixed !important; left:0; right:0; bottom:0; z-index:1000; width:100%; }
-
-/* ensure content never hides behind footer */
-.login-canvas, .login-main { padding-bottom: 140px !important; }
-@supports (padding: max(0px)){
-  .login-canvas, .login-main {
-    padding-bottom: max(140px, calc(140px + env(safe-area-inset-bottom))) !important;
-  }
-}
-
-/* D) Tighter paddings on smaller screens */
-@media (max-width: 1024px){
-  .login-canvas, .login-main {
-    padding: 32px 24px calc(140px + env(safe-area-inset-bottom)) 24px !important;
-  }
-}
-@media (max-width: 680px){
-  .login-canvas, .login-main {
-    padding: 24px 16px calc(140px + env(safe-area-inset-bottom)) 16px !important;
-  }
-}
-@media (max-width: 480px){
-  .login-canvas, .login-main {
-    padding: 20px 14px calc(140px + env(safe-area-inset-bottom)) 14px !important;
-  }
-  .login-page-footer, .login-footer {
-    padding: 12px 14px calc(12px + env(safe-area-inset-bottom)) 14px !important;
-  }
-}
-
-/* E) No horizontal scrollbars + nicer focus jump */
-html { overflow-x: hidden !important; }
-:focus { scroll-margin-top: 12px; }
-/* ==== Bulletproof fixed footer (layout + page variants) ==== */
-.login-footer,
-.login-page-footer {
-  position: fixed !important;
-  inset: auto 0 0 0 !important;   /* left:0; right:0; bottom:0 */
-  width: 100vw !important;        /* ignore parent width constraints */
-  max-width: none !important;
-  margin: 0 !important;
-  z-index: 2147483647 !important; /* above any overlays */
-  /* keep your existing colors/spacing/children styles */
-}
-
-/* Always reserve room above the fixed footer so it never covers the form */
-.login-canvas,
-.login-main {
-  padding-bottom: 140px !important;
-}
-@supports (padding: max(0px)) {
-  .login-canvas,
-  .login-main {
-    padding-bottom: max(140px, calc(140px + env(safe-area-inset-bottom))) !important;
-  }
-}
-
-/* Make sure small/medium screens can actually scroll */
-@media (max-width: 1366px){
-  html, body { overflow: auto !important; }
-}
-
-/* Optional: tighten padding on smaller devices (keeps your visual style) */
-@media (max-width: 1024px){
-  .login-canvas, .login-main {
-    padding: 32px 24px calc(140px + env(safe-area-inset-bottom)) 24px !important;
-  }
-}
-@media (max-width: 680px){
-  .login-canvas, .login-main {
-    padding: 24px 16px calc(140px + env(safe-area-inset-bottom)) 16px !important;
-  }
-}
-@media (max-width: 480px){
-  .login-canvas, .login-main {
-    padding: 20px 14px calc(140px + env(safe-area-inset-bottom)) 14px !important;
-  }
-  .login-footer, .login-page-footer {
-    padding: 12px 14px calc(12px + env(safe-area-inset-bottom)) 14px !important;
-  }
-}
-
-
-
-/* ==== 6) Tighten paddings on smaller devices (content stays above footer) ==== */
-@media (max-width: 1024px){
-  .login-main, .login-canvas {
-    padding: 32px 24px var(--footer-reserve) 24px !important;
-  }
-}
-
-@media (max-width: 680px){
-  .login-main, .login-canvas {
-    padding: 24px 16px var(--footer-reserve) 16px !important;
-  }
-}
-
-/* very small phones */
-@media (max-width: 480px){
-  :root { --footer-reserve: 120px; } /* footer may wrap -> more space */
-  .login-main, .login-canvas {
-    padding: 20px 14px var(--footer-reserve) 14px !important;
-  }
-}
-
-/* ==== 7) No horizontal scrollbars; nicer focus jump ==== */
-html { overflow-x: hidden !important; }
-:focus { scroll-margin-top: 12px; }
-
-
-
-
-/* ==== FINAL, SINGLE SOURCE OF TRUTH — Footer + Scrolling ==== */
-
-/* A) One fixed footer selector for both variants */
-.login-page-footer,
-.login-footer {
-  position: fixed !important;
-  inset: auto 0 0 0 !important;   /* left:0; right:0; bottom:0 */
-  width: 100vw !important;        /* ignore parent constraints */
-  max-width: none !important;
-  margin: 0 !important;
-  z-index: 2147483647 !important; /* above overlays */
-  transform: none !important;
-}
-
-/* B) Reserve space above the fixed footer (prevents overlap) */
-:root { --footer-reserve: 112px; } /* desktop default height+wrap room */
-
-.login-main,
-.login-canvas {
-  padding-bottom: calc(var(--footer-reserve) + env(safe-area-inset-bottom,0px)) !important;
-}
-
-/* C) Scrolling rules:
-      - Mobile/tablet: allow scroll
-      - Desktop (>=1200px): keep your "no scroll" look
-*/
 html, body {
-  overflow-x: hidden !important;
-  overflow-y: auto !important;   /* default: scroll allowed */
-}
-@media (min-width: 1200px){
-  html, body { overflow-y: hidden !important; }  /* desktop: no scroll */
+  overflow: hidden;
 }
 
-/* D) Footer reserve grows when the footer wraps on small screens */
-@media (max-width: 900px){
-  :root { --footer-reserve: 140px; }
+/* --------------------------------------------
+   Existing password-visibility helpers (kept)
+   -------------------------------------------- */
+
+/* Ensure the Carbon password visibility toggle shows and has room */
+.cds--password-input .cds--text-input__field-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
-@media (max-width: 480px){
-  :root { --footer-reserve: 160px; }
+.cds--password-input input.cds--text-input__field {
+  padding-right: 48px !important; /* room for the eye */
 }
-
-/* E) Optional: slightly tighter padding on small screens */
-@media (max-width: 900px){
-  .login-page-footer, .login-footer {
-    padding: 12px 14px calc(12px + env(safe-area-inset-bottom,0px)) 14px !important;
-  }
+/* Carbon v11/v10 selector coverage */
+.cds--password-input .cds--text-input--password__visibility__toggle,
+.cds--password-input .cds--text-input__password__visibility__toggle,
+.cds--password-input .cds--password-input__visibility__toggle {
+  display: inline-flex !important;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 1 !important;
+  visibility: visible !important;
 }
-
-/* === Footer: 1 row × 6 columns for non-desktop only === */
-@media (max-width: 1199.98px) {
-  /* Turn the footer into a 6-column grid */
-  .login-page-footer {
-    display: grid !important;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    align-items: center;
-    gap: 8px;
-    /* keep your fixed positioning & padding rules from above */
-  }
-
-  /* Make the 5 links become 5 grid items without changing markup */
-  .login-page-footer-links {
-    display: contents !important; /* children (<a>) participate as grid items */
-  }
-
-  /* Nice, centered cells + safe truncation */
-  .login-page-footer a,
-  .login-page-footer-right {
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  /* Optional: if you prefer horizontal scroll instead of truncation on tiny screens */
-  /* .login-page-footer { overflow-x: auto; } */
+.cds--password-input .cds--text-input--password__visibility__toggle svg,
+.cds--password-input .cds--text-input__password__visibility__toggle svg,
+.cds--password-input .cds--password-input__visibility__toggle svg {
+  width: 20px;
+  height: 20px;
+  display: block;
 }
 
-/* Non-desktop only */
-@media (max-width: 1199.98px) {
-  .login-page-footer{
-    display: grid !important;
-    grid-template-columns: repeat(6, minmax(0, 1fr)); /* 6 equal cells */
-    align-items: center;
-    gap: 12px;
-  }
-  /* Make the 5 links act as grid items without changing JSX */
-  .login-page-footer-links{ display: contents !important; }
-
-  /* SHOW FULL TEXT (allow wrapping, no ellipsis) */
-  .login-page-footer a,
-  .login-page-footer-right{
-    white-space: normal !important;   /* allow multi-line */
-    overflow: visible !important;
-    text-overflow: clip !important;
-    text-align: center;
-    line-height: 1.2;
-  }
+/* Give room for the eye (dup kept intentionally; later rules win) */
+.cds--password-input input.cds--text-input__field {
+  padding-right: 48px !important;
 }
-.login-page-footer a,
-.login-page-footer-right {
-  font-size: clamp(12px, 1.5vw, 15px);
-  line-height: 1.4;
+/* Carbon renders the toggle with this data-attr */
+.cds--password-input [data-toggle-password-visibility] {
+  display: inline-flex !important;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 1 !important;
+  visibility: visible !important;
 }
-@media (max-width: 600px) {
-  .login-page-footer a[href="#terms"]::after {
-    content: "Terms";
-  }
-  .login-page-footer a[href="#terms"] {
-    visibility: hidden;
-    position: relative;
-  }
-  .login-page-footer a[href="#terms"]::after {
-    visibility: visible;
-    position: absolute;
-    left: 0;
-  }
-
-  .login-page-footer a[href="#cookies"]::after {
-    content: "Cookies";
-  }
-  .login-page-footer a[href="#cookies"] {
-    visibility: hidden;
-    position: relative;
-  }
-  .login-page-footer a[href="#cookies"]::after {
-    visibility: visible;
-    position: absolute;
-    left: 0;
-  }
+.cds--password-input [data-toggle-password-visibility] svg {
+  width: 20px;
+  height: 20px;
+  display: block;
 }
-/* === FOOTER: EXACTLY LIKE DESKTOP ON NON-DESKTOP WIDTHS (1 row × 6) === */
-@media (max-width: 1199.98px) {
-  /* Turn the footer into a 6-cell grid (5 links + powered) */
-  .login-page-footer {
-    display: grid !important;
-    grid-template-columns: repeat(6, 1fr);     /* six equal cells */
-    align-items: center;
-    gap: min(2vw, 16px);
-    /* keep it fixed; just reduce side padding a bit on small screens */
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-    overflow: hidden;                           /* prevent jiggle */
-  }
-
-  /* Make the links themselves become the grid items (no JSX change needed) */
-  .login-page-footer-links {
-    display: contents !important;               /* children (<a>) become grid items */
-  }
-
-  /* Keep each item in a single line and centered within its cell */
-  .login-page-footer a,
-  .login-page-footer-right {
-    white-space: nowrap;                        /* no wrapping – full words stay on one line */
-    overflow: hidden;                           /* never spill vertically */
-    text-overflow: ellipsis;                    /* ultra-narrow safety */
-    text-align: center;
-    justify-self: center;                       /* center inside each cell */
-    font-size: clamp(11px, 1.2vw, 15px);        /* scale down smoothly as width shrinks */
-    line-height: 1.2;
-  }
-
-  /* If you’d rather never ellipsis, allow horizontal scroll instead: */
-  /* .login-page-footer { overflow-x: auto; -webkit-overflow-scrolling: touch; } */
+/* Ensure wrapper can position the toggle */
+.cds--password-input .cds--text-input__field-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
-/* Optional: on very tiny phones, nudge size a bit more */
-@media (max-width: 420px) {
-  .login-page-footer a,
-  .login-page-footer-right {
-    font-size: clamp(10px, 3vw, 13px);
-    gap: 8px;
-  }
-}
-/* === MOBILE: remove login footer entirely and reclaim space === */
-@media (max-width: 680px) {
-  .login-page-footer,
-  .login-footer {
-    display: none !important;          /* hide footer on mobile only */
-  }
-
-  /* remove the bottom reserve since the footer is gone */
-  .login-canvas,
-  .login-main {
-    padding-bottom: 0 !important;
-  }
-
-  /* allow normal scrolling */
-  html, body {
-    overflow-y: auto !important;
-  }
-}
-
-/* (optional) very small phones */
-@media (max-width: 480px) {
-  .login-canvas,
-  .login-main {
-    padding-bottom: 0 !important;
-  }
-}
-/* === MOBILE/TABLET: keep brand title and form title perfectly aligned === */
-@media (max-width: 1199.98px){
-  /* one knob to control the shared left edge on small screens */
-  :root { --mobile-align: clamp(20px, 6vw, 32px); }
-
-  /* move the top brand title */
-  header .brand-title,
-  header h1,
-  header .icms-title {
-    margin-left: var(--mobile-align) !important;
-  }
-
-  /* place the form container to the same left edge (not centered) */
-  .login-form-container{
-    transform: none !important;
-    left: auto !important;
-    margin: 0 !important;                 /* cancel 0 auto centering */
-    margin-left: var(--mobile-align) !important;
-    width: min(520px, calc(100% - (var(--mobile-align) * 2))) !important;
-  }
-
-  /* keep the page’s side padding consistent with that edge */
-  .login-canvas{
-    padding-left: var(--mobile-align) !important;
-    padding-right: var(--mobile-align) !important;
-  }
-}
-/* === MOBILE/TABLET: align iCMS header and form title to the same left edge === */
-@media (max-width: 1199.98px){
-  /* single knob for the shared left edge */
-  :root { --mobile-align: clamp(20px, 6vw, 32px); }
-
-  /* your actual header title used on desktop */
-  .login-title.font-dynamic{
-    margin-left: var(--mobile-align) !important;   /* <-- this was missing */
-  }
-
-  /* (keep these in case other headers render) */
-  header .brand-title,
-  header h1,
-  header .icms-title{
-    margin-left: var(--mobile-align) !important;
-  }
-
-  /* move the form container to the same guide */
-  .login-form-container{
-    transform: none !important;
-    left: auto !important;
-    margin: 0 !important;                           /* cancel centering */
-    margin-left: var(--mobile-align) !important;     /* same guide */
-    width: min(520px, calc(100% - (var(--mobile-align) * 2))) !important;
-  }
-
-  /* make the canvas padding use the same guide so everything lines up */
-  .login-canvas{
-    padding-left: var(--mobile-align) !important;
-    padding-right: var(--mobile-align) !important;
-  }
-
-  /* ensure the “Log in to iCMS” text itself stays flush to its container */
-  .login-form-title{ margin-left: 0 !important; }
-}
-/* === MOBILE/TABLET: put header + form on the same left rail === */
-@media (max-width: 1199.98px){
-  :root { --mobile-align: clamp(20px, 6vw, 32px); }
-
-  /* brand header */
-  .login-title.font-dynamic,
-  header .brand-title,
-  header .icms-title {
-    margin-left: var(--mobile-align) !important;
-  }
-
-  /* form on the same rail (margin-left only) */
-  .login-form-container{
-    transform: none !important;
-    left: auto !important;
-    margin: 0 !important;
-    margin-left: var(--mobile-align) !important;       /* single source of left offset */
-    width: min(520px, calc(100% - (var(--mobile-align) * 2))) !important;
-  }
-
-  /* IMPORTANT: cancel canvas side padding to avoid double offset */
-  .login-canvas{
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-
-  /* keep the title flush to its container */
-  .login-form-title{ margin-left: 0 !important; }
-}
-
-/* === TABLET-DESKTOP BRIDGE (1200–1365px only) — keep desktop unchanged === */
-@media (min-width: 1200px) and (max-width: 1365.98px){
-
-  /* Force the same two-column layout + show the illustration */
-  .login-content{
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    align-items: start;
-    gap: 24px;
-  }
-  .illustration-aside{ display: flex !important; }
-  .illustration-aside svg{
-    width: min(38vw, 560px) !important; /* scales like desktop but never huge */
-    height: auto !important;
-  }
-
-  /* Keep header rail identical to desktop */
-  .login-title.font-dynamic,
-  header .brand-title,
-  header .icms-title{
-    margin-left: var(--gutter-header) !important;
-  }
-
-  /* Desktop nudge, scaled so nothing is cut off in this band */
-  .login-form-container{
-    max-width: 520px !important;
-    left: -30px !important;
-    transform: translateX(
-      clamp(-260px, calc(-260px + (1366px - 100vw) * 0.55), -140px)
-    ) !important;
-  }
-
-  /* Desktop paddings */
-  .login-canvas{
-    padding: 48px var(--gutter-form) 116px var(--gutter-form) !important;
-    background: #fff !important;
-  }
-
-  /* Footer exactly like desktop */
-  .login-page-footer,
-  .login-footer{
-    position: fixed !important;
-    left: 0; right: 0; bottom: 0;
-    padding: 20px var(--gutter-footer) 20px var(--gutter-footer-left) !important;
-    z-index: 1000;
-  }
-
-  /* Match desktop's no-scroll feel in this band */
-  html, body{ overflow-y: hidden !important; }
-}
-/* ============================================================
-   TABLET-WIDE FIX (1201–1621px) — look exactly like desktop
-   - Do NOT change desktop ≥1622px
-   - Do NOT change phones/tablets ≤1200px
-   ============================================================ */
-@media (min-width: 1201px) and (max-width: 1621px){
-
-  /* 1) Use the same left rail as desktop for header + form */
-  .login-title.font-dynamic,
-  header .brand-title,
-  header .icms-title{
-    margin-left: var(--gutter-header) !important; /* same as desktop */
-  }
-
-  /* Cancel the desktop nudge trick in this band and place the form on the rail */
-  .login-form-container{
-    transform: none !important;
-    left: auto !important;
-    margin: 0 !important;
-    margin-left: var(--gutter-header) !important;   /* align with header */
-    max-width: 520px;                                /* your desktop field width */
-    width: 100%;
-  }
-
-  /* 2) Force a 2-column desktop-like layout */
-  .login-content{
-    display: grid !important;
-    grid-template-columns: minmax(520px, 560px) 1fr; /* form then art */
-    column-gap: clamp(56px, 6vw, 96px);
-    align-items: center;
-  }
-
-  /* Show/size the illustration like desktop and keep it centered */
-  .illustration-aside{
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-  .illustration-aside svg{
-    width: min(600px, 42vw) !important;  /* scale smoothly */
-    height: auto !important;
-    max-height: clamp(420px, 48vh, 640px) !important;
-    opacity: 1 !important;
-  }
-
-  /* 3) Keep page paddings sane and consistent with desktop */
-  .login-canvas{
-    padding-left: var(--gutter-form) !important;
-    padding-right: var(--gutter-form) !important;
-    padding-top: 48px !important;
-    /* reserve space above fixed footer like desktop */
-    padding-bottom: 116px !important;
-  }
-  @supports(padding: max(0px)){
-    .login-canvas{
-      padding-bottom: max(116px, calc(116px + env(safe-area-inset-bottom))) !important;
-    }
-  }
-
-  /* 4) Footer: full-width, fixed, just like desktop */
-  .login-page-footer,
-  .login-footer{
-    position: fixed !important;
-    left: 0 !important; right: 0 !important; bottom: 0 !important;
-    width: 100vw !important;
-    transform: none !important;
-    z-index: 1000 !important;
-  }
-
-  /* 5) Allow scroll if content is a touch taller than the viewport in this band */
-  html, body{ overflow-y: auto !important; overflow-x: hidden !important; }
-}
 /* =========================================================
-   TABLET-WIDE FIX (only 1205–1617px) — look like desktop
+   ADDED (non-destructive) — ensure correct layout everywhere
    ========================================================= */
-@media (min-width:1205px) and (max-width:1617px){
 
-  /* Keep header + form on the same desktop rail */
-  .login-title.font-dynamic,
-  header .brand-title,
-  header .icms-title{
-    margin-left: var(--gutter-header) !important;
-  }
+/* 1) Parent needs positioning context */
+.cds--password-input { position: relative; }
 
-  /* Stop the desktop nudge in this band (prevents left hugging) */
-  .login-form-container{
-    transform: none !important;
-    left: auto !important;
-    margin: 0 !important;
-    margin-left: var(--gutter-header) !important; /* aligns with header */
-    max-width: 520px !important;
-    width: 100% !important;
-  }
-
-  /* Force a desktop-like 2-column layout */
-  .login-content{
-    display: grid !important;
-    grid-template-columns: minmax(520px,560px) 1fr !important;
-    column-gap: clamp(56px, 6vw, 96px) !important;
-    align-items: center !important;
-  }
-
-  /* Illustration: center it and scale like desktop */
-  .illustration-aside{
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-  .illustration-aside svg{
-    display: block !important;
-    width: clamp(420px, 40vw, 600px) !important; /* grows with width */
-    height: auto !important;
-    max-height: clamp(420px, 48vh, 640px) !important; /* never too short/tall */
-  }
-
-  /* Canvas spacing same spirit as desktop */
-  .login-canvas{
-    padding-top: 48px !important;
-    padding-left: var(--gutter-form) !important;
-    padding-right: var(--gutter-form) !important;
-    padding-bottom: 116px !important;  /* room for fixed footer */
-  }
-  @supports (padding: max(0px)){
-    .login-canvas{
-      padding-bottom: max(116px, calc(116px + env(safe-area-inset-bottom))) !important;
-    }
-  }
-
-  /* Footer: fixed full width, like desktop */
-  .login-page-footer,
-  .login-footer{
-    position: fixed !important;
-    left: 0 !important; right: 0 !important; bottom: 0 !important;
-    width: 100vw !important;
-    transform: none !important;
-    z-index: 1000 !important;
-  }
-
-  /* Allow slight vertical scroll if needed, no horizontal scroll */
-  html, body{ overflow-y: auto !important; overflow-x: hidden !important; }
-}
-/* =========================================================
-   MICRO FIX — only 1205–1227 px (desktop look preserved)
-   ========================================================= */
-@media (min-width:1205px) and (max-width:1227px){
-
-  /* Use the desktop rail for the whole grid, not the form only */
-  .login-content{
-    display: grid !important;
-    grid-template-columns: minmax(520px,560px) minmax(420px,1fr) !important;
-    column-gap: clamp(40px, 5vw, 72px) !important;
-    align-items: center !important;
-    padding-left: var(--gutter-header) !important; /* aligns with iCMS header */
-  }
-
-  /* Cancel the margin-nudge here (grid padding handles alignment) */
-  .login-form-container{
-    margin-left: 0 !important;
-    transform: none !important;
-    left: auto !important;
-    max-width: 520px !important;
-    width: 100% !important;
-  }
-
-  /* Illustration: keep it centered and sized like desktop */
-  .illustration-aside{
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-  .illustration-aside svg{
-    display: block !important;
-    max-width: 100% !important;
-    width: clamp(500px, 44vw, 620px) !important;   /* bigger, desktop-ish */
-    height: auto !important;
-    max-height: clamp(420px, 56vh, 640px) !important;
-    opacity: 1 !important;
-  }
-
-  /* Canvas spacing: ensure footer never overlaps content */
-  .login-canvas{
-    padding-top: 48px !important;
-    padding-right: var(--gutter-form) !important;
-    padding-left: 0 !important; /* grid already has the left rail */
-    padding-bottom: 140px !important;              /* footer reserve */
-  }
-  @supports (padding: max(0px)){
-    .login-canvas{
-      padding-bottom: max(140px, calc(140px + env(safe-area-inset-bottom))) !important;
-    }
-  }
-
-  /* Footer stays fixed and full width just like desktop */
-  .login-page-footer,
-  .login-footer{
-    position: fixed !important;
-    inset: auto 0 0 0 !important;
-    width: 100vw !important;
-    transform: none !important;
-    z-index: 1000 !important;
-  }
-
-  /* Allow gentle vertical scroll, never horizontal */
-  html, body{ overflow-y: auto !important; overflow-x: hidden !important; }
+/* 2) Wrapper should not be flex in this page; force inline-block
+      and allow the toggle to escape clipping */
+.cds--password-input .cds--text-input__field-wrapper {
+  position: relative !important;
+  display: inline-block !important;   /* prevent flex side-effects */
+  width: 100% !important;
+  overflow: visible !important;        /* <-- make sure toggle isn't clipped */
 }
 
-
-/* ===== Hide the illustration/SVG only between 1205–1617px ===== */
-@media (min-width:1205px) and (max-width:1617px){
-  /* kill the art block (whatever selector your art uses) */
-  .illustration-aside,
-  .login-art,
-  .art-container,
-  .illustration-aside svg { 
-    display: none !important; 
-  }
-
-  /* collapse back to a single column when art is hidden */
-  .login-content{
-    display: block !important;
-  }
-
-  /* keep the form aligned to the same left rail as the desktop header */
-  .login-form-container{
-    transform: none !important;
-    left: auto !important;
-    margin: 0 !important;
-    margin-left: var(--gutter-header) !important; /* same as your desktop header */
-    max-width: 520px !important;
-    width: 100% !important;
-  }
-
-  /* canvas spacing mirrors desktop */
-  .login-canvas{
-    padding-top: 48px !important;
-    padding-left: var(--gutter-form) !important;
-    padding-right: var(--gutter-form) !important;
-    padding-bottom: 116px !important;
-  }
-  @supports (padding: max(0px)){
-    .login-canvas{
-      padding-bottom: max(116px, calc(116px + env(safe-area-inset-bottom))) !important;
-    }
-  }
+/* 3) Make room inside the input (final override) */
+.cds--password-input input.cds--text-input__field {
+  padding-right: 48px !important;
 }
 
-/* Optional: extra-tight micro band to be safe on 1205–1227px */
-@media (min-width:1205px) and (max-width:1227px){
-  .login-form-container{ margin-left: var(--gutter-header) !important; }
-}
-/* ===== Hide SVG/art for mid widths ===== */
-@media (min-width:1205px) and (max-width:1617px){
-  .illustration-aside,
-  .login-art,
-  .art-container,
-  .illustration-aside svg {
-    display: none !important;
-  }
-
-  .login-content { display: block !important; }
-
-  .login-form-container {
-    transform: none !important;
-    left: auto !important;
-    margin: 0 !important;
-    margin-left: var(--gutter-header) !important;
-    max-width: 520px !important;
-    width: 100% !important;
-  }
+/* 4) Ensure the toggle is visible & clickable across versions */
+.cds--password-input .cds--text-input--password__visibility__toggle,
+.cds--password-input .cds--text-input__password__visibility__toggle,
+.cds--password-input .cds--password-input__visibility__toggle,
+.cds--password-input [data-toggle-password-visibility],
+/* very defensive: any icon-only button inside password input */
+.cds--password-input button[aria-label*="password"],
+.cds--password-input button[title*="password"] {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
 }
 
-/* ===== Extra micro fix: 1220–1225px (force art hidden too) ===== */
-@media (min-width:1220px) and (max-width:1225px){
-  .illustration-aside,
-  .login-art,
-  .art-container,
-  .illustration-aside svg {
-    display: none !important;
-  }
-
-  .login-content { display: block !important; }
+/* 5) Icon sizing */
+.cds--password-input .cds--text-input--password__visibility__toggle svg,
+.cds--password-input .cds--text-input__password__visibility__toggle svg,
+.cds--password-input .cds--password-input__visibility__toggle svg,
+.cds--password-input [data-toggle-password-visibility] svg,
+.cds--password-input button[aria-label*="password"] svg,
+.cds--password-input button[title*="password"] svg {
+  width: 20px;
+  height: 20px;
+  display: block;
 }
-
-/* ===== Footer consistency across these bands ===== */
-@media (min-width:1205px) and (max-width:1617px),
-       (min-width:1220px) and (max-width:1225px) {
-  .login-page-footer,
-  .login-footer {
-    position: fixed !important;
-    inset: auto 0 0 0 !important;  /* full width, stuck to bottom */
-    width: 100vw !important;
-    margin: 0 !important;
-    z-index: 1000 !important;
-  }
-
-  /* Always reserve space above footer so form isn’t overlapped */
-  .login-canvas,
-  .login-main {
-    padding-bottom: 140px !important;
-  }
-  @supports (padding: max(0px)){
-    .login-canvas,
-    .login-main {
-      padding-bottom: max(140px, calc(140px + env(safe-area-inset-bottom))) !important;
-    }
-  }
-}
-
-/* ==== Kill SVG/art between 1200–1210px ==== */
-@media (min-width:1200px) and (max-width:1210px){
-  .illustration-aside,
-  .login-art,
-  .art-container,
-  .illustration-aside svg {
-    display: none !important;
-  }
-
-  /* Collapse layout so form sits alone */
-  .login-content { display: block !important; }
-
-  /* Keep form aligned on the same left rail as header */
-  .login-form-container {
-    transform: none !important;
-    left: auto !important;
-    margin: 0 !important;
-    margin-left: var(--gutter-header) !important;
-    max-width: 520px !important;
-    width: 100% !important;
-  }
-
-  /* Reserve footer space (so form isn’t overlapped) */
-  .login-canvas,
-  .login-main {
-    padding-bottom: 140px !important;
-  }
-  @supports (padding: max(0px)){
-    .login-canvas,
-    .login-main {
-      padding-bottom: max(140px, calc(140px + env(safe-area-inset-bottom))) !important;
-    }
-  }
-
-  /* Keep footer consistent */
-  .login-page-footer,
-  .login-footer {
-    position: fixed !important;
-    inset: auto 0 0 0 !important;
-    width: 100vw !important;
-    z-index: 1000 !important;
-  }
-}
-/* ==============================================
-   FIX BAND: 1200–1230px
-   - remove SVG/art
-   - align header + form to desktop rail
-   - keep footer managed like other responsive sizes
-   ============================================== */
-@media (min-width:1200px) and (max-width:1230px){
-
-  /* 1) Kill the illustration/SVG */
-  .illustration-aside,
-  .login-art,
-  .art-container,
-  .illustration-aside svg{
-    display:none !important;
-  }
-
-  /* 2) Collapse to single column */
-  .login-content{ display:block !important; }
-
-  /* 3) Use the same left rail as desktop */
-  .login-title.font-dynamic,
-  header .brand-title,
-  header .icms-title{
-    margin-left: var(--gutter-header) !important;
-  }
-  .login-form-container{
-    transform:none !important;
-    left:auto !important;
-    margin:0 !important;
-    margin-left: var(--gutter-header) !important; /* align with header */
-    max-width:520px !important;
-    width:100% !important;
-  }
-
-  /* 4) Footer: fixed, full width, and space reserved above it */
-  .login-footer,
-  .login-page-footer{
-    position:fixed !important;
-    inset:auto 0 0 0 !important;   /* left:0; right:0; bottom:0 */
-    width:100vw !important;
-    margin:0 !important;
-    z-index:1000 !important;
-  }
-  .login-canvas,
-  .login-main{
-    padding-bottom:140px !important; /* keep form above footer */
-  }
-  @supports (padding:max(0px)){
-    .login-canvas,
-    .login-main{
-      padding-bottom:max(140px, calc(140px + env(safe-area-inset-bottom))) !important;
-    }
-  }
-
-  /* 5) Scrolling + cleanliness */
-  html, body{
-    overflow-y:auto !important;
-    overflow-x:hidden !important;
-  }
-}
-
-
-
-
-
-/* ===== EXACT FIX: 1200–1230px only ===== */
-@media (min-width:1200px) and (max-width:1230px){
-
-  /* No scroll (match desktop behaviour) */
-  html, body { overflow: hidden !important; }
-
-  /* Remove the right illustration completely */
-  .illustration-aside,
-  .login-art,
-  .art-container,
-  .illustration-aside svg { display: none !important; }
-
-  /* Collapse to single column so form sits alone */
-  .login-content { display: block !important; }
-
-  /* Align brand title and form on the same desktop rail */
-  .login-title.font-dynamic,
-  header .brand-title,
-  header .icms-title { margin-left: var(--gutter-header) !important; }
-
-  .login-form-container{
-    transform: none !important;
-    left: auto !important;
-    margin: 0 !important;
-    margin-left: var(--gutter-header) !important; /* same rail as header */
-    max-width: 520px !important;
-    width: 100% !important;
-  }
-
-  /* Desktop-like canvas spacing so CTA clears the footer */
-  .login-canvas,
-  .login-main {
-    padding: 48px var(--gutter-form) 116px var(--gutter-form) !important;
-  }
-
-  /* Footer: same style/padding as other good ratios (desktop) */
-  .login-page-footer,
-  .login-footer {
-    position: fixed !important;
-    left: 0; right: 0; bottom: 0;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 16px !important;
-    padding: 20px var(--gutter-footer) 20px var(--gutter-footer-left) !important;
-    z-index: 1000 !important;
-    width: 100vw !important;
-    transform: none !important;
-  }
-  .login-page-footer-links{
-    display: flex !important;
-    gap: 20px !important;
-    flex-wrap: wrap !important;
-  }
-}
-
-
-
-/* ===== FIX: 1200–1230px (footer grid + left alignment + hide art) ===== */
-@media (min-width:1200px) and (max-width:1230px){
-
-  /* Match desktop's no-scroll feel for this band */
-  html, body{ overflow: hidden !important; }
-
-  /* Remove the illustration completely */
-  .illustration-aside,
-  .login-art,
-  .art-container,
-  .illustration-aside svg{ display:none !important; }
-
-  /* Single-column body; keep the same left rail as the iCMS title */
-  .login-content{ display:block !important; }
-
-  .login-title.font-dynamic,
-  header .brand-title,
-  header .icms-title{
-    margin-left: var(--gutter-header) !important;
-  }
-
-  .login-form-container{
-    transform: none !important;
-    left: auto !important;
-    margin: 0 !important;
-    margin-left: var(--gutter-header) !important; /* align with header rail */
-    max-width: 520px !important;
-    width: 100% !important;
-  }
-
-  /* Canvas spacing like desktop (keeps CTA clear of footer) */
-  .login-canvas,
-  .login-main{
-    padding: 48px var(--gutter-form) 116px var(--gutter-form) !important;
-  }
-
-  /* === Footer: force 1 row × 6 columns, desktop padding === */
-  .login-page-footer,
-  .login-footer{
-    position: fixed !important;
-    left: 0; right: 0; bottom: 0;
-    z-index: 1000 !important;
-    width: 100vw !important;
-
-    /* GRID (6 cells: 5 links + Powered-by) */
-    display: grid !important;
-    grid-template-columns: repeat(6, minmax(0,1fr)) !important;
-    align-items: center !important;
-    gap: min(2vw, 16px) !important;
-
-    /* keep same desktop insets */
-    padding: 20px var(--gutter-footer) 20px var(--gutter-footer-left) !important;
-  }
-
-  /* make each footer link become its own grid item (no markup change) */
-  .login-page-footer-links{ display: contents !important; }
-
-  /* keep all items on one line inside their cell; allow ellipsis if tight */
-  .login-page-footer a,
-  .login-page-footer-right{
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    justify-self: center !important;
-    min-width: 0 !important;  /* needed so ellipsis can activate in grid */
-  }
-}
-
-
-/* === Footer item spacing only (1200–1230px) === */
-@media (min-width:1200px) and (max-width:1230px){
-  /* keep footer layout as-is; just ensure items don't touch */
-  .login-footer,
-  .login-page-footer{
-    display: flex !important;       /* works even if it was already flex */
-    align-items: center !important;
-    flex-wrap: nowrap !important;
-  }
-
-  /* robust spacing: every direct sibling gets a left margin */
-  .login-footer > * + *,
-  .login-page-footer > * + *{
-    margin-left: 20px !important;
-  }
-
-  /* if your links are inside a wrapper (.login-page-footer-links), space those too */
-  .login-footer .login-page-footer-links > * + *,
-  .login-page-footer .login-page-footer-links > * + *{
-    margin-left: 20px !important;
-  }
-
-  /* small inner padding so text doesn’t visually touch */
-  .login-footer a,
-  .login-page-footer a{
-    padding-inline: 6px !important;
-    white-space: nowrap;            /* keep each label on one line */
-  }
-}
-
-
-/* === 1200–1230px: ellipsis visible + clear spacing between items === */
-@media (min-width:1200px) and (max-width:1230px){
-  /* six even cells with real gaps between them */
-  .login-page-footer,
-  .login-footer{
-    display: grid !important;
-    grid-template-columns: repeat(6, 1fr) !important;
-    column-gap: 24px !important;            /* space between items */
-    align-items: center !important;
-  }
-
-  /* make each link its own grid item (no markup change) */
-  .login-page-footer-links{ display: contents !important; }
-
-  /* show … cleanly and keep padding so items don’t touch */
-  .login-page-footer a,
-  .login-footer a,
-  .login-page-footer-right{
-    display: block !important;
-    padding: 0 8px !important;              /* inner spacing around text */
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;     /* the “…” */
-    min-width: 0 !important;                /* required so ellipsis works in grid */
-    justify-self: center !important;        /* center each cell’s content */
-  }
-}
-
-/* === Footer alignment fix for 1200–1230px === */
-@media (min-width:1200px) and (max-width:1230px){
-  .login-footer,
-  .login-page-footer{
-    display: grid !important;
-    grid-template-columns: repeat(6, 1fr) !important;
-    column-gap: 32px !important;        /* bigger, even spacing */
-    align-items: center !important;
-    justify-content: space-between !important; /* spread across full width */
-    width: 100% !important;
-    padding: 0 40px !important;         /* balance left & right padding */
-  }
-
-  .login-page-footer-links{ display: contents !important; }
-
-  .login-footer a,
-  .login-page-footer a,
-  .login-page-footer-right{
-    display: block !important;
-    padding: 0 8px !important;
-    text-align: center !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    min-width: 0 !important;
-  }
-}
-
-
-/* 1200–1230px: align Login header with iCMS title (same left rail) */
-@media (min-width:1200px) and (max-width:1230px){
-  /* one rail to rule them all */
-  .login-title.font-dynamic{               /* iCMS brand */
-    margin-left: var(--gutter-header) !important;
-  }
-
-  /* cancel canvas padding so we don't "double offset" the form */
-  .login-canvas,
-  .login-main{
-    padding-left: 0 !important;
-  }
-
-  /* place the form container on the same rail */
-  .login-form-container{
-    transform: none !important;
-    left: auto !important;
-    margin: 0 !important;
-    margin-left: var(--gutter-header) !important;   /* ↔ same as iCMS */
-    max-width: 520px !important;
-    width: 100% !important;
-  }
-
-  /* keep the “Log in to iCMS” text flush to its container */
-  .login-form-title{ margin-left: 0 !important; }
-
-  /* (optional) start the footer at the same rail so "Contact" lines up too */
-  .login-footer,
-  .login-page-footer{
-    padding-left: var(--gutter-header) !important;
-  }
-}
-
-
-
-/* === Fix band: 1206–1225px ===
-   Mirror 1230px look: hide art, align footer + form header with iCMS title
-*/
-@media (min-width:1206px) and (max-width:1225px){
-
-  /* Remove illustration/art completely */
-  .illustration-aside,
-  .login-art,
-  .art-container,
-  .illustration-aside svg{
-    display: none !important;
-  }
-
-  /* Collapse to single column */
-  .login-content{ display: block !important; }
-
-  /* Put both header + form on same left rail */
-  .login-title.font-dynamic,
-  header .brand-title,
-  header .icms-title{
-    margin-left: var(--gutter-header) !important;
-  }
-
-  .login-form-container{
-    transform: none !important;
-    left: auto !important;
-    margin: 0 !important;
-    margin-left: var(--gutter-header) !important;  /* align with iCMS */
-    max-width: 520px !important;
-    width: 100% !important;
-  }
-
-  /* keep login form title flush to container */
-  .login-form-title{ margin-left: 0 !important; }
-
-  /* Footer: match iCMS rail too */
-  .login-footer,
-  .login-page-footer{
-    position: fixed !important;
-    inset: auto 0 0 0 !important;
-    width: 100vw !important;
-    margin: 0 !important;
-    z-index: 1000 !important;
-    padding-left: var(--gutter-header) !important;  /* align with iCMS rail */
-    padding-right: var(--gutter-footer) !important;
-  }
-
-  /* Reserve space so content never hides behind footer */
-  .login-canvas,
-  .login-main{
-    padding-bottom: 140px !important;
-  }
-  @supports (padding: max(0px)){
-    .login-canvas,
-    .login-main{
-      padding-bottom: max(140px, calc(140px + env(safe-area-inset-bottom))) !important;
-    }
-  }
-}
-/* ===== 1206–1225px: match 1230px alignment exactly ===== */
-@media (min-width:1206px) and (max-width:1225px){
-
-  /* 1) Remove art & keep single column */
-  .illustration-aside,
-  .login-art,
-  .art-container,
-  .illustration-aside svg{ display:none !important; }
-  .login-content{ display:block !important; }
-
-  /* 2) Put brand title and form on the same left rail */
-  .login-title.font-dynamic,
-  header .brand-title,
-  header .icms-title{
-    margin-left: var(--gutter-header) !important;   /* ← same as 1230 */
-  }
-
-  .login-form-container{
-    transform:none !important;
-    left:auto !important;
-    margin:0 !important;
-    margin-left: var(--gutter-header) !important;   /* align with iCMS */
-    max-width:520px !important;
-    width:100% !important;
-  }
-  .login-form-title{ margin-left:0 !important; }    /* keep text flush */
-
-  /* 3) Canvas spacing like desktop so CTA clears footer */
-  .login-canvas,
-  .login-main{
-    padding:48px var(--gutter-form) 116px var(--gutter-form) !important;
-  }
-
-  /* 4) Footer: same left + right insets as 1230, flex layout */
-  .login-page-footer,
-  .login-footer{
-    position:fixed !important;
-    inset:auto 0 0 0 !important;
-    width:100vw !important;
-    z-index:1000 !important;
-
-    /* alignment */
-    padding-left: var(--gutter-header) !important;  /* left rail = iCMS */
-    padding-right: var(--gutter-footer) !important; /* right space = 1230 */
-
-    /* layout */
-    display:flex !important;
-    align-items:center !important;
-    justify-content:space-between !important;
-    gap:20px !important;
-  }
-  .login-page-footer-links{ display:flex !important; gap:20px !important; }
-
-  /* 5) Reserve space above fixed footer */
-  .login-canvas,
-  .login-main{ padding-bottom:140px !important; }
-  @supports (padding:max(0px)){
-    .login-canvas,
-    .login-main{ padding-bottom:max(140px, calc(140px + env(safe-area-inset-bottom))) !important; }
-  }
-}
-/* ==== 1206–1225px: footer = 1 row × 6 cols (right-aligned),
-   no ellipses; form header aligned with iCMS title ==== */
-@media (min-width:1206px) and (max-width:1225px){
-
-  /* Keep brand and form on the same left rail */
-  .login-title.font-dynamic,
-  header .brand-title,
-  header .icms-title{
-    margin-left: var(--gutter-header) !important;
-  }
-
-  .login-form-container{
-    transform: none !important;
-    left: auto !important;
-    margin: 0 !important;
-    margin-left: var(--gutter-header) !important; /* align to iCMS title */
-    max-width: 520px !important;
-    width: 100% !important;
-  }
-  .login-form-title{ margin-left: 0 !important; }
-
-  /* Hide the right illustration so space isn't squeezed */
-  .illustration-aside,
-  .login-art,
-  .art-container,
-  .illustration-aside svg{ display:none !important; }
-  .login-content{ display:block !important; }
-
-  /* Footer: 6 columns, pushed to the right, with real spacing */
-  .login-page-footer,
-  .login-footer{
-    position: fixed !important;
-    inset: auto 0 0 0 !important;
-    width: 100vw !important;
-    z-index: 1000 !important;
-
-    display: grid !important;
-    grid-template-columns: repeat(6, max-content) !important; /* 6 cells */
-    justify-content: end !important;  /* shift the whole grid to the right */
-    align-items: center !important;
-    column-gap: 24px !important;
-
-    /* keep some breathing room at edges */
-    padding-right: var(--gutter-footer) !important;  /* right spacing */
-    padding-left: var(--gutter-header) !important;   /* left rail start */
-  }
-
-  /* Make each link its own grid item without changing markup */
-  .login-page-footer-links{ display: contents !important; }
-
-  /* No truncation / ellipses */
-  .login-page-footer a,
-  .login-footer a,
-  .login-page-footer-right{
-    white-space: normal !important;
-    overflow: visible !important;
-    text-overflow: clip !important;
-    padding: 0 !important;           /* clean look inside each cell */
-    text-align: center !important;
-  }
-
-  /* Keep content above the fixed footer */
-  .login-canvas,
-  .login-main{ padding-bottom: 140px !important; }
-  @supports (padding:max(0px)){
-    .login-canvas,
-    .login-main{
-      padding-bottom: max(140px, calc(140px + env(safe-area-inset-bottom))) !important;
-    }
-  }
-}
-/* ==== FORCE NO SCROLL ON ALL RESPONSIVE SIZES ==== */
-html, body {
-  overflow: hidden !important;
-  overflow-x: hidden !important;
-  overflow-y: hidden !important;
-}
-/* === Micro-fix: 1206–1225px alignment === */
-@media (min-width:1206px) and (max-width:1225px){
-
-  /* align the iCMS header and login form on the same left rail */
-  .login-title.font-dynamic,
-  header .brand-title,
-  header .icms-title {
-    margin-left: var(--gutter-header) !important;
-  }
-
-  .login-form-container {
-    transform: none !important;
-    left: auto !important;
-    margin: 0 !important;
-    margin-left: var(--gutter-header) !important;  /* 👈 align with iCMS */
-    max-width: 520px !important;
-    width: 100% !important;
-  }
-
-  /* keep the "Log in to iCMS" text flush inside container */
-  .login-form-title { margin-left: 0 !important; }
-}
-/* mobile
- 
-*/
-
-
-/* === MOBILE FOOTER = IBM modal style (stacked list) === */
-@media (max-width: 680px){
-
-  /* Show the footer on mobile (override earlier `display:none`) */
-  .login-page-footer,
-  .login-footer{
-    display: block !important;                 /* block container, full width */
-    position: fixed !important;
-    inset: auto 0 0 0 !important;              /* stick to bottom */
-    padding: 16px 16px calc(16px + env(safe-area-inset-bottom,0px)) 16px !important;
-    background: var(--ibm-footer-bg) !important;
-    color: var(--ibm-footer-ink) !important;
-    z-index: 2147483647 !important;
-  }
-
-  /* Reserve space above the fixed footer so content never overlaps */
-  .login-canvas,
-  .login-main{
-    padding-bottom: calc(140px + env(safe-area-inset-bottom,0px)) !important;
-  }
-
-  /* Make links a vertical list (no grid/flex) */
-  .login-page-footer-links{
-    display: block !important;                 /* container becomes block */
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  /* Each link = its own row, left aligned, comfy touch target */
-  .login-page-footer a{
-    display: block !important;
-    text-align: left !important;
-    padding: 12px 0 !important;               /* bigger tap area */
-    margin: 0 !important;
-    white-space: normal !important;           /* never ellipsis */
-    overflow: visible !important;
-    text-overflow: clip !important;
-    border-top: 1px solid rgba(255,255,255,.14);
-  }
-  .login-page-footer a:first-child{
-    border-top: 0 !important;
-  }
-
-  /* “Powered by …” sits as its own row with a divider above */
-  .login-page-footer-right{
-    display: block !important;
-    text-align: left !important;
-    margin-top: 12px !important;
-    padding-top: 12px !important;
-    border-top: 1px solid rgba(255,255,255,.14);
-    white-space: normal !important;
-  }
-
-  /* Comfortable, IBM-like sizing on small screens */
-  .login-page-footer a,
-  .login-page-footer-right{
-    font-size: clamp(13px, 3.8vw, 15px) !important;
-    line-height: 1.35 !important;
-    opacity: .95 !important;
-  }
-}
-
-
-
-
-
