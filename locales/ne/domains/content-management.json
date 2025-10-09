@@ -5,7 +5,13 @@
     "home": "गृह",
     "contentManagement": "सामग्री व्यवस्थापन"
   },
-  
+  "pagination": {
+    "previous": "अघिल्लो",
+    "next": "अर्को",
+    "itemsPerPage": "प्रत्येक पृष्ठमा वस्तुहरू:",
+    "pageNumber": "पृष्ठ {pageNumber}"
+  },
+
   "actions": {
     "createNew": "नयाँ सामग्री",
     "edit": "सम्पादन गर्नुहोस्",
@@ -84,14 +90,19 @@
         "ne": "शीर्षक लेख्नुहोस्"
       }
     },
+    "description": {
+      "label": "विवरण",
+      "placeholder": {
+        "en": "अंग्रेजी मा विवरण प्रविष्ट गर्नुहोस्",
+        "ne": "नेपालीमा विवरण प्रविष्ट गर्नुहोस्"
+      }
+    },
     "slug": {
       "label": "स्लग",
       "placeholder": "URL-मैत्री स्लग लेख्नुहोस्",
       "helperText": "शीर्षकको URL-मैत्री संस्करण (उदाहरण: 'नयाँ-नीति-घोषणा')"
     },
     "slugPlaceholder": "शीर्षकबाट स्वचालित-सिर्जना",
-    "description": "विवरण",
-    "descriptionPlaceholder": "विवरण लेख्नुहोस्",
     "content": {
       "label": "सामग्री",
       "placeholder": {
@@ -160,13 +171,15 @@
   "validation": {
     "errorsTitle": "प्रमाणीकरण त्रुटिहरू",
     "titleRequired": "शीर्षक आवश्यक छ",
+    "descriptionRequired": "विवरण आवश्यक छ",
     "slugRequired": "स्लग आवश्यक छ",
     "slugFormat": "स्लगमा केवल सानो अक्षरहरू, संख्याहरू र हाइफनहरू हुन सक्छन्",
     "excerptRequired": "सारांश आवश्यक छ",
     "contentRequired": "सामग्री आवश्यक छ",
     "categoryRequired": "श्रेणी आवश्यक छ",
     "categoryNameRequired": "श्रेणीको नाम आवश्यक छ (EN/NE)",
-    "orderRange": "क्रम धनात्मक संख्या हुनुपर्छ"
+    "orderRange": "क्रम धनात्मक संख्या हुनुपर्छ",
+    "nameMinLength": "नाम कम्तिमा ३ अक्षरको हुनुपर्छ"
   },
 
   "attachments": {
@@ -398,4 +411,4 @@
   "list": {
     "title": "सामग्रीहरू"
   }
-} 
+}
