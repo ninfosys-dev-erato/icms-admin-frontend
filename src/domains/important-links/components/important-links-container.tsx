@@ -151,8 +151,7 @@ export const ImportantLinksContainer: React.FC = () => {
       </div>
 
       {/* Side Panel */}
-      <FeatureFlags enableSidepanelResizer={true}>
-      <SidePanelForm
+  <SidePanelForm
         title={panelTitle}
         subtitle={panelMode === "edit" ? panelLink?.linkTitle?.en : undefined}
         open={panelOpen}
@@ -220,7 +219,6 @@ export const ImportantLinksContainer: React.FC = () => {
           />
         </div>
       </SidePanelForm>
-      </FeatureFlags>
     </Layer>
   );
 };
