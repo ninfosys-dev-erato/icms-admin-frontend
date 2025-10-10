@@ -34,6 +34,11 @@ export const OfficeSettingsForm: React.FC<OfficeSettingsFormProps> = ({
   onSuccess,
   className,
 }) => {
+  // Controlled tab state for each multilingual field
+  const [directorateTab, setDirectorateTab] = useState<"en" | "ne">("en");
+  const [officeNameTab, setOfficeNameTab] = useState<"en" | "ne">("en");
+  const [officeAddressTab, setOfficeAddressTab] = useState<"en" | "ne">("en");
+  const [phoneNumberTab, setPhoneNumberTab] = useState<"en" | "ne">("en");
   const t = useTranslations("office-settings");
   // Try more explicit store access to ensure re-renders
   const loading = useOfficeSettingsStore((state) => state.loading);
@@ -120,34 +125,43 @@ export const OfficeSettingsForm: React.FC<OfficeSettingsFormProps> = ({
 
   const validateForm = (): boolean => {
     const errors: Record<string, string> = {};
+    // Track which tab to switch to for each field
+    let directorateLang: "en" | "ne" | null = null;
+    let officeNameLang: "en" | "ne" | null = null;
+    let officeAddressLang: "en" | "ne" | null = null;
+    let phoneNumberLang: "en" | "ne" | null = null;
 
     // Validate translatable fields
     if (!formData.directorate.en.trim()) {
       errors.directorate = t("form.directorate.validation.required");
-    }
-    if (!formData.directorate.ne.trim()) {
+      directorateLang = "en";
+    } else if (!formData.directorate.ne.trim()) {
       errors.directorate = t("form.directorate.validation.required");
+      directorateLang = "ne";
     }
 
     if (!formData.officeName.en.trim()) {
       errors.officeName = t("form.officeName.validation.required");
-    }
-    if (!formData.officeName.ne.trim()) {
+      officeNameLang = "en";
+    } else if (!formData.officeName.ne.trim()) {
       errors.officeName = t("form.officeName.validation.required");
+      officeNameLang = "ne";
     }
 
     if (!formData.officeAddress.en.trim()) {
       errors.officeAddress = t("form.officeAddress.validation.required");
-    }
-    if (!formData.officeAddress.ne.trim()) {
+      officeAddressLang = "en";
+    } else if (!formData.officeAddress.ne.trim()) {
       errors.officeAddress = t("form.officeAddress.validation.required");
+      officeAddressLang = "ne";
     }
 
     if (!formData.phoneNumber.en.trim()) {
       errors.phoneNumber = t("form.phoneNumber.validation.required");
-    }
-    if (!formData.phoneNumber.ne.trim()) {
+      phoneNumberLang = "en";
+    } else if (!formData.phoneNumber.ne.trim()) {
       errors.phoneNumber = t("form.phoneNumber.validation.required");
+      phoneNumberLang = "ne";
     }
 
     // Validate email
@@ -171,6 +185,13 @@ export const OfficeSettingsForm: React.FC<OfficeSettingsFormProps> = ({
     }
 
     setValidationErrors(errors);
+
+    // Programmatically switch to the tab with the error for each field
+    if (directorateLang) setDirectorateTab(directorateLang);
+    if (officeNameLang) setOfficeNameTab(officeNameLang);
+    if (officeAddressLang) setOfficeAddressTab(officeAddressLang);
+    if (phoneNumberLang) setPhoneNumberTab(phoneNumberLang);
+
     return Object.keys(errors).length === 0;
   };
 
@@ -380,6 +401,8 @@ export const OfficeSettingsForm: React.FC<OfficeSettingsFormProps> = ({
                       invalidText={validationErrors.directorate}
                       disabled={!isEditing}
                       required
+                      activeTab={directorateTab}
+                      setActiveTab={setDirectorateTab}
                     />
                   </Column>
                   <Column lg={8} md={4} sm={4}>
@@ -394,6 +417,8 @@ export const OfficeSettingsForm: React.FC<OfficeSettingsFormProps> = ({
                       invalidText={validationErrors.officeName}
                       disabled={!isEditing}
                       required
+                      activeTab={officeNameTab}
+                      setActiveTab={setOfficeNameTab}
                     />
                   </Column>
                 </Grid>
@@ -409,6 +434,8 @@ export const OfficeSettingsForm: React.FC<OfficeSettingsFormProps> = ({
                   invalidText={validationErrors.officeAddress}
                   disabled={!isEditing}
                   required
+                  activeTab={officeAddressTab}
+                  setActiveTab={setOfficeAddressTab}
                 />
               </FormGroup>
             </Tile>
@@ -450,6 +477,8 @@ export const OfficeSettingsForm: React.FC<OfficeSettingsFormProps> = ({
                       invalidText={validationErrors.phoneNumber}
                       disabled={!isEditing}
                       required
+                      activeTab={phoneNumberTab}
+                      setActiveTab={setPhoneNumberTab}
                     />
                   </Column>
                 </Grid>

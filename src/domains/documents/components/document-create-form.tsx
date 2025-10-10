@@ -12,14 +12,13 @@ import {
   Button,
   Select,
   SelectItem,
-  DatePicker,
-  DatePickerInput,
   DismissibleTag,
   TextInput,
 } from "@carbon/react";
 import { Add, Reset, TrashCan } from "@carbon/icons-react";
 import { useTranslations } from "next-intl";
 import { TranslatableField } from "@/components/shared/translatable-field";
+import { NepaliDatePickerComponent } from "@/components/shared/nepali-date-picker";
 import { DocumentUpload } from "./document-upload";
 import {
   DocumentFormData,
@@ -397,24 +396,17 @@ export const DocumentCreateForm: React.FC<DocumentCreateFormProps> = ({
 
             <div className="w-100">
               <Column lg={16} md={4} sm={4}>
-                <DatePicker
-                className="w-100"
-                  dateFormat="Y-m-d"
-                  datePickerType="single"
+                <NepaliDatePickerComponent
+                  id="publish-date"
+                  labelText={t("form.publishDate.label")}
+                  placeholder="YYYY/MM/DD"
+                  className="w-100"
+                  size="lg"
                   value={createFormState.publishDate}
-                  onChange={(dates) =>
-                    handleInputChange("publishDate", dates?.[0])
-                  }
-                >
-                  <DatePickerInput
-                    id="publish-date"
-                    labelText={t("form.publishDate.label")}
-                    placeholder="YYYY-MM-DD"
-                    className="w-100"
-                    size="lg"
-                    // className="document-create-form-date-input"
-                  />
-                </DatePicker>
+                  onChange={(date) => handleInputChange("publishDate", date)}
+                  invalid={!!validationErrors.publishDate}
+                  invalidText={validationErrors.publishDate}
+                />
               </Column>
             </div>
 

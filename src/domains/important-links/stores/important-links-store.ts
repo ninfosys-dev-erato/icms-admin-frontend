@@ -25,7 +25,7 @@ export interface ImportantLinksUIStore {
 
   // Form Actions
   initializeEditForm: (link: ImportantLink) => void;
-  resetCreateForm: () => void;
+  resetCreateForm: (defaultOrder?: number) => void;
   updateFormField: (
     id: string | 'create',
     field: keyof ImportantLinkFormData,
@@ -112,12 +112,12 @@ export const useImportantLinksStore = create<ImportantLinksUIStore>()(
         }));
       },
 
-      resetCreateForm: () => {
+      resetCreateForm: (defaultOrder?: number) => {
         set({
           createFormState: {
             linkTitle: { en: '', ne: '' },
             linkUrl: '',
-            order: 1,
+            order: defaultOrder ?? 1,
             isActive: true,
           },
         });

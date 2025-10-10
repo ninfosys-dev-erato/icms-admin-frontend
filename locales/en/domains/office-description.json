@@ -68,7 +68,7 @@
     "title": "Error",
     "validation": {
       "typeRequired": "Description type is required",
-      "contentRequired": "Content is required in at least one language"
+      "contentRequired": "Content is required in both languages"
     }
   }
 } 

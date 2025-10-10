@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   InlineLoading,
   Pagination,
@@ -35,6 +35,14 @@ export const MediaList: React.FC<MediaListProps> = ({
   const queryResult = useMedia(query);
   const t = useTranslations("media");
 
+  const handlePageChange = useCallback((page: number, pageSize?: number) => {
+    setQuery((prev) => ({
+      ...prev,
+      page,
+      limit: pageSize ?? prev.limit,
+    }));
+  }, []);
+
   useEffect(() => {
     setQuery((prev) => ({
       ...prev,
@@ -48,7 +56,14 @@ export const MediaList: React.FC<MediaListProps> = ({
 
   const data = queryResult.data;
   const items = (data?.data ?? []) as Media[];
-  const pagination = data?.pagination;
+  const pagination = data?.pagination || {
+    page: 1,
+    limit: 12,
+    total: 0,
+    totalPages: 0,
+    hasNext: false,
+    hasPrev: false,
+  };
 
   if (queryResult.isLoading && items.length === 0) {
     return (
@@ -147,12 +162,11 @@ export const MediaList: React.FC<MediaListProps> = ({
             pageSize={pagination.limit}
             pageSizes={[12, 24, 48, 96]}
             totalItems={pagination.total}
-            onChange={({ page, pageSize }) => {
-              if (page !== undefined) setQuery((prev) => ({ ...prev, page }));
-              if (pageSize !== undefined)
-                setQuery((prev) => ({ ...prev, limit: pageSize, page: 1 }));
-            }}
-            size="md"
+            onChange={({ page, pageSize }) => handlePageChange(page, pageSize)}
+            backwardText="Previous"
+            forwardText="Next"
+            itemsPerPageText="Items per page:"
+            pageNumberText="Page Number"
           />
         </div>
       )}
