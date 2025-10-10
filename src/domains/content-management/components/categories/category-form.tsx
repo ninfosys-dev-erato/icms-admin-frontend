@@ -308,9 +308,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = React.memo(
         <Grid fullWidth>
           <Column lg={16} md={8} sm={4}>
             <FormGroup
-              legendText={t("categories.sections.basicInfo", {
-                default: "Basic Information",
-              })}
+              legendText=""
             >
               <TranslatableField
                 label={t("categories.form.name.label", { default: "Name" })}
@@ -416,14 +414,16 @@ export const CategoryForm: React.FC<CategoryFormProps> = React.memo(
       <div id="content-form">
         <div className="section-header-row">
           <h3 className="section-title">{t("sections.basicInfo")}</h3>
-          <Button
-            kind="ghost"
-            size="sm"
-            renderIcon={Reset}
-            onClick={handleResetForm}
-          >
-            {tCommon("reset", { default: "Reset" })}
-          </Button>
+          {mode === "create" && (
+            <Button
+              kind="ghost"
+              size="sm"
+              renderIcon={Reset}
+              onClick={handleResetForm}
+            >
+              {tCommon("reset", { default: "Reset" })}
+            </Button>
+          )}
         </div>
 
         {formContent}

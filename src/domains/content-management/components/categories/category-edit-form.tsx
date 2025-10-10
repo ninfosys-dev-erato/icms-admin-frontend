@@ -166,7 +166,7 @@ export const CategoryEditForm: React.FC<CategoryEditFormProps> = ({
       <div id="content-form">
         {/* Top action bar */}
         <div className="top-action-bar">
-          <Button
+          {/* <Button
             kind="ghost"
             size="sm"
             renderIcon={Reset}
@@ -177,7 +177,7 @@ export const CategoryEditForm: React.FC<CategoryEditFormProps> = ({
             disabled={isSubmitting}
           >
             {tContent("actions.reset", { default: "Reset" })}
-          </Button>
+          </Button> */}
         </div>
         {isSubmitting && (
           <div className="submitting-indicator">
