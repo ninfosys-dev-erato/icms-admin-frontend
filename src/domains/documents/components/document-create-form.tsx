@@ -54,8 +54,10 @@ export const DocumentCreateForm: React.FC<DocumentCreateFormProps> = ({
 
   // Validation state
   const [validationErrors, setValidationErrors] = useState<
-    Record<string, string>
+    Record<string, string | { en?: string; ne?: string }>
   >({});
+  const [titleTab, setTitleTab] = useState<"en" | "ne">("en");
+  const [descTab, setDescTab] = useState<"en" | "ne">("en");
   const [tags, setTags] = useState<string[]>(createFormState.tags || []);
   const [newTag, setNewTag] = useState<string>("");
 
@@ -76,19 +78,43 @@ export const DocumentCreateForm: React.FC<DocumentCreateFormProps> = ({
   }, [tags, createFormState.tags]);
 
   const validateForm = (): boolean => {
-    const errors: Record<string, string> = {};
+    const errors: Record<string, string | { en?: string; ne?: string }> = {};
+    let firstInvalidTitleLang: "en" | "ne" | null = null;
+    let firstInvalidDescLang: "en" | "ne" | null = null;
 
     // Validate file
     if (!selectedFile) {
       errors.file = t("form.file.validation.required");
     }
 
-    // Validate title
+    // Validate title (per language, only first error shown)
     if (!createFormState.title.en.trim()) {
-      errors.title = t("form.title.validation.required");
+      errors.title = {
+        ...((errors.title as any) || {}),
+        en: t("form.title.validation.required"),
+      };
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "en";
+    } else if (!createFormState.title.ne.trim()) {
+      errors.title = {
+        ...((errors.title as any) || {}),
+        ne: t("form.title.validation.required"),
+      };
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "ne";
     }
-    if (!createFormState.title.ne.trim()) {
-      errors.title = t("form.title.validation.required");
+
+    // Validate description (per language, only first error shown)
+    if (!createFormState.description?.en?.trim()) {
+      errors.description = {
+        ...((errors.description as any) || {}),
+        en: t("form.description.validation.required"),
+      };
+      if (!firstInvalidDescLang) firstInvalidDescLang = "en";
+    } else if (!createFormState.description?.ne?.trim()) {
+      errors.description = {
+        ...((errors.description as any) || {}),
+        ne: t("form.description.validation.required"),
+      };
+      if (!firstInvalidDescLang) firstInvalidDescLang = "ne";
     }
 
     // Validate category
@@ -107,6 +133,8 @@ export const DocumentCreateForm: React.FC<DocumentCreateFormProps> = ({
     }
 
     setValidationErrors(errors);
+    if (firstInvalidTitleLang) setTitleTab(firstInvalidTitleLang);
+    if (firstInvalidDescLang) setDescTab(firstInvalidDescLang);
     return Object.keys(errors).length === 0;
   };
 
@@ -313,7 +341,14 @@ export const DocumentCreateForm: React.FC<DocumentCreateFormProps> = ({
                 ne: t("form.title.placeholder.ne"),
               }}
               invalid={!!validationErrors.title}
-              invalidText={validationErrors.title}
+              invalidText={
+                validationErrors.title &&
+                typeof validationErrors.title === "object"
+                  ? validationErrors.title.en || validationErrors.title.ne
+                  : validationErrors.title
+              }
+              activeTab={titleTab}
+              setActiveTab={setTitleTab}
               required
             />
 
@@ -330,6 +365,16 @@ export const DocumentCreateForm: React.FC<DocumentCreateFormProps> = ({
                 }}
                 multiline
                 rows={3}
+                invalid={!!validationErrors.description}
+                invalidText={
+                  validationErrors.description &&
+                  typeof validationErrors.description === "object"
+                    ? validationErrors.description.en ||
+                      validationErrors.description.ne
+                    : validationErrors.description
+                }
+                activeTab={descTab}
+                setActiveTab={setDescTab}
               />
             </div>
 
@@ -343,7 +388,11 @@ export const DocumentCreateForm: React.FC<DocumentCreateFormProps> = ({
                     handleInputChange("category", event.target.value)
                   }
                   invalid={!!validationErrors.category}
-                  invalidText={validationErrors.category}
+                  invalidText={
+                    typeof validationErrors.category === "string"
+                      ? validationErrors.category
+                      : undefined
+                  }
                   required
                 >
                   {Object.values(DocumentCategory).map((category) => (
@@ -364,7 +413,11 @@ export const DocumentCreateForm: React.FC<DocumentCreateFormProps> = ({
                     handleInputChange("status", event.target.value)
                   }
                   invalid={!!validationErrors.status}
-                  invalidText={validationErrors.status}
+                  invalidText={
+                    typeof validationErrors.status === "string"
+                      ? validationErrors.status
+                      : undefined
+                  }
                   required
                 >
                   {Object.values(DocumentStatus).map((status) => (
@@ -380,7 +433,7 @@ export const DocumentCreateForm: React.FC<DocumentCreateFormProps> = ({
 
             <div className="w-100">
               <Column className="w-100" lg={16} md={4} sm={4}>
-                <TextInput 
+                <TextInput
                   id="documentNumber"
                   labelText={t("form.documentNumber.label")}
                   value={createFormState.documentNumber}
@@ -389,7 +442,11 @@ export const DocumentCreateForm: React.FC<DocumentCreateFormProps> = ({
                   }
                   placeholder={t("form.documentNumber.placeholder")}
                   invalid={!!validationErrors.documentNumber}
-                  invalidText={validationErrors.documentNumber}
+                  invalidText={
+                    typeof validationErrors.documentNumber === "string"
+                      ? validationErrors.documentNumber
+                      : undefined
+                  }
                 />
               </Column>
             </div>
@@ -426,14 +483,18 @@ export const DocumentCreateForm: React.FC<DocumentCreateFormProps> = ({
                   step={1}
                   size="sm"
                   invalid={!!validationErrors.order}
-                  invalidText={validationErrors.order}
+                  invalidText={
+                    typeof validationErrors.order === "string"
+                      ? validationErrors.order
+                      : undefined
+                  }
                 />
               </Column>
             </div>
 
             <div className="document-create-form-file-section">
               <FormGroup legendText={t("sections.file")}>
-                {validationErrors.file && (
+                {typeof validationErrors.file === "string" && (
                   <div className="document-create-form-file-error">
                     {validationErrors.file}
                   </div>
