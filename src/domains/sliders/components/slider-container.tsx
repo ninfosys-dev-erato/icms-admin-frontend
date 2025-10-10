@@ -2,15 +2,13 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Layer, Breadcrumb, BreadcrumbItem, Dropdown, ButtonSet } from "@carbon/react";
-import { SidePanel, CreateSidePanel } from "@carbon/ibm-products";
+import { SidePanel, CreateSidePanel, unstable_FeatureFlags as FeatureFlags } from "@carbon/ibm-products";
 import "@/lib/ibm-products/config";
 import { Add, ArrowLeft, Close, Reset } from "@carbon/icons-react";
 import { useTranslations } from "next-intl";
 import { SliderList } from "./slider-list";
 import { SliderForm } from "./slider-form";
 import SidePanelForm from "@/components/shared/side-panel-form";
-import { unstable_FeatureFlags as FeatureFlags } from "@carbon/ibm-products"; // Not available in latest package
-
 import { useSliderStore } from "../stores/slider-store";
 import { useSliders } from "../hooks/use-slider-queries";
 import "../styles/sliders.css";
@@ -105,63 +103,63 @@ export const SliderContainer: React.FC = () => {
       </div>
 
       {/* Right side panel for create/edit */}
-      <FeatureFlags enableSidepanelResizer>
-      <SidePanelForm
-        title={panelTitle}
-        subtitle={panelMode === "edit" ? panelSlider?.title?.en : undefined}
-        open={!!panelOpen}
-        onRequestClose={() => {
-          if (!isSubmitting) {
-            closePanel();
-          }
-        }}
-        primaryButtonText={
-          isSubmitting
-            ? panelMode === 'edit'
-              ? t('actions.updating')
-              : t('actions.creating')
-            : panelMode === 'edit'
-              ? t('actions.update')
-              : t('actions.createNew')
-        }
-        secondaryButtonText={t('actions.cancel')}
-        onRequestSubmit={() => {
-          if (isSubmitting) return;
-          setSubmitting(true);
-          const formContainer = document.getElementById('slider-form');
-
-          if (formContainer) {
-            const form = formContainer.closest('form') as HTMLFormElement;
-            if (form) {
-              const submitEvent = new Event('submit', { cancelable: true, bubbles: true });
-              form.dispatchEvent(submitEvent);
-            } else {
-              const customSubmitEvent = new CustomEvent('formSubmit', { bubbles: true });
-              formContainer.dispatchEvent(customSubmitEvent);
+      <FeatureFlags enableSidepanelResizer={true}>
+        <CreateSidePanel
+          title={panelTitle}
+          subtitle={panelMode === "edit" ? panelSlider?.title?.en : undefined}
+          open={!!panelOpen}
+          onRequestClose={() => {
+            if (!isSubmitting) {
+              closePanel();
             }
-          } else {
-            setSubmitting(false);
+          }}
+          primaryButtonText={
+            isSubmitting
+              ? panelMode === 'edit'
+                ? t('actions.updating')
+                : t('actions.creating')
+              : panelMode === 'edit'
+                ? t('actions.update')
+                : t('actions.createNew')
           }
-        }}
-        selectorPageContent="#main-content"
-        formTitle={t('sections.basicInfo')}
-        selectorPrimaryFocus="input, textarea, [tabindex]:not([tabindex='-1'])"
-        className="slider-sidepanel-form"
-      >
-        <div className="slider-close-btn">
-          <Button
-            kind="ghost"
-            hasIconOnly
-            size="sm"
-            iconDescription={t("actions.cancel")}
-            onClick={closePanel}
-            renderIcon={Close}
-          />
-        </div>
-        <div className="slider-form-panel-content">
-          <SliderForm mode={panelMode} slider={panelSlider as any} onSuccess={handleFormSuccess} onCancel={closePanel} />
-        </div>
-      </SidePanelForm>
+          secondaryButtonText={t('actions.cancel')}
+          onRequestSubmit={() => {
+            if (isSubmitting) return;
+            setSubmitting(true);
+            const formContainer = document.getElementById('slider-form');
+
+            if (formContainer) {
+              const form = formContainer.closest('form') as HTMLFormElement;
+              if (form) {
+                const submitEvent = new Event('submit', { cancelable: true, bubbles: true });
+                form.dispatchEvent(submitEvent);
+              } else {
+                const customSubmitEvent = new CustomEvent('formSubmit', { bubbles: true });
+                formContainer.dispatchEvent(customSubmitEvent);
+              }
+            } else {
+              setSubmitting(false);
+            }
+          }}
+          selectorPageContent="#main-content"
+          formTitle={t('sections.basicInfo')}
+          selectorPrimaryFocus="input, textarea, [tabindex]:not([tabindex='-1'])"
+          className="slider-sidepanel-form"
+        >
+          <div className="slider-close-btn">
+            <Button
+              kind="ghost"
+              hasIconOnly
+              size="sm"
+              iconDescription={t("actions.cancel")}
+              onClick={closePanel}
+              renderIcon={Close}
+            />
+          </div>
+          <div className="slider-form-panel-content">
+            <SliderForm mode={panelMode} slider={panelSlider as any} onSuccess={handleFormSuccess} onCancel={closePanel} />
+          </div>
+        </CreateSidePanel>
       </FeatureFlags>
     </Layer>
   );

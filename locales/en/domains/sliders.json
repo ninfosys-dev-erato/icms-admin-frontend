@@ -11,7 +11,7 @@
   },
 
   "form": {
-    "createTitle": "New Slider",
+    "createTitle": "Create New Slider",
     "editTitle": "Edit Slider",
     "title": {
       "label": "Title",
@@ -85,7 +85,7 @@
   },
 
   "actions": {
-    "createNew": "Create New Slider",
+  "createNew": " New Slider",
     "creating": "Creating...",
     "edit": "Edit",
     "update": "Update",

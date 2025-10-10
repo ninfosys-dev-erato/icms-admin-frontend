@@ -139,7 +139,6 @@ export const MediaContainer: React.FC = () => {
       </div>
 
       {/* Right side panel - depends on active tab */}
-  <FeatureFlags enableSidepanelResizer>
         <SidePanelForm
           // Use existing keys; media has list.title, albums has formTitle
           formTitle={isMediaTab ? (t('list.title', { default: 'Media' } as any)) : (tAlbums('formTitle', { default: 'Album' } as any))}
@@ -187,7 +186,6 @@ export const MediaContainer: React.FC = () => {
             </div>
           )}
         </SidePanelForm>
-  </FeatureFlags>
     </Layer>
   );
 };

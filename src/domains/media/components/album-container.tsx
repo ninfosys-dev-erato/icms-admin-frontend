@@ -123,7 +123,6 @@ export const AlbumContainer: React.FC = () => {
       </div>
 
       {/* Right side panel */}
-      <FeatureFlags enableSidepanelResizer={true}>
         <SidePanelForm
           formTitle={t('albums.formTitle')}
           title={panelTitle}
@@ -162,7 +161,6 @@ export const AlbumContainer: React.FC = () => {
           <AlbumPanelForms onSuccess={closePanel} />
         </div>
       </SidePanelForm>
-      </FeatureFlags>
     </Layer>
   );
 };

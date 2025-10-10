@@ -427,7 +427,6 @@ export const NavigationContainer: React.FC = () => {
       </div>
 
       {/* Right side panel for create/edit */}
-      <FeatureFlags enableSidepanelResizer={true}>
         <SidePanelForm
           title={panelTitle}
           open={!!panelOpen}
@@ -554,7 +553,6 @@ export const NavigationContainer: React.FC = () => {
             )}
           </div>
         </SidePanelForm>
-      </FeatureFlags>
     </Layer>
   );
 };

@@ -73,7 +73,7 @@
   },
   
   "actions": {
-    "createNew": "New Link",
+    "createNew": "Create New Link",
     "creating": "Creating...",
     "edit": "Edit",
     "update": "Update",
