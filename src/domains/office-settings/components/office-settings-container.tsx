@@ -57,10 +57,11 @@ export const OfficeSettingsContainer: React.FC = () => {
         </div>
       )}
 
-      {/* Content - Always show the form */}
+      {/* Content */}
       <div className="office-settings-content">
         <OfficeSettingsForm settings={settings} onSuccess={handleSuccess} />
       </div>
     </div>
   );
 };
+
