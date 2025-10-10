@@ -1,15 +1,29 @@
 "use client";
 
 import React, { useEffect, useState, useCallback } from "react";
-import { Grid, Column, Select, SelectItem, InlineLoading, FormGroup, Button } from "@carbon/react";
+import {
+  Grid,
+  Column,
+  Select,
+  SelectItem,
+  InlineLoading,
+  FormGroup,
+  Button,
+} from "@carbon/react";
 import { Reset } from "@carbon/icons-react";
 import { useTranslations } from "next-intl";
 import { useOfficeDescriptionUIStore } from "../stores/office-description-ui-store";
-import { useCreateOfficeDescription, useUpdateOfficeDescription } from "../hooks/use-office-description-queries";
+import {
+  useCreateOfficeDescription,
+  useUpdateOfficeDescription,
+} from "../hooks/use-office-description-queries";
 import { safeErrorToString } from "@/shared/utils/error-utils";
 import { TranslatableField } from "@/components/shared/translatable-field";
 
-import { OfficeDescription, OfficeDescriptionType } from "../types/office-description";
+import {
+  OfficeDescription,
+  OfficeDescriptionType,
+} from "../types/office-description";
 
 interface OfficeDescriptionFormProps {
   mode: "create" | "edit";
@@ -19,25 +33,29 @@ interface OfficeDescriptionFormProps {
   className?: string;
 }
 
-export const OfficeDescriptionForm: React.FC<OfficeDescriptionFormProps> = ({ 
-  mode, 
-  description, 
-  onSuccess, 
-  onCancel, 
-  className = "" 
+export const OfficeDescriptionForm: React.FC<OfficeDescriptionFormProps> = ({
+  mode,
+  description,
+  onSuccess,
+  onCancel,
+  className = "",
 }) => {
+  // Controlled tab state for multilingual content field
+  const [contentTab, setContentTab] = useState<"en" | "ne">("en");
   const t = useTranslations("office-description");
-  const { 
+  const {
     formStateById,
     createFormState,
     activeFormId,
-    updateFormField, 
-    resetFormState, 
-    isSubmitting, 
-    setSubmitting 
+    updateFormField,
+    resetFormState,
+    isSubmitting,
+    setSubmitting,
   } = useOfficeDescriptionUIStore();
 
-  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [validationErrors, setValidationErrors] = useState<
+    Record<string, string>
+  >({});
   const [error, setError] = useState<string | null>(null);
 
   const createMutation = useCreateOfficeDescription();
@@ -47,7 +65,7 @@ export const OfficeDescriptionForm: React.FC<OfficeDescriptionFormProps> = ({
   const getCurrentFormData = useCallback(() => {
     if (mode === "create") {
       return createFormState;
-    } else if (mode === "edit" && activeFormId && activeFormId !== 'create') {
+    } else if (mode === "edit" && activeFormId && activeFormId !== "create") {
       return formStateById[activeFormId] || createFormState;
     }
     return createFormState;
@@ -62,27 +80,33 @@ export const OfficeDescriptionForm: React.FC<OfficeDescriptionFormProps> = ({
       e.stopPropagation();
       submitForm();
     };
-    const container = document.getElementById('office-description-form');
-    const form = container?.closest('form');
+    const container = document.getElementById("office-description-form");
+    const form = container?.closest("form");
     if (form) {
-      form.addEventListener('submit', handler);
-      return () => form.removeEventListener('submit', handler);
+      form.addEventListener("submit", handler);
+      return () => form.removeEventListener("submit", handler);
     }
     return undefined;
   }, [formData]);
 
   const validateForm = useCallback((): boolean => {
     const errors: Record<string, string> = {};
-    
+    let contentLang: "en" | "ne" | null = null;
+
     if (!formData.officeDescriptionType) {
       errors.officeDescriptionType = t("errors.validation.typeRequired");
     }
-    
-    if (!formData.content.en.trim() && !formData.content.ne.trim()) {
+
+    if (!formData.content.en.trim()) {
       errors.content = t("errors.validation.contentRequired");
+      contentLang = "en";
+    } else if (!formData.content.ne.trim()) {
+      errors.content = t("errors.validation.contentRequired");
+      contentLang = "ne";
     }
-    
+
     setValidationErrors(errors);
+    if (contentLang) setContentTab(contentLang);
     return Object.keys(errors).length === 0;
   }, [formData, t]);
 
@@ -91,18 +115,18 @@ export const OfficeDescriptionForm: React.FC<OfficeDescriptionFormProps> = ({
     if (!validateForm()) {
       return;
     }
-    
+
     setSubmitting(true);
     try {
       if (mode === "create") {
-        await createMutation.mutateAsync({ 
-          officeDescriptionType: formData.officeDescriptionType, 
-          content: formData.content 
+        await createMutation.mutateAsync({
+          officeDescriptionType: formData.officeDescriptionType,
+          content: formData.content,
         });
       } else if (mode === "edit" && description) {
-        await updateMutation.mutateAsync({ 
-          id: description.id, 
-          data: { content: formData.content } 
+        await updateMutation.mutateAsync({
+          id: description.id,
+          data: { content: formData.content },
         });
       }
       onSuccess?.();
@@ -112,12 +136,22 @@ export const OfficeDescriptionForm: React.FC<OfficeDescriptionFormProps> = ({
     } finally {
       setSubmitting(false);
     }
-  }, [setError, validateForm, setSubmitting, mode, createMutation, updateMutation, description, formData, onSuccess]);
+  }, [
+    setError,
+    validateForm,
+    setSubmitting,
+    mode,
+    createMutation,
+    updateMutation,
+    description,
+    formData,
+    onSuccess,
+  ]);
 
   const handleReset = () => {
     if (mode === "create") {
       resetFormState("create");
-    } else if (mode === "edit" && activeFormId && activeFormId !== 'create') {
+    } else if (mode === "edit" && activeFormId && activeFormId !== "create") {
       resetFormState(activeFormId);
     }
     setValidationErrors({});
@@ -130,7 +164,13 @@ export const OfficeDescriptionForm: React.FC<OfficeDescriptionFormProps> = ({
     <div className={className}>
       <div id="office-description-form">
         {/* Top action bar */}
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '0.5rem' }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginBottom: "0.5rem",
+          }}
+        >
           <Button
             kind="ghost"
             size="sm"
@@ -143,13 +183,21 @@ export const OfficeDescriptionForm: React.FC<OfficeDescriptionFormProps> = ({
         </div>
 
         {isSubmittingForm && (
-          <div style={{ marginBottom: '1rem' }}>
+          <div style={{ marginBottom: "1rem" }}>
             <InlineLoading description={t("form.saving")} />
           </div>
         )}
 
         {error && (
-          <div style={{ marginBottom: '1rem', padding: '0.75rem', backgroundColor: 'var(--cds-support-error)', color: 'white', borderRadius: '4px' }}>
+          <div
+            style={{
+              marginBottom: "1rem",
+              padding: "0.75rem",
+              backgroundColor: "var(--cds-support-error)",
+              color: "white",
+              borderRadius: "4px",
+            }}
+          >
             {safeErrorToString(error)}
           </div>
         )}
@@ -162,29 +210,59 @@ export const OfficeDescriptionForm: React.FC<OfficeDescriptionFormProps> = ({
                 id="office-description-type"
                 labelText={t("form.type.label")}
                 value={formData.officeDescriptionType}
-                onChange={(e) => updateFormField(mode === "create" ? "create" : (activeFormId || "create"), "officeDescriptionType", e.target.value as OfficeDescriptionType)}
+                onChange={(e) =>
+                  updateFormField(
+                    mode === "create" ? "create" : activeFormId || "create",
+                    "officeDescriptionType",
+                    e.target.value as OfficeDescriptionType
+                  )
+                }
                 invalid={!!validationErrors.officeDescriptionType}
                 invalidText={validationErrors.officeDescriptionType}
                 disabled={isSubmittingForm}
                 required
               >
                 <SelectItem value="" text={t("form.type.placeholder")} />
-                <SelectItem value={OfficeDescriptionType.INTRODUCTION} text={t("types.INTRODUCTION")} />
-                <SelectItem value={OfficeDescriptionType.OBJECTIVE} text={t("types.OBJECTIVE")} />
-                <SelectItem value={OfficeDescriptionType.WORK_DETAILS} text={t("types.WORK_DETAILS")} />
-                <SelectItem value={OfficeDescriptionType.ORGANIZATIONAL_STRUCTURE} text={t("types.ORGANIZATIONAL_STRUCTURE")} />
-                <SelectItem value={OfficeDescriptionType.DIGITAL_CHARTER} text={t("types.DIGITAL_CHARTER")} />
-                <SelectItem value={OfficeDescriptionType.EMPLOYEE_SANCTIONS} text={t("types.EMPLOYEE_SANCTIONS")} />
+                <SelectItem
+                  value={OfficeDescriptionType.INTRODUCTION}
+                  text={t("types.INTRODUCTION")}
+                />
+                <SelectItem
+                  value={OfficeDescriptionType.OBJECTIVE}
+                  text={t("types.OBJECTIVE")}
+                />
+                <SelectItem
+                  value={OfficeDescriptionType.WORK_DETAILS}
+                  text={t("types.WORK_DETAILS")}
+                />
+                <SelectItem
+                  value={OfficeDescriptionType.ORGANIZATIONAL_STRUCTURE}
+                  text={t("types.ORGANIZATIONAL_STRUCTURE")}
+                />
+                <SelectItem
+                  value={OfficeDescriptionType.DIGITAL_CHARTER}
+                  text={t("types.DIGITAL_CHARTER")}
+                />
+                <SelectItem
+                  value={OfficeDescriptionType.EMPLOYEE_SANCTIONS}
+                  text={t("types.EMPLOYEE_SANCTIONS")}
+                />
               </Select>
 
-              <div style={{ marginTop: '1rem' }}>
+              <div style={{ marginTop: "1rem" }}>
                 <TranslatableField
                   label={t("form.content.label")}
                   value={formData.content}
-                  onChange={(value) => updateFormField(mode === "create" ? "create" : (activeFormId || "create"), "content", value)}
-                  placeholder={{ 
-                    en: t("form.content.placeholder.en"), 
-                    ne: t("form.content.placeholder.ne") 
+                  onChange={(value) =>
+                    updateFormField(
+                      mode === "create" ? "create" : activeFormId || "create",
+                      "content",
+                      value
+                    )
+                  }
+                  placeholder={{
+                    en: t("form.content.placeholder.en"),
+                    ne: t("form.content.placeholder.ne"),
                   }}
                   multiline
                   rows={6}
@@ -192,6 +270,8 @@ export const OfficeDescriptionForm: React.FC<OfficeDescriptionFormProps> = ({
                   invalid={!!validationErrors.content}
                   invalidText={validationErrors.content}
                   disabled={isSubmittingForm}
+                  activeTab={contentTab}
+                  setActiveTab={setContentTab}
                 />
               </div>
             </FormGroup>

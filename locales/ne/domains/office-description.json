@@ -68,7 +68,7 @@
     "title": "त्रुटि",
     "validation": {
       "typeRequired": "वर्णन प्रकार आवश्यक छ",
-      "contentRequired": "कम्तिमा एउटा भाषामा सामग्री आवश्यक छ"
+      "contentRequired": "दुवै भाषामा सामग्री आवश्यक छ"
     }
   }
 } 

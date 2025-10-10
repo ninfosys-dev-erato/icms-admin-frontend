@@ -131,10 +131,10 @@ export const ImportantLinksList: React.FC<ImportantLinksListProps> = ({
         {/* Links Cards - Using CSS Grid for consistent sizing */}
         {displayLinks.length > 0 ? (
           <div className="links-grid">
-            {displayLinks.map((link: ImportantLink) => {
+            {displayLinks.map((link: ImportantLink, idx: number) => {
               const displayTitle = ImportantLinksService.getDisplayTitle(link);
               const formattedUrl = ImportantLinksService.formatUrl(link.linkUrl);
-              
+          
               return (
                 <Tile
                   key={link.id}
@@ -143,9 +143,9 @@ export const ImportantLinksList: React.FC<ImportantLinksListProps> = ({
                   <div className="card-header">
                     {/* Order badge */}
                     <div className="order-badge">
-                      <Tag type="blue" size="sm">#{link.order}</Tag>
+                      <Tag type="blue" size="sm">#{idx + 1}</Tag>
                     </div>
-                    
+                
                     {/* Overflow menu positioned at top-right of card */}
                     <div className="card-overflow-menu">
                       <OverflowMenu 

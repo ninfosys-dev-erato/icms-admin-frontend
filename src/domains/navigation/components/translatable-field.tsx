@@ -16,6 +16,8 @@ interface TranslatableFieldProps {
   required?: boolean;
   className?: string;
   type?: "text" | "textarea";
+  activeTab?: "en" | "ne";
+  setActiveTab?: (tab: "en" | "ne") => void;
 }
 
 export const TranslatableField: React.FC<TranslatableFieldProps> = ({
@@ -29,9 +31,17 @@ export const TranslatableField: React.FC<TranslatableFieldProps> = ({
   required = false,
   className,
   type = "text",
+  activeTab: controlledActiveTab,
+  setActiveTab: controlledSetActiveTab,
 }) => {
   const t = useTranslations();
-  const [activeTab, setActiveTab] = useState<"en" | "ne">("en");
+  const [internalTab, setInternalTab] = useState<"en" | "ne">("en");
+  const activeTab =
+    controlledActiveTab !== undefined ? controlledActiveTab : internalTab;
+  const setActiveTab =
+    controlledSetActiveTab !== undefined
+      ? controlledSetActiveTab
+      : setInternalTab;
 
   // Guard against undefined value to avoid uncontrolled -> controlled warnings
   const safeValue = value ?? { en: "", ne: "" };
@@ -61,7 +71,7 @@ export const TranslatableField: React.FC<TranslatableFieldProps> = ({
           onClick={() => setActiveTab("en")}
           disabled={disabled}
         >
-          {t("languages.english", { default: "English" })} 
+          {t("languages.english", { default: "English" })}
         </button>
         <button
           type="button"
@@ -69,7 +79,7 @@ export const TranslatableField: React.FC<TranslatableFieldProps> = ({
           onClick={() => setActiveTab("ne")}
           disabled={disabled}
         >
-          {t("languages.nepali", { default: "नेपाली" })} 
+          {t("languages.nepali", { default: "नेपाली" })}
         </button>
       </div>
 

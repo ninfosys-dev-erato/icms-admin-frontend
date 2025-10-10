@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useCallback, useEffect } from "react";
@@ -299,10 +300,29 @@ export const MenuList: React.FC<MenuListProps> = ({
           })()}
             </>
       )}
+          {/* === UPDATED: i18n title + subtitle for the delete modal === */}
           <ConfirmDeleteModal
             open={deleteModalOpen}
-            title={menuToDelete ? `Delete "${menuToDelete.name?.en || menuToDelete.name?.ne || 'menu'}"` : 'Confirm Deletion'}
-            subtitle={menuToDelete ? `Are you sure you want to delete "${menuToDelete.name?.en || menuToDelete.name?.ne || 'this menu'}"? This action cannot be undone.` : undefined}
+            title={
+              menuToDelete
+                ? t("modals.deleteMenu.title", {
+                    default: 'Delete "{name}"',
+                    name: menuToDelete.name?.en || menuToDelete.name?.ne || "menu",
+                  })
+                : t("modals.confirm.title", { default: "Confirm Deletion" })
+            }
+            subtitle={
+              menuToDelete
+                ? t("modals.deleteMenu.subtitle", {
+                    default:
+                      'Are you sure you want to delete "{name}"? This action cannot be undone.',
+                    name:
+                      menuToDelete.name?.en ||
+                      menuToDelete.name?.ne ||
+                      "this menu",
+                  })
+                : undefined
+            }
             onConfirm={() => {
               if (menuToDelete) deleteMutation.mutate(menuToDelete.id);
               setDeleteModalOpen(false);
