@@ -280,54 +280,12 @@ html, body {
    ADDED (non-destructive) — ensure correct layout everywhere
    ========================================================= */
 
-/* 1) Parent needs positioning context */
-.cds--password-input { position: relative; }
-
-/* 2) Wrapper should not be flex in this page; force inline-block
-      and allow the toggle to escape clipping */
-.cds--password-input .cds--text-input__field-wrapper {
-  position: relative !important;
-  display: inline-block !important;   /* prevent flex side-effects */
-  width: 100% !important;
-  overflow: visible !important;        /* <-- make sure toggle isn't clipped */
-}
-
-/* 3) Make room inside the input (final override) */
-.cds--password-input input.cds--text-input__field {
-  padding-right: 48px !important;
-}
-
-/* 4) Ensure the toggle is visible & clickable across versions */
-.cds--password-input .cds--text-input--password__visibility__toggle,
-.cds--password-input .cds--text-input__password__visibility__toggle,
-.cds--password-input .cds--password-input__visibility__toggle,
-.cds--password-input [data-toggle-password-visibility],
-/* very defensive: any icon-only button inside password input */
-.cds--password-input button[aria-label*="password"],
-.cds--password-input button[title*="password"] {
-  display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-}
-
-/* 5) Icon sizing */
-.cds--password-input .cds--text-input--password__visibility__toggle svg,
-.cds--password-input .cds--text-input__password__visibility__toggle svg,
-.cds--password-input .cds--password-input__visibility__toggle svg,
-.cds--password-input [data-toggle-password-visibility] svg,
-.cds--password-input button[aria-label*="password"] svg,
-.cds--password-input button[title*="password"] svg {
-  width: 20px;
-  height: 20px;
-  display: block;
+  /* Comfortable, IBM-like sizing on small screens */
+  .login-page-footer a,
+  .login-page-footer-right{
+    font-size: clamp(13px, 3.8vw, 15px) !important;
+    line-height: 1.35 !important;
+    opacity: .95 !important;
+ 
+  }
 }
