@@ -23,7 +23,7 @@
         "ne": "Enter menu name in Nepali"
       },
       "validation": {
-        "required": "Menu name is required in at least one language"
+        "required": "Menu name is required in both language"
       }
     },
     "description": {
@@ -202,7 +202,7 @@
           "ne": "नेपालीमा वस्तुको शीर्षक लेख्नुहोस्"
         },
         "validation": {
-          "required": "Title is required in at least one language"
+          "required": "Title is required in both language"
         }
       },
       "description": {

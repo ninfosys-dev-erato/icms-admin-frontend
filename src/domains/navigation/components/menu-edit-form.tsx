@@ -72,6 +72,7 @@ export const MenuEditForm: React.FC<MenuEditFormProps> = ({
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
   >({});
+  const [nameTab, setNameTab] = useState<"en" | "ne">("en");
   const [hasChanges, setHasChanges] = useState(false);
 
   // Check for changes
@@ -92,23 +93,37 @@ export const MenuEditForm: React.FC<MenuEditFormProps> = ({
 
   const validateForm = (): boolean => {
     const errors: Record<string, string> = {};
+    let firstInvalidNameLang: "en" | "ne" | null = null;
 
-    // Validate name (required in at least one language)
-    if (!formData.name.en.trim() && !formData.name.ne.trim()) {
-      errors.name = t("form.name.validation.required", { default: "Menu name is required in at least one language" });
+    // Validate name (per language, only first error shown)
+    if (!formData.name.en.trim()) {
+      errors.name = t("form.name.validation.required", {
+        default: "Menu name is required in at least one language",
+      });
+      if (!firstInvalidNameLang) firstInvalidNameLang = "en";
+    } else if (!formData.name.ne.trim()) {
+      errors.name = t("form.name.validation.required", {
+        default: "Menu name is required in at least one language",
+      });
+      if (!firstInvalidNameLang) firstInvalidNameLang = "ne";
     }
 
     // Validate location
     if (!formData.location) {
-      errors.location = t("form.location.validation.required", { default: "Menu location is required" });
+      errors.location = t("form.location.validation.required", {
+        default: "Menu location is required",
+      });
     }
 
     // Validate order
     if (formData.order < 0) {
-      errors.order = t("form.order.validation.min", { default: "Order must be a non-negative number" });
+      errors.order = t("form.order.validation.min", {
+        default: "Order must be a non-negative number",
+      });
     }
 
     setValidationErrors(errors);
+    if (firstInvalidNameLang) setNameTab(firstInvalidNameLang);
     return Object.keys(errors).length === 0;
   };
 
@@ -123,13 +138,13 @@ export const MenuEditForm: React.FC<MenuEditFormProps> = ({
         isPublished: formData.isPublished,
         categorySlug: formData.categorySlug || undefined, // Include categorySlug
       };
-      
-  // Submitting payload
-  // categorySlug value present in formData if provided
-      
+
+      // Submitting payload
+      // categorySlug value present in formData if provided
+
       await updateMutation.mutateAsync({
         id: menu.id,
-        data: payload
+        data: payload,
       });
 
       setValidationErrors({});
@@ -148,7 +163,7 @@ export const MenuEditForm: React.FC<MenuEditFormProps> = ({
       e.preventDefault();
       e.stopPropagation();
       setSubmitting(true);
-      
+
       // Validate and submit the form
       if (!validateForm()) {
         setSubmitting(false);
@@ -158,17 +173,26 @@ export const MenuEditForm: React.FC<MenuEditFormProps> = ({
       handleFormSubmission();
     };
 
-    const formContainer = document.getElementById('menu-form');
-    const parentForm = formContainer?.closest('form');
-    
+    const formContainer = document.getElementById("menu-form");
+    const parentForm = formContainer?.closest("form");
+
     if (parentForm) {
-      parentForm.addEventListener('submit', handleParentFormSubmit);
+      parentForm.addEventListener("submit", handleParentFormSubmit);
       return () => {
-        parentForm.removeEventListener('submit', handleParentFormSubmit);
+        parentForm.removeEventListener("submit", handleParentFormSubmit);
       };
     }
     return undefined;
-  }, [formData, updateMutation, onSuccess, menu.id, t, setSubmitting, handleFormSubmission, validateForm]);
+  }, [
+    formData,
+    updateMutation,
+    onSuccess,
+    menu.id,
+    t,
+    setSubmitting,
+    handleFormSubmission,
+    validateForm,
+  ]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -191,14 +215,13 @@ export const MenuEditForm: React.FC<MenuEditFormProps> = ({
           isActive: formData.isActive,
           isPublished: formData.isPublished,
           categorySlug: formData.categorySlug || undefined, // Include categorySlug
-        }
+        },
       });
 
       setValidationErrors({});
 
       // Call success callback immediately
       onSuccess?.();
-      
     } catch (error) {
       console.error("❌ Menu update error:", error);
     } finally {
@@ -218,17 +241,17 @@ export const MenuEditForm: React.FC<MenuEditFormProps> = ({
   };
 
   const locationOptions = [
-    { value: 'HEADER', label: 'Header' },
-    { value: 'FOOTER', label: 'Footer' },
-    { value: 'SIDEBAR', label: 'Sidebar' },
-    { value: 'MOBILE', label: 'Mobile' },
-    { value: 'CUSTOM', label: 'Custom' },
+    { value: "HEADER", label: "Header" },
+    { value: "FOOTER", label: "Footer" },
+    { value: "SIDEBAR", label: "Sidebar" },
+    { value: "MOBILE", label: "Mobile" },
+    { value: "CUSTOM", label: "Custom" },
   ];
 
   // Prepare category options for autocomplete
-  const categoryOptions = categories.map(cat => ({
+  const categoryOptions = categories.map((cat) => ({
     id: cat.slug,
-    text: cat.name?.en || cat.name?.ne || cat.slug || 'Unknown',
+    text: cat.name?.en || cat.name?.ne || cat.slug || "Unknown",
     slug: cat.slug,
   }));
 
@@ -237,10 +260,12 @@ export const MenuEditForm: React.FC<MenuEditFormProps> = ({
       <div id="menu-form">
         {isSubmitting && (
           <div style={{ marginBottom: "1rem" }}>
-            <InlineLoading description={t("actions.updating", { default: "Updating..." })} />
+            <InlineLoading
+              description={t("actions.updating", { default: "Updating..." })}
+            />
           </div>
         )}
-        
+
         <Grid fullWidth>
           {/* Basic Information Section */}
           <Column lg={16} md={8} sm={4}>
@@ -250,12 +275,18 @@ export const MenuEditForm: React.FC<MenuEditFormProps> = ({
               value={formData.name}
               onChange={(name) => handleInputChange("name", name)}
               placeholder={{
-                en: t("form.name.placeholder.en", { default: "Enter menu name in English" }),
-                ne: t("form.name.placeholder.ne", { default: "नेपालीमा मेनुको नाम लेख्नुहोस्" }),
+                en: t("form.name.placeholder.en", {
+                  default: "Enter menu name in English",
+                }),
+                ne: t("form.name.placeholder.ne", {
+                  default: "नेपालीमा मेनुको नाम लेख्नुहोस्",
+                }),
               }}
               invalid={!!validationErrors.name}
               invalidText={validationErrors.name}
               required
+              activeTab={nameTab}
+              setActiveTab={setNameTab}
             />
 
             {/* Description removed to simplify the form */}
@@ -264,15 +295,23 @@ export const MenuEditForm: React.FC<MenuEditFormProps> = ({
             <div style={{ marginTop: "1rem" }}>
               <Select
                 id="location"
-                labelText={t("form.location.label", { default: "Menu Location" })}
+                labelText={t("form.location.label", {
+                  default: "Menu Location",
+                })}
                 value={formData.location}
-                onChange={(event) => handleInputChange("location", event.target.value)}
+                onChange={(event) =>
+                  handleInputChange("location", event.target.value)
+                }
                 invalid={!!validationErrors.location}
                 invalidText={validationErrors.location}
                 required
               >
                 {locationOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value} text={option.label} />
+                  <SelectItem
+                    key={option.value}
+                    value={option.value}
+                    text={option.label}
+                  />
                 ))}
               </Select>
             </div>
@@ -284,14 +323,17 @@ export const MenuEditForm: React.FC<MenuEditFormProps> = ({
                 label={t("form.order.label", { default: "Order" })}
                 value={formData.order ?? 0}
                 onChange={(e, { value }) => {
-                  const numericValue = value !== undefined && value !== null ? Number(value) : 0;
+                  const numericValue =
+                    value !== undefined && value !== null ? Number(value) : 0;
                   handleInputChange("order", numericValue);
                 }}
                 invalid={!!validationErrors.order}
                 invalidText={validationErrors.order}
                 min={0}
                 step={1}
-                helperText={t("form.order.helper", { default: "Determines the order of the menu" })}
+                helperText={t("form.order.helper", {
+                  default: "Determines the order of the menu",
+                })}
               />
             </div>
 
@@ -299,19 +341,32 @@ export const MenuEditForm: React.FC<MenuEditFormProps> = ({
             <div style={{ marginTop: "1rem" }}>
               <ComboBox
                 id="categorySlug"
-                titleText={t("form.categorySlug.label", { default: "Category (Optional)" })}
-                placeholder={t("form.categorySlug.placeholder", { default: "Type to search categories..." })}
+                titleText={t("form.categorySlug.label", {
+                  default: "Category (Optional)",
+                })}
+                placeholder={t("form.categorySlug.placeholder", {
+                  default: "Type to search categories...",
+                })}
                 items={categoryOptions}
-                itemToString={(item) => item?.text || ''}
-                selectedItem={categoryOptions.find(cat => cat.id === formData.categorySlug) || null}
-                onChange={({ selectedItem }) => handleInputChange("categorySlug", selectedItem?.id || '')}
+                itemToString={(item) => item?.text || ""}
+                selectedItem={
+                  categoryOptions.find(
+                    (cat) => cat.id === formData.categorySlug
+                  ) || null
+                }
+                onChange={({ selectedItem }) =>
+                  handleInputChange("categorySlug", selectedItem?.id || "")
+                }
                 onInputChange={(inputValue) => {
                   // Filter categories based on input
                   if (!inputValue) {
-                    handleInputChange("categorySlug", '');
+                    handleInputChange("categorySlug", "");
                   }
                 }}
-                helperText={t("form.categorySlug.helper", { default: "Link this menu to a specific category for dynamic content" })}
+                helperText={t("form.categorySlug.helper", {
+                  default:
+                    "Link this menu to a specific category for dynamic content",
+                })}
               />
             </div>
 
@@ -324,12 +379,16 @@ export const MenuEditForm: React.FC<MenuEditFormProps> = ({
                   toggled={formData.isActive}
                   onToggle={(checked) => handleInputChange("isActive", checked)}
                 />
-                
+
                 <Toggle
                   id="isPublished"
-                  labelText={t("form.isPublished.label", { default: "Published" })}
+                  labelText={t("form.isPublished.label", {
+                    default: "Published",
+                  })}
                   toggled={formData.isPublished}
-                  onToggle={(checked) => handleInputChange("isPublished", checked)}
+                  onToggle={(checked) =>
+                    handleInputChange("isPublished", checked)
+                  }
                 />
               </Stack>
             </div>
