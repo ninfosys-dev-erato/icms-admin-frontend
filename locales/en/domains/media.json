@@ -130,6 +130,13 @@
       },
       "select": "Select",
       "selected": "Selected"
-    }
+    },
+    "sections": {
+    "basicInfo": "Basic Information"
+  }
+  }
+  ,
+  "sections": {
+    "basicInfo": "Basic Information"
   }
 }
