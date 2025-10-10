@@ -341,7 +341,7 @@ export const ContentEditForm: React.FC<ContentEditFormProps> = ({
           <Column lg={16} md={8} sm={4}>
             {/* Basic Information Section */}
             <FormGroup legendText={""}>
-              <h3 className="section-title">{t("sections.basicInfo")}</h3>
+              <h3 className="section-title edit-section-title">{t("sections.basicInfo")}</h3>
               <TranslatableField
                 label={t("form.title.label", { default: "Title" })}
                 value={formData.title}
