@@ -19,7 +19,7 @@
         "ne": "Nepali title"
       },
       "validation": {
-        "required": "Title is required in at least one language"
+        "required": "Title is required in both language"
       }
     },
     "linkUrl": {

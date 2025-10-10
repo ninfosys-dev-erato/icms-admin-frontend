@@ -25,11 +25,9 @@ interface ImportantLinksCreateFormProps {
   className?: string;
 }
 
-export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> = ({
-  onSuccess,
-  onCancel,
-  className,
-}) => {
+export const ImportantLinksCreateForm: React.FC<
+  ImportantLinksCreateFormProps
+> = ({ onSuccess, onCancel, className }) => {
   const t = useTranslations("important-links");
   const createMutation = useCreateImportantLink();
   const { data: listData } = useImportantLinks({ page: 1, limit: 10000 });
@@ -55,9 +53,14 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
 
   const validateForm = (): boolean => {
     const errors: Record<string, string> = {};
+    let firstInvalidTitleLang: "en" | "ne" | null = null;
 
     if (!createFormState.linkTitle.en.trim() && !createFormState.linkTitle.ne.trim()) {
       errors.linkTitle = t("form.linkTitle.validation.required");
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "en";
+    } else if (!createFormState.linkTitle.ne.trim()) {
+      errors.linkTitle = t("form.linkTitle.validation.required");
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "ne";
     }
 
     if (!createFormState.linkUrl.trim()) {
@@ -75,6 +78,7 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
     }
 
     setValidationErrors(errors);
+    if (firstInvalidTitleLang) setTitleTab(firstInvalidTitleLang);
     return Object.keys(errors).length === 0;
   };
 
@@ -193,13 +197,17 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
             <TranslatableField
               label={t("form.linkTitle.label")}
               value={createFormState.linkTitle}
-              onChange={(linkTitle) => handleInputChange("linkTitle", linkTitle)}
+              onChange={(linkTitle) =>
+                handleInputChange("linkTitle", linkTitle)
+              }
               placeholder={{
                 en: t("form.linkTitle.placeholder.en"),
                 ne: t("form.linkTitle.placeholder.ne"),
               }}
               invalid={!!validationErrors.linkTitle}
               invalidText={validationErrors.linkTitle}
+              activeTab={titleTab}
+              setActiveTab={setTitleTab}
             />
 
             <div className="important-links-field-margin">
