@@ -163,7 +163,7 @@ export const CategoryCreateForm: React.FC<CategoryCreateFormProps> = ({
         <Grid fullWidth>
           {/* Basic Information Section */}
           <Column lg={16} md={8} sm={4}>
-            <FormGroup legendText={tContent("sections.basicInfo")}>
+            <FormGroup legendText="">
               <TranslatableField
                 label={t("form.name.label")}
                 value={createCategoryForm.name}
