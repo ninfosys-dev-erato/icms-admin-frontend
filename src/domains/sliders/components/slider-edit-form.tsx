@@ -87,8 +87,11 @@ export const SliderEditForm: React.FC<SliderEditFormProps> = ({
     setHasChanges(hasFormChanges);
   }, [formData, selectedFile, slider]);
 
+  // Per-language validation and tab switching
+  const [activeTitleLang, setActiveTitleLang] = useState<"en" | "ne">("en");
   const validateForm = (): boolean => {
     const errors: Record<string, string> = {};
+    let firstInvalid: { lang: "en" | "ne" } | null = null;
 
     // Validate position
     if (formData.position < 1) {
@@ -100,15 +103,36 @@ export const SliderEditForm: React.FC<SliderEditFormProps> = ({
       errors.displayTime = t("form.displayTime.validation.minimum");
     }
 
-    // Optional: Validate title if provided
+    // English title: optional, but if present must be at least 2 chars
     if (formData.title.en.trim() && formData.title.en.trim().length < 2) {
-      errors.title = t("form.title.validation.tooShort");
+      errors.title_en = t("form.title.validation.tooShort");
+      if (!firstInvalid) firstInvalid = { lang: "en" };
     }
-    if (formData.title.ne.trim() && formData.title.ne.trim().length < 2) {
-      errors.title = t("form.title.validation.tooShort");
+    // Nepali title: required and must be at least 2 chars
+    if (!formData.title.ne.trim()) {
+      errors.title_ne = t("form.title.validation.required.ne", {
+        default: t("form.title.validation.tooShort", {
+          default: "Title is required",
+        }),
+      });
+      if (!firstInvalid) firstInvalid = { lang: "ne" };
+    } else if (formData.title.ne.trim().length < 2) {
+      errors.title_ne = t("form.title.validation.tooShort");
+      if (!firstInvalid) firstInvalid = { lang: "ne" };
     }
 
     setValidationErrors(errors);
+
+    // If there is a per-language error, switch tab and focus
+    if (firstInvalid) {
+      setActiveTitleLang(firstInvalid.lang);
+      setTimeout(() => {
+        const fieldId = `${t("form.title.label").toLowerCase().replace(/\s+/g, "-")}-${firstInvalid.lang}`;
+        const el = document.getElementById(fieldId);
+        if (el) el.focus();
+      }, 0);
+      return false;
+    }
     return Object.keys(errors).length === 0;
   };
 
@@ -282,8 +306,14 @@ export const SliderEditForm: React.FC<SliderEditFormProps> = ({
                 en: t("form.title.placeholder.en"),
                 ne: t("form.title.placeholder.ne"),
               }}
-              invalid={!!validationErrors.title}
-              invalidText={validationErrors.title}
+              invalid={
+                !!validationErrors.title_en || !!validationErrors.title_ne
+              }
+              invalidText={
+                validationErrors.title_en || validationErrors.title_ne
+              }
+              activeTab={activeTitleLang}
+              setActiveTab={setActiveTitleLang}
             />
 
             <div className="slider-form-fields-row">

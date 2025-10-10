@@ -17,10 +17,7 @@ import { TranslatableField } from "@/components/shared/translatable-field";
 import { SliderImageUpload } from "./slider-image-upload";
 import { SliderFormData } from "../types/slider";
 import { useSliderStore } from "../stores/slider-store";
-import {
-  useCreateSliderWithImage,
-  useSliders,
-} from "../hooks/use-slider-queries";
+import { useCreateSliderWithImage } from "../hooks/use-slider-queries";
 
 interface SliderCreateFormProps {
   onSuccess?: () => void;
@@ -45,32 +42,21 @@ export const SliderCreateForm: React.FC<SliderCreateFormProps> = ({
     resetCreateForm,
   } = useSliderStore();
 
-  // Fetch all sliders to determine the next position
-  const { data: slidersData } = useSliders({ page: 1, limit: 10000 });
-  const sliderCount = slidersData?.data?.length || 0;
-
-  // Set default position when form is opened or reset
-  useEffect(() => {
-    if (
-      !createFormState.position ||
-      createFormState.position < 1 ||
-      createFormState.position !== sliderCount + 1
-    ) {
-      updateFormField("create", "position", sliderCount + 1);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sliderCount]);
-
   // Form state is managed in store (persisted). Keep only validation locally.
 
   // Validation state
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
   >({});
+  const [activeTitleLang, setActiveTitleLang] = useState<"en" | "ne">("en");
+  const titleEnRef = useRef<HTMLInputElement>(null);
+  const titleNeRef = useRef<HTMLInputElement>(null);
   const selectedFile = createSelectedFile;
 
+  // Per-language validation and tab switching
   const validateForm = (): boolean => {
     const errors: Record<string, string> = {};
+    let firstInvalid: { lang: "en" | "ne" } | null = null;
 
     // Validate image file
     if (!selectedFile) {
@@ -87,20 +73,45 @@ export const SliderCreateForm: React.FC<SliderCreateFormProps> = ({
       errors.displayTime = t("form.displayTime.validation.minimum");
     }
 
-    // Nepali title required and minimum length
-    if (!createFormState.title.ne.trim()) {
-      errors.title = t("form.title.validation.required.ne");
-    } else if (createFormState.title.ne.trim().length < 2) {
-      errors.title = t("form.title.validation.tooShort");
+    // Require title in both languages; enforce minimum length (2)
+    const en = createFormState.title.en.trim();
+    const ne = createFormState.title.ne.trim();
+
+    if (!en) {
+      errors.title_en = t("form.title.validation.required.en", {
+        default: t("form.title.validation.tooShort", {
+          default: "Title is required",
+        }),
+      });
+      if (!firstInvalid) firstInvalid = { lang: "en" };
+    } else if (en.length < 2) {
+      errors.title_en = t("form.title.validation.tooShort");
+      if (!firstInvalid) firstInvalid = { lang: "en" };
     }
-    // English title required and minimum length
-    if (!createFormState.title.en.trim()) {
-      errors.title = t("form.title.validation.required.en");
-    } else if (createFormState.title.en.trim().length < 2) {
-      errors.title = t("form.title.validation.tooShort");
+
+    if (!ne) {
+      errors.title_ne = t("form.title.validation.required.ne", {
+        default: t("form.title.validation.tooShort", {
+          default: "Title is required",
+        }),
+      });
+      if (!firstInvalid) firstInvalid = { lang: "ne" };
+    } else if (ne.length < 2) {
+      errors.title_ne = t("form.title.validation.tooShort");
+      if (!firstInvalid) firstInvalid = { lang: "ne" };
     }
 
     setValidationErrors(errors);
+
+    // If there is a per-language error, switch tab and focus
+    if (firstInvalid) {
+      setActiveTitleLang(firstInvalid.lang);
+      setTimeout(() => {
+        if (firstInvalid.lang === "en") titleEnRef.current?.focus();
+        if (firstInvalid.lang === "ne") titleNeRef.current?.focus();
+      }, 0);
+      return false;
+    }
     return Object.keys(errors).length === 0;
   };
 
@@ -226,10 +237,28 @@ export const SliderCreateForm: React.FC<SliderCreateFormProps> = ({
     }
   };
 
+  const handleTitleChange = (title: SliderFormData["title"]) => {
+    updateFormField("create", "title", title);
+    // Clear per-language validation errors if conditions are now satisfied
+    const newErrors = { ...validationErrors } as Record<string, string>;
+    // Clear English error only when valid (length >= 2)
+    if (title.en.trim().length >= 2) {
+      delete newErrors.title_en;
+    }
+    // Clear Nepali error only when valid (length >= 2)
+    if (title.ne.trim().length >= 2) {
+      delete newErrors.title_ne;
+    }
+    if (
+      Object.keys(newErrors).length !== Object.keys(validationErrors).length
+    ) {
+      setValidationErrors(newErrors);
+    }
+  };
+
   const handleResetForm = () => {
     resetCreateForm();
     setValidationErrors({});
-    updateFormField("create", "position", sliderCount + 1);
   };
 
   return (
@@ -259,13 +288,19 @@ export const SliderCreateForm: React.FC<SliderCreateFormProps> = ({
             <TranslatableField
               label={t("form.title.label")}
               value={createFormState.title}
-              onChange={(title) => handleInputChange("title", title)}
+              onChange={handleTitleChange}
               placeholder={{
                 en: t("form.title.placeholder.en"),
                 ne: t("form.title.placeholder.ne"),
               }}
-              invalid={!!validationErrors.title}
-              invalidText={validationErrors.title}
+              invalid={
+                !!validationErrors.title_en || !!validationErrors.title_ne
+              }
+              invalidText={
+                validationErrors.title_en || validationErrors.title_ne
+              }
+              activeTab={activeTitleLang}
+              setActiveTab={setActiveTitleLang}
             />
 
             <div className="slider-form-fields-row">
@@ -274,7 +309,11 @@ export const SliderCreateForm: React.FC<SliderCreateFormProps> = ({
                   id="position"
                   label={t("form.position.label")}
                   value={createFormState.position}
-                  readOnly
+                  onChange={(event, { value }) => {
+                    if (value !== undefined) {
+                      handleInputChange("position", value);
+                    }
+                  }}
                   min={1}
                   step={1}
                   invalid={!!validationErrors.position}
@@ -302,7 +341,7 @@ export const SliderCreateForm: React.FC<SliderCreateFormProps> = ({
 
             {/* Image Section */}
             <div className="slider-form-image-section">
-              <FormGroup legendText={t("sections.image")}> 
+              <FormGroup legendText={t("sections.image")}>
                 {validationErrors.image && (
                   <div className="slider-form-image-error">
                     {validationErrors.image}
@@ -324,13 +363,13 @@ export const SliderCreateForm: React.FC<SliderCreateFormProps> = ({
           </Column>
 
           <div className="slider-form-toggle-row">
-              <Toggle
-                id="isActive"
-                labelText={t("form.isActive.label")}
-                toggled={createFormState.isActive}
-                onToggle={(checked) => handleInputChange("isActive", checked)}
-              />
-            </div>
+            <Toggle
+              id="isActive"
+              labelText={t("form.isActive.label")}
+              toggled={createFormState.isActive}
+              onToggle={(checked) => handleInputChange("isActive", checked)}
+            />
+          </div>
         </Grid>
       </div>
     </div>
