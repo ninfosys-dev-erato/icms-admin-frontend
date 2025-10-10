@@ -48,14 +48,32 @@ export const MediaList: React.FC<MediaListProps> = ({
       ...prev,
       page: 1,
       search: search || undefined,
-      isActive: statusFilter === "all" ? undefined : statusFilter === "active",
-      isPublic:
-        visibilityFilter === "all" ? undefined : visibilityFilter === "public",
+      isActive: statusFilter === 'active' ? true : undefined,
+      isPublic: visibilityFilter === 'public' ? true : undefined,
     }));
   }, [search, statusFilter, visibilityFilter]);
 
   const data = queryResult.data;
   const items = (data?.data ?? []) as Media[];
+  const parseBool = (v: any) => {
+    if (v === true || v === 'true' || v === 1 || v === '1') return true;
+    if (v === false || v === 'false' || v === 0 || v === '0') return false;
+    return Boolean(v);
+  };
+
+  const filteredItems = items.filter((m) => {
+    if (statusFilter !== "all") {
+      const shouldBeActive = statusFilter === "active";
+      const actualActive = parseBool((m as any).isActive);
+      if (actualActive !== shouldBeActive) return false;
+    }
+    if (visibilityFilter !== "all") {
+      const shouldBePublic = visibilityFilter === "public";
+      const actualPublic = parseBool((m as any).isPublic);
+      if (actualPublic !== shouldBePublic) return false;
+    }
+    return true;
+  });
   const pagination = data?.pagination || {
     page: 1,
     limit: 12,
@@ -75,9 +93,9 @@ export const MediaList: React.FC<MediaListProps> = ({
 
   return (
     <div className="media-list">
-      {items.length > 0 ? (
+      {filteredItems.length > 0 ? (
         <div className="media-flex">
-          {items.map((m) => {
+          {filteredItems.map((m) => {
             const src =
               m.presignedUrl || m.url
                 ? MediaUrlService.toProxyUrl(m.presignedUrl ?? m.url ?? "")
@@ -151,6 +169,9 @@ export const MediaList: React.FC<MediaListProps> = ({
             <p className="empty-state-description">
               {t("list.emptyDescription")}
             </p>
+            {(statusFilter !== 'all' || visibilityFilter !== 'all' || (query?.search && query.search !== '')) && (
+              <p className="empty-state-help">{t('list.noResultsForFilters', { default: 'No media match the selected filters.' } as any)}</p>
+            )}
           </div>
         </div>
       )}
