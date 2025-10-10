@@ -31,6 +31,9 @@
       "validation": {
         "required": "आवश्यक"
       },
+      "preview":{
+        "change": "छवि परिवर्तन गर्नुहोस्"
+      },
       "selectedFile": "फाइल",
       "fileSize": "आकार",
       "currentFile": "हालको"
