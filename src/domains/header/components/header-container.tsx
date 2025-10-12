@@ -103,7 +103,7 @@ export const HeaderContainer: React.FC = () => {
   <FeatureFlags enableSidepanelResizer>
         <SidePanelForm
           title={panelTitle}
-          subtitle={panelMode === "edit" ? panelHeader?.name?.en : undefined}
+          // subtitle={panelMode === "edit" ? panelHeader?.name?.en : undefined}
           open={!!panelOpen}
           onRequestClose={() => {
             if (!isSubmitting) {
@@ -138,7 +138,7 @@ export const HeaderContainer: React.FC = () => {
             }
           }}
           selectorPageContent="#main-content"
-          formTitle={t("sections.basicInfo")}
+          // formTitle={t("sections.basicInfo")}
           selectorPrimaryFocus="input, textarea, [tabindex]:not([tabindex='-1'])"
           className="header-sidepanel-form"
         >
