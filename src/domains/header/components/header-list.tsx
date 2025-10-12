@@ -174,8 +174,12 @@ export const HeaderList: React.FC<HeaderListProps> = ({
       </Grid>
       <ConfirmDeleteModal
         open={deleteModalOpen}
-        title={"Confirm Deletion"}
-        subtitle={headerToDelete ? `Are you sure you want to delete "${HeaderService.getDisplayName(headerToDelete)}"? This action cannot be undone.` : undefined}
+        title={t("deleteConfirmationTitle") || "Confirm Deletion"}
+        subtitle={
+          headerToDelete
+            ? t("deleteConfirmation", { name: HeaderService.getDisplayName(headerToDelete) })
+            : undefined
+        }
         onConfirm={() => {
           if (headerToDelete) {
             deleteHeaderMutation.mutate(headerToDelete.id, {
