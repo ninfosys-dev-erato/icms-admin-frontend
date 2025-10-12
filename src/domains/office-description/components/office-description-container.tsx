@@ -153,62 +153,16 @@ export const OfficeDescriptionContainer: React.FC = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <div
-          style={{
-            display: "flex",
-            gap: "1rem",
-            alignItems: "center",
-            justifyContent: "flex-end",
-          }}
-        >
-          <Dropdown
-            id="office-description-type-dropdown"
-            size="md"
-            label={t("filters.type")}
-            titleText={t("filters.type")}
-            items={[
-              { id: "all", label: t("filters.allTypes") },
-              {
-                id: OfficeDescriptionType.INTRODUCTION,
-                label: t("types.INTRODUCTION"),
-              },
-              {
-                id: OfficeDescriptionType.OBJECTIVE,
-                label: t("types.OBJECTIVE"),
-              },
-              {
-                id: OfficeDescriptionType.WORK_DETAILS,
-                label: t("types.WORK_DETAILS"),
-              },
-              {
-                id: OfficeDescriptionType.ORGANIZATIONAL_STRUCTURE,
-                label: t("types.ORGANIZATIONAL_STRUCTURE"),
-              },
-              {
-                id: OfficeDescriptionType.DIGITAL_CHARTER,
-                label: t("types.DIGITAL_CHARTER"),
-              },
-              {
-                id: OfficeDescriptionType.EMPLOYEE_SANCTIONS,
-                label: t("types.EMPLOYEE_SANCTIONS"),
-              },
-            ]}
-            selectedItem={{
-              id: typeFilter,
-              label:
-                typeFilter === "all"
-                  ? t("filters.allTypes")
-                  : t(`types.${typeFilter}`),
+          
+          <div
+            style={{
+              display: "flex",
+              gap: "1rem",
+              alignItems: "center",
+              justifyContent: "space-between",
             }}
-            itemToString={(item) => (item ? item.label : "")}
-            onChange={({ selectedItem }) =>
-              setTypeFilter(
-                (selectedItem?.id || "all") as OfficeDescriptionType | "all"
-              )
-            }
-          />
-
-          <Button
+          >
+            <Button
             kind="ghost"
             size="md"
             renderIcon={Reset}
@@ -217,7 +171,53 @@ export const OfficeDescriptionContainer: React.FC = () => {
           >
             {t("filters.reset")}
           </Button>
-        </div>
+            <Dropdown
+              id="office-description-type-dropdown"
+              size="md"
+              label={t("filters.type")}
+              titleText={t("filters.type")}
+              items={[
+                { id: "all", label: t("filters.allTypes") },
+                {
+                  id: OfficeDescriptionType.INTRODUCTION,
+                  label: t("types.INTRODUCTION"),
+                },
+                {
+                  id: OfficeDescriptionType.OBJECTIVE,
+                  label: t("types.OBJECTIVE"),
+                },
+                {
+                  id: OfficeDescriptionType.WORK_DETAILS,
+                  label: t("types.WORK_DETAILS"),
+                },
+                {
+                  id: OfficeDescriptionType.ORGANIZATIONAL_STRUCTURE,
+                  label: t("types.ORGANIZATIONAL_STRUCTURE"),
+                },
+                {
+                  id: OfficeDescriptionType.DIGITAL_CHARTER,
+                  label: t("types.DIGITAL_CHARTER"),
+                },
+                {
+                  id: OfficeDescriptionType.EMPLOYEE_SANCTIONS,
+                  label: t("types.EMPLOYEE_SANCTIONS"),
+                },
+              ]}
+              selectedItem={{
+                id: typeFilter,
+                label:
+                  typeFilter === "all"
+                    ? t("filters.allTypes")
+                    : t(`types.${typeFilter}`),
+              }}
+              itemToString={(item) => (item ? item.label : "")}
+              onChange={({ selectedItem }) =>
+                setTypeFilter(
+                  (selectedItem?.id || "all") as OfficeDescriptionType | "all"
+                )
+              }
+            />
+          </div>
       </div>
 
       {/* Main Content */}
