@@ -35,6 +35,7 @@ interface EmployeeFormState {
 }
 
 export interface HRUIStore {
+  uploadPhotoMutation: any;
   // Panel State
   panelOpen: boolean;
   panelMode: PanelMode;

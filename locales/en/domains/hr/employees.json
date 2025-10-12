@@ -63,6 +63,7 @@
       "placeholder": "Drag and drop a photo here, or click to browse",
       "uploadButton": "Choose Photo",
       "remove": "Remove Photo",
+      "updateButton": "Update Photo",
       "uploading": "Uploading photo...",
       "loading": "Loading photo..."
     },

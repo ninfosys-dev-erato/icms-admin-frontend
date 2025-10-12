@@ -4,7 +4,6 @@ import React, { useMemo, useState } from "react";
 import { Layer, Button, Breadcrumb, BreadcrumbItem } from "@carbon/react";
 import { Add } from "@carbon/icons-react";
 import { useTranslations } from "next-intl";
-import { unstable_FeatureFlags as FeatureFlags } from "@carbon/ibm-products"; // Not available in latest package
 import "@/lib/ibm-products/config";
 import { useHRUIStore } from "../../stores/hr-ui-store";
 import { useDepartments, useEmployees } from "../../hooks/use-hr-queries";
@@ -163,74 +162,86 @@ export const HRContainer: React.FC = () => {
       </div>
 
       {/* Right side panel for create/edit */}
-  <FeatureFlags enableSidepanelResizer>
-        <SidePanelForm
-          title={panelTitle}
-          subtitle={
-            panelMode === "edit"
-              ? activeEntity === "employee"
-                ? useHRUIStore.getState().panelEmployee?.name?.en
-                : useHRUIStore.getState().panelDepartment?.departmentName?.en
-              : undefined
+      <SidePanelForm
+        title={panelTitle}
+        subtitle={
+          panelMode === "edit"
+            ? activeEntity === "employee"
+              ? useHRUIStore.getState().panelEmployee?.name?.en
+              : useHRUIStore.getState().panelDepartment?.departmentName?.en
+            : undefined
+        }
+        open={!!panelOpen}
+        onRequestClose={() => {
+          if (!isSubmitting) {
+            closePanel();
           }
-          open={!!panelOpen}
-          onRequestClose={() => {
-            if (!isSubmitting) {
-              closePanel();
-            }
-          }}
-          primaryButtonText={
-            isSubmitting
-              ? panelMode === "edit"
-                ? t("actions.updating")
-                : t("actions.creating")
-              : panelMode === "edit"
-                ? t("actions.update")
-                : t("actions.createNew")
+        }}
+        primaryButtonText={
+          isSubmitting
+            ? panelMode === "edit"
+              ? t("actions.updating")
+              : t("actions.creating")
+            : panelMode === "edit"
+              ? t("actions.update")
+              : t("actions.createNew")
+        }
+        secondaryButtonText={t("actions.cancel")}
+        onRequestSubmit={async () => {
+          if (isSubmitting) return;
+          setSubmitting(true);
+          // Photo update logic
+          const state = useHRUIStore.getState();
+          const employee = state.panelEmployee;
+          const employeeId = employee?.id;
+          const selectedFile = employeeId ? state.selectedFileById?.[employeeId] : undefined;
+          const uploadPhotoMutation = state.uploadPhotoMutation;
+          const setSelectedFile = state.setSelectedFile;
+          if (selectedFile && employeeId && uploadPhotoMutation) {
+            await uploadPhotoMutation.mutateAsync({
+              id: employeeId,
+              file: selectedFile,
+            });
+            setSelectedFile(employeeId, null);
           }
-          secondaryButtonText={t("actions.cancel")}
-          onRequestSubmit={() => {
-            if (isSubmitting) return;
-            setSubmitting(true);
-            const formContainer = document.getElementById("hr-form");
-            if (formContainer) {
-              const form = formContainer.closest("form") as HTMLFormElement;
-              if (form) {
-                const submitEvent = new Event("submit", {
-                  cancelable: true,
-                  bubbles: true,
-                });
-                form.dispatchEvent(submitEvent);
-              } else {
-                const customSubmitEvent = new CustomEvent("formSubmit", {
-                  bubbles: true,
-                });
-                formContainer.dispatchEvent(customSubmitEvent);
-              }
+          const formContainer = document.getElementById("hr-form");
+          if (formContainer) {
+            const form = formContainer.closest("form") as HTMLFormElement;
+            if (form) {
+              const submitEvent = new Event("submit", {
+                cancelable: true,
+                bubbles: true,
+              });
+              form.dispatchEvent(submitEvent);
             } else {
-              setSubmitting(false);
+              const customSubmitEvent = new CustomEvent("formSubmit", {
+                bubbles: true,
+              });
+              formContainer.dispatchEvent(customSubmitEvent);
             }
-          }}
-          selectorPageContent="#main-content"
-          // formTitle={t('sections.basicInfo')}
-          selectorPrimaryFocus="input, textarea, [tabindex]:not([tabindex='-1'])"
-          className="hr-sidepanel-form"
-        >
-          <div className="hr-sidepanel-close-btn">
-            <Button
-              kind="ghost"
-              hasIconOnly
-              size="sm"
-              iconDescription={t("actions.cancel")}
-              onClick={closePanel}
-              renderIcon={Close}
-            />
-          </div>
-          <div id="hr-form">
-            <HRPanelForms onSuccess={closePanel} />
-          </div>
-        </SidePanelForm>
-  </FeatureFlags>
+          } else {
+            setSubmitting(false);
+          }
+        }}
+        selectorPageContent="#main-content"
+        // formTitle={t('sections.basicInfo')}
+        selectorPrimaryFocus="input, textarea, [tabindex]:not([tabindex='-1'])"
+        className="hr-sidepanel-form"
+      >
+        <div className="hr-sidepanel-close-btn">
+          <Button
+            kind="ghost"
+            hasIconOnly
+            size="sm"
+            iconDescription={t("actions.cancel")}
+            onClick={closePanel}
+            renderIcon={Close}
+          />
+        </div>
+        <div id="hr-form">
+          <HRPanelForms onSuccess={closePanel} />
+        </div>
+      </SidePanelForm>
     </Layer>
   );
 };
