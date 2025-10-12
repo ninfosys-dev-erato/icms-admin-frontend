@@ -324,7 +324,7 @@ export const OfficeDescriptionContainer: React.FC = () => {
           secondaryButtonText={t("actions.cancel")}
           onRequestSubmit={handleRequestSubmit}
           selectorPageContent="#main-content"
-          formTitle={t("sections.basicInfo")}
+          // formTitle={t("sections.basicInfo")}
           selectorPrimaryFocus="input, textarea, [tabindex]:not([tabindex='-1'])"
           className="office-description-sidepanel-form"
         >
