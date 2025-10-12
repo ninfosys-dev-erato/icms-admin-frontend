@@ -9,11 +9,12 @@ import { OfficeDescription, OfficeDescriptionType } from "../types/office-descri
 interface OfficeDescriptionCardProps {
   description: OfficeDescription;
   onEdit: (description: OfficeDescription) => void;
+  onDelete?: (description: OfficeDescription) => void;
 }
-
 export const OfficeDescriptionCard: React.FC<OfficeDescriptionCardProps> = ({ 
   description, 
-  onEdit 
+  onEdit,
+  onDelete 
 }) => {
   const t = useTranslations("office-description");
 
@@ -54,12 +55,12 @@ export const OfficeDescriptionCard: React.FC<OfficeDescriptionCardProps> = ({
       <div className="card-content-text">
         {hasEnglish && (
           <div className="content-english">
-            {truncateContent(description.content.en)}
+            {truncateContent(description.content?.en ?? "")}
           </div>
         )}
         {hasNepali && (
           <div className="content-nepali">
-            {truncateContent(description.content.ne)}
+            {truncateContent(description.content?.ne ?? "")}
           </div>
         )}
       </div>
@@ -87,8 +88,14 @@ export const OfficeDescriptionCard: React.FC<OfficeDescriptionCardProps> = ({
             className="card-overflow-menu"
           >
             <OverflowMenuItem 
-              itemText={t("card.edit")} 
+              itemText={t("card.edit")}
               onClick={() => onEdit(description)}
+            />
+            <OverflowMenuItem
+              hasDivider
+              isDelete
+              itemText={t("actions.delete") || "Delete"}
+              onClick={() => onDelete && onDelete(description)}
             />
           </OverflowMenu>
         </div>

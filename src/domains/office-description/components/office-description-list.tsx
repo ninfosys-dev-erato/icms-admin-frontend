@@ -11,12 +11,14 @@ interface OfficeDescriptionListProps {
   descriptions: OfficeDescription[];
   onEdit: (description: OfficeDescription) => void;
   onCreate: () => void;
+  onDelete?: (description: OfficeDescription) => void;
 }
 
 export const OfficeDescriptionList: React.FC<OfficeDescriptionListProps> = ({ 
   descriptions, 
   onEdit, 
   onCreate 
+  , onDelete
 }) => {
   const t = useTranslations("office-description");
 
@@ -37,11 +39,12 @@ export const OfficeDescriptionList: React.FC<OfficeDescriptionListProps> = ({
   return (
     <div className="office-description-list">
       <div className="office-description-flex">
-        {descriptions.map((description) => (
-          <div key={description.id} className="office-description-flex-item">
+        {descriptions.filter(Boolean).map((description) => (
+          <div key={description?.id} className="office-description-flex-item">
             <OfficeDescriptionCard
-              description={description}
+              description={description as any}
               onEdit={onEdit}
+              onDelete={onDelete ?? (() => {})}
             />
           </div>
         ))}
