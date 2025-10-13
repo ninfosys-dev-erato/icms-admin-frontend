@@ -167,19 +167,26 @@ export const OfficeDescriptionForm: React.FC<OfficeDescriptionFormProps> = ({
         <div
           style={{
             display: "flex",
-            justifyContent: "flex-end",
+            justifyContent: "space-between",
             marginBottom: "0.5rem",
+            alignItems: "center",
+            marginTop: "-1.5rem",
           }}
         >
-          <Button
-            kind="ghost"
-            size="sm"
-            renderIcon={Reset}
-            onClick={handleReset}
-            disabled={isSubmittingForm}
-          >
-            {t("form.reset")}
-          </Button>
+          <h3 className="header">{t("sections.basicInfo")}</h3>
+          {mode === "create" ? (
+            <Button
+              kind="ghost"
+              size="sm"
+              renderIcon={Reset}
+              onClick={handleReset}
+              disabled={isSubmittingForm}
+            >
+              {t("form.reset")}
+            </Button>
+          ) : (
+            ""
+          )}
         </div>
 
         {isSubmittingForm && (
@@ -205,7 +212,7 @@ export const OfficeDescriptionForm: React.FC<OfficeDescriptionFormProps> = ({
         <Grid fullWidth>
           {/* Basic Information Section */}
           <Column lg={16} md={8} sm={4}>
-            <FormGroup legendText={t("sections.basicInfo")}>
+            <FormGroup legendText="">
               <Select
                 id="office-description-type"
                 labelText={t("form.type.label")}

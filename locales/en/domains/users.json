@@ -87,6 +87,19 @@
     "pending": "Pending"
   },
 
+  "list": {
+    "emptyTitle": "No users found",
+    "emptyDescription": "There are no users to display.",
+    "emptyAction": "Create a user"
+  },
+
+  "empty": {
+    "searchTitle": "No users match \"{term}\"",
+    "searchMessage": "Try a different search term or clear the search.",
+    "filteredTitle": "No users match the selected status",
+    "filteredMessage": "Change or reset the filters to see more users."
+  },
+
   "detail": {
     "role": "Role",
     "lastLogin": "Last login",

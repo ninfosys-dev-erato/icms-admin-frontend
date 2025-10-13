@@ -288,6 +288,9 @@ export const SliderEditForm: React.FC<SliderEditFormProps> = ({
 
   return (
     <div>
+      <div className="basic-info-title">
+        <h4>{t("sections.basicInfo")}</h4>
+      </div>  
       <div id="slider-form">
         {isSubmitting && (
           <div className="slider-form-loading">

@@ -49,7 +49,11 @@ class UserRepositoryImpl implements UserRepository {
     if (params.status && params.status !== 'ALL') {
       if (params.status === 'ACTIVE') built.isActive = true;
       else if (params.status === 'INACTIVE') built.isActive = false;
-      // PENDING not supported on backend query; omit
+      else {
+        // For statuses not directly mapped to isActive (e.g. PENDING), pass the raw status value
+        // so backend can handle filters like 'PENDING' if supported.
+        built.status = params.status;
+      }
     }
     if (params.dateFrom) built.dateFrom = params.dateFrom;
     if (params.dateTo) built.dateTo = params.dateTo;

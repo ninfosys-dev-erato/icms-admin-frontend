@@ -182,8 +182,11 @@ export const MediaEditForm: React.FC<{
   return (
     <div>
       {/* Top action bar */}
-      <div className="flex--row-end m--mb-05">
-        <Button
+
+      <div className="section-header-row">
+        <h3 className="section-title">{t("sections.basicInfo")}</h3>
+      </div>
+      {/* <Button
           kind="ghost"
           size="sm"
           renderIcon={Reset}
@@ -194,8 +197,7 @@ export const MediaEditForm: React.FC<{
           disabled={isSubmitting}
         >
           {t("actions.reset")}
-        </Button>
-      </div>
+        </Button> */}
       {isSubmitting && (
         <div className="m--mb-1">
           <InlineLoading description={t("form.saving")} />

@@ -4,6 +4,7 @@ import React from "react";
 import { HeaderConfig } from "../types/header";
 import { HeaderLogoPreview } from "./header-logo-preview";
 import { HeaderService } from "../services/header-service";
+import { useLocale } from 'next-intl';
 import MediaUrlService from "@/services/media-url-service";
 
 type Props = {
@@ -13,6 +14,7 @@ type Props = {
 };
 
 const CardLogoSection: React.FC<Props> = ({ header, hasLeftLogo, hasRightLogo }) => {
+  const locale = useLocale();
   return (
     <div className="card-logo-section">
       <div className="card-logo-grid">
@@ -20,7 +22,7 @@ const CardLogoSection: React.FC<Props> = ({ header, hasLeftLogo, hasRightLogo })
           <div className="card-logo-item left">
             {/* Title badge INSIDE the left-logo box */}
             <div className="logo-title-badge">
-              {HeaderService.getDisplayName(header)}
+              {HeaderService.getDisplayName(header, locale)}
             </div>
 
             {(() => {

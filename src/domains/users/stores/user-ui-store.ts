@@ -25,7 +25,8 @@ export interface UserUIStore {
   openEditPanel: (user: User) => void;
   closePanel: () => void;
   setSubmitting: (submitting: boolean) => void;
-  setQuery: (query: Partial<UserQuery>) => void;
+  // Accept either a partial query object or a functional updater so callers can merge safely
+  setQuery: (query: Partial<UserQuery> | ((prev: UserQuery) => Partial<UserQuery>)) => void;
   resetQuery: () => void;
   setSelected: (ids: string[]) => void;
   clearSelected: () => void;
@@ -90,7 +91,27 @@ export const useUserUIStore = create<UserUIStore>()(
       }),
       closePanel: () => set({ panelOpen: false, panelUser: null, isSubmitting: false }),
       setSubmitting: (isSubmitting) => set({ isSubmitting }),
-      setQuery: (query) => set({ currentQuery: { ...get().currentQuery, ...query } }),
+      setQuery: (query) => {
+        // Debug: log calls during development to trace unexpected behavior
+        try {
+          // Use console.debug to avoid noise in production logs if console filtering is used
+          if (typeof query === 'function') {
+            const patch = query(get().currentQuery);
+            set({ currentQuery: { ...get().currentQuery, ...patch } });
+          } else {
+            set({ currentQuery: { ...get().currentQuery, ...query } });
+          }
+        } catch (err) {
+          console.error('[user-ui-store] setQuery error', err);
+          // fallback to naive merge to avoid leaving UI in inconsistent state
+          if (typeof query === 'function') {
+            const patch = query(get().currentQuery);
+            set({ currentQuery: { ...get().currentQuery, ...patch } });
+          } else {
+            set({ currentQuery: { ...get().currentQuery, ...query } });
+          }
+        }
+      },
       resetQuery: () => set({ currentQuery: defaultQuery }),
       setSelected: (ids) => set({ selectedIds: ids }),
       clearSelected: () => set({ selectedIds: [] }),

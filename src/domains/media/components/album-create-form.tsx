@@ -125,7 +125,8 @@ export const AlbumCreateForm: React.FC<{ onSuccess?: () => void }> = ({
 
   return (
     <div>
-      <div className="flex--row-end m--mb-05">
+      <div className="flex--row-end m--mb-05 header">
+        <h3 className="section-title">{t("sections.basicInfo")}</h3>
         <Button
           kind="ghost"
           size="sm"
