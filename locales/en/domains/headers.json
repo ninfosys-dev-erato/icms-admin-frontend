@@ -242,6 +242,8 @@
       "noData": "No Statistics Available",
       "noDataDescription": "Statistics will appear here once you have headers configured."
     },
+  "deleteConfirmation": "Are you sure you want to delete \"{name}\"? This action cannot be undone.",
+  "deleteConfirmationTitle": "Confirm Deletion",
     "list": {
       "title": "Header Management",
       "createHeader": "Create Header",
