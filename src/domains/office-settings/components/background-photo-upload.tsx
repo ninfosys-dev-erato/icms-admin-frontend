@@ -1,3 +1,5 @@
+
+
 "use client";
 
 import React, { useCallback, useState } from "react";
@@ -45,6 +47,10 @@ export const BackgroundPhotoUpload: React.FC<BackgroundPhotoUploadProps> = ({
         setValidationError(null);
         onUpload(file);
       }
+
+      // (Keeps UX snappy if user selects the same file again later)
+      // Note: This doesn't change behavior—only ensures onChange fires for same file name.
+      event.target.value = "";
     },
     [onUpload]
   );
@@ -141,13 +147,8 @@ export const BackgroundPhotoUpload: React.FC<BackgroundPhotoUploadProps> = ({
                 className="file-input"
                 id="background-photo-input"
               />
-              <label
-                htmlFor="background-photo-input"
-                className="upload-button"
-                onClick={() =>
-                  document.getElementById("background-photo-input")?.click()
-                }
-              >
+              {/* Removed label's onClick to prevent double file dialog */}
+              <label htmlFor="background-photo-input" className="upload-button">
                 <Button
                   kind="secondary"
                   disabled={disabled || isUploading}
