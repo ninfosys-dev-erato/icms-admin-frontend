@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Button, Layer, Breadcrumb, BreadcrumbItem } from "@carbon/react";
-import { unstable_FeatureFlags as FeatureFlags } from "@carbon/ibm-products"; // Not available in latest package
+// import { unstable_FeatureFlags as FeatureFlags } from "@carbon/ibm-products"; // Not available in latest package
 import SidePanelForm from "@/components/shared/side-panel-form";
 import "@/lib/ibm-products/config";
 import { Add, Close } from "@carbon/icons-react";
@@ -78,8 +78,8 @@ export const UserContainer: React.FC = () => {
         <UserList hideHeader />
       </div>
 
-  <FeatureFlags enableSidepanelResizer>
-        <SidePanelForm
+  {/* <FeatureFlags enableSidepanelResizer> */}
+        <SidePanelForm 
           title={panelTitle}
           subtitle={panelMode === "edit" ? panelUser?.email : undefined}
           open={!!panelOpen}
@@ -98,26 +98,23 @@ export const UserContainer: React.FC = () => {
           secondaryButtonText={t("actions.cancel")}
           onRequestSubmit={() => {
             if (isSubmitting) return;
-            setSubmitting(true);
             const formContainer = document.getElementById("user-form");
-            if (formContainer) {
-              const form = formContainer.closest(
-                "form"
-              ) as HTMLFormElement | null;
-              if (form) {
-                const submitEvent = new Event("submit", {
-                  cancelable: true,
-                  bubbles: true,
-                });
-                form.dispatchEvent(submitEvent);
-              } else {
-                const customSubmitEvent = new CustomEvent("formSubmit", {
-                  bubbles: true,
-                });
-                formContainer.dispatchEvent(customSubmitEvent);
-              }
+            if (!formContainer) return;
+
+            const form = formContainer.closest(
+              "form"
+            ) as HTMLFormElement | null;
+            if (form) {
+              const submitEvent = new Event("submit", {
+                cancelable: true,
+                bubbles: true,
+              });
+              form.dispatchEvent(submitEvent);
             } else {
-              setSubmitting(false);
+              const customSubmitEvent = new CustomEvent("formSubmit", {
+                bubbles: true,
+              });
+              formContainer.dispatchEvent(customSubmitEvent);
             }
           }}
           selectorPageContent="#main-content"
@@ -150,7 +147,7 @@ export const UserContainer: React.FC = () => {
             />
           </div>
   </SidePanelForm>
-  </FeatureFlags>
+  {/* </FeatureFlags> */}
     </Layer>
   );
 };
