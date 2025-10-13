@@ -39,6 +39,10 @@
   
 }
 
+.header{
+  font-size: 16px;
+}
+
 .tab-button:hover:not(:disabled) {
   color: var(--cds-text-01);
   background-color: var(--cds-ui-02);
