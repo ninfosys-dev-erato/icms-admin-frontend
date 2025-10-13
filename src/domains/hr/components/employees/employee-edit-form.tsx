@@ -66,9 +66,13 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
     showDownInHomepage: employee.showDownInHomepage ?? false,
   };
 
-  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [validationErrors, setValidationErrors] = useState<
+    Record<string, string>
+  >({});
   const [activeNameLang, setActiveNameLang] = useState<"en" | "ne">("en");
-  const [activePositionLang, setActivePositionLang] = useState<"en" | "ne">("en");
+  const [activePositionLang, setActivePositionLang] = useState<"en" | "ne">(
+    "en"
+  );
 
   const departmentsQuery = useDepartments({ page: 1, limit: 100 });
   const departmentItems = (departmentsQuery.data?.data ?? []).map((d) => ({
@@ -101,16 +105,28 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
   const validate = (): boolean => {
     const errors: Record<string, string> = {};
     if (!formData.name.en.trim()) {
-      errors.name_en = t("errors.validation.nameEnRequired", { default: t("errors.validation.nameRequired") });
+      errors.name_en = t("errors.validation.nameEnRequired", {
+        default: t("errors.validation.nameRequired"),
+      });
+    } else if (formData.name.en.trim().length < 4) {
+      errors.name_en = t("errors.validation.nameMinLength", { min: 4 });
     }
     if (!formData.name.ne.trim()) {
-      errors.name_ne = t("errors.validation.nameNeRequired", { default: t("errors.validation.nameRequired") });
+      errors.name_ne = t("errors.validation.nameNeRequired", {
+        default: t("errors.validation.nameRequired"),
+      });
+    } else if (formData.name.ne.trim().length < 4) {
+      errors.name_ne = t("errors.validation.nameMinLength", { min: 4 });
     }
     if (!formData.position.en.trim()) {
-      errors.position_en = t("errors.validation.positionEnRequired", { default: t("errors.validation.positionRequired") });
+      errors.position_en = t("errors.validation.positionEnRequired", {
+        default: t("errors.validation.positionRequired"),
+      });
     }
     if (!formData.position.ne.trim()) {
-      errors.position_ne = t("errors.validation.positionNeRequired", { default: t("errors.validation.positionRequired") });
+      errors.position_ne = t("errors.validation.positionNeRequired", {
+        default: t("errors.validation.positionRequired"),
+      });
     }
     if (!formData.departmentId) {
       errors.departmentId = t("errors.validation.departmentRequired");
@@ -282,11 +298,19 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
                   ne: t("form.name.placeholder.ne"),
                 }}
                 required
-                invalid={!!validationErrors.name_en || !!validationErrors.name_ne}
-                invalidText={validationErrors.name_en || validationErrors.name_ne}
+                invalid={
+                  !!validationErrors.name_en || !!validationErrors.name_ne
+                }
+                invalidText={
+                  validationErrors.name_en || validationErrors.name_ne
+                }
                 invalidMessages={{
-                  en: validationErrors.name_en ? { invalid: true, text: validationErrors.name_en } : undefined,
-                  ne: validationErrors.name_ne ? { invalid: true, text: validationErrors.name_ne } : undefined,
+                  en: validationErrors.name_en
+                    ? { invalid: true, text: validationErrors.name_en }
+                    : undefined,
+                  ne: validationErrors.name_ne
+                    ? { invalid: true, text: validationErrors.name_ne }
+                    : undefined,
                 }}
                 activeLanguage={activeNameLang}
                 onActiveLanguageChange={setActiveNameLang}
@@ -304,11 +328,20 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
                     ne: t("form.position.placeholder"),
                   }}
                   required
-                  invalid={!!validationErrors.position_en || !!validationErrors.position_ne}
-                  invalidText={validationErrors.position_en || validationErrors.position_ne}
+                  invalid={
+                    !!validationErrors.position_en ||
+                    !!validationErrors.position_ne
+                  }
+                  invalidText={
+                    validationErrors.position_en || validationErrors.position_ne
+                  }
                   invalidMessages={{
-                    en: validationErrors.position_en ? { invalid: true, text: validationErrors.position_en } : undefined,
-                    ne: validationErrors.position_ne ? { invalid: true, text: validationErrors.position_ne } : undefined,
+                    en: validationErrors.position_en
+                      ? { invalid: true, text: validationErrors.position_en }
+                      : undefined,
+                    ne: validationErrors.position_ne
+                      ? { invalid: true, text: validationErrors.position_ne }
+                      : undefined,
                   }}
                   activeLanguage={activePositionLang}
                   onActiveLanguageChange={setActivePositionLang}

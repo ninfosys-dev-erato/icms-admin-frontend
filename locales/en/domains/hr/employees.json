@@ -108,15 +108,15 @@
     "deleteFailed": "Failed to delete employee",
     "validation": {
       "nameRequired": "Employee name is required",
-      "nameMinLength": "Employee name must be at least 3 characters",
+      "nameMinLength": "Employee name must be at least 4 characters",
       "nameMaxLength": "Employee name cannot exceed 100 characters",
       "positionRequired": "Position is required",
       "departmentRequired": "Department is required",
-        "orderInvalid": "Order must be a positive number",
-        "nameEnRequired": "English employee name is required",
-        "nameNeRequired": "Nepali employee name is required",
-        "positionEnRequired": "English position is required",
-        "positionNeRequired": "Nepali position is required"
+      "orderInvalid": "Order must be a positive number",
+      "nameEnRequired": "English employee name is required",
+      "nameNeRequired": "Nepali employee name is required",
+      "positionEnRequired": "English position is required",
+      "positionNeRequired": "Nepali position is required"
     }
   },
   "status": {
