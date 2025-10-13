@@ -1,20 +1,3 @@
-/* Override Carbon for Product Side Panel Subtitle Styles */
-.c4p--side-panel__subtitle-text,
-.c4p--side-panel__subtitle-text-no-animation-no-action-toolbar {
-  display: none;
-}
-/* ---------------- Slider Statistics Styles (from slider-statistics.tsx) ---------------- */
-.slider-statistics-loading {
-  /* No additional styles needed, but class added for clarity and future extension */
-}
-/* ---------------- Slider List Styles (from slider-list.tsx) ---------------- */
-.slider-list-loading-container {
-  /* No additional styles needed, but class added for clarity and future extension */
-}
-
-.slider-list-flex {
-  /* No additional styles needed, but class added for clarity and future extension */
-}
 /* ---------------- Slider Form Styles (from slider-create-form.tsx) ---------------- */
 .slider-form-action-bar {
   display: flex;
@@ -429,14 +412,7 @@
 /* Flex Layout for Slider Cards */
 .slider-flex {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-  padding: 0;
-}
-
-.c4p--create-side-panel__form-title-text,
-.c4p--create-side-panel__content-text {
-  padding: 0 !important;
-  margin: 0 !important;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
 }

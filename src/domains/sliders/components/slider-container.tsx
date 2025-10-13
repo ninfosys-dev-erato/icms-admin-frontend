@@ -177,7 +177,7 @@ export const SliderContainer: React.FC = () => {
           }
         }}
         selectorPageContent="#main-content"
-        formTitle=""
+        formTitle={t("sections.basicInfo")}
         selectorPrimaryFocus="input, textarea, [tabindex]:not([tabindex='-1'])"
         className="slider-sidepanel-form"
       >
