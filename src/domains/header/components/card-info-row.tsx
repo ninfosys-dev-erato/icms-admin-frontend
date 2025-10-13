@@ -43,6 +43,7 @@ const CardInfoRow: React.FC<Props> = ({
 
       <OverflowMenu
         aria-label="Header actions"
+        className="overflow"
         iconDescription="More actions"
         size="sm"
       >
