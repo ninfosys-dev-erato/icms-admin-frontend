@@ -302,19 +302,8 @@ export const AlbumEditForm: React.FC<{
 
   return (
     <div>
-      <div className="flex--row-end m--mb-05">
-        <Button
-          kind="ghost"
-          size="sm"
-          renderIcon={Reset}
-          onClick={() => {
-            resetFormState(album.id);
-            setErrors({});
-          }}
-          disabled={isSubmitting}
-        >
-          {t("actions.reset")}
-        </Button>
+      <div className=" m--mb-05">
+        <h3 className="section-title">{t("sections.basicInfo")}</h3>
       </div>
       {isSubmitting && (
         <div className="m--mb-1">
@@ -324,7 +313,7 @@ export const AlbumEditForm: React.FC<{
 
       <Grid fullWidth>
         <Column lg={16} md={8} sm={4}>
-          <FormGroup legendText={t("form.basicInfo")}>
+          <FormGroup legendText="">
             <TranslatableField
               label={t("album.form.nameEn") as any}
               value={formData.name}
