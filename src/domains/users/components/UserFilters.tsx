@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { Search, Dropdown, Button } from "@carbon/react";
 import { Reset } from "@carbon/icons-react";
 import { useUserUIStore } from "../stores/user-ui-store";
@@ -12,6 +12,32 @@ export const UserFilters: React.FC<{ onChange?: () => void }> = ({
 }) => {
   const { currentQuery, setQuery, resetQuery } = useUserUIStore();
   const t = useTranslations("users");
+
+  const [searchTerm, setSearchTerm] = useState<string>(currentQuery.search ?? "");
+
+  // Initialize searchTerm from store on mount only. After mount, avoid overwriting
+  // the user's in-progress input from `currentQuery.search` (which may be trimmed)
+  // — this prevents removing spaces the user types.
+  React.useEffect(() => {
+    setSearchTerm(currentQuery.search ?? "");
+    // run only on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Debounce live search: apply searchTerm to query after user stops typing
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      const next = searchTerm?.trim() || undefined;
+      // Only update if the value changed
+      if ((currentQuery.search ?? undefined) !== next) {
+        setQuery((prev) => ({ ...prev, search: next, page: 1 }));
+        onChange?.();
+      }
+    }, 300);
+
+    return () => clearTimeout(handler);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm]);
 
   const roleItems = useMemo(
     () => [
@@ -36,18 +62,30 @@ export const UserFilters: React.FC<{ onChange?: () => void }> = ({
   return (
     <div style={{ padding: "0 1rem 1rem 1rem" }}>
       <div style={{ marginBottom: "0.75rem" }} className="search-box">
+        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
         <Search
           id="user-search"
           size="lg"
           labelText={t("filters.search")}
           placeholder={t("filters.search")}
           closeButtonLabelText={t("filters.reset")}
-          value={currentQuery.search || ""}
+          value={searchTerm}
           onChange={(e) => {
-            setQuery({ search: e.target.value, page: 1 });
-            onChange?.();
+            // keep local input in sync while typing
+            setSearchTerm(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            // Support Enter to submit
+            if (e.key === 'Enter') {
+              const next = searchTerm?.trim() || undefined;
+              if ((currentQuery.search ?? undefined) !== next) {
+                setQuery((prev) => ({ ...prev, search: next, page: 1 }));
+                onChange?.();
+              }
+            }
           }}
         />
+        </div>
       </div>
       <div
         style={{
@@ -69,7 +107,7 @@ export const UserFilters: React.FC<{ onChange?: () => void }> = ({
           itemToString={(item) => (item ? item.label : "")}
           onChange={({ selectedItem }) => {
             const nextRole = (selectedItem?.id as UserRole | "ALL") ?? "ALL";
-            setQuery({ role: nextRole, page: 1 });
+            setQuery((prev) => ({ ...prev, role: nextRole, page: 1 }));
             onChange?.();
           }}
         />
@@ -86,7 +124,7 @@ export const UserFilters: React.FC<{ onChange?: () => void }> = ({
           onChange={({ selectedItem }) => {
             const nextStatus =
               (selectedItem?.id as UserStatus | "ALL") ?? "ALL";
-            setQuery({ status: nextStatus, page: 1 });
+            setQuery((prev) => ({ ...prev, status: nextStatus, page: 1 }));
             onChange?.();
           }}
         />
@@ -96,6 +134,8 @@ export const UserFilters: React.FC<{ onChange?: () => void }> = ({
           renderIcon={Reset}
           onClick={() => {
             resetQuery();
+            // also clear local search input
+            setSearchTerm('');
             onChange?.();
           }}
         >
