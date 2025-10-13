@@ -30,6 +30,8 @@
     "emptyTitle": "No media found",
     "emptyDescription": "Try adjusting filters or upload new media",
     "items": "items"
+    ,
+    "noResultsForFilters": "No media match the selected filters."
   },
   "card": {
     "active": "Active",
@@ -130,6 +132,13 @@
       },
       "select": "Select",
       "selected": "Selected"
-    }
+    },
+    "sections": {
+    "basicInfo": "Basic Information"
+  }
+  }
+  ,
+  "sections": {
+    "basicInfo": "Basic Information"
   }
 }

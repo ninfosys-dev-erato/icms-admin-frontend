@@ -4,7 +4,6 @@ import React, { useMemo, useState } from "react";
 import { Layer, Button, Breadcrumb, BreadcrumbItem } from "@carbon/react";
 import { Add } from "@carbon/icons-react";
 import { useTranslations } from "next-intl";
-import { unstable_FeatureFlags as FeatureFlags } from "@carbon/ibm-products"; // Not available in latest package
 import "@/lib/ibm-products/config";
 import { useHRUIStore } from "../../stores/hr-ui-store";
 import { useDepartments, useEmployees } from "../../hooks/use-hr-queries";
@@ -163,7 +162,6 @@ export const HRContainer: React.FC = () => {
       </div>
 
       {/* Right side panel for create/edit */}
-  <FeatureFlags enableSidepanelResizer>
         <SidePanelForm
           title={panelTitle}
           subtitle={
@@ -230,7 +228,6 @@ export const HRContainer: React.FC = () => {
             <HRPanelForms onSuccess={closePanel} />
           </div>
         </SidePanelForm>
-  </FeatureFlags>
     </Layer>
   );
 };
