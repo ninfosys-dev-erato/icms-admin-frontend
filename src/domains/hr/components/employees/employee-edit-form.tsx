@@ -229,15 +229,12 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
 
   const handlePhotoRemove = async () => {
     if (selectedFile) {
-      // Remove the newly selected file and update preview immediately
+      // Remove the newly selected file
       setSelectedFile(employee.id, null);
     } else if (employee.photoMediaId) {
       // Remove the existing photo from the server
       try {
         await removePhotoMutation.mutateAsync(employee.id);
-        // Clear preview immediately after successful removal
-        resetEmployeeForm(employee.id);
-        resetFormState(employee.id);
       } catch (error) {
         console.error("Photo removal failed:", error);
       }
@@ -384,9 +381,88 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
                 </div>
               </div>
             </FormGroup>
+          </Column>
+        </Grid>
 
-            {/* Photo Section */}
-            <div className="employee-form-photo-section">
+        {/* Photo Section - robust slider logic parity */}
+        <div className="employee-form-photo-section">
+          <FormGroup legendText={t("form.photo.label")}>
+            {getCurrentImageUrl() && (
+              <EmployeePhotoUpload
+                currentImage={getCurrentImageUrl()}
+                onUpload={handlePhotoUpload}
+                onRemove={handlePhotoRemove}
+                isUploading={
+                  uploadPhotoMutation.isPending || removePhotoMutation.isPending
+                }
+                showPreview={true}
+                showHeader={false}
+                allowRemove={false}
+              />
+            )}
+            <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
+              <Button
+                kind="secondary"
+                size="sm"
+                disabled={isSubmitting || uploadPhotoMutation.isPending}
+                onClick={() => {
+                  const input = document.getElementById(
+                    `employee-photo-input-change-${employee.id}`
+                  );
+                  if (input) {
+                    input.click();
+                  }
+                }}
+              >
+                {t("form.photo.changeButton", { default: "Change Photo" })}
+              </Button>
+              <Button
+                kind="primary"
+                size="sm"
+                disabled={
+                  isSubmitting || uploadPhotoMutation.isPending || !selectedFile
+                }
+                onClick={async (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (
+                    !selectedFile ||
+                    isSubmitting ||
+                    uploadPhotoMutation.isPending
+                  )
+                    return;
+                  try {
+                    await uploadPhotoMutation.mutateAsync({
+                      id: employee.id,
+                      file: selectedFile,
+                    });
+                    setSelectedFile(employee.id, null);
+                  } catch (err) {
+                    console.error("Error updating photo:", err);
+                  }
+                }}
+              >
+                {t("form.photo.updateButton", { default: "Update Photo" })}
+              </Button>
+              <input
+                type="file"
+                accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
+                style={{ display: "none" }}
+                id={`employee-photo-input-change-${employee.id}`}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    handlePhotoUpload(file);
+                  }
+                }}
+                disabled={isSubmitting || uploadPhotoMutation.isPending}
+              />
+            </div>
+          </FormGroup>
+        </div>
+
+        {/* Photo Section */}
+        {/* <div className="employee-form-photo-section">
               <FormGroup legendText={t("form.photo.label")}>
                 <EmployeePhotoUpload
                   currentImage={getCurrentImageUrl()}
@@ -400,119 +476,54 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
                   showHeader={false}
                   allowRemove={true}
                 />
-                {/* Update Photo Button */}
-                <Button
-                  kind="primary"
-                  size="sm"
-                  style={{ marginTop: 12 }}
-                  disabled={isSubmitting || !selectedFile}
-                  onClick={async () => {
-                    if (selectedFile) {
-                      await uploadPhotoMutation.mutateAsync({
-                        id: employee.id,
-                        file: selectedFile,
-                      });
-                      setSelectedFile(employee.id, null);
-                    }
-                  }}
-                >
-                  {t("form.photo.updateButton", { default: "Update Photo" })}
-                </Button>
               </FormGroup>
-            </div>
+            </div> */}
 
-            {/* Contact Information Section */}
-            <div className="employee-form-contact-section">
-              <FormGroup legendText={t("form.contactInfo.label")}>
-                <ContactInfoForm
-                  contactInfo={{
-                    mobileNumber: formData.mobileNumber,
-                    telephone: formData.telephone,
-                    email: formData.email,
-                    roomNumber: formData.roomNumber,
-                  }}
-                  onChange={(c) => {
-                    updateEmployeeFormField(
-                      employee.id,
-                      "mobileNumber",
-                      c.mobileNumber || ""
-                    );
-                    updateEmployeeFormField(
-                      employee.id,
-                      "telephone",
-                      c.telephone || ""
-                    );
-                    updateEmployeeFormField(
-                      employee.id,
-                      "email",
-                      c.email || ""
-                    );
-                    updateEmployeeFormField(
-                      employee.id,
-                      "roomNumber",
-                      c.roomNumber || ""
-                    );
-                  }}
-                />
-              </FormGroup>
-            </div>
+        {/* Contact Information Section */}
+        <div className="employee-form-contact-section">
+          <FormGroup legendText={t("form.contactInfo.label")}>
+            <ContactInfoForm
+              contactInfo={{
+                mobileNumber: formData.mobileNumber,
+                telephone: formData.telephone,
+                email: formData.email,
+                roomNumber: formData.roomNumber,
+              }}
+              onChange={(c) => {
+                updateEmployeeFormField(
+                  employee.id,
+                  "mobileNumber",
+                  c.mobileNumber || ""
+                );
+                updateEmployeeFormField(
+                  employee.id,
+                  "telephone",
+                  c.telephone || ""
+                );
+                updateEmployeeFormField(employee.id, "email", c.email || "");
+                updateEmployeeFormField(
+                  employee.id,
+                  "roomNumber",
+                  c.roomNumber || ""
+                );
+              }}
+            />
+          </FormGroup>
+        </div>
 
-            {/* Status Section */}
-            <div className="employee-form-status-section">
-              <FormGroup legendText={t("form.status.label")}>
-                <Toggle
-                  id="employee-isActive"
-                  labelText={t("form.isActive.label")}
-                  toggled={formData.isActive}
-                  onToggle={(checked) =>
-                    updateEmployeeFormField(employee.id, "isActive", checked)
-                  }
-                />
-              </FormGroup>
-            </div>
-
-            {/* Homepage Display Section */}
-            <div className="employee-form-homepage-section">
-              <FormGroup legendText={t("form.homepageDisplay.label")}>
-                <div className="employee-form-homepage-desc">
-                  <p className="employee-form-homepage-desc-text">
-                    {t("form.homepageDisplay.description")}
-                  </p>
-                </div>
-                <div className="employee-form-homepage-toggles">
-                  <Toggle
-                    id="employee-showUpInHomepage"
-                    labelText={t("form.homepageDisplay.showUpInHomepage.label")}
-                    toggled={formData.showUpInHomepage}
-                    onToggle={(checked) => {
-                      console.log("Edit Toggle showUpInHomepage:", checked);
-                      updateEmployeeFormField(
-                        employee.id,
-                        "showUpInHomepage",
-                        checked
-                      );
-                    }}
-                  />
-                  <Toggle
-                    id="employee-showDownInHomepage"
-                    labelText={t(
-                      "form.homepageDisplay.showDownInHomepage.label"
-                    )}
-                    toggled={formData.showDownInHomepage}
-                    onToggle={(checked) => {
-                      console.log("Edit Toggle showDownInHomepage:", checked);
-                      updateEmployeeFormField(
-                        employee.id,
-                        "showDownInHomepage",
-                        checked
-                      );
-                    }}
-                  />
-                </div>
-              </FormGroup>
-            </div>
-          </Column>
-        </Grid>
+        {/* Status Section */}
+        <div className="employee-form-status-section">
+          <FormGroup legendText={t("form.status.label")}>
+            <Toggle
+              id="employee-isActive"
+              labelText={t("form.isActive.label")}
+              toggled={formData.isActive}
+              onToggle={(checked) =>
+                updateEmployeeFormField(employee.id, "isActive", checked)
+              }
+            />
+          </FormGroup>
+        </div>
       </div>
     </div>
   );

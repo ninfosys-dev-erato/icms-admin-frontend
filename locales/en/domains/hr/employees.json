@@ -62,8 +62,9 @@
       "subtitle": "Upload a professional photo for the employee",
       "placeholder": "Drag and drop a photo here, or click to browse",
       "uploadButton": "Choose Photo",
+      "changeButton": "Change Photo",
+      "updateButton": "Update Photo", 
       "remove": "Remove Photo",
-      "updateButton": "Update Photo",
       "uploading": "Uploading photo...",
       "loading": "Loading photo..."
     },
