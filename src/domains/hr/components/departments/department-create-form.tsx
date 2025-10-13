@@ -155,7 +155,10 @@ export const DepartmentCreateForm: React.FC<DepartmentCreateFormProps> = ({
         <Grid fullWidth>
           {/* Basic Information Section */}
           <Column lg={16} md={8} sm={4}>
-            <FormGroup legendText={tHr("sections.basicInfo")}>
+            <FormGroup legendText={""}>
+              <h3 className="employee-form-title">
+                {tHr("sections.basicInfo")}
+              </h3>
               <TranslatableField
                 label={t("form.name.label")}
                 value={createDepartmentForm.departmentName}

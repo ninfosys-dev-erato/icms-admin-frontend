@@ -52,7 +52,9 @@ export const DepartmentEditForm: React.FC<DepartmentEditFormProps> = ({
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
   >({});
-  const [activeDeptNameLang, setActiveDeptNameLang] = useState<"en" | "ne">("en");
+  const [activeDeptNameLang, setActiveDeptNameLang] = useState<"en" | "ne">(
+    "en"
+  );
 
   const departmentsQuery = useDepartments({ page: 1, limit: 100 });
   const parentItems = (departmentsQuery.data?.data ?? [])
@@ -82,12 +84,16 @@ export const DepartmentEditForm: React.FC<DepartmentEditFormProps> = ({
   const validate = (): boolean => {
     const errors: Record<string, string> = {};
     if (!formData.departmentName.en.trim()) {
-      errors.departmentName_en = t("errors.validation.nameEnRequired", { default: t("errors.validation.nameRequired") });
+      errors.departmentName_en = t("errors.validation.nameEnRequired", {
+        default: t("errors.validation.nameRequired"),
+      });
     } else if (formData.departmentName.en.trim().length < 3) {
       errors.departmentName_en = t("errors.validation.nameMinLength");
     }
     if (!formData.departmentName.ne.trim()) {
-      errors.departmentName_ne = t("errors.validation.nameNeRequired", { default: t("errors.validation.nameRequired") });
+      errors.departmentName_ne = t("errors.validation.nameNeRequired", {
+        default: t("errors.validation.nameRequired"),
+      });
     }
     if (formData.order < 0) {
       errors.order = t("errors.validation.orderInvalid");
@@ -133,18 +139,7 @@ export const DepartmentEditForm: React.FC<DepartmentEditFormProps> = ({
       <div id="hr-form">
         {/* Top action bar */}
         <div className="department-edit-form-actionbar">
-          <Button
-            kind="ghost"
-            size="sm"
-            renderIcon={Reset}
-            onClick={() => {
-              resetDepartmentForm(department.id);
-              setValidationErrors({});
-            }}
-            disabled={isSubmitting}
-          >
-            {tHr("actions.reset", { default: "Reset" })}
-          </Button>
+          {/* removed reset button from edit form */}
         </div>
         {isSubmitting && (
           <div className="department-edit-form-loading">
@@ -155,7 +150,10 @@ export const DepartmentEditForm: React.FC<DepartmentEditFormProps> = ({
         <Grid fullWidth>
           {/* Basic Information Section */}
           <Column lg={16} md={8} sm={4}>
-            <FormGroup legendText={tHr("sections.basicInfo")}>
+            <FormGroup legendText={""}>
+              <h3 className="employee-form-title">
+                {tHr("sections.basicInfo")}
+              </h3>
               <TranslatableField
                 label={t("form.name.label")}
                 value={formData.departmentName}
@@ -167,11 +165,27 @@ export const DepartmentEditForm: React.FC<DepartmentEditFormProps> = ({
                   ne: t("form.name.placeholder.ne"),
                 }}
                 required
-                invalid={!!validationErrors.departmentName_en || !!validationErrors.departmentName_ne}
-                invalidText={validationErrors.departmentName_en || validationErrors.departmentName_ne}
+                invalid={
+                  !!validationErrors.departmentName_en ||
+                  !!validationErrors.departmentName_ne
+                }
+                invalidText={
+                  validationErrors.departmentName_en ||
+                  validationErrors.departmentName_ne
+                }
                 invalidMessages={{
-                  en: validationErrors.departmentName_en ? { invalid: true, text: validationErrors.departmentName_en } : undefined,
-                  ne: validationErrors.departmentName_ne ? { invalid: true, text: validationErrors.departmentName_ne } : undefined,
+                  en: validationErrors.departmentName_en
+                    ? {
+                        invalid: true,
+                        text: validationErrors.departmentName_en,
+                      }
+                    : undefined,
+                  ne: validationErrors.departmentName_ne
+                    ? {
+                        invalid: true,
+                        text: validationErrors.departmentName_ne,
+                      }
+                    : undefined,
                 }}
                 activeLanguage={activeDeptNameLang}
                 onActiveLanguageChange={setActiveDeptNameLang}

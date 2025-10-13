@@ -916,6 +916,9 @@
   gap: 1rem;
 }
 
+.c4p--create-side-panel__form-title-text
+.c4p--create-side-panel__form-description-text
+.c4p--create-side-panel__content-text
 .c4p--side-panel__subtitle-text {
   display: none;
 }
