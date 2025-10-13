@@ -256,16 +256,8 @@ export const HeaderEditForm: React.FC<HeaderEditFormProps> = ({
   return (
     <div id="header-form">
       {/* Top action bar */}
-      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "0.5rem" }}>
-        <Button
-          kind="ghost"
-          size="sm"
-          renderIcon={Reset}
-          onClick={handleResetForm}
-          disabled={isSubmitting || updateMutation.isPending}
-        >
-          {t("actions.reset")}
-        </Button>
+      <div style={{ display: "flex", justifyContent: "flex-start", marginTop:"-1.5rem", marginBottom: "0.5rem" }}>
+        <h3 style={{fontSize: "16px"}}>{t("sections.basicInfo")}</h3>
       </div>
 
       {isSubmitting && (

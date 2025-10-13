@@ -160,7 +160,8 @@ export const MediaUploadForm: React.FC<{ onSuccess?: () => void }> = ({
   return (
     <div>
       {/* Top action bar */}
-      <div className="flex--row-end m--mb-05">
+      <div className="flex--row-end m--mb-05 header">
+        <h3 className="section-title">{t("sections.basicInfo")}</h3>
         <Button
           kind="ghost"
           size="sm"
@@ -183,7 +184,7 @@ export const MediaUploadForm: React.FC<{ onSuccess?: () => void }> = ({
 
       <Grid fullWidth>
         <Column lg={16} md={8} sm={4}>
-          <FormGroup legendText={t("form.files")}>
+          <FormGroup legendText="">
             <FileUpload
               className="media-multi-upload"
               files={files}

@@ -28,6 +28,8 @@ interface ImportantLinksCreateFormProps {
 export const ImportantLinksCreateForm: React.FC<
   ImportantLinksCreateFormProps
 > = ({ onSuccess, onCancel, className }) => {
+  // Fix: Declare tab state for TranslatableField
+  const [titleTab, setTitleTab] = useState<'en' | 'ne'>('en');
   const t = useTranslations("important-links");
   const createMutation = useCreateImportantLink();
   const { data: listData } = useImportantLinks({ page: 1, limit: 10000 });

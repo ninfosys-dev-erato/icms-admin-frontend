@@ -25,6 +25,8 @@
   },
   "actions": {
     "createNew": "Create New",
+    "delete": "Delete",
+    "deleting": "Deleting...",
     "edit": "Edit",
     "update": "Update",
     "updating": "Updating...",
@@ -59,6 +61,14 @@
     "actions": "Actions",
     "edit": "Edit",
     "noContent": "No content available"
+  },
+  "delete": {
+    "title": "Confirm Deletion",
+    "confirmation": "Are you sure you want to delete \"{title}\"? This action cannot be undone."
+  },
+  "notifications": {
+    "deleted": "{title} deleted",
+    "deleteError": "Failed to delete {title}"
   },
   "empty": {
     "title": "No Office Descriptions",

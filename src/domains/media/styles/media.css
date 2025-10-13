@@ -83,6 +83,22 @@
   cursor: not-allowed;
 }
 
+
+.c4p--create-side-panel.c4p--side-panel .c4p--create-side-panel__content-text{
+  display: none;
+}
+
+.section-header-row{
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+}
+.section-title{
+  font-size: 16px;
+  /* margin-bottom: 1rem; */
+  padding: 0;
+}
+
+
 /* Card-based layout (mirrors sliders) */
 .media-flex {
   display: flex;
@@ -268,6 +284,11 @@
 /* Hide native file input (we trigger it via a styled button) */
 .file-input {
   display: none;
+}
+
+.header{
+  justify-content: space-between !important;
+  align-items: center;
 }
 
 /* Utility classes to replace inline styles */

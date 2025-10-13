@@ -376,7 +376,12 @@ export class HeaderService {
   }
 
   // Helper method to get display name from header
-  static getDisplayName(header: HeaderConfig): string {
+  static getDisplayName(header: HeaderConfig, locale?: string): string {
+    if (!header) return 'Header';
+    // Prefer requested locale if available
+    if (locale === 'ne' && header.name?.ne) return header.name.ne;
+    if (locale === 'en' && header.name?.en) return header.name.en;
+    // fallback to any available
     return header.name?.en || header.name?.ne || 'Header';
   }
 

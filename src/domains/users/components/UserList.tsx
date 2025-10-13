@@ -12,7 +12,8 @@ export const UserList: React.FC<{ hideHeader?: boolean }> = ({
   hideHeader = false,
 }) => {
   const { currentQuery, setQuery } = useUserUIStore();
-  const { data, isLoading } = useUsers({
+  // Pass the whole currentQuery (normalize undefined) so React Query key changes when any filter changes
+  const normalizedQuery = {
     page: currentQuery.page,
     limit: currentQuery.limit,
     search: currentQuery.search ?? undefined,
@@ -20,7 +21,11 @@ export const UserList: React.FC<{ hideHeader?: boolean }> = ({
     status: currentQuery.status,
     order: currentQuery.order,
     sort: currentQuery.sort,
-  });
+  };
+
+  // removed debug logging
+
+  const { data, isLoading } = useUsers(normalizedQuery);
 
   return (
     <Layer className="users-container">
@@ -30,12 +35,15 @@ export const UserList: React.FC<{ hideHeader?: boolean }> = ({
         </div>
       )}
 
-      <UserFilters onChange={() => setQuery({ page: 1 })} />
+      <UserFilters onChange={() => setQuery((prev) => ({ ...prev, page: 1 }))} />
+
+      {/* no debug banner */}
 
       <div style={{ padding: "0 1rem 2rem 1rem", textAlign: "left" }}>
         <UserTable
           users={data?.data ?? []}
           loading={isLoading}
+          query={currentQuery}
           pagination={
             data?.pagination
               ? {
@@ -45,8 +53,8 @@ export const UserList: React.FC<{ hideHeader?: boolean }> = ({
                 }
               : undefined
           }
-          onPageChange={(page) => setQuery({ page })}
-          onPageSizeChange={(limit) => setQuery({ limit, page: 1 })}
+          onPageChange={(page) => setQuery((prev) => ({ ...prev, page }))}
+          onPageSizeChange={(limit) => setQuery((prev) => ({ ...prev, limit, page: 1 }))}
         />
       </div>
     </Layer>

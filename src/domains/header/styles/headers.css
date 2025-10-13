@@ -1,5 +1,6 @@
 /* IBM Products Side Panel Override */
-.c4p--side-panel.c4p--side-panel--slide-in, .c4p--side-panel:not(.c4p--side-panel--has-overlay) {
+.c4p--side-panel.c4p--side-panel--slide-in,
+.c4p--side-panel:not(.c4p--side-panel--has-overlay) {
   z-index: 6000;
   box-shadow: none !important;
 }
@@ -51,7 +52,9 @@
 }
 
 .header-container .tab-content,
-#header-form .tab-content { padding: 0; }
+#header-form .tab-content {
+  padding: 0;
+}
 
 /* Header Cards */
 .header-card {
@@ -77,7 +80,9 @@
   align-items: flex-start;
 }
 
-.card-header-content { flex: 1; }
+.card-header-content {
+  flex: 1;
+}
 
 /* content */
 .card-content {
@@ -89,16 +94,16 @@
 /* Logo area */
 .card-logo-section {
   margin-bottom: 0.75rem;
-  padding: 1rem;                   /* exactly 1rem inset */
+  padding: 1rem; /* exactly 1rem inset */
   background-color: var(--cds-ui-02);
   border: 1px solid var(--cds-ui-03);
-  border-radius: 0;                /* sharp corners */
-  position: relative;              /* << allow absolute child (title badge) */
+  border-radius: 0; /* sharp corners */
+  position: relative; /* << allow absolute child (title badge) */
 }
 
 .card-logo-grid {
   display: flex;
-  justify-content: space-between;  /* push to edges */
+  justify-content: space-between; /* push to edges */
   align-items: center;
   gap: 1.5rem;
   width: 100%;
@@ -109,7 +114,7 @@
   flex: 0 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: center;   /* center both image + label */
+  align-items: center; /* center both image + label */
   justify-content: center;
 }
 
@@ -139,14 +144,17 @@
   border-radius: 0;
   overflow: hidden;
 }
-.header-logo-preview img { display: block; margin: 0; }
+.header-logo-preview img {
+  display: block;
+  margin: 0;
+}
 
 /* ===== New combined info row (left: status + name, right: menu) ===== */
 .card-info-row {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 0.5rem 1rem;            /* 1rem left gutter */
+  padding: 0.5rem 1rem; /* 1rem left gutter */
 }
 
 .card-info-left {
@@ -180,8 +188,10 @@
   z-index: 10;
 }
 
-.card-actions .cds--overflow-menu { position: relative; }
-.card-actions .cds--overflow-menu-options { right: 0; left: auto; min-width: 160px; }
+.card-actions .cds--overflow-menu {
+  position: relative;
+}
+/* .card-actions .cds--overflow-menu-options { right: 0; left: auto; min-width: 160px; } */
 
 /* Empty/Loading/Error (unchanged) */
 .empty-state {
@@ -190,22 +200,31 @@
   border-radius: 0;
   padding: 3rem 2rem;
   margin: 1rem 0;
-  text-align: center;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: 300px;
+}
+
+.cds--overflow-menu-options {
+  left: 1152px !important;
+  top: 411.5px !important;
+  box-shadow: none !important;
+  border: 1px solid var(--cds-ui-03);
 }
 
 .empty-state-content {
   max-width: 400px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   gap: 1rem;
 }
+.file-input{
+  display: none;
+}
 
-.empty-state-icon { color: var(--cds-text-03); margin-bottom: 0.5rem; }
+.empty-state-icon {
+  color: var(--cds-text-03);
+  margin-bottom: 0.5rem;
+}
 
 .empty-state-title {
   font-weight: 400;
@@ -213,7 +232,7 @@
   margin: 0 0 0.5rem 0;
   font-size: 1.25rem;
   line-height: 1.4;
-  text-align: center;
+  text-align: left;
 }
 
 .empty-state-description {
@@ -221,10 +240,12 @@
   color: var(--cds-text-02);
   margin: 0 0 1.5rem 0;
   line-height: 1.5;
-  text-align: center;
+  text-align: left;
 }
 
-.empty-state-action { min-width: 140px; }
+.empty-state-action {
+  min-width: 140px;
+}
 
 .loading-container {
   background-color: var(--cds-ui-01);
@@ -238,14 +259,15 @@
   min-height: 200px;
 }
 
-.empty-state-button{
-  margin-top: -50px;
+.empty-state-button {
+  margin-top: -30px;
   text-decoration: underline;
+  padding-left: 0;
 }
-.empty-state-button:hover{
+.empty-state-button:hover {
   background-color: transparent !important;
 }
-.empty-state-button:focus{
+.empty-state-button:focus {
   border: none;
 }
 
@@ -269,30 +291,27 @@
 /* Match Left/Right Logo headings to "Basic Information" */
 .logo-upload-section h4,
 .logo-upload h4 {
-  font-size: 0.875rem;     /* same as Carbon label/legend */
+  font-size: 0.875rem; /* same as Carbon label/legend */
   line-height: 1.125rem;
   font-weight: 600;
   color: var(--cds-text-01);
   margin: 0 0 0.5rem 0;
-  letter-spacing: .16px;   /* optional, helps match Carbon feel */
+  letter-spacing: 0.16px; /* optional, helps match Carbon feel */
 }
 
-
 /* ===== BADGE: anchor to the left-logo box and offset to the RIGHT of the image ===== */
-.card-logo-item.left { position: relative; }
+.card-logo-item.left {
+  position: relative;
+}
 
 .logo-title-badge {
   position: absolute;
-  top: 0.25rem;
-  /* Place starting from the horizontal center, then push right by ~logo half-width + small gap.
-     This keeps it just to the right of the logo without overlapping it. */
   left: 50%;
-  transform: translateX(50px);   /* <- gap from the logo’s right edge (tweak if your logo width differs) */
+  transform: translateX(
+    50px
+  ); /* <- gap from the logo’s right edge (tweak if your logo width differs) */
 
-  padding: 0.25rem 0.5rem;
-  background: #ffffff;       /* from your screenshot */
-  border: 1px solid var(--cds-ui-03);
-  border-radius: 0;          /* sharp corners */
+  padding: 0.25rem 0.5rem;     
   font-family: Arial, sans-serif;
   font-size: 16px;
   font-weight: 600;
@@ -305,14 +324,20 @@
 
 /* Responsive */
 @media (max-width: 672px) {
-  .header-card { margin-bottom: 1rem; }
-  .card-info-row { align-items: stretch; }
+  .header-card {
+    margin-bottom: 1rem;
+  }
+  .card-info-row {
+    align-items: stretch;
+  }
 }
 /* ===== HeaderCreateForm (moved from inline styles) ===== */
 .form-action-bar {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 0.5rem;
+  margin-top: -1.5rem;
 }
 
 .form-inline-loading {
@@ -347,7 +372,6 @@
   /* keep last uploader flush — matches original (no extra margin) */
   margin-bottom: 0;
 }
-
 
 .form-toggle-section {
   margin-top: 2rem;
