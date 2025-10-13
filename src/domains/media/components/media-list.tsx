@@ -176,13 +176,13 @@ export const MediaList: React.FC<MediaListProps> = ({
         </div>
       )}
 
-      {!!pagination && items.length > 0 && (
+      {!!pagination && filteredItems.length > 0 && (
         <div className="pagination-container">
           <Pagination
-            page={pagination.page}
-            pageSize={pagination.limit}
+              page={Number(pagination.page) || 1}
+              pageSize={Number(pagination.limit) || 12}
             pageSizes={[12, 24, 48, 96]}
-            totalItems={pagination.total}
+              totalItems={(statusFilter !== 'all' || visibilityFilter !== 'all' || (query?.search && query.search !== '')) ? filteredItems.length : (pagination.total || filteredItems.length)}
             onChange={({ page, pageSize }) => handlePageChange(page, pageSize)}
             backwardText="Previous"
             forwardText="Next"
