@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Button, Layer, Breadcrumb, BreadcrumbItem } from "@carbon/react";
-import { unstable_FeatureFlags as FeatureFlags } from "@carbon/ibm-products"; // Not available in latest package
+// import { unstable_FeatureFlags as FeatureFlags } from "@carbon/ibm-products"; // Not available in latest package
 import SidePanelForm from "@/components/shared/side-panel-form";
 import "@/lib/ibm-products/config";
 import { Add, Close } from "@carbon/icons-react";
@@ -77,8 +77,6 @@ export const UserContainer: React.FC = () => {
       <div style={{ padding: "0 1rem 2rem 1rem", textAlign: "left" }}>
         <UserList hideHeader />
       </div>
-
-  <FeatureFlags enableSidepanelResizer>
         <SidePanelForm
           title={panelTitle}
           subtitle={panelMode === "edit" ? panelUser?.email : undefined}
@@ -150,7 +148,6 @@ export const UserContainer: React.FC = () => {
             />
           </div>
   </SidePanelForm>
-  </FeatureFlags>
     </Layer>
   );
 };
