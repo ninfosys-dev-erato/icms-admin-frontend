@@ -2189,3 +2189,723 @@ html, body {
     opacity: .95 !important;
   }
 }
+/* //update */
+/* === MOBILE-ONLY OVERRIDE (append at very end) === */
+@media (max-width: 680px){
+  /* 1) Hide footer on phones */
+  .login-page-footer,
+  .login-footer{
+    display: none !important;
+  }
+
+  /* 2) Remove reserved space since footer is gone */
+  .login-canvas,
+  .login-main{
+    padding-bottom: 0 !important;
+  }
+
+  /* 3) Left-align the login form on phones */
+  :root { --mobile-align: clamp(20px, 6vw, 32px); }
+
+  .login-form-container{
+    transform: none !important;
+    left: auto !important;
+    margin: 0 !important;                        /* cancel auto-centering */
+    margin-left: var(--mobile-align) !important; /* left rail */
+    width: min(520px, calc(100% - (var(--mobile-align) * 2))) !important;
+  }
+
+  /* Keep brand/header on the same left rail */
+  .login-title.font-dynamic,
+  header .brand-title,
+  header .icms-title{
+    margin-left: var(--mobile-align) !important;
+  }
+
+  /* Make the form title flush within its container */
+  .login-form-title{ margin-left: 0 !important; }
+}
+/* //here */
+
+/* === MOBILE FORCE-LEFT (append last) === */
+@media (max-width: 680px){
+  :root { --mobile-align: clamp(20px, 6vw, 32px); }
+
+  /* Kill any parent centering on mobile */
+  .login-content,
+  .fullwidth-centered,
+  .login-main {
+    display: block !important;                 /* ignore grid centering */
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    justify-items: start !important;
+  }
+
+  /* Force the form to the left rail no matter what */
+  .login-form-container{
+    margin: 0 !important;                      /* cancel margin: 0 auto */
+    margin-left: var(--mobile-align) !important;
+    transform: none !important;
+    left: auto !important;
+    place-self: start !important;              /* grid safety */
+    justify-self: start !important;            /* grid safety */
+    max-width: min(520px, calc(100% - (var(--mobile-align) * 2))) !important;
+    width: auto !important;
+  }
+
+  /* Keep canvas padding aligned to the same rail */
+  .login-canvas{
+    padding-left: var(--mobile-align) !important;
+    padding-right: var(--mobile-align) !important;
+  }
+
+  /* Ensure the "Log in to iCMS" text is flush inside the form box */
+  .login-form-title{ margin-left: 0 !important; }
+}
+
+
+
+/* === FINAL MOBILE ALIGN FIX (append last) === */
+@media (max-width: 680px){
+  :root { --mobile-align: clamp(20px, 6vw, 32px); }
+
+  /* Stop any parent flex/grid centering */
+  .login-page,
+  .login-canvas,
+  .fullwidth-centered,
+  .login-content {
+    display: block !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  /* Force the form to the left rail */
+  .login-form-container{
+    position: relative !important;
+    margin: 0 !important;
+    margin-left: var(--mobile-align) !important;
+    left: 0 !important;
+    right: auto !important;
+    transform: none !important;
+    width: min(520px, calc(100% - (var(--mobile-align) * 2))) !important;
+    max-width: 520px !important;
+    justify-self: flex-start !important;
+    align-self: flex-start !important;
+  }
+
+  /* Align the top "iCMS" header with the form */
+  .login-title.font-dynamic,
+  header .brand-title,
+  header .icms-title{
+    margin-left: var(--mobile-align) !important;
+  }
+
+  /* Ensure text inside the form stays flush */
+  .login-form-title{ margin-left: 0 !important; }
+}
+
+
+
+
+/* === 🔥 FINAL MOBILE LEFT ALIGN PATCH (put LAST in file) === */
+@media (max-width: 680px) {
+  :root { --mobile-align: clamp(20px, 6vw, 32px); }
+
+  /* Neutralize parent centering and grid alignment */
+  .login-content,
+  .fullwidth-centered,
+  .login-canvas,
+  .login-page {
+    display: block !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    justify-items: start !important;
+    text-align: left !important;
+  }
+
+  /* Force the login form to the left rail */
+  .login-form-container {
+    position: relative !important;
+    margin: 0 !important;
+    margin-left: var(--mobile-align) !important;  /* ← align with header */
+    transform: none !important;
+    left: 0 !important;
+    right: auto !important;
+    width: calc(100% - (var(--mobile-align) * 2)) !important;
+    max-width: 520px !important;
+  }
+
+  /* Ensure iCMS header aligns on same vertical guide */
+  .login-title.font-dynamic,
+  header .brand-title,
+  header .icms-title {
+    margin-left: var(--mobile-align) !important;
+  }
+
+  /* Tighten the canvas so it follows the same rail */
+  .login-canvas {
+    padding-left: var(--mobile-align) !important;
+    padding-right: var(--mobile-align) !important;
+  }
+
+  /* Keep form title flush */
+  .login-form-title {
+    margin-left: 0 !important;
+  }
+}
+
+
+/* === MOBILE: one left rail, no double padding (FINAL) === */
+@media (max-width: 680px){
+  /* one knob for the shared left rail */
+  :root { --rail: 16px; } /* change to 20/24 if you want more room */
+
+  /* 1) Remove canvas side padding so we don't double-offset */
+  .login-canvas{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* 2) Put the header brand on the rail using padding (not margin) */
+  .login-title.font-dynamic,
+  header .brand-title,
+  header .icms-title{
+    margin-left: 0 !important;
+    padding-left: var(--rail) !important;
+  }
+
+  /* 3) Force the form on the exact same rail */
+  .login-form-container{
+    /* neutralize any centering/nudges */
+    transform: none !important;
+    left: auto !important;
+    margin: 0 !important;
+
+    /* WIDTH + RAIL (use padding, not margin, so width fills correctly) */
+    width: 100% !important;
+    max-width: none !important;
+    padding-left: var(--rail) !important;
+    padding-right: var(--rail) !important;
+  }
+
+  /* keep the form title flush to its container */
+  .login-form-title{ margin-left: 0 !important; }
+
+  /* 4) Stop parent grids/flex from re-centering on mobile */
+  .login-content,
+  .fullwidth-centered,
+  .login-main{
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    place-items: start !important;
+  }
+}
+
+
+
+/* === PHONE: zero out all left paddings, pin form to viewport === */
+@media (max-width: 680px){
+  /* set how tight you want it:
+     8px = tight, 0 = perfectly flush to the edge */
+  :root { --rail: 8px; }  /* change to 0px if you want fully flush */
+
+  /* kill left padding/margin on all common ancestors */
+  html, body,
+  .login-page, .login-main, .login-canvas,
+  .login-content, .fullwidth-centered,
+  .cds--content, .cds--grid {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  /* header brand on the same rail */
+  .login-title.font-dynamic,
+  header .brand-title,
+  header .icms-title{
+    margin-left: 0 !important;
+    padding-left: var(--rail) !important;
+  }
+
+  /* force the form to that exact rail and width */
+  .login-form-container{
+    position: relative !important;
+    left: 0 !important;
+    transform: none !important;
+    margin: 0 !important;                 /* no auto-centering */
+    padding-left: var(--rail) !important; /* same rail as header */
+    padding-right: var(--rail) !important;
+    width: calc(100vw - (var(--rail) * 2)) !important; /* fill to edges */
+    max-width: none !important;
+  }
+
+  /* keep form title flush inside its box */
+  .login-form-title{ margin-left: 0 !important; }
+}
+
+
+
+/* === FINAL POLISH: tight left, small right gap === */
+@media (max-width: 680px){
+  /* small right margin only */
+  :root { --rail-left: 0px; --rail-right: 16px; } /* tweak right gap here */
+
+  html, body,
+  .login-page, .login-main, .login-canvas,
+  .login-content, .fullwidth-centered,
+  .cds--content, .cds--grid {
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+    padding-right: 0!important;
+    margin-right: 0 !important;
+  }
+
+  /* header aligned perfectly to left */
+  .login-title.font-dynamic,
+  header .brand-title,
+  header .icms-title{
+    margin-left: var(--rail-left) !important;
+    padding-left: var(--rail-left) !important;
+  }
+
+  /* login form flush left, small right gap */
+  .login-form-container{
+    position: relative !important;
+    left: 0 !important;
+    transform: none !important;
+    margin: 0 !important;
+    padding-left: var(--rail-left) !important;
+    padding-right: var(--rail-right) !important;
+    width: calc(100vw - var(--rail-right)) !important;
+    max-width: none !important;
+  }
+
+  .login-form-title{ margin-left: 0 !important; }
+}
+
+
+/* === Right breathing room only (do not move left edge) === */
+@media (max-width: 680px){
+  :root { --right-gap: 16px; } /* tweak to 12/20px as you like */
+
+  /* keep current left alignment; only inset the content on the right */
+  .login-form-container{
+    box-sizing: border-box !important;
+    padding-right: var(--right-gap) !important;  /* creates the visual gap */
+    /* no margin-left/transform changes here */
+  }
+
+  /* match canvas so labels and helper text follow the same edge */
+  .login-canvas{
+    padding-right: var(--right-gap) !important;
+  }
+}
+
+/* --- MOBILE: keep left rail, add only a right gap --- */
+@media (max-width: 680px){
+  :root{
+    --left-rail: clamp(20px, 6vw, 32px); /* your current left offset */
+    --right-gap: 16px;                   /* tweak this to 12/20 etc. */
+  }
+
+  .login-form-container{
+    /* anchor left exactly where you already want it */
+    margin-left: var(--left-rail) !important;
+
+    /* the gap on the right */
+    margin-right: var(--right-gap) !important;
+
+    /* kill earlier 100% / 100vw widths so the gap can exist */
+    width: auto !important;
+    max-width: calc(100vw - (var(--left-rail) + var(--right-gap))) !important;
+
+    /* ensure children respect the container width */
+    box-sizing: border-box !important;
+  }
+
+  /* keep canvas padding consistent (optional) */
+  .login-canvas{
+    padding-left: var(--left-rail) !important;
+    padding-right: var(--right-gap) !important;
+  }
+}
+
+
+
+/* === PHONE: nudge left, create right gap (final override) === */
+@media (max-width: 680px){
+  :root{
+    --left-rail: clamp(8px, 3vw, 16px); /* smaller = farther left */
+    --right-gap: 30px;                   /* space on the right */
+  }
+
+  /* place the container by margins; kill width rules that block the gap */
+  .login-form-container{
+    margin-left: var(--left-rail) !important;   /* shift left edge */
+    margin-right: var(--right-gap) !important;  /* add right breathing room */
+
+    width: auto !important;                     /* defeat width:100%/100vw */
+    max-width: calc(100vw - (var(--left-rail) + var(--right-gap))) !important;
+    box-sizing: border-box !important;
+    transform: none !important;
+    left: auto !important;
+  }
+
+  /* keep the page padding aligned to the same rails (optional but tidy) */
+  .login-canvas{
+    padding-left: var(--left-rail) !important;
+    padding-right: var(--right-gap) !important;
+  }
+
+  /* header/title follows the same left rail */
+  .login-title.font-dynamic,
+  header .brand-title,
+  header .icms-title{
+    margin-left: var(--left-rail) !important;
+  }
+}
+
+
+
+
+/* === PHONES: full-width form, left edge aligned to logo === */
+@media (max-width: 680px){
+  /* one rail for BOTH the logo/title and the form */
+  :root{ --phone-rail: clamp(16px, 6vw, 24px); } /* tweak to move left/right */
+
+  /* use padding (not margin) so the rail controls the true left edge */
+  .login-title.font-dynamic,
+  header .brand-title,
+  header .icms-title{
+    margin-left: 0 !important;
+    padding-left: var(--phone-rail) !important;
+  }
+
+  /* form: full viewport width, inset by the same rail */
+  .login-form-container{
+    position: static !important;
+    margin: 0 !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+
+    width: 100vw !important;          /* full phone width */
+    max-width: none !important;
+    box-sizing: border-box !important;
+
+    padding-left: var(--phone-rail) !important;  /* same left rail as logo */
+    padding-right: var(--phone-rail) !important; /* symmetric right inset */
+  }
+
+  /* remove canvas side padding so we don’t double-offset the rail */
+  .login-canvas{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+
+
+/* === PHONE: flush-left form + small right gap (final override) === */
+@media (max-width: 680px){
+  :root { --phone-right-gap: 16px; } /* tweak to 12/20px if you prefer */
+
+  /* no left padding; only add breathing room on the right */
+  .login-canvas,
+  .login-main{
+    padding-left: 0 !important;
+    padding-right: var(--phone-right-gap) !important;
+  }
+
+  /* keep the iCMS header on the same left edge (flush) */
+  .login-title.font-dynamic,
+  header .brand-title,
+  header .icms-title{
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  /* form is full-width minus the right gap, left edge stays flush */
+  .login-form-container{
+    position: static !important;
+    left: 0 !important;
+    right: auto !important;
+    transform: none !important;
+
+    margin: 0 !important;                 /* no auto-centering */
+    padding: 0 !important;                /* keep fields flush */
+
+    width: calc(100vw - var(--phone-right-gap)) !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+  }
+
+  /* make inputs & button fill the container width */
+  .login-form-field,
+  .login-form-button-row,
+  .login-form-submit,
+  .login-form-container .cds--btn,
+  .cds--text-input,
+  .cds--password-input{
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+
+
+/* === PHONE: make the form full-height and anchor CTA at bottom === */
+@media (max-width: 680px){
+  /* Fill the visible viewport on mobile (keyboard-safe units) */
+  .login-canvas{
+    min-height: 100dvh !important;
+    display: flex !important;
+    align-items: stretch !important;   /* let children take full height */
+    padding-bottom: 0 !important;      /* you already hide footer on phones */
+  }
+  @supports (height: 100svh){
+    .login-canvas{ min-height: 100svh !important; }
+  }
+
+  /* Let the form column inherit that height and become a flex column */
+  .login-form-container{
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: inherit !important;    /* take canvas height */
+    flex: 1 1 auto !important;
+  }
+
+  /* Grow the content area; keep button stuck to the bottom */
+  .login-form-content{ flex: 1 1 auto !important; }
+  .login-form-button-row{ margin-top: auto !important; }
+
+  /* Safety: allow scrolling if keyboard shrinks space */
+  html, body{ overflow-y: auto !important; }
+}
+
+
+
+/* Remove the 16px inner padding on the login tile for phones */
+@media (max-width: 680px){
+  .cds--tile.login-tile{
+    padding: 0 !important;   /* kill the default 16px */
+  }
+}
+
+/* === Give login title 12px right padding (FINAL PATCH) === */
+.login-form-title{
+  padding-right: 12px !important;
+}
+
+
+/* === Form right padding 16px on phones (FINAL PATCH) === */
+@media (max-width: 680px){
+  .login-form-container{
+    box-sizing: border-box !important; /* keep widths stable */
+    padding-right: 24px !important;
+  }
+}
+
+
+/* === Disable scroll on phones === */
+@media (max-width: 680px){
+  html, body{
+    overflow: hidden !important;   /* prevent any vertical or horizontal scroll */
+    overscroll-behavior: none !important;  /* stop rubber-band on iOS */
+    position: fixed !important;    /* lock the viewport */
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+
+
+
+
+/* === Nest Hub (1024x600, landscape) – move header + form left === */
+@media (width: 1024px) and (height: 600px) and (orientation: landscape),
+       (min-width: 1000px) and (max-width: 1040px) and (max-height: 620px) and (orientation: landscape) { /* fallback band */
+
+  :root { --nesthub-rail: 0px; }  /* adjust this value to move left/right */
+
+  /* Put brand title on the same left rail */
+  .login-title.font-dynamic,
+  header .brand-title,
+  header .icms-title {
+    margin-left: var(--nesthub-rail) !important;
+  }
+
+  /* Put the form on that exact rail (no desktop nudge here) */
+  .login-form-container{
+    transform: none !important;
+    left: auto !important;
+    margin: 0 !important;
+    margin-left: var(--nesthub-rail) !important;
+    max-width: 520px !important;
+    width: 100% !important;
+  }
+
+  /* Keep the “Log in to iCMS” text flush in its box */
+  .login-form-title{ margin-left: 0 !important; }
+
+  /* Cancel the canvas’ default side padding so we don’t double-offset */
+  .login-canvas{
+    padding-left: var(--nesthub-rail) !important;
+    padding-right: var(--nesthub-rail) !important;
+  }
+
+  /* Optional: start the footer on the same rail for perfect alignment */
+  .login-page-footer,
+  .login-footer{
+    padding-left: var(--nesthub-rail) !important;
+  }
+}
+
+
+/* === FINAL PATCH: Remove left margin & padding (Nest Hub) === */
+@media (width: 1024px) and (height: 600px) and (orientation: landscape),
+       (min-width: 1000px) and (max-width: 1040px) and (max-height: 620px) and (orientation: landscape) {
+
+  /* Remove 16px inner padding from the tile */
+  .cds--tile.login-tile {
+    padding: 0 !important;
+  }
+
+  /* Remove left margin (24px) from form and title */
+  .login-form-container,
+  .login-title.font-dynamic,
+  header .brand-title,
+  header .icms-title {
+    margin-left: 0 !important;
+  }
+
+  /* Ensure the form stays full width inside the canvas */
+  .login-form-container {
+    width: 100% !important;
+    max-width: 520px !important;
+    transform: none !important;
+    left: auto !important;
+  }
+
+  /* Tighten canvas so no hidden overflow or double padding */
+  .login-canvas {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    overflow: hidden !important;
+  }
+}
+
+/* ===============================
+   TABLET FAMILY PATCH
+   - iPad mini/Air/Pro (768–1366 wide)
+   - Surface Pro 7 (~912×1368)
+   - ASUS Zenbook Fold (~1280×1800)
+   Remove: 16px inner padding + 24px left margin
+   Keep desktop (≥1369px wide) unchanged
+   =============================== */
+@media (min-width: 768px) and (max-width: 1368px) {
+
+  /* Kill the 16px inner padding the Carbon tile adds */
+  .cds--tile.login-tile {
+    padding: 0 !important;
+  }
+
+  /* Remove the 24px left margin on the title + form container */
+  .login-title.font-dynamic,
+  header .brand-title,
+  header .icms-title,
+  .login-form-container {
+    margin-left: 0 !important;
+  }
+
+  /* Make sure we don't get a second inset from the canvas */
+  .login-canvas {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Keep the form at your normal width without any nudge */
+  .login-form-container {
+    transform: none !important;
+    left: auto !important;
+    width: 100% !important;
+    max-width: 520px !important;
+  }
+}
+
+/* ASUS Zenbook Fold tall portrait (extra safety net) */
+@media (min-width: 1200px) and (max-width: 1300px) and (min-height: 1600px) {
+  .cds--tile.login-tile { padding: 0 !important; }
+  .login-title.font-dynamic,
+  header .brand-title,
+  header .icms-title,
+  .login-form-container { margin-left: 0 !important; }
+  .login-canvas { padding-left: 0 !important; padding-right: 0 !important; }
+  .login-form-container { transform: none !important; left: auto !important; max-width: 520px !important; }
+}
+
+/* === iPad Mini (768x1024) - Remove ONLY LEFT padding (keep right) === */
+@media (width: 768px) and (height: 1024px),
+       (min-width: 760px) and (max-width: 780px) {
+
+  .login-content,
+  .login-canvas,
+  .login-main,
+  .cds--tile.login-tile {
+    padding-left: 0 !important;   /* remove only left padding */
+    padding-right: 16px !important; /* keep right padding normal */
+  }
+}
+
+/* === iPad Family + ASUS Zenbook Fold: Remove LEFT padding only === */
+@media
+  /* iPad Mini (768x1024) */
+  (width: 768px) and (height: 1024px),
+  (min-width: 760px) and (max-width: 780px),
+
+  /* iPad Air (820x1180) */
+  (width: 820px) and (height: 1180px),
+  (min-width: 810px) and (max-width: 830px),
+
+  /* iPad Pro 11" / 12.9" (834–1024 × 1194–1366) */
+  (min-width: 830px) and (max-width: 1030px) and (min-height: 1100px) and (max-height: 1370px),
+
+  /* ASUS Zenbook Fold (~1280x1800 portrait or folded mode) */
+  (min-width: 1200px) and (max-width: 1300px) and (min-height: 1600px) {
+
+  .login-content,
+  .login-canvas,
+  .login-main,
+  .cds--tile.login-tile {
+    padding-left: 0 !important;      /* remove only left padding */
+    padding-right: 16px !important;  /* keep right padding */
+  }
+}
+
+/* === Nest Hub Max (1280x800) - Footer 16px padding === */
+@media (width: 1280px) and (height: 800px),
+       (min-width: 1260px) and (max-width: 1300px) and (min-height: 780px) and (max-height: 820px) {
+
+  .login-page-footer,
+  .login-footer {
+    padding: 16px !important;              /* uniform 16px padding on all sides */
+    padding-left: 40px !important;
+    padding-right: 80px !important;
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
+  }
+}
+
+/* === Nest Hub (1024×600) - Remove only LEFT padding on login content === */
+@media (width: 1024px) and (height: 600px),
+       (min-width: 1000px) and (max-width: 1040px) and (min-height: 580px) and (max-height: 620px) {
+
+  .login-content,
+  .login-canvas,
+  .login-main,
+  .cds--tile.login-tile {
+    padding-left: 8px !important;       /* remove only left padding */
+    padding-right: 16px !important;   /* keep right padding */
+  }
+}
