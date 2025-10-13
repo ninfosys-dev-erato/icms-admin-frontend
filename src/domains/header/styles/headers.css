@@ -283,16 +283,10 @@
 
 .logo-title-badge {
   position: absolute;
-  top: 0.25rem;
-  /* Place starting from the horizontal center, then push right by ~logo half-width + small gap.
-     This keeps it just to the right of the logo without overlapping it. */
   left: 50%;
   transform: translateX(50px);   /* <- gap from the logo’s right edge (tweak if your logo width differs) */
 
-  padding: 0.25rem 0.5rem;
-  background: #ffffff;       /* from your screenshot */
-  border: 1px solid var(--cds-ui-03);
-  border-radius: 0;          /* sharp corners */
+  padding: 0.25rem 0.5rem;     
   font-family: Arial, sans-serif;
   font-size: 16px;
   font-weight: 600;
