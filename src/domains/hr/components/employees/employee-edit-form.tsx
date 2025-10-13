@@ -34,6 +34,7 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
   employee,
   onSuccess,
 }) => {
+  // Temporary state for instant preview after upload
   const t = useTranslations("hr-employees");
   // Use shared HR namespace for common labels like sections and actions
   const tHr = useTranslations("hr");
@@ -50,6 +51,10 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
     setSelectedFile,
     resetFormState,
   } = useHRUIStore();
+  // Temporary state for instant preview after upload
+  const [tempImageUrl, setTempImageUrl] = useState<string | undefined>(
+    undefined
+  );
 
   const formData = employeeFormById[employee.id] ?? {
     name: employee.name,
@@ -176,11 +181,11 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
       return;
     }
     try {
-
       // If a new photo file is selected, upload it first so we can include
       // the resulting media id in the main update payload. This prevents
       // ordering/race issues where the payload update expects the photo id.
-      let uploadedPhotoMediaId: string | undefined = formData.photoMediaId || undefined;
+      let uploadedPhotoMediaId: string | undefined =
+        formData.photoMediaId || undefined;
       if (selectedFile) {
         try {
           const uploaded = await uploadPhotoMutation.mutateAsync({
@@ -188,11 +193,18 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
             file: selectedFile,
           });
           // The upload returns the updated employee; prefer its photoMediaId if present
-          uploadedPhotoMediaId = (uploaded && (uploaded.photoMediaId || uploaded.photo?.id)) as string | undefined;
+          uploadedPhotoMediaId = (uploaded &&
+            (uploaded.photoMediaId || uploaded.photo?.id)) as
+            | string
+            | undefined;
+          // Use the new image URL for instant preview
+          if (uploaded && uploaded.photo?.presignedUrl) {
+            setTempImageUrl(uploaded.photo.presignedUrl);
+          }
           // Clear the selected file from UI state after successful upload
           setSelectedFile(employee.id, null);
         } catch (err) {
-          console.error('Employee photo upload failed during submit:', err);
+          console.error("Employee photo upload failed during submit:", err);
           // Let the update proceed without the photo if upload failed
         }
       }
@@ -212,7 +224,9 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
           isActive: formData.isActive,
           showUpInHomepage: formData.showUpInHomepage,
           showDownInHomepage: formData.showDownInHomepage,
-          ...(uploadedPhotoMediaId ? { photoMediaId: uploadedPhotoMediaId } : {}),
+          ...(uploadedPhotoMediaId
+            ? { photoMediaId: uploadedPhotoMediaId }
+            : {}),
         },
       });
 
@@ -246,17 +260,29 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
   };
 
   const getCurrentImageUrl = (): string | undefined => {
+    // 1. If a new file is selected, show its preview instantly
     if (selectedFile) {
       return URL.createObjectURL(selectedFile);
     }
+    // 2. If a temp image URL is set (after upload), show it
+    if (tempImageUrl) {
+      return tempImageUrl;
+    }
+    // 3. Otherwise, show the employee's current photo
     if (employee.photo?.presignedUrl) {
       return employee.photo.presignedUrl;
     }
     if (employee.photo?.url) {
       return employee.photo.url;
     }
+    // 4. No image available
     return undefined;
   };
+
+  // Clear tempImageUrl when employee object updates (after refetch)
+  useEffect(() => {
+    setTempImageUrl(undefined);
+  }, [employee.photoMediaId, employee.photo?.presignedUrl]);
 
   return (
     <div>
@@ -281,7 +307,6 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
                   en: t("form.name.placeholder.en"),
                   ne: t("form.name.placeholder.ne"),
                 }}
-                required
                 invalid={
                   !!validationErrors.name_en || !!validationErrors.name_ne
                 }
