@@ -30,6 +30,15 @@
   font-weight: 400;
 }
 
+.cds--list-box__menu{
+  position:  absolute !important;
+  left: -104px;
+  box-shadow: none;
+  border: 1px solid var(--cds-ui-03);
+  border-radius: 0;
+  
+}
+
 .tab-button:hover:not(:disabled) {
   color: var(--cds-text-01);
   background-color: var(--cds-ui-02);
