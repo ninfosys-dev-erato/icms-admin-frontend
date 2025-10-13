@@ -57,7 +57,7 @@ export const SidePanelForm: React.FC<SidePanelFormProps> = ({
     {/* NOTE: CreateSidePanel already renders a <form>. We intentionally avoid nesting another <form> to prevent hydration & validity issues.
       If child logic relied on container.closest('form'), it will still resolve to the CreateSidePanel internal form. */}
       <div className={className} role="form" data-nested-form-wrapper>
-        {formTitle ? <div className="sidepanel-form__title">{formTitle}</div> : null}
+        {/* {formTitle ? <div className="sidepanel-form__title">{formTitle}</div> : null} */}
         {children}
       </div>
     </CreateSidePanel>

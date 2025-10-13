@@ -13,6 +13,9 @@ import {
 } from "../hooks/use-header-queries";
 import { useHeaderStore } from "../stores/header-store";
 import HeaderCard from "./header-card";
+import ConfirmDeleteModal from '@/components/shared/confirm-delete-modal';
+import { HeaderService } from '../services/header-service';
+import { HeaderNotificationService } from '../services/header-notification-service';
 
 interface HeaderListProps {
   headers?: HeaderConfig[];
@@ -36,6 +39,8 @@ export const HeaderList: React.FC<HeaderListProps> = ({
   className = "",
 }) => {
   const t = useTranslations("headers");
+  const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
+  const [headerToDelete, setHeaderToDelete] = React.useState<HeaderConfig | null>(null);
   const { openEditPanel } = useHeaderStore();
   const { openCreatePanel } = useHeaderStore();
   const handleCreateNew = () => openCreatePanel();
@@ -78,14 +83,11 @@ export const HeaderList: React.FC<HeaderListProps> = ({
   );
 
   const handleDelete = useCallback(
-    async (header: HeaderConfig) => {
-      try {
-        await deleteHeaderMutation.mutateAsync(header.id);
-      } catch (error) {
-        // console.error("Delete failed:", error);
-      }
+    (header: HeaderConfig) => {
+      setHeaderToDelete(header);
+      setDeleteModalOpen(true);
     },
-    [deleteHeaderMutation]
+    []
   );
 
   const handlePublish = useCallback(
@@ -170,6 +172,31 @@ export const HeaderList: React.FC<HeaderListProps> = ({
           onUnpublish={handleUnpublish}
         />
       </Grid>
+      <ConfirmDeleteModal
+        open={deleteModalOpen}
+        title={t("deleteConfirmationTitle") || "Confirm Deletion"}
+        subtitle={
+          headerToDelete
+            ? t("deleteConfirmation", { name: HeaderService.getDisplayName(headerToDelete) })
+            : undefined
+        }
+        onConfirm={() => {
+          if (headerToDelete) {
+            deleteHeaderMutation.mutate(headerToDelete.id, {
+              onSuccess: () => {
+                HeaderNotificationService.showHeaderDeleted(HeaderService.getDisplayName(headerToDelete));
+              },
+              onError: (error: any) => {
+                HeaderNotificationService.showHeaderDeletionError(error?.message || String(error));
+              },
+            });
+          }
+        }}
+        onCancel={() => {
+          setDeleteModalOpen(false);
+          setHeaderToDelete(null);
+        }}
+      />
     </div>
   );
 };
