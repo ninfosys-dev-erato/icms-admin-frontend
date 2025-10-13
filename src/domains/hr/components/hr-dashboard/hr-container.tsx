@@ -190,20 +190,19 @@ export const HRContainer: React.FC = () => {
         onRequestSubmit={async () => {
           if (isSubmitting) return;
           setSubmitting(true);
-          // Photo update logic
-          const state = useHRUIStore.getState();
-          const employee = state.panelEmployee;
-          const employeeId = employee?.id;
-          const selectedFile = employeeId ? state.selectedFileById?.[employeeId] : undefined;
-          const uploadPhotoMutation = state.uploadPhotoMutation;
-          const setSelectedFile = state.setSelectedFile;
-          if (selectedFile && employeeId && uploadPhotoMutation) {
-            await uploadPhotoMutation.mutateAsync({
-              id: employeeId,
-              file: selectedFile,
-            });
-            setSelectedFile(employeeId, null);
+
+          // Debug: log selected file presence and dispatch action
+          try {
+            const state = useHRUIStore.getState();
+            const employeeId = state.panelEmployee?.id;
+            const selectedFile = employeeId ? state.selectedFileById?.[employeeId] : undefined;
+            console.debug("HRContainer: onRequestSubmit invoked", { employeeId, hasSelectedFile: !!selectedFile });
+          } catch (err) {
+            console.debug("HRContainer: onRequestSubmit - cannot read selected file", err);
           }
+
+          // Dispatch the nested form submit (or custom event) and let the
+          // inner form component handle payload update and file upload.
           const formContainer = document.getElementById("hr-form");
           if (formContainer) {
             const form = formContainer.closest("form") as HTMLFormElement;

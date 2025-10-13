@@ -88,19 +88,44 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
 
   useEffect(() => {
     const handler = (e: Event) => {
-      e.preventDefault();
-      e.stopPropagation();
+      // Prevent default for native submit events
+      try {
+        e.preventDefault();
+      } catch (_) {
+        // some custom events may not support preventDefault
+      }
+      try {
+        e.stopPropagation();
+      } catch (_) {}
       submit();
     };
+
     const container = document.getElementById("hr-form");
     const form = container?.closest("form");
+
+    // Attach to native form submit if a form element exists
     if (form) {
-      form.addEventListener("submit", handler);
-      return () => form.removeEventListener("submit", handler);
+      form.addEventListener("submit", handler as EventListener);
     }
-    return undefined;
+
+    // Also listen for a custom 'formSubmit' event on the container.
+    // The sidebar may dispatch this when there is no enclosing <form>.
+    if (container) {
+      container.addEventListener("formSubmit", handler as EventListener);
+    }
+
+    return () => {
+      if (form) {
+        form.removeEventListener("submit", handler as EventListener);
+      }
+      if (container) {
+        container.removeEventListener("formSubmit", handler as EventListener);
+      }
+    };
+    // Re-run effect when selectedFile changes so the attached handler uses
+    // the latest submit closure (which captures the current selectedFile).
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [employee.id, formData]);
+  }, [employee.id, formData, selectedFile]);
 
   const validate = (): boolean => {
     const errors: Record<string, string> = {};
@@ -151,37 +176,28 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
       return;
     }
     try {
-      // Debug: Log the current form state
-      console.log("=== Edit Form Submission Debug ===");
-      console.log("Current formData:", formData);
-      console.log(
-        "showUpInHomepage:",
-        formData.showUpInHomepage,
-        "(type:",
-        typeof formData.showUpInHomepage,
-        ")"
-      );
-      console.log(
-        "showDownInHomepage:",
-        formData.showDownInHomepage,
-        "(type:",
-        typeof formData.showDownInHomepage,
-        ")"
-      );
-      console.log("===================================");
 
-      // Debug logging
-      console.log("Updating employee:", {
-        employeeId: employee.id,
-        formData,
-        selectedFile,
-      });
-      console.log("Homepage fields:", {
-        showUpInHomepage: formData.showUpInHomepage,
-        showDownInHomepage: formData.showDownInHomepage,
-      });
+      // If a new photo file is selected, upload it first so we can include
+      // the resulting media id in the main update payload. This prevents
+      // ordering/race issues where the payload update expects the photo id.
+      let uploadedPhotoMediaId: string | undefined = formData.photoMediaId || undefined;
+      if (selectedFile) {
+        try {
+          const uploaded = await uploadPhotoMutation.mutateAsync({
+            id: employee.id,
+            file: selectedFile,
+          });
+          // The upload returns the updated employee; prefer its photoMediaId if present
+          uploadedPhotoMediaId = (uploaded && (uploaded.photoMediaId || uploaded.photo?.id)) as string | undefined;
+          // Clear the selected file from UI state after successful upload
+          setSelectedFile(employee.id, null);
+        } catch (err) {
+          console.error('Employee photo upload failed during submit:', err);
+          // Let the update proceed without the photo if upload failed
+        }
+      }
 
-      // Update employee data
+      // Update employee data (include uploadedPhotoMediaId when available)
       await updateMutation.mutateAsync({
         id: employee.id,
         data: {
@@ -196,20 +212,9 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
           isActive: formData.isActive,
           showUpInHomepage: formData.showUpInHomepage,
           showDownInHomepage: formData.showDownInHomepage,
+          ...(uploadedPhotoMediaId ? { photoMediaId: uploadedPhotoMediaId } : {}),
         },
       });
-
-      // Handle photo upload if there's a new file
-      if (selectedFile) {
-        console.log("Uploading photo for employee:", {
-          employeeId: employee.id,
-          selectedFile,
-        });
-        await uploadPhotoMutation.mutateAsync({
-          id: employee.id,
-          file: selectedFile,
-        });
-      }
 
       resetEmployeeForm(employee.id);
       resetFormState(employee.id);
@@ -223,7 +228,6 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
   };
 
   const handlePhotoUpload = (file: File) => {
-    console.log("Photo upload handler called with file:", file);
     setSelectedFile(employee.id, file);
   };
 
@@ -257,22 +261,6 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
   return (
     <div>
       <div id="hr-form">
-        {/* Top action bar */}
-        <div className="employee-form-actionbar employee-form-actionbar--edit">
-          <Button
-            kind={"ghost"}
-            size="sm"
-            renderIcon={Reset}
-            onClick={() => {
-              resetEmployeeForm(employee.id);
-              resetFormState(employee.id);
-              setValidationErrors({});
-            }}
-            disabled={isSubmitting}
-          >
-            {tHr("actions.reset", { default: "Reset" })}
-          </Button>
-        </div>
         {isSubmitting && (
           <div className="employee-form-loading">
             <InlineLoading description={t("form.saving")} />
@@ -415,34 +403,6 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
                 }}
               >
                 {t("form.photo.changeButton", { default: "Change Photo" })}
-              </Button>
-              <Button
-                kind="primary"
-                size="sm"
-                disabled={
-                  isSubmitting || uploadPhotoMutation.isPending || !selectedFile
-                }
-                onClick={async (e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  if (
-                    !selectedFile ||
-                    isSubmitting ||
-                    uploadPhotoMutation.isPending
-                  )
-                    return;
-                  try {
-                    await uploadPhotoMutation.mutateAsync({
-                      id: employee.id,
-                      file: selectedFile,
-                    });
-                    setSelectedFile(employee.id, null);
-                  } catch (err) {
-                    console.error("Error updating photo:", err);
-                  }
-                }}
-              >
-                {t("form.photo.updateButton", { default: "Update Photo" })}
               </Button>
               <input
                 type="file"
