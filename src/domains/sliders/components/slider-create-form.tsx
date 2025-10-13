@@ -283,6 +283,7 @@ export const SliderCreateForm: React.FC<SliderCreateFormProps> = ({
       <div id="slider-form">
         {/* Top action bar */}
         <div className="slider-form-action-bar">
+          <div className="basic-info-title"><h4>{t("sections.basicInfo")}</h4></div>
           <Button
             kind="ghost"
             size="sm"

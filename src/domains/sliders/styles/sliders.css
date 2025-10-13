@@ -1,7 +1,7 @@
 /* ---------------- Slider Form Styles (from slider-create-form.tsx) ---------------- */
 .slider-form-action-bar {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 0.5rem;
 }
 
