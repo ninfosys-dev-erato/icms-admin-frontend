@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Grid,
   Column,
@@ -135,23 +135,7 @@ export const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
     return Object.keys(errors).length === 0;
   };
 
-  useEffect(() => {
-    const handler = (e: Event) => {
-      e.preventDefault();
-      e.stopPropagation();
-      submit();
-    };
-    const container = document.getElementById("hr-form");
-    const form = container?.closest("form");
-    if (form) {
-      form.addEventListener("submit", handler);
-      return () => form.removeEventListener("submit", handler);
-    }
-    return undefined;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [createEmployeeForm]);
-
-  const submit = async () => {
+  const submit = useCallback(async () => {
     setSubmitting(true);
     if (!validate()) {
       setSubmitting(false);
@@ -245,7 +229,32 @@ export const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
     } finally {
       setSubmitting(false);
     }
-  };
+  }, [
+    createEmployeeForm,
+    createSelectedFile,
+    createMutation,
+    employeeCount,
+    onSuccess,
+    resetEmployeeForm,
+    resetFormState,
+    setSubmitting,
+    updateEmployeeFormField,
+  ]);
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      e.preventDefault();
+      e.stopPropagation();
+      submit();
+    };
+    const container = document.getElementById("hr-form");
+    const form = container?.closest("form");
+    if (form) {
+      form.addEventListener("submit", handler);
+      return () => form.removeEventListener("submit", handler);
+    }
+    return undefined;
+  }, [submit]);
 
   const handlePhotoUpload = (file: File) => {
     console.log("Photo upload handler called with file:", file);
