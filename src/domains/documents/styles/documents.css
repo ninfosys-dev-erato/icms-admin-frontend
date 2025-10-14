@@ -986,13 +986,13 @@
     width: 100%;
     justify-content: flex-start;
     align-items: center;
+    width: auto;
   }
   .document-filters-dropdowns .cds--dropdown {
     min-width: 80px;
     max-width: 120px;
     font-size: 12px;
     height: 32px;
-    width: auto;
   }
 
   .document-filters-dropdowns .cds--label {
