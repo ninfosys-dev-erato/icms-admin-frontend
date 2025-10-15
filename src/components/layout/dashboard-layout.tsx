@@ -63,12 +63,12 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
   // Navigation items configuration
   const navigationItems: NavigationItem[] = [
-    {
-      href: "/admin/dashboard",
-      label: t("nav.dashboard"),
-      translationKey: "nav.dashboard",
-      // icon: Dashboard,
-    },
+    // {
+    //   href: "/admin/dashboard",
+    //   label: t("nav.dashboard"),
+    //   translationKey: "nav.dashboard",
+    //   // icon: Dashboard,
+    // },
     {
       href: "/admin/content-management",
       label: t("nav.contentManagement"),
@@ -76,67 +76,78 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       // icon: Document,
     },
     {
-      href: "/admin/dashboard/media",
+      // href: "/admin/dashboard/media",
+      href: "/admin/media",
       label: t("nav.media"),
       translationKey: "nav.media",
       // icon: Image,
     },
     {
-      href: "/admin/dashboard/documents",
+      // href: "/admin/dashboard/documents",
+      href: "/admin/documents",
       label: t("nav.documents"),
       translationKey: "nav.documents",
       // icon: Folder,
     },
     {
-      href: "/admin/dashboard/human-resources",
+      // href: "/admin/dashboard/human-resources",
+      href: "/admin/human-resources",
       label: t("nav.humanResources"),
       translationKey: "nav.humanResources",
       // icon: User,
     },
     {
-      href: "/admin/dashboard/sliders",
+      // href: "/admin/dashboard/sliders",
+      href: "/admin/sliders",
       label: t("nav.sliders"),
       translationKey: "nav.sliders",
       // icon: Image,
     },
     {
-      href: "/admin/dashboard/important-links",
+      // href: "/admin/dashboard/important-links",
+      href: "/admin/important-links",
       label: t("nav.importantLinks"),
       translationKey: "nav.importantLinks",
       // icon: Link,
     },
     {
-      href: "/admin/dashboard/navigation",
+      // href: "/admin/dashboard/navigation",
+      href: "/admin/navigation",
       label: t("nav.navigation"),
       translationKey: "nav.navigation",
       // icon: Menu,
     },
     {
-      href: "/admin/dashboard/headers",
+      // href: "/admin/dashboard/headers",
+      href: "/admin/headers",
       label: t("nav.headers"),
       translationKey: "nav.headers",
       // icon: Building,
     },
     {
-      href: "/admin/dashboard/office-settings",
+      // href: "/admin/dashboard/office-settings",
+      href: "/admin/office-settings",
       label: t("nav.officeSettings"),
       translationKey: "nav.officeSettings",
       // icon: Settings,
     },
     {
-      href: "/admin/dashboard/office-descriptions",
+      // href: "/admin/dashboard/office-descriptions",
+      href: "/admin/office-descriptions",
       label: t("nav.officeDescriptions"),
       translationKey: "nav.officeDescriptions",
       // icon: Document,
     },
     {
-      href: "/admin/dashboard/user-settings",
+      // href: "/admin/dashboard/user-settings",
+      href: "/admin/user-settings",
       label: t("nav.users"),
       translationKey: "nav.users",
       // icon: User,
     },
     {
-      href: "/admin/dashboard/internationalization",
+      // href: "/admin/dashboard/internationalization",
+      href: "/admin/internationalization",
       label: t("nav.internationalization"),
       translationKey: "nav.internationalization",
       // icon: Language,
@@ -145,8 +156,13 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
   // Check if a navigation item is active
   const isActive = (href: string) => {
-    if (href === "/admin/dashboard") {
-      return pathname === "/admin/dashboard";
+  //   if (href === "/admin/dashboard") {
+  //     return pathname === "/admin/dashboard";
+  //   }
+  //   return pathname.startsWith(href);
+  // };
+    if (href === "/admin") {
+      return pathname === "/admin";
     }
     return pathname.startsWith(href);
   };
@@ -166,7 +182,8 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                   setSideNavExpanded(!isSideNavExpanded);
                 }}
               />
-              <HeaderName href="/admin/dashboard" prefix="">
+              {/* <HeaderName href="/admin/dashbaord" prefix=""> */}
+              <HeaderName href="/admin/content-management" prefix="">
                 iCMS
               </HeaderName>
               <HeaderNavigation aria-label="iCMS" />

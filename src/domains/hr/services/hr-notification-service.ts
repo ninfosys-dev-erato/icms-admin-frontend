@@ -30,9 +30,9 @@ export class HRNotificationService extends NotificationService {
   }
 
   // Employee Photo
-  static employeePhotoUploaded(name?: string) {
-    return this.showSuccess('Photo Uploaded', name ? `Photo for "${name}" has been uploaded successfully.` : 'Employee photo uploaded successfully.');
-  }
+  // static employeePhotoUploaded(name?: string) {
+  //   return this.showSuccess('Photo Uploaded', name ? `Photo for "${name}" has been uploaded successfully.` : 'Employee photo uploaded successfully.');
+  // }
   static employeePhotoRemoved(name?: string) {
     return this.showSuccess('Photo Removed', name ? `Photo for "${name}" has been removed successfully.` : 'Employee photo removed successfully.');
   }

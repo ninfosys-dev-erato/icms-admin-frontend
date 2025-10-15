@@ -162,72 +162,85 @@ export const HRContainer: React.FC = () => {
       </div>
 
       {/* Right side panel for create/edit */}
-        <SidePanelForm
-          title={panelTitle}
-          subtitle={
-            panelMode === "edit"
-              ? activeEntity === "employee"
-                ? useHRUIStore.getState().panelEmployee?.name?.en
-                : useHRUIStore.getState().panelDepartment?.departmentName?.en
-              : undefined
+      <SidePanelForm
+        title={panelTitle}
+        subtitle={
+          panelMode === "edit"
+            ? activeEntity === "employee"
+              ? useHRUIStore.getState().panelEmployee?.name?.en
+              : useHRUIStore.getState().panelDepartment?.departmentName?.en
+            : undefined
+        }
+        open={!!panelOpen}
+        onRequestClose={() => {
+          if (!isSubmitting) {
+            closePanel();
           }
-          open={!!panelOpen}
-          onRequestClose={() => {
-            if (!isSubmitting) {
-              closePanel();
-            }
-          }}
-          primaryButtonText={
-            isSubmitting
-              ? panelMode === "edit"
-                ? t("actions.updating")
-                : t("actions.creating")
-              : panelMode === "edit"
-                ? t("actions.update")
-                : t("actions.createNew")
+        }}
+        primaryButtonText={
+          isSubmitting
+            ? panelMode === "edit"
+              ? t("actions.updating")
+              : t("actions.creating")
+            : panelMode === "edit"
+              ? t("actions.update")
+              : t("actions.createNew")
+        }
+        secondaryButtonText={t("actions.cancel")}
+        onRequestSubmit={async () => {
+          if (isSubmitting) return;
+          setSubmitting(true);
+
+          // Debug: log selected file presence and dispatch action
+          try {
+            const state = useHRUIStore.getState();
+            const employeeId = state.panelEmployee?.id;
+            const selectedFile = employeeId ? state.selectedFileById?.[employeeId] : undefined;
+            console.debug("HRContainer: onRequestSubmit invoked", { employeeId, hasSelectedFile: !!selectedFile });
+          } catch (err) {
+            console.debug("HRContainer: onRequestSubmit - cannot read selected file", err);
           }
-          secondaryButtonText={t("actions.cancel")}
-          onRequestSubmit={() => {
-            if (isSubmitting) return;
-            setSubmitting(true);
-            const formContainer = document.getElementById("hr-form");
-            if (formContainer) {
-              const form = formContainer.closest("form") as HTMLFormElement;
-              if (form) {
-                const submitEvent = new Event("submit", {
-                  cancelable: true,
-                  bubbles: true,
-                });
-                form.dispatchEvent(submitEvent);
-              } else {
-                const customSubmitEvent = new CustomEvent("formSubmit", {
-                  bubbles: true,
-                });
-                formContainer.dispatchEvent(customSubmitEvent);
-              }
+
+          // Dispatch the nested form submit (or custom event) and let the
+          // inner form component handle payload update and file upload.
+          const formContainer = document.getElementById("hr-form");
+          if (formContainer) {
+            const form = formContainer.closest("form") as HTMLFormElement;
+            if (form) {
+              const submitEvent = new Event("submit", {
+                cancelable: true,
+                bubbles: true,
+              });
+              form.dispatchEvent(submitEvent);
             } else {
-              setSubmitting(false);
+              const customSubmitEvent = new CustomEvent("formSubmit", {
+                bubbles: true,
+              });
+              formContainer.dispatchEvent(customSubmitEvent);
             }
-          }}
-          selectorPageContent="#main-content"
-          // formTitle={t('sections.basicInfo')}
-          selectorPrimaryFocus="input, textarea, [tabindex]:not([tabindex='-1'])"
-          className="hr-sidepanel-form"
-        >
-          <div className="hr-sidepanel-close-btn">
-            <Button
-              kind="ghost"
-              hasIconOnly
-              size="sm"
-              iconDescription={t("actions.cancel")}
-              onClick={closePanel}
-              renderIcon={Close}
-            />
-          </div>
-          <div id="hr-form">
-            <HRPanelForms onSuccess={closePanel} />
-          </div>
-        </SidePanelForm>
+          } else {
+            setSubmitting(false);
+          }
+        }}
+        selectorPageContent="#main-content"
+        // formTitle={t('sections.basicInfo')}
+        selectorPrimaryFocus="input, textarea, [tabindex]:not([tabindex='-1'])"
+        className="hr-sidepanel-form"
+      >
+        <div className="hr-sidepanel-close-btn">
+          <Button
+            kind="ghost"
+            hasIconOnly
+            size="sm"
+            iconDescription={t("actions.cancel")}
+            onClick={closePanel}
+            renderIcon={Close}
+          />
+        </div>
+        <div id="hr-form">
+          <HRPanelForms onSuccess={closePanel} />
+        </div>
+      </SidePanelForm>
     </Layer>
   );
 };
