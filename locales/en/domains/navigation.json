@@ -47,7 +47,10 @@
     "categorySlug": {
       "label": "Category",
       "placeholder": "Type to search categories...",
-      "helper": "Link this menu to a specific category for dynamic content"
+      "helper": "Link this menu to a specific category for dynamic content",
+      "validation": {
+        "required": "Please select a category"
+      }
     },
     "isActive": {
       "label": "Active"
@@ -64,7 +67,8 @@
     "hidden": "Hidden",
     "published": "Published",
     "draft": "Draft",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "noData": "No data available"
   },
   "empty": {
     "title": "No menus yet",
@@ -237,14 +241,20 @@
         "helper": "Optional custom ID for linking to content"
       },
       "categorySlug": {
-        "label": "Category (Optional)",
+        "label": "Category",
         "placeholder": "Type to search categories...",
-        "helper": "Link this menu item to a specific category"
+        "helper": "Link this menu item to a specific category",
+        "validation": {
+          "required": "Please select a category"
+        }
       },
       "contentSlug": {
-        "label": "Content (Optional)",
+        "label": "Content",
         "placeholder": "Type to search content...",
-        "helper": "Link this menu item to specific content"
+        "helper": "Link this menu item to specific content",
+        "validation": {
+          "required": "Please select content"
+        }
       },
       "parent": {
         "label": "Parent Item",
