@@ -5,7 +5,6 @@ import SidePanelForm from "@/components/shared/side-panel-form";
 import { useRouter } from "@/lib/i18n/routing";
 import "@/lib/ibm-products/config";
 import { NotificationService } from "@/services/notification-service";
-import { unstable_FeatureFlags as FeatureFlags } from "@carbon/ibm-products";
 import { Add, Close, Reset } from "@carbon/icons-react";
 import {
   Breadcrumb,
@@ -345,6 +344,7 @@ export const NavigationContainer: React.FC = () => {
       <div style={{ padding: "0 1rem 2rem 1rem" }}>
         {currentView === "menus" ? (
           <MenuList
+            menus={listData?.data}
             onEdit={handleEdit}
             onManageItems={handleManageMenuItems}
             statusFilter={statusFilter}

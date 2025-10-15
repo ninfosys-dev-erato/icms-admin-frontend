@@ -114,8 +114,34 @@ export const MenuList: React.FC<MenuListProps> = ({
     router.push(`/admin/dashboard/navigation/${slug || menu.id}`);
   };
 
-  // No client-side filtering since search is server-side
-  const displayMenus = safeMenus;
+  // Apply client-side filtering as a fallback so the UI filters work even when
+  // the server-side query isn't immediately reflecting filter changes.
+  const displayMenus = safeMenus.filter((menu) => {
+    // statusFilter: 'all' | 'active' | 'inactive'
+    if (statusFilter !== 'all') {
+      const shouldBeActive = statusFilter === 'active';
+      // Normalize menu.isActive which may be boolean or string like 'ACTIVE'/'active'/'true'
+      const menuIsActiveNormalized = (() => {
+        const raw = (menu.isActive as any);
+        if (typeof raw === 'boolean') return raw;
+        if (typeof raw === 'string') {
+          const v = raw.toLowerCase();
+          return v === 'true' || v === 'active' || v === '1';
+        }
+        if (typeof raw === 'number') return raw === 1;
+        return Boolean(raw);
+      })();
+
+      if (menuIsActiveNormalized !== shouldBeActive) return false;
+    }
+
+    // locationFilter: MenuLocation | 'all'
+    if (locationFilter !== 'all') {
+      if (menu.location !== locationFilter) return false;
+    }
+
+    return true;
+  });
 
   const getLocationColor = (location: MenuLocation) => {
     switch (location) {
