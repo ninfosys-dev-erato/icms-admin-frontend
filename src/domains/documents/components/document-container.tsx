@@ -9,7 +9,6 @@ import { useTranslations } from "next-intl";
 import { DocumentList } from "./document-list";
 import { DocumentForm } from "./document-form";
 import SidePanelForm from "@/components/shared/side-panel-form";
-import { unstable_FeatureFlags as FeatureFlags } from "@carbon/ibm-products"; // Not available in latest package
 import { useDocumentStore } from "../stores/document-store";
 import "../styles/documents.css";
 
@@ -96,6 +95,7 @@ export const DocumentContainer: React.FC = () => {
         </Button>
         <div className="document-filters-dropdowns">
           <Dropdown
+            className="document-status-dropdown"
             id="document-status-dropdown"
             size="md"
             label={t("filters.status")}
@@ -187,7 +187,6 @@ export const DocumentContainer: React.FC = () => {
         />
       </div>
 
-  <FeatureFlags enableSidepanelResizer>
       <SidePanelForm
         title={panelTitle}
         subtitle={panelMode === "edit" ? panelDocument?.title?.en : undefined}
@@ -243,7 +242,6 @@ export const DocumentContainer: React.FC = () => {
           <DocumentForm mode={(panelMode ?? "create") as "create" | "edit"} document={panelDocument as any} onSuccess={handleFormSuccess} onCancel={closePanel} />
         </div>
       </SidePanelForm>
-  </FeatureFlags>
     </Layer>
   );
 };

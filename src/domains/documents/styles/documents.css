@@ -1,5 +1,6 @@
 /* IBM Products Side Panel Override */
-.c4p--side-panel.c4p--side-panel--slide-in, .c4p--side-panel:not(.c4p--side-panel--has-overlay) {
+.c4p--side-panel.c4p--side-panel--slide-in,
+.c4p--side-panel:not(.c4p--side-panel--has-overlay) {
   z-index: 6000;
   box-shadow: none !important;
 }
@@ -226,11 +227,9 @@
 
 /* Flex Layout for Document Cards */
 .document-flex {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   gap: 1rem;
-  margin-bottom: 1rem;
-  justify-content: flex-start;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
 .document-flex-item {
@@ -340,10 +339,10 @@
   overflow: hidden;
 }
 
-.w-50{
+.w-50 {
   width: 50%;
 }
-.w-100{
+.w-100 {
   width: 100%;
 }
 
@@ -490,13 +489,17 @@
 }
 
 .statistic-tile::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--cds-interactive-01), var(--cds-interactive-02));
+  background: linear-gradient(
+    90deg,
+    var(--cds-interactive-01),
+    var(--cds-interactive-02)
+  );
 }
 
 .statistic-content {
@@ -725,7 +728,12 @@
 
 /* Loading States */
 .document-container .loading-skeleton {
-  background: linear-gradient(90deg, var(--cds-ui-02) 25%, var(--cds-ui-01) 50%, var(--cds-ui-02) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--cds-ui-02) 25%,
+    var(--cds-ui-01) 50%,
+    var(--cds-ui-02) 75%
+  );
   background-size: 200% 100%;
   animation: loading 1.5s infinite;
 }
@@ -744,25 +752,30 @@
   .document-container .page-header {
     padding: 1.5rem 1rem 1rem 1rem;
   }
-  
+
   .document-container .page-header h1 {
     font-size: 1.75rem;
   }
-  
+
   .document-container .filters-section {
+    .document-header-row button .cds--btn__icon {
+      margin-right: 0.35em;
+      margin-left: 0;
+      vertical-align: middle;
+    }
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .document-container .filters-section .filter-group {
     min-width: auto;
   }
-  
+
   .statistics-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .type-grid,
   .category-grid,
   .storage-grid {
@@ -775,13 +788,13 @@
   .statistics-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .type-grid,
   .category-grid,
   .storage-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .document-flex-item {
     flex: 1 1 100%;
     max-width: 100%;
@@ -789,9 +802,6 @@
 }
 
 /* Form Layout */
-#document-form {
-  padding: 1rem;
-}
 
 #document-form::-webkit-scrollbar {
   width: 8px;
@@ -908,11 +918,11 @@
   #document-form {
     padding: 0.5rem;
   }
-  
+
   #document-form .form-section {
     margin-bottom: 0.75rem;
   }
-  
+
   #document-form .cds--form-item {
     margin-bottom: 0.5rem;
   }
@@ -922,11 +932,11 @@
   #document-form {
     padding: 0.25rem;
   }
-  
+
   #document-form .form-section {
     margin-bottom: 0.5rem;
   }
-  
+
   #document-form .cds--form-item {
     margin-bottom: 0.25rem;
   }
@@ -963,10 +973,53 @@
   align-items: flex-end;
   justify-content: space-between;
 }
+
 .document-filters-dropdowns {
   display: flex;
   gap: 1rem;
 }
+
+@media (max-width: 600px) {
+  .document-filters-dropdowns {
+    flex-direction: row;
+    gap: 0.5rem;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    width: auto;
+  }
+  .document-filters-dropdowns .cds--dropdown {
+    min-width: 80px;
+    max-width: 120px;
+    font-size: 12px;
+    height: 32px;
+  }
+
+  .document-filters-dropdowns .cds--label {
+    font-size: 12px;
+  }
+
+  /* Hide status filter dropdown on mobile */
+  .document-status-dropdown {
+    display: none !important;
+  }
+
+  .document-title {
+    font-size: 1.5rem;
+  }
+
+  .document-header-row button {
+    flex-shrink: 0;
+    width: fit-content;
+    padding-left: 10px;
+    padding-right: 35px;
+    gap: 0.35em;
+    font-size: 12px;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
 .document-list-wrapper {
   padding: 0 1rem 2rem 1rem;
   text-align: left;
@@ -980,13 +1033,13 @@
 .document-panel-form-wrapper {
   padding: 0;
 }
-.flex{
+.flex {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.font-16{
+.font-16 {
   font-size: 16px;
 }
 .document-create-form-actionbar {
@@ -1291,8 +1344,19 @@
 
 /* Language font utility classes */
 .font-english-only {
-  font-family: 'IBM Plex Sans', Arial, sans-serif;
+  font-family: "IBM Plex Sans", Arial, sans-serif;
 }
 .font-ne {
-  font-family: 'Noto Sans Devanagari', 'Mangal', Arial, sans-serif;
+  font-family: "Noto Sans Devanagari", "Mangal", Arial, sans-serif;
+}
+
+.cds--form.c4p--create-side-panel__form,
+.c4p--side-panel,
+.c4p--side-panel__inner-content--no-animated-title {
+  padding: 0;
+}
+
+.c4p--create-side-panel__form-title-text,
+.c4p--create-side-panel__content-text {
+  display: none;
 }
