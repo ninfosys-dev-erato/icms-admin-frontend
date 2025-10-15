@@ -110,7 +110,7 @@
     "deleteFailed": "कर्मचारी मेटाउन असफल",
     "validation": {
       "nameRequired": "कर्मचारीको नाम आवश्यक छ",
-      "nameMinLength": "कर्मचारीको नाम कम्तिमा 3 अक्षर हुनुपर्छ",
+      "nameMinLength": "कर्मचारीको नाम कम्तिमा 4 अक्षर हुनुपर्छ",
       "nameMaxLength": "कर्मचारीको नाम 100 अक्षरभन्दा बढी हुन सक्दैन",
       "positionRequired": "पद आवश्यक छ",
       "departmentRequired": "विभाग आवश्यक छ",
