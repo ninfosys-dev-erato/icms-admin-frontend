@@ -17,10 +17,6 @@ import { ImportantLinksForm } from "./important-links-form";
 import { ImportantLinksStatistics } from "./important-links-statistics";
 import { useImportantLinksStore } from "../stores/important-links-store";
 import SidePanelForm from '@/components/shared/side-panel-form';
-import {
-  // CreateSidePanel,
-  unstable_FeatureFlags as FeatureFlags,
-} from "@carbon/ibm-products";
 import "../styles/important-links.css";
 
 export const ImportantLinksContainer: React.FC = () => {

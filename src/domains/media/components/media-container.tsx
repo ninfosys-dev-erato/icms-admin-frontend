@@ -3,7 +3,6 @@
 import React, { useMemo, useState } from 'react';
 import { Breadcrumb, BreadcrumbItem, Button, Dropdown, Layer, Search } from '@carbon/react';
 import { Add, Reset, Close } from '@carbon/icons-react';
-import { unstable_FeatureFlags as FeatureFlags } from '@carbon/ibm-products'; // Not available in latest package
 import '@/lib/ibm-products/config';
 import { useMediaStore } from '../stores/media-store';
 import { useAlbumStore } from '../stores/album-store';

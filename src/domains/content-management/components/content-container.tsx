@@ -21,7 +21,6 @@ import { CategoryForm } from "./categories/category-form";
 import { CategoryList } from "./categories/category-list";
 import { ContentForm } from "./content-form";
 import { ContentList } from "./content-list";
-import { unstable_FeatureFlags as FeatureFlags } from "@carbon/ibm-products";
 
 
 // Flags are set by importing the config above
@@ -316,7 +315,6 @@ export const ContentContainer: React.FC = () => {
       )}
 
       {/* Create/Edit Side Panel */}
-      <FeatureFlags enableSidepanelResizer={true}>
       <SidePanelForm
         open={panelOpen}
         onRequestClose={() => {
@@ -376,10 +374,8 @@ export const ContentContainer: React.FC = () => {
           )}
         </div>
       </SidePanelForm>
-      </FeatureFlags>
 
       {/* Attachment Management Side Panel */}
-      <FeatureFlags enableSidepanelResizer={true}>
       <SidePanelForm
         id="attachments-sidepanel"
         title={t("attachments.modal.title", { default: "Manage Attachments" })}
@@ -400,7 +396,6 @@ export const ContentContainer: React.FC = () => {
           )}
         </div>
       </SidePanelForm>
-      </FeatureFlags>
     </Layer>
   );
 };

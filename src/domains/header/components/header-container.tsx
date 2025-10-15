@@ -4,10 +4,8 @@ import React, { useEffect, useRef } from "react";
 import { Button, Layer, Breadcrumb, BreadcrumbItem } from "@carbon/react";
 import {
   SidePanel,
-//  unstable_FeatureFlags as FeatureFlags, // Not available in latest package
 } from "@carbon/ibm-products";
 import SidePanelForm from "@/components/shared/side-panel-form";
-import { unstable_FeatureFlags as FeatureFlags } from "@carbon/ibm-products"; // Not available in latest package
 import "@/lib/ibm-products/config";
 import { Add, ArrowLeft, Close } from "@carbon/icons-react";
 import { useTranslations } from "next-intl";
@@ -89,8 +87,6 @@ export const HeaderContainer: React.FC = () => {
               })}
             </p>
           </div>
-
-          
         </div>
       </div>
 
@@ -100,82 +96,74 @@ export const HeaderContainer: React.FC = () => {
       </div>
 
       {/* Right side panel for create/edit */}
-  <FeatureFlags enableSidepanelResizer>
-        <SidePanelForm
-          title={panelTitle}
-          // subtitle={panelMode === "edit" ? panelHeader?.name?.en : undefined}
-          open={!!panelOpen}
-          onRequestClose={() => {
-            if (!isSubmitting) {
-              closePanel();
-            }
-          }}
-          primaryButtonText={
-            isSubmitting
-              ? panelMode === "edit"
-                ? t("actions.updating")
-                : t("actions.creating")
-              : panelMode === "edit"
-                ? t("actions.update")
-                : t("actions.createNew")
+      <SidePanelForm
+        title={panelTitle}
+        // subtitle={panelMode === "edit" ? panelHeader?.name?.en : undefined}
+        open={!!panelOpen}
+        onRequestClose={() => {
+          if (!isSubmitting) {
+            closePanel();
           }
-          secondaryButtonText={t("actions.cancel")}
-          onRequestSubmit={() => {
-            if (isSubmitting) return;
-            setSubmitting(true);
-            
-            // Simple form submission - let the form components handle their own submission
-            const formContainer = document.getElementById("header-form");
-            if (formContainer) {
-              // Dispatch a custom event that the form components can listen to
-              const customSubmitEvent = new CustomEvent("formSubmit", {
-                bubbles: true,
-                detail: { mode: panelMode }
-              });
-              formContainer.dispatchEvent(customSubmitEvent);
-            } else {
-              setSubmitting(false);
-            }
-          }}
-          selectorPageContent="#main-content"
-          // formTitle={t("sections.basicInfo")}
-          selectorPrimaryFocus="input, textarea, [tabindex]:not([tabindex='-1'])"
-          className="header-sidepanel-form"
-        >
-          <div
-            style={{
-              position: "absolute",
-              top: "0.5rem",
-              right: "0.5rem",
-              zIndex: 10,
-            }}
-          >
-            <Button
-              kind="ghost"
-              hasIconOnly
-              size="sm"
-              iconDescription={t("actions.cancel")}
-              onClick={closePanel}
-              renderIcon={Close}
-            />
-          </div>
+        }}
+        primaryButtonText={
+          isSubmitting
+            ? panelMode === "edit"
+              ? t("actions.updating")
+              : t("actions.creating")
+            : panelMode === "edit"
+              ? t("actions.update")
+              : t("actions.createNew")
+        }
+        secondaryButtonText={t("actions.cancel")}
+        onRequestSubmit={() => {
+          if (isSubmitting) return;
+          setSubmitting(true);
 
-          <div style={{ padding: 0 }}>
-            <HeaderForm
-              mode={panelMode}
-              header={panelHeader as any}
-              onSuccess={handleFormSuccess}
-              onCancel={closePanel}
-            />
-          </div>
-  </SidePanelForm>
-  </FeatureFlags>
+          // Simple form submission - let the form components handle their own submission
+          const formContainer = document.getElementById("header-form");
+          if (formContainer) {
+            // Dispatch a custom event that the form components can listen to
+            const customSubmitEvent = new CustomEvent("formSubmit", {
+              bubbles: true,
+              detail: { mode: panelMode },
+            });
+            formContainer.dispatchEvent(customSubmitEvent);
+          } else {
+            setSubmitting(false);
+          }
+        }}
+        selectorPageContent="#main-content"
+        // formTitle={t("sections.basicInfo")}
+        selectorPrimaryFocus="input, textarea, [tabindex]:not([tabindex='-1'])"
+        className="header-sidepanel-form"
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: "0.5rem",
+            right: "0.5rem",
+            zIndex: 10,
+          }}
+        >
+          <Button
+            kind="ghost"
+            hasIconOnly
+            size="sm"
+            iconDescription={t("actions.cancel")}
+            onClick={closePanel}
+            renderIcon={Close}
+          />
+        </div>
+
+        <div style={{ padding: 0 }}>
+          <HeaderForm
+            mode={panelMode}
+            header={panelHeader as any}
+            onSuccess={handleFormSuccess}
+            onCancel={closePanel}
+          />
+        </div>
+      </SidePanelForm>
     </Layer>
   );
 };
-
-
-
-
-
-
