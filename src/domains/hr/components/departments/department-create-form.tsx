@@ -138,9 +138,8 @@ export const DepartmentCreateForm: React.FC<DepartmentCreateFormProps> = ({
     <div>
       <div id="hr-form">
         {/* Top action bar */}
-
         <div className="department-create-form-actionbar">
-        <h3 className="employee-form-title">{tHr("sections.basicInfo")}</h3>
+          <h3 className="employee-form-title">{tHr("sections.basicInfo")}</h3>
           <Button
             kind="ghost"
             size="sm"

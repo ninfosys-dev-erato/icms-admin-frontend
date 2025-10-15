@@ -800,7 +800,7 @@
 }
 
 .employee-form-field-row {
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
   display: flex;
   gap: 1rem;
 }
@@ -809,7 +809,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: -2rem;
+  /* margin-top: -2rem; */
 }
 
 .employee-form-title {
@@ -924,10 +924,7 @@
 .c4p--side-panel__subtitle-text-no-animation-no-action-toolbar {
   display: none;
 }
-
-.cds--form.c4p--create-side-panel__form,
-.c4p--side-panel,
-.c4p--side-panel__inner-content--no-animated-title,
-.c4p--side-panel__content {
-  padding-block-start: 0;
+ 
+.c4p--side-panel, .c4p--side-panel__inner-content--no-animated-title {
+  padding-top: 0;
 }
