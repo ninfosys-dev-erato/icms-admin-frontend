@@ -52,8 +52,10 @@ export const LoginForm: React.FC = () => {
         rememberMe: data.rememberMe,
       };
       await loginMutation.mutateAsync(credentials);
-      try { await router.push('/admin/dashboard'); }
-      catch { window.location.href = '/admin/dashboard'; }
+      // try { await router.push('/admin/dashboard'); }
+      // catch { window.location.href = '/admin/dashboard'; }
+      try { await router.push('/admin/content-management'); }
+      catch { window.location.href = '/admin/content-management'; }
     } catch (error: any) {
       setShowError(true);
       let message = t('errors.serverError');
