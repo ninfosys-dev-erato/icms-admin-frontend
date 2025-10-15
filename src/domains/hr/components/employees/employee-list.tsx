@@ -164,14 +164,17 @@ export const EmployeeList: React.FC<EmployeeListProps> = ({
       {!!pagination && employees.length > 0 && (
         <div className="pagination-container">
           <Pagination
-            page={pagination.page}
-            pageSize={pagination.limit}
+            page={query.page || pagination.page}
+            pageSize={query.limit || pagination.limit}
             pageSizes={[12, 24, 48, 96]}
             totalItems={pagination.total}
             onChange={({ page, pageSize }) => {
-              if (page !== undefined) setQuery((prev) => ({ ...prev, page }));
-              if (pageSize !== undefined)
-                setQuery((prev) => ({ ...prev, limit: pageSize, page: 1 }));
+              // Always update both page and pageSize for consistency
+              setQuery((prev) => ({
+                ...prev,
+                page: page ?? prev.page ?? 1,
+                limit: pageSize ?? prev.limit ?? 12,
+              }));
             }}
             size="md"
           />

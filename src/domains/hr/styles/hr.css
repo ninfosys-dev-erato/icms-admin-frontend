@@ -707,8 +707,8 @@
 /* --- Department Create Form Styles --- */
 .department-create-form-actionbar {
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .department-create-form-loading {
@@ -809,7 +809,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
   margin-top: -2rem;
 }
 
@@ -915,4 +914,20 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.c4p--create-side-panel__form-title-text,
+.c4p--create-side-panel__form-description-text,
+.c4p--create-side-panel__content-text,
+.c4p--side-panel__subtitle-text,
+.c4p--side-panel__subtitle-text,
+.c4p--side-panel__subtitle-text-no-animation-no-action-toolbar {
+  display: none;
+}
+
+.cds--form.c4p--create-side-panel__form,
+.c4p--side-panel,
+.c4p--side-panel__inner-content--no-animated-title,
+.c4p--side-panel__content {
+  padding-block-start: 0;
 }
