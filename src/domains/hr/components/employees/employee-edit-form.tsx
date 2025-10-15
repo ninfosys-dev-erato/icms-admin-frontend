@@ -246,20 +246,8 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
     <div>
       <div id="hr-form">
         {/* Top action bar */}
+        {/* reset button removed from edit form */}
         <div className="employee-form-actionbar employee-form-actionbar--edit">
-          <Button
-            kind={"ghost"}
-            size="sm"
-            renderIcon={Reset}
-            onClick={() => {
-              resetEmployeeForm(employee.id);
-              resetFormState(employee.id);
-              setValidationErrors({});
-            }}
-            disabled={isSubmitting}
-          >
-            {tHr("actions.reset", { default: "Reset" })}
-          </Button>
         </div>
         {isSubmitting && (
           <div className="employee-form-loading">
@@ -270,7 +258,8 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
         <Grid fullWidth>
           {/* Basic Information Section */}
           <Column lg={16} md={8} sm={4}>
-            <FormGroup legendText={tHr("sections.basicInfo")}>
+            <FormGroup legendText={""}>
+              <h3 className="employee-form-title">{tHr("sections.basicInfo")}</h3>
               <TranslatableField
                 label={t("form.name.label")}
                 value={formData.name}

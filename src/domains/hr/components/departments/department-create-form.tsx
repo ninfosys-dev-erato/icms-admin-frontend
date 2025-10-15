@@ -42,11 +42,15 @@ export const DepartmentCreateForm: React.FC<DepartmentCreateFormProps> = ({
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
   >({});
-  const [activeDeptNameLang, setActiveDeptNameLang] = useState<"en" | "ne">("en");
-
+  const [activeDeptNameLang, setActiveDeptNameLang] = useState<"en" | "ne">(
+    "en"
+  );
 
   // Fetch all departments to determine the next order
-  const { data: allDepartmentsData } = useDepartments({ page: 1, limit: 10000 });
+  const { data: allDepartmentsData } = useDepartments({
+    page: 1,
+    limit: 10000,
+  });
   const departmentCount = allDepartmentsData?.data?.length || 0;
 
   // Set default order when form is opened or reset
@@ -67,12 +71,16 @@ export const DepartmentCreateForm: React.FC<DepartmentCreateFormProps> = ({
   const validate = (): boolean => {
     const errors: Record<string, string> = {};
     if (!createDepartmentForm.departmentName.en.trim()) {
-      errors.departmentName_en = t("errors.validation.nameEnRequired", { default: t("errors.validation.nameRequired") });
+      errors.departmentName_en = t("errors.validation.nameEnRequired", {
+        default: t("errors.validation.nameRequired"),
+      });
     } else if (createDepartmentForm.departmentName.en.trim().length < 3) {
       errors.departmentName_en = t("errors.validation.nameMinLength");
     }
     if (!createDepartmentForm.departmentName.ne.trim()) {
-      errors.departmentName_ne = t("errors.validation.nameNeRequired", { default: t("errors.validation.nameRequired") });
+      errors.departmentName_ne = t("errors.validation.nameNeRequired", {
+        default: t("errors.validation.nameRequired"),
+      });
     }
     if (createDepartmentForm.order < 0) {
       errors.order = t("errors.validation.orderInvalid");
@@ -130,7 +138,9 @@ export const DepartmentCreateForm: React.FC<DepartmentCreateFormProps> = ({
     <div>
       <div id="hr-form">
         {/* Top action bar */}
+
         <div className="department-create-form-actionbar">
+        <h3 className="employee-form-title">{tHr("sections.basicInfo")}</h3>
           <Button
             kind="ghost"
             size="sm"
@@ -155,7 +165,7 @@ export const DepartmentCreateForm: React.FC<DepartmentCreateFormProps> = ({
         <Grid fullWidth>
           {/* Basic Information Section */}
           <Column lg={16} md={8} sm={4}>
-            <FormGroup legendText={tHr("sections.basicInfo")}>
+            <FormGroup legendText={""}>
               <TranslatableField
                 label={t("form.name.label")}
                 value={createDepartmentForm.departmentName}
@@ -167,11 +177,27 @@ export const DepartmentCreateForm: React.FC<DepartmentCreateFormProps> = ({
                   ne: t("form.name.placeholder.ne"),
                 }}
                 required
-                invalid={!!validationErrors.departmentName_en || !!validationErrors.departmentName_ne}
-                invalidText={validationErrors.departmentName_en || validationErrors.departmentName_ne}
+                invalid={
+                  !!validationErrors.departmentName_en ||
+                  !!validationErrors.departmentName_ne
+                }
+                invalidText={
+                  validationErrors.departmentName_en ||
+                  validationErrors.departmentName_ne
+                }
                 invalidMessages={{
-                  en: validationErrors.departmentName_en ? { invalid: true, text: validationErrors.departmentName_en } : undefined,
-                  ne: validationErrors.departmentName_ne ? { invalid: true, text: validationErrors.departmentName_ne } : undefined,
+                  en: validationErrors.departmentName_en
+                    ? {
+                        invalid: true,
+                        text: validationErrors.departmentName_en,
+                      }
+                    : undefined,
+                  ne: validationErrors.departmentName_ne
+                    ? {
+                        invalid: true,
+                        text: validationErrors.departmentName_ne,
+                      }
+                    : undefined,
                 }}
                 activeLanguage={activeDeptNameLang}
                 onActiveLanguageChange={setActiveDeptNameLang}
