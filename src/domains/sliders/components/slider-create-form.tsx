@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { useSliders } from "../hooks/use-slider-queries";
 import {
   FormGroup,
   NumberInput,
@@ -44,6 +45,9 @@ export const SliderCreateForm: React.FC<SliderCreateFormProps> = ({
 
   // Form state is managed in store (persisted). Keep only validation locally.
 
+  const { data: slidersData } = useSliders({ page: 1, limit: 10000 });
+  const sliderCount = slidersData?.data?.length || 0;
+
   // Validation state
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
@@ -54,6 +58,12 @@ export const SliderCreateForm: React.FC<SliderCreateFormProps> = ({
   const selectedFile = createSelectedFile;
 
   // Per-language validation and tab switching
+
+  // Set position to sliderCount + 1 on mount and after reset
+  useEffect(() => {
+    updateFormField("create", "position", sliderCount + 1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sliderCount]);
   const validateForm = (): boolean => {
     const errors: Record<string, string> = {};
     let firstInvalid: { lang: "en" | "ne" } | null = null;
@@ -259,6 +269,7 @@ export const SliderCreateForm: React.FC<SliderCreateFormProps> = ({
   const handleResetForm = () => {
     resetCreateForm();
     setValidationErrors({});
+    updateFormField("create", "position", sliderCount + 1);
   };
 
   return (
@@ -266,7 +277,9 @@ export const SliderCreateForm: React.FC<SliderCreateFormProps> = ({
       <div id="slider-form">
         {/* Top action bar */}
         <div className="slider-form-action-bar">
-          <div className="basic-info-title"><h4>{t("sections.basicInfo")}</h4></div>
+          <div className="basic-info-title">
+            <h4>{t("sections.basicInfo")}</h4>
+          </div>
           <Button
             kind="ghost"
             size="sm"
