@@ -318,7 +318,7 @@ export const useUploadEmployeePhoto = () => {
     onSuccess: (updated) => {
       qc.invalidateQueries({ queryKey: hrKeys.employees.list({}) });
       qc.invalidateQueries({ queryKey: hrKeys.employees.detail(updated.id) });
-      HRNotificationService.employeePhotoUploaded(updated.name?.en);
+      // HRNotificationService.employeePhotoUploaded(updated.name?.en);
     },
     onError: (error) => {
       const msg = error instanceof Error ? error.message : 'Failed to upload employee photo';

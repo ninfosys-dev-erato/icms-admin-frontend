@@ -34,6 +34,7 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
   employee,
   onSuccess,
 }) => {
+  // Temporary state for instant preview after upload
   const t = useTranslations("hr-employees");
   // Use shared HR namespace for common labels like sections and actions
   const tHr = useTranslations("hr");
@@ -50,6 +51,10 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
     setSelectedFile,
     resetFormState,
   } = useHRUIStore();
+  // Temporary state for instant preview after upload
+  const [tempImageUrl, setTempImageUrl] = useState<string | undefined>(
+    undefined
+  );
 
   const formData = employeeFormById[employee.id] ?? {
     name: employee.name,
@@ -66,9 +71,13 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
     showDownInHomepage: employee.showDownInHomepage ?? false,
   };
 
-  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [validationErrors, setValidationErrors] = useState<
+    Record<string, string>
+  >({});
   const [activeNameLang, setActiveNameLang] = useState<"en" | "ne">("en");
-  const [activePositionLang, setActivePositionLang] = useState<"en" | "ne">("en");
+  const [activePositionLang, setActivePositionLang] = useState<"en" | "ne">(
+    "en"
+  );
 
   const departmentsQuery = useDepartments({ page: 1, limit: 100 });
   const departmentItems = (departmentsQuery.data?.data ?? []).map((d) => ({
@@ -84,33 +93,66 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
 
   useEffect(() => {
     const handler = (e: Event) => {
-      e.preventDefault();
-      e.stopPropagation();
+      // Prevent default for native submit events
+      try {
+        e.preventDefault();
+      } catch (_) {
+        // some custom events may not support preventDefault
+      }
+      try {
+        e.stopPropagation();
+      } catch (_) {}
       submit();
     };
+
     const container = document.getElementById("hr-form");
     const form = container?.closest("form");
+
+    // Attach to native form submit if a form element exists
     if (form) {
-      form.addEventListener("submit", handler);
-      return () => form.removeEventListener("submit", handler);
+      form.addEventListener("submit", handler as EventListener);
     }
-    return undefined;
+
+    // Also listen for a custom 'formSubmit' event on the container.
+    // The sidebar may dispatch this when there is no enclosing <form>.
+    if (container) {
+      container.addEventListener("formSubmit", handler as EventListener);
+    }
+
+    return () => {
+      if (form) {
+        form.removeEventListener("submit", handler as EventListener);
+      }
+      if (container) {
+        container.removeEventListener("formSubmit", handler as EventListener);
+      }
+    };
+    // Re-run effect when selectedFile changes so the attached handler uses
+    // the latest submit closure (which captures the current selectedFile).
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [employee.id, formData]);
+  }, [employee.id, formData, selectedFile]);
 
   const validate = (): boolean => {
     const errors: Record<string, string> = {};
     if (!formData.name.en.trim()) {
-      errors.name_en = t("errors.validation.nameEnRequired", { default: t("errors.validation.nameRequired") });
+      errors.name_en = t("errors.validation.nameEnRequired", {
+        default: t("errors.validation.nameRequired"),
+      });
     }
     if (!formData.name.ne.trim()) {
-      errors.name_ne = t("errors.validation.nameNeRequired", { default: t("errors.validation.nameRequired") });
+      errors.name_ne = t("errors.validation.nameNeRequired", {
+        default: t("errors.validation.nameRequired"),
+      });
     }
     if (!formData.position.en.trim()) {
-      errors.position_en = t("errors.validation.positionEnRequired", { default: t("errors.validation.positionRequired") });
+      errors.position_en = t("errors.validation.positionEnRequired", {
+        default: t("errors.validation.positionRequired"),
+      });
     }
     if (!formData.position.ne.trim()) {
-      errors.position_ne = t("errors.validation.positionNeRequired", { default: t("errors.validation.positionRequired") });
+      errors.position_ne = t("errors.validation.positionNeRequired", {
+        default: t("errors.validation.positionRequired"),
+      });
     }
     if (!formData.departmentId) {
       errors.departmentId = t("errors.validation.departmentRequired");
@@ -139,37 +181,35 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
       return;
     }
     try {
-      // Debug: Log the current form state
-      console.log("=== Edit Form Submission Debug ===");
-      console.log("Current formData:", formData);
-      console.log(
-        "showUpInHomepage:",
-        formData.showUpInHomepage,
-        "(type:",
-        typeof formData.showUpInHomepage,
-        ")"
-      );
-      console.log(
-        "showDownInHomepage:",
-        formData.showDownInHomepage,
-        "(type:",
-        typeof formData.showDownInHomepage,
-        ")"
-      );
-      console.log("===================================");
+      // If a new photo file is selected, upload it first so we can include
+      // the resulting media id in the main update payload. This prevents
+      // ordering/race issues where the payload update expects the photo id.
+      let uploadedPhotoMediaId: string | undefined =
+        formData.photoMediaId || undefined;
+      if (selectedFile) {
+        try {
+          const uploaded = await uploadPhotoMutation.mutateAsync({
+            id: employee.id,
+            file: selectedFile,
+          });
+          // The upload returns the updated employee; prefer its photoMediaId if present
+          uploadedPhotoMediaId = (uploaded &&
+            (uploaded.photoMediaId || uploaded.photo?.id)) as
+            | string
+            | undefined;
+          // Use the new image URL for instant preview
+          if (uploaded && uploaded.photo?.presignedUrl) {
+            setTempImageUrl(uploaded.photo.presignedUrl);
+          }
+          // Clear the selected file from UI state after successful upload
+          setSelectedFile(employee.id, null);
+        } catch (err) {
+          console.error("Employee photo upload failed during submit:", err);
+          // Let the update proceed without the photo if upload failed
+        }
+      }
 
-      // Debug logging
-      console.log("Updating employee:", {
-        employeeId: employee.id,
-        formData,
-        selectedFile,
-      });
-      console.log("Homepage fields:", {
-        showUpInHomepage: formData.showUpInHomepage,
-        showDownInHomepage: formData.showDownInHomepage,
-      });
-
-      // Update employee data
+      // Update employee data (include uploadedPhotoMediaId when available)
       await updateMutation.mutateAsync({
         id: employee.id,
         data: {
@@ -184,20 +224,11 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
           isActive: formData.isActive,
           showUpInHomepage: formData.showUpInHomepage,
           showDownInHomepage: formData.showDownInHomepage,
+          ...(uploadedPhotoMediaId
+            ? { photoMediaId: uploadedPhotoMediaId }
+            : {}),
         },
       });
-
-      // Handle photo upload if there's a new file
-      if (selectedFile) {
-        console.log("Uploading photo for employee:", {
-          employeeId: employee.id,
-          selectedFile,
-        });
-        await uploadPhotoMutation.mutateAsync({
-          id: employee.id,
-          file: selectedFile,
-        });
-      }
 
       resetEmployeeForm(employee.id);
       resetFormState(employee.id);
@@ -211,7 +242,6 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
   };
 
   const handlePhotoUpload = (file: File) => {
-    console.log("Photo upload handler called with file:", file);
     setSelectedFile(employee.id, file);
   };
 
@@ -230,17 +260,29 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
   };
 
   const getCurrentImageUrl = (): string | undefined => {
+    // 1. If a new file is selected, show its preview instantly
     if (selectedFile) {
       return URL.createObjectURL(selectedFile);
     }
+    // 2. If a temp image URL is set (after upload), show it
+    if (tempImageUrl) {
+      return tempImageUrl;
+    }
+    // 3. Otherwise, show the employee's current photo
     if (employee.photo?.presignedUrl) {
       return employee.photo.presignedUrl;
     }
     if (employee.photo?.url) {
       return employee.photo.url;
     }
+    // 4. No image available
     return undefined;
   };
+
+  // Clear tempImageUrl when employee object updates (after refetch)
+  useEffect(() => {
+    setTempImageUrl(undefined);
+  }, [employee.photoMediaId, employee.photo?.presignedUrl]);
 
   return (
     <div>
@@ -270,12 +312,19 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
                   en: t("form.name.placeholder.en"),
                   ne: t("form.name.placeholder.ne"),
                 }}
-                required
-                invalid={!!validationErrors.name_en || !!validationErrors.name_ne}
-                invalidText={validationErrors.name_en || validationErrors.name_ne}
+                invalid={
+                  !!validationErrors.name_en || !!validationErrors.name_ne
+                }
+                invalidText={
+                  validationErrors.name_en || validationErrors.name_ne
+                }
                 invalidMessages={{
-                  en: validationErrors.name_en ? { invalid: true, text: validationErrors.name_en } : undefined,
-                  ne: validationErrors.name_ne ? { invalid: true, text: validationErrors.name_ne } : undefined,
+                  en: validationErrors.name_en
+                    ? { invalid: true, text: validationErrors.name_en }
+                    : undefined,
+                  ne: validationErrors.name_ne
+                    ? { invalid: true, text: validationErrors.name_ne }
+                    : undefined,
                 }}
                 activeLanguage={activeNameLang}
                 onActiveLanguageChange={setActiveNameLang}
@@ -293,11 +342,20 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
                     ne: t("form.position.placeholder"),
                   }}
                   required
-                  invalid={!!validationErrors.position_en || !!validationErrors.position_ne}
-                  invalidText={validationErrors.position_en || validationErrors.position_ne}
+                  invalid={
+                    !!validationErrors.position_en ||
+                    !!validationErrors.position_ne
+                  }
+                  invalidText={
+                    validationErrors.position_en || validationErrors.position_ne
+                  }
                   invalidMessages={{
-                    en: validationErrors.position_en ? { invalid: true, text: validationErrors.position_en } : undefined,
-                    ne: validationErrors.position_ne ? { invalid: true, text: validationErrors.position_ne } : undefined,
+                    en: validationErrors.position_en
+                      ? { invalid: true, text: validationErrors.position_en }
+                      : undefined,
+                    ne: validationErrors.position_ne
+                      ? { invalid: true, text: validationErrors.position_ne }
+                      : undefined,
                   }}
                   activeLanguage={activePositionLang}
                   onActiveLanguageChange={setActivePositionLang}
@@ -341,9 +399,60 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
                 </div>
               </div>
             </FormGroup>
+          </Column>
+        </Grid>
 
-            {/* Photo Section */}
-            <div className="employee-form-photo-section">
+        {/* Photo Section - robust slider logic parity */}
+        <div className="employee-form-photo-section">
+          <FormGroup legendText={t("form.photo.label")}>
+            {getCurrentImageUrl() && (
+              <EmployeePhotoUpload
+                currentImage={getCurrentImageUrl()}
+                onUpload={handlePhotoUpload}
+                onRemove={handlePhotoRemove}
+                isUploading={
+                  uploadPhotoMutation.isPending || removePhotoMutation.isPending
+                }
+                showPreview={true}
+                showHeader={false}
+                allowRemove={false}
+              />
+            )}
+            <div style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
+              <Button
+                kind="secondary"
+                size="sm"
+                disabled={isSubmitting || uploadPhotoMutation.isPending}
+                onClick={() => {
+                  const input = document.getElementById(
+                    `employee-photo-input-change-${employee.id}`
+                  );
+                  if (input) {
+                    input.click();
+                  }
+                }}
+              >
+                {t("form.photo.changeButton", { default: "Change Photo" })}
+              </Button>
+              <input
+                type="file"
+                accept="image/jpeg,image/jpg,image/png,image/webp,image/gif"
+                style={{ display: "none" }}
+                id={`employee-photo-input-change-${employee.id}`}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    handlePhotoUpload(file);
+                  }
+                }}
+                disabled={isSubmitting || uploadPhotoMutation.isPending}
+              />
+            </div>
+          </FormGroup>
+        </div>
+
+        {/* Photo Section */}
+        {/* <div className="employee-form-photo-section">
               <FormGroup legendText={t("form.photo.label")}>
                 <EmployeePhotoUpload
                   currentImage={getCurrentImageUrl()}
@@ -358,100 +467,53 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
                   allowRemove={true}
                 />
               </FormGroup>
-            </div>
+            </div> */}
 
-            {/* Contact Information Section */}
-            <div className="employee-form-contact-section">
-              <FormGroup legendText={t("form.contactInfo.label")}>
-                <ContactInfoForm
-                  contactInfo={{
-                    mobileNumber: formData.mobileNumber,
-                    telephone: formData.telephone,
-                    email: formData.email,
-                    roomNumber: formData.roomNumber,
-                  }}
-                  onChange={(c) => {
-                    updateEmployeeFormField(
-                      employee.id,
-                      "mobileNumber",
-                      c.mobileNumber || ""
-                    );
-                    updateEmployeeFormField(
-                      employee.id,
-                      "telephone",
-                      c.telephone || ""
-                    );
-                    updateEmployeeFormField(
-                      employee.id,
-                      "email",
-                      c.email || ""
-                    );
-                    updateEmployeeFormField(
-                      employee.id,
-                      "roomNumber",
-                      c.roomNumber || ""
-                    );
-                  }}
-                />
-              </FormGroup>
-            </div>
+        {/* Contact Information Section */}
+        <div className="employee-form-contact-section">
+          <FormGroup legendText={t("form.contactInfo.label")}>
+            <ContactInfoForm
+              contactInfo={{
+                mobileNumber: formData.mobileNumber,
+                telephone: formData.telephone,
+                email: formData.email,
+                roomNumber: formData.roomNumber,
+              }}
+              onChange={(c) => {
+                updateEmployeeFormField(
+                  employee.id,
+                  "mobileNumber",
+                  c.mobileNumber || ""
+                );
+                updateEmployeeFormField(
+                  employee.id,
+                  "telephone",
+                  c.telephone || ""
+                );
+                updateEmployeeFormField(employee.id, "email", c.email || "");
+                updateEmployeeFormField(
+                  employee.id,
+                  "roomNumber",
+                  c.roomNumber || ""
+                );
+              }}
+            />
+          </FormGroup>
+        </div>
 
-            {/* Status Section */}
-            <div className="employee-form-status-section">
-              <FormGroup legendText={t("form.status.label")}>
-                <Toggle
-                  id="employee-isActive"
-                  labelText={t("form.isActive.label")}
-                  toggled={formData.isActive}
-                  onToggle={(checked) =>
-                    updateEmployeeFormField(employee.id, "isActive", checked)
-                  }
-                />
-              </FormGroup>
-            </div>
-
-            {/* Homepage Display Section */}
-            <div className="employee-form-homepage-section">
-              <FormGroup legendText={t("form.homepageDisplay.label")}>
-                <div className="employee-form-homepage-desc">
-                  <p className="employee-form-homepage-desc-text">
-                    {t("form.homepageDisplay.description")}
-                  </p>
-                </div>
-                <div className="employee-form-homepage-toggles">
-                  <Toggle
-                    id="employee-showUpInHomepage"
-                    labelText={t("form.homepageDisplay.showUpInHomepage.label")}
-                    toggled={formData.showUpInHomepage}
-                    onToggle={(checked) => {
-                      console.log("Edit Toggle showUpInHomepage:", checked);
-                      updateEmployeeFormField(
-                        employee.id,
-                        "showUpInHomepage",
-                        checked
-                      );
-                    }}
-                  />
-                  <Toggle
-                    id="employee-showDownInHomepage"
-                    labelText={t(
-                      "form.homepageDisplay.showDownInHomepage.label"
-                    )}
-                    toggled={formData.showDownInHomepage}
-                    onToggle={(checked) => {
-                      console.log("Edit Toggle showDownInHomepage:", checked);
-                      updateEmployeeFormField(
-                        employee.id,
-                        "showDownInHomepage",
-                        checked
-                      );
-                    }}
-                  />
-                </div>
-              </FormGroup>
-            </div>
-          </Column>
-        </Grid>
+        {/* Status Section */}
+        <div className="employee-form-status-section">
+          <FormGroup legendText={t("form.status.label")}>
+            <Toggle
+              id="employee-isActive"
+              labelText={t("form.isActive.label")}
+              toggled={formData.isActive}
+              onToggle={(checked) =>
+                updateEmployeeFormField(employee.id, "isActive", checked)
+              }
+            />
+          </FormGroup>
+        </div>
       </div>
     </div>
   );
