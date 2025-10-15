@@ -279,7 +279,7 @@ export const UserForm: React.FC<Props> = ({ mode, user, onSuccess }) => {
               <FormGroup legendText={t("form.isActive.label")}>
                 <Toggle
                   id="isActive"
-                  labelText={t("form.isActive.label")}
+                  labelText=""
                   toggled={currentForm.isActive}
                   onToggle={(checked) =>
                     updateFormField(
