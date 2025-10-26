@@ -1385,6 +1385,10 @@
   margin-bottom: 1rem;
 }
 
+.edit-section-title{
+  margin-top: -2rem;
+}
+
 .submitting-indicator {
   margin-bottom: 1rem;
 }

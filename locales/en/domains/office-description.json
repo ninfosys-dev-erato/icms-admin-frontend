@@ -25,6 +25,8 @@
   },
   "actions": {
     "createNew": "Create New",
+    "delete": "Delete",
+    "deleting": "Deleting...",
     "edit": "Edit",
     "update": "Update",
     "updating": "Updating...",
@@ -60,6 +62,14 @@
     "edit": "Edit",
     "noContent": "No content available"
   },
+  "delete": {
+    "title": "Confirm Deletion",
+    "confirmation": "Are you sure you want to delete \"{title}\"? This action cannot be undone."
+  },
+  "notifications": {
+    "deleted": "{title} deleted",
+    "deleteError": "Failed to delete {title}"
+  },
   "empty": {
     "title": "No Office Descriptions",
     "message": "No office descriptions found. Create your first description to get started."
@@ -68,7 +78,7 @@
     "title": "Error",
     "validation": {
       "typeRequired": "Description type is required",
-      "contentRequired": "Content is required in at least one language"
+      "contentRequired": "Content is required in both languages"
     }
   }
 } 

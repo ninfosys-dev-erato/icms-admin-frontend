@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Grid,
   Column,
@@ -44,9 +44,13 @@ export const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
     resetFormState,
   } = useHRUIStore();
 
-  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [validationErrors, setValidationErrors] = useState<
+    Record<string, string>
+  >({});
   const [activeNameLang, setActiveNameLang] = useState<"en" | "ne">("en");
-  const [activePositionLang, setActivePositionLang] = useState<"en" | "ne">("en");
+  const [activePositionLang, setActivePositionLang] = useState<"en" | "ne">(
+    "en"
+  );
 
   const { data: employeesData } = useEmployees({ page: 1, limit: 10000 });
   const employeeCount = employeesData?.data?.length || 0;
@@ -68,25 +72,46 @@ export const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
 
   const validate = (): boolean => {
     const errors: Record<string, string> = {};
+    let firstInvalidField: string | null = null;
     // Name field per-language errors
     if (!createEmployeeForm.name.en.trim()) {
-      errors.name_en = t("errors.validation.nameEnRequired", { default: t("errors.validation.nameRequired") });
+      errors.name_en = t("errors.validation.nameEnRequired", {
+        default: t("errors.validation.nameRequired"),
+      });
+      if (!firstInvalidField) firstInvalidField = "employee-name-en";
+    } else if (createEmployeeForm.name.en.trim().length < 4) {
+      errors.name_en = t("errors.validation.nameMinLength", { min: 4 });
+      if (!firstInvalidField) firstInvalidField = "employee-name-en";
     }
     if (!createEmployeeForm.name.ne.trim()) {
-      errors.name_ne = t("errors.validation.nameNeRequired", { default: t("errors.validation.nameRequired") });
+      errors.name_ne = t("errors.validation.nameNeRequired", {
+        default: t("errors.validation.nameRequired"),
+      });
+      if (!firstInvalidField) firstInvalidField = "employee-name-ne";
+    } else if (createEmployeeForm.name.ne.trim().length < 4) {
+      errors.name_ne = t("errors.validation.nameMinLength", { min: 4 });
+      if (!firstInvalidField) firstInvalidField = "employee-name-ne";
     }
     // Position field per-language errors
     if (!createEmployeeForm.position.en.trim()) {
-      errors.position_en = t("errors.validation.positionEnRequired", { default: t("errors.validation.positionRequired") });
+      errors.position_en = t("errors.validation.positionEnRequired", {
+        default: t("errors.validation.positionRequired"),
+      });
+      if (!firstInvalidField) firstInvalidField = "employee-position-en";
     }
     if (!createEmployeeForm.position.ne.trim()) {
-      errors.position_ne = t("errors.validation.positionNeRequired", { default: t("errors.validation.positionRequired") });
+      errors.position_ne = t("errors.validation.positionNeRequired", {
+        default: t("errors.validation.positionRequired"),
+      });
+      if (!firstInvalidField) firstInvalidField = "employee-position-ne";
     }
     if (!createEmployeeForm.departmentId) {
       errors.departmentId = t("errors.validation.departmentRequired");
+      if (!firstInvalidField) firstInvalidField = "employee-department";
     }
     if (createEmployeeForm.order < 0) {
       errors.order = t("errors.validation.orderInvalid");
+      if (!firstInvalidField) firstInvalidField = "employee-order";
     }
     setValidationErrors(errors);
 
@@ -101,26 +126,22 @@ export const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
     } else if (errors.position_en && !errors.position_ne) {
       setActivePositionLang("en");
     }
+
+    // Focus and scroll to first invalid field
+    if (firstInvalidField) {
+      setTimeout(() => {
+        const el = document.getElementById(firstInvalidField);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+          el.focus();
+        }
+      }, 0);
+      return false;
+    }
     return Object.keys(errors).length === 0;
   };
 
-  useEffect(() => {
-    const handler = (e: Event) => {
-      e.preventDefault();
-      e.stopPropagation();
-      submit();
-    };
-    const container = document.getElementById("hr-form");
-    const form = container?.closest("form");
-    if (form) {
-      form.addEventListener("submit", handler);
-      return () => form.removeEventListener("submit", handler);
-    }
-    return undefined;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [createEmployeeForm]);
-
-  const submit = async () => {
+  const submit = useCallback(async () => {
     setSubmitting(true);
     if (!validate()) {
       setSubmitting(false);
@@ -202,16 +223,44 @@ export const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
         });
       }
 
+      // Reset form state to default and set order for next employee
       resetEmployeeForm("create");
       resetFormState("create");
       setValidationErrors({});
+      // Set order to next available after reset
+      updateEmployeeFormField("create", "order", employeeCount + 1);
       onSuccess?.();
     } catch (err) {
       // handled by mutations/notifications layer
     } finally {
       setSubmitting(false);
     }
-  };
+  }, [
+    createEmployeeForm,
+    createSelectedFile,
+    createMutation,
+    employeeCount,
+    onSuccess,
+    resetEmployeeForm,
+    resetFormState,
+    setSubmitting,
+    updateEmployeeFormField,
+  ]);
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      e.preventDefault();
+      e.stopPropagation();
+      submit();
+    };
+    const container = document.getElementById("hr-form");
+    const form = container?.closest("form");
+    if (form) {
+      form.addEventListener("submit", handler);
+      return () => form.removeEventListener("submit", handler);
+    }
+    return undefined;
+  }, [submit]);
 
   const handlePhotoUpload = (file: File) => {
     console.log("Photo upload handler called with file:", file);
@@ -271,8 +320,12 @@ export const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
                 }}
                 required
                 // Provide root invalid flag if either language invalid so a11y picks it up
-                invalid={!!validationErrors.name_en || !!validationErrors.name_ne}
-                invalidText={validationErrors.name_en || validationErrors.name_ne}
+                invalid={
+                  !!validationErrors.name_en || !!validationErrors.name_ne
+                }
+                invalidText={
+                  validationErrors.name_en || validationErrors.name_ne
+                }
                 invalidMessages={{
                   en: validationErrors.name_en
                     ? { invalid: true, text: validationErrors.name_en }
@@ -297,8 +350,13 @@ export const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
                     ne: t("form.position.placeholder"),
                   }}
                   required
-                  invalid={!!validationErrors.position_en || !!validationErrors.position_ne}
-                  invalidText={validationErrors.position_en || validationErrors.position_ne}
+                  invalid={
+                    !!validationErrors.position_en ||
+                    !!validationErrors.position_ne
+                  }
+                  invalidText={
+                    validationErrors.position_en || validationErrors.position_ne
+                  }
                   invalidMessages={{
                     en: validationErrors.position_en
                       ? { invalid: true, text: validationErrors.position_en }
@@ -331,7 +389,7 @@ export const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
                 <NumberInput
                   id="employee-order"
                   label={t("form.order.label")}
-                  value={employeeCount + 1}
+                  value={createEmployeeForm.order}
                   readOnly
                   min={1}
                   step={1}

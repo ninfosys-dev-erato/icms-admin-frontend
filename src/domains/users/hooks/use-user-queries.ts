@@ -15,7 +15,15 @@ export const userKeys = {
 export const useUsers = (query: Partial<UserQuery> = {}) =>
   useQuery<UserListResponse>({
     queryKey: userKeys.list(query),
-    queryFn: () => UserService.getUsers(query),
+    queryFn: () => {
+      try {
+        // eslint-disable-next-line no-console
+        console.log('[useUsers] queryKey=', JSON.stringify(userKeys.list(query)), 'query=', JSON.stringify(query));
+      } catch (e) {
+        // ignore stringify issues
+      }
+      return UserService.getUsers(query);
+    },
     placeholderData: (prev) => prev,
     // only include defined values in the key for proper caching like sliders
     select: (data) => data,

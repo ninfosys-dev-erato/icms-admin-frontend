@@ -15,8 +15,10 @@ import { useOfficeDescriptionUIStore } from "../stores/office-description-ui-sto
 import { useAdminOfficeDescriptions } from "../hooks/use-office-description-queries";
 import { OfficeDescriptionType } from "../types/office-description";
 import { OfficeDescriptionList } from "./office-description-list";
+import { useDeleteOfficeDescription } from "../hooks/use-office-description-queries";
+import ConfirmDeleteModal from "@/components/shared/confirm-delete-modal";
+import { NotificationService } from "@/services/notification-service";
 import { OfficeDescriptionForm } from "./office-description-form";
-import { unstable_FeatureFlags as FeatureFlags } from "@carbon/ibm-products"; // Not available in latest package
 import SidePanelForm from "@/components/shared/side-panel-form";
 import "@/lib/ibm-products/config";
 import "../styles/office-description.css";
@@ -45,6 +47,70 @@ export const OfficeDescriptionContainer: React.FC = () => {
     refetch,
   } = useAdminOfficeDescriptions();
 
+  // delete mutation
+  const deleteOfficeDescriptionMutation = useDeleteOfficeDescription();
+
+  // confirm modal state
+  const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
+  const [descriptionToDelete, setDescriptionToDelete] = React.useState<
+    any | null
+  >(null);
+
+  // Helper: normalize different shapes and safely get type/id/content
+  const getDescriptionField = (obj: any) => {
+    if (!obj) return {};
+    // sometimes the consumer might pass { description: {...} } or the description itself
+    const desc = obj.description ?? obj;
+    return {
+      raw: desc,
+      id: desc?.id,
+      officeDescriptionType: desc?.officeDescriptionType,
+      contentEn: desc?.content?.en,
+      contentNe: desc?.content?.ne,
+    };
+  };
+
+  const getDisplayTitle = (obj: any) => {
+    const { officeDescriptionType, contentEn, contentNe } = getDescriptionField(obj);
+    const typeLabel = officeDescriptionType ? t(`types.${officeDescriptionType}`) : undefined;
+    return typeLabel || contentEn || contentNe || "Office Description";
+  };
+
+  // when user clicks delete in card, open confirm modal
+  const handleDelete = (description: any) => {
+    setDescriptionToDelete(description);
+    setDeleteModalOpen(true);
+  };
+
+  // when user confirms, perform deletion and notify
+  const confirmDelete = async () => {
+    const desc = descriptionToDelete;
+    const { id } = getDescriptionField(desc);
+    const display = getDisplayTitle(desc);
+    try {
+      if (id) await deleteOfficeDescriptionMutation.mutateAsync(id);
+      NotificationService.showSuccess(
+        t("notifications.deleted", {
+          title: display,
+          default: `${display} deleted`,
+        })
+      );
+      // refetch after delete
+      refetch();
+    } catch (error: any) {
+      console.error(error);
+      NotificationService.showError(
+        t("notifications.deleteError", {
+          title: display,
+          default: `Failed to delete ${display}`,
+        })
+      );
+    } finally {
+      setDeleteModalOpen(false);
+      setDescriptionToDelete(null);
+    }
+  };
+
   const handleResetFilters = () => {
     setSearchTerm("");
     setTypeFilter("all");
@@ -52,12 +118,15 @@ export const OfficeDescriptionContainer: React.FC = () => {
 
   const filteredDescriptions =
     descriptions?.filter((description) => {
+      if (!description) return false;
+
+      const enContent = description.content?.en ?? "";
+      const neContent = description.content?.ne ?? "";
+
       const matchesSearch =
         !searchTerm ||
-        description.content.en
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase()) ||
-        description.content.ne.toLowerCase().includes(searchTerm.toLowerCase());
+        enContent.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        neContent.toLowerCase().includes(searchTerm.toLowerCase());
 
       const matchesType =
         typeFilter === "all" ||
@@ -153,14 +222,24 @@ export const OfficeDescriptionContainer: React.FC = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
+
         <div
           style={{
             display: "flex",
             gap: "1rem",
             alignItems: "center",
-            justifyContent: "flex-end",
+            justifyContent: "space-between",
           }}
         >
+          <Button
+            kind="ghost"
+            size="md"
+            renderIcon={Reset}
+            onClick={handleResetFilters}
+            disabled={!searchTerm && typeFilter === "all"}
+          >
+            {t("filters.reset")}
+          </Button>
           <Dropdown
             id="office-description-type-dropdown"
             size="md"
@@ -207,16 +286,6 @@ export const OfficeDescriptionContainer: React.FC = () => {
               )
             }
           />
-
-          <Button
-            kind="ghost"
-            size="md"
-            renderIcon={Reset}
-            onClick={handleResetFilters}
-            disabled={!searchTerm && typeFilter === "all"}
-          >
-            {t("filters.reset")}
-          </Button>
         </div>
       </div>
 
@@ -226,11 +295,11 @@ export const OfficeDescriptionContainer: React.FC = () => {
           descriptions={filteredDescriptions}
           onEdit={openEditPanel}
           onCreate={() => openCreatePanel()}
+          onDelete={handleDelete}
         />
       </div>
 
       {/* Right side panel for create/edit */}
-      <FeatureFlags enableSidepanelResizer>
         <SidePanelForm
           title={
             panelMode === "edit" ? t("form.editTitle") : t("form.createTitle")
@@ -253,7 +322,7 @@ export const OfficeDescriptionContainer: React.FC = () => {
           secondaryButtonText={t("actions.cancel")}
           onRequestSubmit={handleRequestSubmit}
           selectorPageContent="#main-content"
-          formTitle={t("sections.basicInfo")}
+          // formTitle={t("sections.basicInfo")}
           selectorPrimaryFocus="input, textarea, [tabindex]:not([tabindex='-1'])"
           className="office-description-sidepanel-form"
         >
@@ -286,7 +355,22 @@ export const OfficeDescriptionContainer: React.FC = () => {
             />
           </div>
         </SidePanelForm>
-      </FeatureFlags>
+      <ConfirmDeleteModal
+        open={deleteModalOpen}
+        title={t("delete.title", { default: "Confirm Deletion" })}
+        subtitle={
+          descriptionToDelete
+              ? t("delete.confirmation", {
+                  title: getDisplayTitle(descriptionToDelete),
+                })
+            : undefined
+        }
+        onConfirm={confirmDelete}
+        onCancel={() => {
+          setDeleteModalOpen(false);
+          setDescriptionToDelete(null);
+        }}
+        />
     </Layer>
   );
 };

@@ -10,7 +10,6 @@ import {
   Search,
 } from "@carbon/react";
 import { Add, Reset } from "@carbon/icons-react";
-import { unstable_FeatureFlags as FeatureFlags } from "@carbon/ibm-products";
 import SidePanelForm from "@/components/shared/side-panel-form";
 import "@/lib/ibm-products/config";
 import { useAlbumStore } from "../stores/album-store";
@@ -123,34 +122,39 @@ export const AlbumContainer: React.FC = () => {
       </div>
 
       {/* Right side panel */}
-      <FeatureFlags enableSidepanelResizer={true}>
-        <SidePanelForm
-          formTitle={t('albums.formTitle')}
-          title={panelTitle}
-          open={!!panelOpen}
-          onRequestClose={() => {
-            if (!isSubmitting) closePanel();
-          }}
-          primaryButtonText={
-            isSubmitting
-              ? t("form.saving")
-              : panelMode === "edit"
-                ? t("actions.update")
-                : t("create")
-          }
-          secondaryButtonText={t("actions.cancel")}
+      <SidePanelForm
+        formTitle={t("albums.formTitle")}
+        title={panelTitle}
+        open={!!panelOpen}
+        onRequestClose={() => {
+          if (!isSubmitting) closePanel();
+        }}
+        primaryButtonText={
+          isSubmitting
+            ? t("form.saving")
+            : panelMode === "edit"
+              ? t("actions.update")
+              : t("create")
+        }
+        secondaryButtonText={t("actions.cancel")}
         onRequestSubmit={() => {
           if (isSubmitting) return;
           setSubmitting(true);
           const formContainer = document.getElementById("album-form");
           if (formContainer) {
             // Prefer custom event to avoid relying on DOM structure
-            formContainer.dispatchEvent(new Event("album:submit", { cancelable: true, bubbles: true }));
+            formContainer.dispatchEvent(
+              new Event("album:submit", { cancelable: true, bubbles: true })
+            );
             // Also dispatch globally as a robust fallback
-            document.dispatchEvent(new Event('album:submit', { cancelable: true, bubbles: true }));
+            document.dispatchEvent(
+              new Event("album:submit", { cancelable: true, bubbles: true })
+            );
           } else {
             // Global fallback
-            document.dispatchEvent(new Event('album:submit', { cancelable: true, bubbles: true }));
+            document.dispatchEvent(
+              new Event("album:submit", { cancelable: true, bubbles: true })
+            );
             setSubmitting(false);
           }
         }}
@@ -162,7 +166,6 @@ export const AlbumContainer: React.FC = () => {
           <AlbumPanelForms onSuccess={closePanel} />
         </div>
       </SidePanelForm>
-      </FeatureFlags>
     </Layer>
   );
 };

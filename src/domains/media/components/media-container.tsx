@@ -3,7 +3,6 @@
 import React, { useMemo, useState } from 'react';
 import { Breadcrumb, BreadcrumbItem, Button, Dropdown, Layer, Search } from '@carbon/react';
 import { Add, Reset, Close } from '@carbon/icons-react';
-import { unstable_FeatureFlags as FeatureFlags } from '@carbon/ibm-products'; // Not available in latest package
 import '@/lib/ibm-products/config';
 import { useMediaStore } from '../stores/media-store';
 import { useAlbumStore } from '../stores/album-store';
@@ -139,7 +138,6 @@ export const MediaContainer: React.FC = () => {
       </div>
 
       {/* Right side panel - depends on active tab */}
-  <FeatureFlags enableSidepanelResizer>
         <SidePanelForm
           // Use existing keys; media has list.title, albums has formTitle
           formTitle={isMediaTab ? (t('list.title', { default: 'Media' } as any)) : (tAlbums('formTitle', { default: 'Album' } as any))}
@@ -187,7 +185,6 @@ export const MediaContainer: React.FC = () => {
             </div>
           )}
         </SidePanelForm>
-  </FeatureFlags>
     </Layer>
   );
 };

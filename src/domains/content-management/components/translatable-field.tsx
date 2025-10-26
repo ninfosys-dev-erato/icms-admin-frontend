@@ -1,3 +1,5 @@
+// this file is not necessary as it is now moved to src/components/shared/translatable-field.tsx
+
 "use client";
 
 import { TextArea, TextInput } from "@carbon/react";

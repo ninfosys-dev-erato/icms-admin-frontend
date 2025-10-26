@@ -1,24 +1,23 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  FormGroup,
-  NumberInput,
-  Toggle,
   Grid,
   Column,
-  Stack,
+  NumberInput,
+  Toggle,
   InlineLoading,
   Button,
   TextInput,
+  FormGroup,
 } from "@carbon/react";
-import { Add, Reset, Link } from "@carbon/icons-react";
+import { Reset, Add } from "@carbon/icons-react";
 import { useTranslations } from "next-intl";
 import { TranslatableField } from "@/components/shared/translatable-field";
 
 import { ImportantLinkFormData } from "../types/important-links";
 import { useImportantLinksStore } from "../stores/important-links-store";
-import { useCreateImportantLink } from "../hooks/use-important-links-queries";
+import { useCreateImportantLink, useImportantLinks } from "../hooks/use-important-links-queries";
 
 interface ImportantLinksCreateFormProps {
   onSuccess?: () => void;
@@ -26,13 +25,16 @@ interface ImportantLinksCreateFormProps {
   className?: string;
 }
 
-export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> = ({
-  onSuccess,
-  onCancel,
-  className,
-}) => {
+export const ImportantLinksCreateForm: React.FC<
+  ImportantLinksCreateFormProps
+> = ({ onSuccess, onCancel, className }) => {
+  // Fix: Declare tab state for TranslatableField
+  const [titleTab, setTitleTab] = useState<'en' | 'ne'>('en');
   const t = useTranslations("important-links");
   const createMutation = useCreateImportantLink();
+  const { data: listData } = useImportantLinks({ page: 1, limit: 10000 });
+  const linkCount = listData?.data?.length || 0;
+
   const {
     isSubmitting,
     setSubmitting,
@@ -41,20 +43,28 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
     resetCreateForm,
   } = useImportantLinksStore();
 
-  // Validation state
-  const [validationErrors, setValidationErrors] = useState<
-    Record<string, string>
-  >({});
+  // Ensure default order is set when form opens or link count changes
+  useEffect(() => {
+    if (!createFormState.order || createFormState.order < 1) {
+      updateFormField("create", "order", linkCount + 1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [linkCount]);
+
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
   const validateForm = (): boolean => {
     const errors: Record<string, string> = {};
+    let firstInvalidTitleLang: "en" | "ne" | null = null;
 
-    // Validate title (at least one language required)
     if (!createFormState.linkTitle.en.trim() && !createFormState.linkTitle.ne.trim()) {
       errors.linkTitle = t("form.linkTitle.validation.required");
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "en";
+    } else if (!createFormState.linkTitle.ne.trim()) {
+      errors.linkTitle = t("form.linkTitle.validation.required");
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "ne";
     }
 
-    // Validate URL
     if (!createFormState.linkUrl.trim()) {
       errors.linkUrl = t("form.linkUrl.validation.required");
     } else {
@@ -65,23 +75,22 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
       }
     }
 
-    // Validate order
     if (createFormState.order < 1) {
       errors.order = t("form.order.validation.minimum");
     }
 
     setValidationErrors(errors);
+    if (firstInvalidTitleLang) setTitleTab(firstInvalidTitleLang);
     return Object.keys(errors).length === 0;
   };
 
-  // Listen for form submission from the parent CreateSidePanel
+  // Listen for parent form submit
   useEffect(() => {
     const handleParentFormSubmit = (e: Event) => {
       e.preventDefault();
       e.stopPropagation();
       setSubmitting(true);
-      
-      // Validate and submit the form
+
       if (!validateForm()) {
         setSubmitting(false);
         return;
@@ -92,13 +101,15 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
 
     const handleFormSubmission = async () => {
       try {
-        await createMutation.mutateAsync(createFormState);
+        await createMutation.mutateAsync({
+          linkTitle: createFormState.linkTitle,
+          linkUrl: createFormState.linkUrl,
+          order: createFormState.order,
+          isActive: createFormState.isActive,
+        });
 
-        // Reset form
         resetCreateForm();
         setValidationErrors({});
-
-        // Call success callback immediately
         onSuccess?.();
       } catch (error) {
         console.error("Important link creation error:", error);
@@ -107,17 +118,16 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
       }
     };
 
-    const formContainer = document.getElementById('important-links-form');
-    const parentForm = formContainer?.closest('form');
-    
+    const formContainer = document.getElementById("important-links-form");
+    const parentForm = formContainer?.closest("form");
+
     if (parentForm) {
-      parentForm.addEventListener('submit', handleParentFormSubmit);
-      return () => {
-        parentForm.removeEventListener('submit', handleParentFormSubmit);
-      };
+      parentForm.addEventListener("submit", handleParentFormSubmit);
+      return () => parentForm.removeEventListener("submit", handleParentFormSubmit);
     }
     return undefined;
-  }, [createFormState, createMutation, onSuccess, t, resetCreateForm, setSubmitting]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createFormState, createMutation, onSuccess]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -130,13 +140,15 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
     }
 
     try {
-      await createMutation.mutateAsync(createFormState);
+      await createMutation.mutateAsync({
+        linkTitle: createFormState.linkTitle,
+        linkUrl: createFormState.linkUrl,
+        order: createFormState.order,
+        isActive: createFormState.isActive,
+      });
 
-      // Reset form
       resetCreateForm();
       setValidationErrors({});
-
-      // Call success callback immediately
       onSuccess?.();
     } catch (error) {
       console.error("Important link creation error:", error);
@@ -146,12 +158,11 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
   };
 
   const handleInputChange = (field: keyof ImportantLinkFormData, value: unknown) => {
-    updateFormField('create', field, value);
+    updateFormField("create", field, value);
 
-    // Clear validation error for this field
     if (validationErrors[field]) {
-      const newErrors = { ...validationErrors };
-      delete newErrors[field];
+      const newErrors = { ...validationErrors } as any;
+      delete newErrors[field as string];
       setValidationErrors(newErrors);
     }
   };
@@ -159,13 +170,13 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
   const handleResetForm = () => {
     resetCreateForm();
     setValidationErrors({});
+    updateFormField("create", "order", linkCount + 1);
   };
 
   return (
     <div>
       <div id="important-links-form">
-        {/* Top action bar */}
-        <div className="important-links-action-bar">
+        <div className="important-links-form-action-bar">
           <Button
             kind="ghost"
             size="sm"
@@ -184,44 +195,42 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
         )}
 
         <Grid fullWidth>
-          {/* Basic Information Section */}
           <Column lg={16} md={8} sm={4}>
-            {/* Link Title */}
             <TranslatableField
               label={t("form.linkTitle.label")}
               value={createFormState.linkTitle}
-              onChange={(linkTitle) => handleInputChange("linkTitle", linkTitle)}
+              onChange={(linkTitle) =>
+                handleInputChange("linkTitle", linkTitle)
+              }
               placeholder={{
                 en: t("form.linkTitle.placeholder.en"),
                 ne: t("form.linkTitle.placeholder.ne"),
               }}
               invalid={!!validationErrors.linkTitle}
               invalidText={validationErrors.linkTitle}
+              activeTab={titleTab}
+              setActiveTab={setTitleTab}
             />
 
-            {/* Link URL */}
             <div className="important-links-field-margin">
               <TextInput
                 id="linkUrl"
                 labelText={t("form.linkUrl.label")}
                 value={createFormState.linkUrl}
-                onChange={(e) => handleInputChange("linkUrl", e.target.value)}
+                onChange={(e) => handleInputChange("linkUrl", (e.target as HTMLInputElement).value)}
                 placeholder={t("form.linkUrl.placeholder")}
                 invalid={!!validationErrors.linkUrl}
                 invalidText={validationErrors.linkUrl}
               />
             </div>
 
-            {/* Order Input */}
             <div className="important-links-field-margin">
               <NumberInput
                 id="order"
                 label={t("form.order.label")}
                 value={createFormState.order}
                 onChange={(event, { value }) => {
-                  if (value !== undefined) {
-                    handleInputChange("order", value);
-                  }
+                  if (value !== undefined) handleInputChange("order", value);
                 }}
                 min={1}
                 step={1}
@@ -231,7 +240,6 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
               />
             </div>
 
-            {/* Active Status Toggle - Positioned below Order */}
             <div className="important-links-toggle-margin">
               <Toggle
                 id="isActive"
@@ -240,25 +248,9 @@ export const ImportantLinksCreateForm: React.FC<ImportantLinksCreateFormProps> =
                 onToggle={(checked) => handleInputChange("isActive", checked)}
               />
             </div>
-
-            {/*
-            ORDER AND ACTIVE STATUS - SIDE BY SIDE LAYOUT (COMMENTED FOR FUTURE USE)
-            <div className="important-links-side-by-side">
-              <Column lg={8} md={4} sm={4}>
-                <NumberInput ... />
-              </Column>
-              <Column lg={8} md={4} sm={4}>
-                <div className="important-links-toggle-side-margin">
-                  <Toggle ... />
-                </div>
-              </Column>
-            </div>
-            */}
           </Column>
         </Grid>
       </div>
     </div>
   );
 };
-
-

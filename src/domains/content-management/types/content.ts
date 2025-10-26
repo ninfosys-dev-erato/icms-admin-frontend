@@ -1,4 +1,4 @@
-import type { ContentAttachment } from './attachment';
+import type { ContentAttachment } from "./attachment";
 
 export interface TranslatableEntity {
   en: string;
@@ -48,15 +48,16 @@ export interface Content {
   shareCount?: number;
 }
 
-export type ContentStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
+export type ContentStatus = "DRAFT" | "PUBLISHED" | "ARCHIVED";
 
-export type ContentVisibility = 'public' | 'private' | 'role-based';
+export type ContentVisibility = "public" | "private" | "role-based";
 
 export interface CreateContentRequest {
   title: TranslatableEntity;
   slug?: string;
   excerpt?: TranslatableEntity;
   content: TranslatableEntity;
+  seoDescription?: TranslatableEntity;
   categoryId: string;
   status?: ContentStatus;
   featured?: boolean;
@@ -123,8 +124,7 @@ export interface CreateCategoryRequest {
   color?: string;
 }
 
-export interface UpdateCategoryRequest extends Partial<CreateCategoryRequest> {
-}
+export interface UpdateCategoryRequest extends Partial<CreateCategoryRequest> {}
 
 export interface CategoryTree {
   id: string;
@@ -165,7 +165,12 @@ export interface MediaFile {
   accessCount: number;
 }
 
-export type UploadStatus = 'pending' | 'uploading' | 'completed' | 'failed' | 'cancelled';
+export type UploadStatus =
+  | "pending"
+  | "uploading"
+  | "completed"
+  | "failed"
+  | "cancelled";
 
 export interface MediaMetadata {
   title?: string;
@@ -201,7 +206,7 @@ export interface UploadPart {
 export interface PresignedUrlCache {
   url: string;
   expiresAt: number;
-  operation: 'get' | 'put';
+  operation: "get" | "put";
 }
 
 export interface UploadOptions {
@@ -237,9 +242,9 @@ export interface User {
 export interface ContentFilters {
   search?: string;
   categoryId?: string;
-  status?: ContentStatus | 'all';
-  visibility?: ContentVisibility | 'all';
-  language?: 'en' | 'ne' | 'all';
+  status?: ContentStatus | "all";
+  visibility?: ContentVisibility | "all";
+  language?: "en" | "ne" | "all";
   authorId?: string;
   dateFrom?: string;
   dateTo?: string;
@@ -279,7 +284,7 @@ export interface ContentQuery {
   page?: number;
   limit?: number;
   sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
+  sortOrder?: "asc" | "desc";
   filters?: ContentFilters;
 }
 
@@ -287,7 +292,7 @@ export interface MediaQuery {
   page?: number;
   limit?: number;
   sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
+  sortOrder?: "asc" | "desc";
   filters?: MediaFilters;
 }
 
@@ -295,7 +300,7 @@ export interface CategoryQuery {
   page?: number;
   limit?: number;
   sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
+  sortOrder?: "asc" | "desc";
   filters?: CategoryFilters;
 }
 
@@ -411,7 +416,7 @@ export interface BackblazeUploadCompleteRequest {
 
 export interface BackblazeUploadStatus {
   uploadId: string;
-  status: 'initiated' | 'uploading' | 'completed' | 'failed' | 'aborted';
+  status: "initiated" | "uploading" | "completed" | "failed" | "aborted";
   progress: number;
   parts: BackblazeUploadPartResponse[];
   error?: string;
@@ -433,6 +438,6 @@ export interface AttachmentUploadProgress {
   fileId: string;
   fileName: string;
   progress: number;
-  status: 'uploading' | 'success' | 'error';
+  status: "uploading" | "success" | "error";
   error?: string;
-} 
+}

@@ -12,8 +12,19 @@ import {
   Toggle,
 } from "@carbon/react";
 import { useTranslations } from "next-intl";
-import React, { useEffect, useMemo, useState } from "react";
-import { useCategories, useUpdateCategory } from "../../hooks/use-category-queries";
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+  useRef,
+  useCallback,
+} from "react";
+// For robust per-language validation and focusing
+// Remove unused refs and tab state, use only supported props
+import {
+  useCategories,
+  useUpdateCategory,
+} from "../../hooks/use-category-queries";
 import { useContentUIStore } from "../../stores/content-ui-store";
 import type { Category } from "../../types/content";
 import { TranslatableField } from "@/components/shared/translatable-field";
@@ -75,23 +86,48 @@ export const CategoryEditForm: React.FC<CategoryEditFormProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category.id, formData]);
 
-  const validate = (): boolean => {
+  // Per-language validation
+  const validate = (name: { en: string; ne: string }) => {
     const errors: Record<string, string> = {};
-    if (!formData.name.en.trim() || !formData.name.ne.trim()) {
-      errors.name = t("errors.validation.nameRequired");
-    } else if (formData.name.en.trim().length < 3) {
-      errors.name = t("errors.validation.nameMinLength");
+    const en = name.en.trim();
+    const ne = name.ne.trim();
+    if (!en) {
+      errors.name_en = t("validation.categoryNameRequired");
+    } else if (en.length < 3) {
+      errors.name_en = t("validation.nameMinLength");
     }
-    if (formData.order < 0) {
-      errors.order = t("errors.validation.orderInvalid");
+    if (!ne) {
+      errors.name_ne = t("validation.categoryNameRequired");
+    } else if (ne.length < 3) {
+      errors.name_ne = t("validation.nameMinLength");
     }
-    setValidationErrors(errors);
-    return Object.keys(errors).length === 0;
+    return errors;
   };
 
-  const submit = async () => {
+  // On submit, validate and switch to first invalid language tab and focus
+  const submit = useCallback(async () => {
     setSubmitting(true);
-    if (!validate()) {
+    const errors = validate(formData.name);
+    setValidationErrors(errors);
+
+    if (errors.name_en || errors.name_ne) {
+      let firstInvalidLang: "en" | "ne" | null = null;
+      if (errors.name_en) firstInvalidLang = "en";
+      else if (errors.name_ne) firstInvalidLang = "ne";
+
+      // Switch tab by simulating click on tab button
+      setTimeout(() => {
+        const tabSelector = `.translatable-field .tab-button${firstInvalidLang === "en" ? ".active" : ":not(.active)"}`;
+        const tabBtn = document.querySelector(tabSelector);
+        if (tabBtn)
+          tabBtn.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        const inputId = `${t("form.name.label").toLowerCase().replace(/\s+/g, "-")}-${firstInvalidLang}`;
+        const input = document.getElementById(inputId);
+        if (input) (input as HTMLElement).focus();
+      }, 0);
+    }
+
+    if (Object.keys(errors).some((k) => k.startsWith("name_"))) {
       setSubmitting(false);
       return;
     }
@@ -115,14 +151,22 @@ export const CategoryEditForm: React.FC<CategoryEditFormProps> = ({
     } finally {
       setSubmitting(false);
     }
-  };
+  }, [
+    category.id,
+    formData,
+    onSuccess,
+    resetCategoryForm,
+    setSubmitting,
+    updateMutation,
+    t,
+  ]);
 
   return (
     <div>
       <div id="content-form">
         {/* Top action bar */}
         <div className="top-action-bar">
-          <Button
+          {/* <Button
             kind="ghost"
             size="sm"
             renderIcon={Reset}
@@ -133,7 +177,7 @@ export const CategoryEditForm: React.FC<CategoryEditFormProps> = ({
             disabled={isSubmitting}
           >
             {tContent("actions.reset", { default: "Reset" })}
-          </Button>
+          </Button> */}
         </div>
         {isSubmitting && (
           <div className="submitting-indicator">
@@ -156,8 +200,12 @@ export const CategoryEditForm: React.FC<CategoryEditFormProps> = ({
                   ne: t("form.name.placeholder.ne"),
                 }}
                 required
-                invalid={!!validationErrors.name}
-                invalidText={validationErrors.name}
+                invalid={
+                  !!validationErrors.name_en || !!validationErrors.name_ne
+                }
+                invalidText={
+                  validationErrors.name_en || validationErrors.name_ne
+                }
               />
 
               <div className="mt-1">

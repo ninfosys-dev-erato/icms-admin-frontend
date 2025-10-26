@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -8,8 +9,9 @@ import {
   ModalFooter,
   Button,
 } from "@carbon/react";
-import './confirm-delete-modal.css';
+import "./confirm-delete-modal.css";
 import { WarningAltFilled } from "@carbon/icons-react";
+import { useTranslations } from "next-intl";
 
 interface ConfirmDeleteModalProps {
   open: boolean;
@@ -25,13 +27,21 @@ export const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
   open,
   title = "Confirm Deletion",
   subtitle = "Are you sure you want to delete this item? This action cannot be undone.",
-  confirmLabel = "Delete",
-  cancelLabel = "Cancel",
+  confirmLabel,
+  cancelLabel,
   onConfirm,
   onCancel,
 }) => {
+  const t = useTranslations("navigation");
+
+  // Use provided labels if passed; otherwise translate.
+  const cancelText =
+    cancelLabel ?? t("actions.cancel", { default: "Cancel" });
+  const confirmText =
+    confirmLabel ?? t("actions.delete", { default: "Delete" });
+
   return (
-  <ComposedModal open={open} onClose={onCancel} className="confirm-delete-modal">
+    <ComposedModal open={open} onClose={onCancel} className="confirm-delete-modal">
       <ModalHeader title={title} iconDescription="close modal">
         {/* empty - Carbon renders the title */}
       </ModalHeader>
@@ -44,10 +54,10 @@ export const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
       </ModalBody>
       <ModalFooter>
         <Button kind="secondary" onClick={onCancel}>
-          {cancelLabel}
+          {cancelText}
         </Button>
         <Button kind="danger" onClick={onConfirm}>
-          {confirmLabel}
+          {confirmText}
         </Button>
       </ModalFooter>
     </ComposedModal>

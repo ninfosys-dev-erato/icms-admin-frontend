@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
-import { Tag, OverflowMenu, OverflowMenuItem } from "@carbon/react";
+import { OverflowMenu, OverflowMenuItem, Tag } from "@carbon/react";
 import { useTranslations } from "next-intl";
+import React from "react";
 import { HeaderConfig } from "../types/header";
 
 type Props = {
@@ -43,6 +43,7 @@ const CardInfoRow: React.FC<Props> = ({
 
       <OverflowMenu
         aria-label="Header actions"
+        className="overflow"
         iconDescription="More actions"
         size="sm"
       >

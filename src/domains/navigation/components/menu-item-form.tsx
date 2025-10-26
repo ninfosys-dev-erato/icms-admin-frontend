@@ -10,7 +10,7 @@ import {
   Select,
   SelectItem,
   TextInput,
-  Toggle
+  Toggle,
 } from "@carbon/react";
 import { useTranslations } from "next-intl";
 import React, { useCallback, useEffect, useState } from "react";
@@ -37,6 +37,8 @@ interface MenuItemFormProps {
   onCancel?: () => void;
   className?: string;
   basicOnly?: boolean;
+  titleTab?: "en" | "ne";
+  setTitleTab?: (tab: "en" | "ne") => void;
 }
 
 export const MenuItemForm: React.FC<MenuItemFormProps> = ({
@@ -76,8 +78,8 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
     isVisible: true,
     isPublished: false,
     itemId: "",
-    categorySlug: "", // New field for linking menu item to category
-    contentSlug: "", // New field for linking menu item to content
+    categorySlug: "", // Ensure always initialized
+    contentSlug: "", // Ensure always initialized
   });
 
   // Initialize form state
@@ -89,7 +91,7 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
 
   const formData: MenuItemFormData =
     mode === "edit" && menuItem
-      ? (menuItemFormStateById[menuItem.id] ?? {
+      ? {
           title: menuItem.title || { en: "", ne: "" },
           description: menuItem.description || { en: "", ne: "" },
           url: menuItem.url || "",
@@ -101,9 +103,9 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
           isVisible: menuItem.isVisible ?? true,
           isPublished: menuItem.isPublished,
           itemId: menuItem.itemId || "",
-          categorySlug: menuItem.categorySlug || "", // New field for linking menu item to category
-          contentSlug: menuItem.contentSlug || "", // New field for linking menu item to content
-        })
+          categorySlug: menuItem.categorySlug || "", // Default to empty string
+          contentSlug: menuItem.contentSlug || "", // Default to empty string
+        }
       : createFormData;
 
   // Fetch categories and content for autocomplete
@@ -121,15 +123,23 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
   >({});
+  const [titleTab, setTitleTab] = useState<"en" | "ne">("en");
 
   const validateForm = useCallback((): boolean => {
     const errors: Record<string, string> = {};
+    let firstInvalidTitleLang: "en" | "ne" | null = null;
 
-    // Validate title (required in at least one language)
-    if (!formData.title.en.trim() && !formData.title.ne.trim()) {
+    // Validate title (per language, only first error shown)
+    if (!formData.title.en.trim()) {
       errors.title = t("menuItems.form.name.validation.required", {
         default: "Title is required in at least one language",
       });
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "en";
+    } else if (!formData.title.ne.trim()) {
+      errors.title = t("menuItems.form.name.validation.required", {
+        default: "Title is required in at least one language",
+      });
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "ne";
     }
 
     // Validate item type
@@ -146,6 +156,21 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
       });
     }
 
+
+    // Validate categorySlug (required)
+    if (!formData.categorySlug) {
+      errors.categorySlug = t("navigation.categorySlug", {
+        default: "Category is required",
+      });
+    }
+
+    // Validate contentSlug (required)
+    if (!formData.contentSlug) {
+      errors.contentSlug = t("navigation.contentSlug", {
+        default: "Content is required",
+      });
+    }
+
     // Validate order
     if (formData.order < 1) {
       errors.order = t("menuItems.form.order.validation.minimum", {
@@ -153,7 +178,24 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
       });
     }
 
+    // Validate categorySlug (handle string or object)
+    const categoryValue = typeof formData.categorySlug === "object" ? formData.categorySlug?.id : formData.categorySlug;
+    if (!categoryValue || !String(categoryValue).trim()) {
+      errors.categorySlug = t("menuItems.form.categorySlug.validation.required", {
+        default: "Please select a category",
+      });
+    }
+
+    // Validate contentSlug (handle string or object)
+    const contentValue = typeof formData.contentSlug === "object" ? formData.contentSlug?.id : formData.contentSlug;
+    if (!contentValue || !String(contentValue).trim()) {
+      errors.contentSlug = t("menuItems.form.contentSlug.validation.required", {
+        default: "Please select content",
+      });
+    }
+
     setValidationErrors(errors);
+    if (firstInvalidTitleLang) setTitleTab(firstInvalidTitleLang);
     return Object.keys(errors).length === 0;
   }, [formData, t]);
 
@@ -181,9 +223,14 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
         isPublished: formData.isPublished,
         itemType: formData.itemType,
         itemId: formData.itemId,
-        categorySlug: formData.categorySlug || undefined,
-        contentSlug: formData.contentSlug || undefined,
+        categorySlug: (formData.categorySlug ?? "").trim(), // Ensure string
+        contentSlug: (formData.contentSlug ?? "").trim(), // Ensure string
       };
+
+      console.log("Payload:", payload);
+      if (menuItem) {
+        console.log("MenuItem ID:", menuItem.id);
+      }
 
       // submit payload
 
@@ -339,6 +386,8 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
                   invalid={!!validationErrors.title}
                   invalidText={validationErrors.title}
                   required
+                  activeTab={titleTab}
+                  setActiveTab={setTitleTab}
                 />
               </div>
               {!basicOnly && (
@@ -464,7 +513,7 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
                       default: "Icon class or identifier",
                     })}
                     helperText={t("menuItems.form.icon.helper", {
-                      default: "Optional icon for the menu item",
+                      default: "Icon for the menu item",
                     })}
                   />
                 </div>
@@ -506,10 +555,10 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
                       handleInputChange("itemId", event.target.value)
                     }
                     placeholder={t("menuItems.form.itemId.placeholder", {
-                      default: "Optional custom identifier",
+                      default: "Custom identifier",
                     })}
                     helperText={t("menuItems.form.itemId.helper", {
-                      default: "Optional custom ID for linking to content",
+                      default: "Custom ID for linking to content",
                     })}
                   />
                 </div>
@@ -518,42 +567,44 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
               {/* Category Slug with Autocomplete */}
               {!basicOnly && (
                 <div className="form-field">
-                  <ComboBox
-                    id="categorySlug"
-                    titleText={t("menuItems.form.categorySlug.label", {
-                      default: "Category (Optional)",
-                    })}
-                    placeholder={t("menuItems.form.categorySlug.placeholder", {
-                      default: "Type to search categories...",
-                    })}
-                    items={categoryOptions}
-                    itemToString={(item) => item?.text || ""}
-                    selectedItem={
-                      categoryOptions.find(
-                        (cat) => cat.id === formData.categorySlug
-                      ) || null
-                    }
-                    onChange={({ selectedItem }) => {
-                      handleInputChange("categorySlug", selectedItem?.id || "");
-                      // Clear contentSlug when category changes
-                      if (formData.contentSlug) {
-                        handleInputChange("contentSlug", "");
+                    <ComboBox
+                      id="categorySlug"
+                      titleText={t("menuItems.form.categorySlug.label", {
+                        default: "Category",
+                      })}
+                      placeholder={t("menuItems.form.categorySlug.placeholder", {
+                        default: "Type to search categories...",
+                      })}
+                      items={categoryOptions}
+                      itemToString={(item) => item?.text || ""}
+                      selectedItem={
+                        categoryOptions.find(
+                          (cat) => cat.id === formData.categorySlug
+                        ) || null
                       }
-                    }}
-                    onInputChange={(inputValue) => {
-                      // Filter categories based on input
-                      if (!inputValue) {
-                        handleInputChange("categorySlug", "");
-                        // Clear contentSlug when category is cleared
+                      onChange={({ selectedItem }) => {
+                        handleInputChange("categorySlug", selectedItem?.id || "");
+                        // Clear contentSlug when category changes
                         if (formData.contentSlug) {
                           handleInputChange("contentSlug", "");
                         }
-                      }
-                    }}
-                    helperText={t("menuItems.form.categorySlug.helper", {
-                      default: "Link this menu item to a specific category",
-                    })}
-                  />
+                      }}
+                      onInputChange={(inputValue) => {
+                        // Filter categories based on input
+                        if (!inputValue) {
+                          handleInputChange("categorySlug", "");
+                          // Clear contentSlug when category is cleared
+                          if (formData.contentSlug) {
+                            handleInputChange("contentSlug", "");
+                          }
+                        }
+                      }}
+                      helperText={t("menuItems.form.categorySlug.helper", {
+                        default: "Link this menu item to a specific category",
+                      })}
+                      invalid={!!validationErrors.categorySlug}
+                      invalidText={validationErrors.categorySlug}
+                    />
                 </div>
               )}
 
@@ -561,37 +612,35 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
               {!basicOnly &&
                 (formData.itemType === "CONTENT" || formData.categorySlug) && (
                   <div className="form-field">
-                    <ComboBox
-                      id="contentSlug"
-                      titleText={t("menuItems.form.contentSlug.label", {
-                        default: "Content (Optional)",
-                      })}
-                      placeholder={t("menuItems.form.contentSlug.placeholder", {
-                        default: "Type to search content...",
-                      })}
-                      items={contentOptions}
-                      itemToString={(item) => item?.text || ""}
-                      selectedItem={
-                        contentOptions.find(
-                          (content) => content.id === formData.contentSlug
-                        ) || null
-                      }
-                      onChange={({ selectedItem }) =>
-                        handleInputChange("contentSlug", selectedItem?.id || "")
-                      }
-                      onInputChange={(inputValue) => {
-                        // Filter content based on input
-                        if (!inputValue) {
-                          handleInputChange("contentSlug", "");
+                      <ComboBox
+                        id="contentSlug"
+                        titleText={t("menuItems.form.contentSlug.label", {
+                          default: "Content",
+                        })}
+                        placeholder={t("menuItems.form.contentSlug.placeholder", {
+                          default: "Type to search content...",
+                        })}
+                        items={contentOptions}
+                        itemToString={(item) => item?.text || ""}
+                        selectedItem={
+                          contentOptions.find(
+                            (content) => content.id === formData.contentSlug
+                          ) || null
                         }
-                      }}
-                      helperText={t("menuItems.form.contentSlug.helper", {
-                        default:
-                          formData.itemType === "CONTENT"
-                            ? "Link this menu item to specific content"
-                            : "Optional content to link to this category",
-                      })}
-                    />
+                        onChange={({ selectedItem }) => {
+                          handleInputChange("contentSlug", selectedItem?.id || "");
+                        }}
+                        onInputChange={(inputValue) => {
+                          if (!inputValue) {
+                            handleInputChange("contentSlug", "");
+                          }
+                        }}
+                        helperText={t("menuItems.form.contentSlug.helper", {
+                          default: "Link this menu item to specific content",
+                        })}
+                        invalid={!!validationErrors.contentSlug}
+                        invalidText={validationErrors.contentSlug}
+                      />
                   </div>
                 )}
             </div>

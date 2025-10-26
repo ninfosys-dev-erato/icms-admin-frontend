@@ -1,10 +1,10 @@
+
 "use client";
 
 import SidePanelForm from "@/components/shared/side-panel-form";
 import { useRouter } from "@/lib/i18n/routing";
 import "@/lib/ibm-products/config";
 import { NotificationService } from "@/services/notification-service";
-import { unstable_FeatureFlags as FeatureFlags } from "@carbon/ibm-products";
 import { Add, Close, Reset } from "@carbon/icons-react";
 import {
   Breadcrumb,
@@ -18,7 +18,7 @@ import React, { useRef, useState } from "react";
 import { useDeleteMenuItem, useMenus } from "../hooks/use-navigation-queries";
 import { useNavigationStore } from "../stores/navigation-store";
 import "../styles/navigation.css";
-import ConfirmDeleteModal from '@/components/shared/confirm-delete-modal';
+import ConfirmDeleteModal from "@/components/shared/confirm-delete-modal";
 import { Menu, MenuItem, MenuLocation } from "../types/navigation";
 import { MenuForm } from "./menu-form";
 import { MenuItemFormWrapper } from "./menu-item-form-wrapper";
@@ -190,21 +190,49 @@ export const NavigationContainer: React.FC = () => {
         </div>
       </div>
 
+      {/* === UPDATED: i18n title + subtitle for the delete modal === */}
       <ConfirmDeleteModal
         open={deleteModalOpen}
-        title={menuItemToDelete ? `Delete "${menuItemToDelete.title?.en || menuItemToDelete.title?.ne || 'item'}"` : 'Confirm Deletion'}
-        subtitle={menuItemToDelete ? `Are you sure you want to delete "${menuItemToDelete.title?.en || menuItemToDelete.title?.ne || 'this item'}"? This action cannot be undone.` : undefined}
+        title={
+          menuItemToDelete
+            ? t("modals.deleteMenuItem.title", {
+                default: 'Delete "{name}"',
+                name:
+                  menuItemToDelete.title?.en ||
+                  menuItemToDelete.title?.ne ||
+                  "item",
+              })
+            : t("modals.confirm.title", { default: "Confirm Deletion" })
+        }
+        subtitle={
+          menuItemToDelete
+            ? t("modals.deleteMenuItem.subtitle", {
+                default:
+                  'Are you sure you want to delete "{name}"? This action cannot be undone.',
+                name:
+                  menuItemToDelete.title?.en ||
+                  menuItemToDelete.title?.ne ||
+                  "this item",
+              })
+            : undefined
+        }
         onConfirm={async () => {
           if (!menuItemToDelete) return;
           try {
             await deleteMenuItemMutation.mutateAsync(menuItemToDelete.id);
             NotificationService.showSuccess(
-              t("menuItems.delete.success", { title: menuItemToDelete.title?.en || menuItemToDelete.title?.ne })
+              t("menuItems.delete.success", {
+                title:
+                  menuItemToDelete.title?.en || menuItemToDelete.title?.ne,
+              })
             );
           } catch (error) {
             console.error("Failed to delete menu item:", error);
             NotificationService.showError(
-              t("menuItems.delete.error", { title: menuItemToDelete.title?.en || menuItemToDelete.title?.ne })
+              t("menuItems.delete.error", {
+                title:
+                  menuItemToDelete.title?.en || menuItemToDelete.title?.ne,
+              })
             );
           } finally {
             setDeleteModalOpen(false);
@@ -316,6 +344,7 @@ export const NavigationContainer: React.FC = () => {
       <div style={{ padding: "0 1rem 2rem 1rem" }}>
         {currentView === "menus" ? (
           <MenuList
+            menus={listData?.data}
             onEdit={handleEdit}
             onManageItems={handleManageMenuItems}
             statusFilter={statusFilter}
@@ -398,7 +427,6 @@ export const NavigationContainer: React.FC = () => {
       </div>
 
       {/* Right side panel for create/edit */}
-      <FeatureFlags enableSidepanelResizer={true}>
         <SidePanelForm
           title={panelTitle}
           open={!!panelOpen}
@@ -525,7 +553,6 @@ export const NavigationContainer: React.FC = () => {
             )}
           </div>
         </SidePanelForm>
-      </FeatureFlags>
     </Layer>
   );
 };

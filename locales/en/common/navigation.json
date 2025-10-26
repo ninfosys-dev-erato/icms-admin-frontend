@@ -40,5 +40,7 @@
   "termsOfUse": "Terms of Use",
   "accessibility": "Accessibility",
   "cookiePreferences": "Cookie Preferences",
-  "poweredBy": "Powered by iCMS"
+  "poweredBy": "Powered by iCMS",
+  "categorySlug": "Category is required",
+  "contentSlug": "Content is required"
 } 

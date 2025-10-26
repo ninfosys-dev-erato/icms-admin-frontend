@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Button,
   Column,
@@ -18,9 +18,10 @@ import { Reset } from "@carbon/icons-react";
 import { useMediaStore } from "../stores/media-store";
 import { useBulkUploadMedia, useUploadMedia } from "../hooks/use-media-queries";
 import { useTranslations } from "next-intl";
-import FileUpload from '@/components/shared/file-upload/FileUpload';
-import { MediaFilePreview } from './media-file-preview';
-import { TranslatableField } from "@/components/shared/translatable-field";
+import FileUpload from "@/components/shared/file-upload/FileUpload";
+import { MediaFilePreview } from "./media-file-preview";
+import TranslatableField from "@/components/shared/translatable-field";
+import type { TranslatableEntity } from "@/domains/content-management/types/content";
 
 export const MediaUploadForm: React.FC<{ onSuccess?: () => void }> = ({
   onSuccess,
@@ -34,21 +35,75 @@ export const MediaUploadForm: React.FC<{ onSuccess?: () => void }> = ({
     createSelectedFile,
     setSelectedFile,
   } = useMediaStore();
-  const [validationErrors, setValidationErrors] = useState<
-    Record<string, string>
-  >({});
+  // Single errors state, like category-form
+  const [errors, setErrors] = useState<Record<string, any>>({});
+  const [titleTab, setTitleTab] = useState<"en" | "ne">("en");
+  const [descTab, setDescTab] = useState<"en" | "ne">("en");
+  const [altTab, setAltTab] = useState<"en" | "ne">("en");
   const upload = useUploadMedia();
   const bulkUpload = useBulkUploadMedia();
   const [files, setFiles] = useState<File[]>([]);
   const t = useTranslations("media");
 
+  // Validation and tab switching like category-form
   const validate = (): boolean => {
-    const errors: Record<string, string> = {};
-    if (!files.length) errors.file = t("form.validation.fileRequired");
+    const errs: Record<string, any> = {};
+    let firstInvalidTitleLang: "en" | "ne" | null = null;
+    let firstInvalidDescLang: "en" | "ne" | null = null;
+    let firstInvalidAltLang: "en" | "ne" | null = null;
+
+    const title = createFormState.title ?? { en: "", ne: "" };
+    const description = createFormState.description ?? { en: "", ne: "" };
+    const altText = createFormState.altText ?? { en: "", ne: "" };
+
+    // Title validation
+    if (!title.en?.trim()) {
+      errs.title = {
+        ...(errs.title || {}),
+        en: t("form.validation.titleRequired.en"),
+      };
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "en";
+    }
+    if (!title.ne?.trim()) {
+      errs.title = {
+        ...(errs.title || {}),
+        ne: t("form.validation.titleRequired.ne"),
+      };
+      if (!firstInvalidTitleLang) firstInvalidTitleLang = "ne";
+    }
+
+    // Description validation (if required)
+    // if (!description.en?.trim()) {
+    //   errs.description = { ...(errs.description || {}), en: t("form.validation.descriptionRequiredEn") };
+    //   if (!firstInvalidDescLang) firstInvalidDescLang = "en";
+    // }
+    // if (!description.ne?.trim()) {
+    //   errs.description = { ...(errs.description || {}), ne: t("form.validation.descriptionRequiredNe") };
+    //   if (!firstInvalidDescLang) firstInvalidDescLang = "ne";
+    // }
+
+    // AltText validation (if required)
+    // if (!altText.en?.trim()) {
+    //   errs.altText = { ...(errs.altText || {}), en: t("form.validation.altTextRequiredEn") };
+    //   if (!firstInvalidAltLang) firstInvalidAltLang = "en";
+    // }
+    // if (!altText.ne?.trim()) {
+    //   errs.altText = { ...(errs.altText || {}), ne: t("form.validation.altTextRequiredNe") };
+    //   if (!firstInvalidAltLang) firstInvalidAltLang = "ne";
+    // }
+
+    if (!files.length) errs.file = t("form.validation.fileRequired");
     if (!createFormState.folder)
-      errors.folder = t("form.validation.folderRequired");
-    setValidationErrors(errors);
-    return Object.keys(errors).length === 0;
+      errs.folder = t("form.validation.folderRequired");
+
+    setErrors(errs);
+
+    // Switch tabs for first invalid language in each field
+    if (firstInvalidTitleLang) setTitleTab(firstInvalidTitleLang);
+    if (firstInvalidDescLang) setDescTab(firstInvalidDescLang);
+    if (firstInvalidAltLang) setAltTab(firstInvalidAltLang);
+
+    return Object.keys(errs).length === 0;
   };
 
   useEffect(() => {
@@ -62,11 +117,15 @@ export const MediaUploadForm: React.FC<{ onSuccess?: () => void }> = ({
     if (form) {
       form.addEventListener("submit", handler);
     }
-    const custom = (e: Event) => { e.preventDefault(); e.stopPropagation(); submit(); };
-    container?.addEventListener('media:submit', custom as any);
+    const custom = (e: Event) => {
+      e.preventDefault();
+      e.stopPropagation();
+      submit();
+    };
+    container?.addEventListener("media:submit", custom as any);
     return () => {
       if (form) form.removeEventListener("submit", handler);
-      container?.removeEventListener('media:submit', custom as any);
+      container?.removeEventListener("media:submit", custom as any);
     };
     return undefined;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -89,7 +148,7 @@ export const MediaUploadForm: React.FC<{ onSuccess?: () => void }> = ({
         await bulkUpload.mutateAsync({ files, form: createFormState as any });
       }
       resetFormState("create");
-      setValidationErrors({});
+      setErrors({});
       onSuccess?.();
     } catch (err) {
       // handled by notifications layer
@@ -101,7 +160,8 @@ export const MediaUploadForm: React.FC<{ onSuccess?: () => void }> = ({
   return (
     <div>
       {/* Top action bar */}
-      <div className="flex--row-end m--mb-05">
+      <div className="flex--row-end m--mb-05 header">
+        <h3 className="section-title">{t("sections.basicInfo")}</h3>
         <Button
           kind="ghost"
           size="sm"
@@ -109,7 +169,7 @@ export const MediaUploadForm: React.FC<{ onSuccess?: () => void }> = ({
           onClick={() => {
             resetFormState("create");
             setFiles([]);
-            setValidationErrors({});
+            setErrors({});
           }}
           disabled={isSubmitting}
         >
@@ -124,23 +184,23 @@ export const MediaUploadForm: React.FC<{ onSuccess?: () => void }> = ({
 
       <Grid fullWidth>
         <Column lg={16} md={8} sm={4}>
-          <FormGroup legendText={t("form.files")}>
+          <FormGroup legendText="">
             <FileUpload
               className="media-multi-upload"
               files={files}
               onFilesChange={setFiles}
-              isUploading={isSubmitting || upload.isPending || bulkUpload.isPending}
+              isUploading={
+                isSubmitting || upload.isPending || bulkUpload.isPending
+              }
               accept="image/*,video/*,audio/*,application/pdf"
               multiple
               renderPreview={(file) => <MediaFilePreview file={file} />}
-              labelTitle={t('form.files') as any}
-              labelDescription={t('form.validation.fileRequired') as any}
-              buttonLabel={t('actions.chooseFiles') as any}
+              labelTitle={t("form.files") as any}
+              labelDescription={t("form.validation.fileRequired") as any}
+              buttonLabel={t("actions.chooseFiles") as any}
             />
-            {validationErrors.file && (
-              <div className="cds--form-requirement">
-                {validationErrors.file}
-              </div>
+            {errors.file && (
+              <div className="cds--form-requirement">{errors.file}</div>
             )}
           </FormGroup>
           {/* title english*/}
@@ -148,7 +208,17 @@ export const MediaUploadForm: React.FC<{ onSuccess?: () => void }> = ({
             <TranslatableField
               label={t("form.title") as any}
               value={createFormState.title || { en: "", ne: "" }}
-              onChange={(val) => updateFormField("create", "title", val)}
+              onChange={(val: TranslatableEntity) => {
+                updateFormField("create", "title", val);
+              }}
+              invalid={!!errors.title}
+              invalidText={
+                errors.title && (errors.title.en || errors.title.ne)
+                  ? `${errors.title.en || ""} ${errors.title.ne || ""}`.trim()
+                  : undefined
+              }
+              activeTab={titleTab}
+              setActiveTab={setTitleTab}
             />
             {/* folder */}
             <div className="m--mt-1">
@@ -179,8 +249,8 @@ export const MediaUploadForm: React.FC<{ onSuccess?: () => void }> = ({
                 }
                 label={t("form.folder")}
                 titleText={t("form.folder")}
-                invalid={!!validationErrors.folder}
-                invalidText={validationErrors.folder}
+                invalid={!!errors.folder}
+                invalidText={errors.folder}
               />
             </div>
             {/* public togglebutton */}
@@ -213,9 +283,11 @@ export const MediaUploadForm: React.FC<{ onSuccess?: () => void }> = ({
                     type="textarea"
                     label={t("form.description") as any}
                     value={createFormState.description || { en: "", ne: "" }}
-                    onChange={(val) =>
+                    onChange={(val: TranslatableEntity) =>
                       updateFormField("create", "description", val)
                     }
+                    activeTab={descTab}
+                    setActiveTab={setDescTab}
                   />
                 </div>
                 {/* alt text */}
@@ -223,9 +295,11 @@ export const MediaUploadForm: React.FC<{ onSuccess?: () => void }> = ({
                   <TranslatableField
                     label={t("form.altText") as any}
                     value={createFormState.altText || { en: "", ne: "" }}
-                    onChange={(val) =>
+                    onChange={(val: TranslatableEntity) =>
                       updateFormField("create", "altText", val)
                     }
+                    activeTab={altTab}
+                    setActiveTab={setAltTab}
                   />
                 </div>
                 {/* tags */}

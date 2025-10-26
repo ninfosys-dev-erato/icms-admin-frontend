@@ -30,6 +30,8 @@
     "emptyTitle": "No media found",
     "emptyDescription": "Try adjusting filters or upload new media",
     "items": "items"
+    ,
+    "noResultsForFilters": "No media match the selected filters."
   },
   "card": {
     "active": "Active",
@@ -56,9 +58,11 @@
     "validation": {
       "fileRequired": "Please select at least one file",
       "folderRequired": "Folder is required",
-      "nameRequiredBoth": "Name is required in both languages"
-    }
-    ,
+      "titleRequired": {
+        "en": "English title is required",
+        "ne": "Nepali title is required"
+      }
+    },
     "image": {
       "upload": {
         "uploading": "Uploading…",
@@ -109,9 +113,15 @@
       "isActive": "Active",
       "saving": "Saving…",
       "validation": {
-        "nameRequiredBoth": "Name is required in both languages"
-      }
-      ,
+        "nameRequired": {
+          "en": "English title is required",
+          "ne": "Nepali title is required"
+        },
+        "descriptionRequired": {
+          "en": "English description is required",
+          "ne": "Nepali description is required"
+        }
+      },
       "media": "Media",
       "sortBy": "Sort by",
       "preview": "Preview",
@@ -122,6 +132,13 @@
       },
       "select": "Select",
       "selected": "Selected"
-    }
+    },
+    "sections": {
+    "basicInfo": "Basic Information"
+  }
+  }
+  ,
+  "sections": {
+    "basicInfo": "Basic Information"
   }
 }

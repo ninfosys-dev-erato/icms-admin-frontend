@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   InlineLoading,
   Pagination,
@@ -35,20 +35,53 @@ export const MediaList: React.FC<MediaListProps> = ({
   const queryResult = useMedia(query);
   const t = useTranslations("media");
 
+  const handlePageChange = useCallback((page: number, pageSize?: number) => {
+    setQuery((prev) => ({
+      ...prev,
+      page,
+      limit: pageSize ?? prev.limit,
+    }));
+  }, []);
+
   useEffect(() => {
     setQuery((prev) => ({
       ...prev,
       page: 1,
       search: search || undefined,
-      isActive: statusFilter === "all" ? undefined : statusFilter === "active",
-      isPublic:
-        visibilityFilter === "all" ? undefined : visibilityFilter === "public",
+      isActive: statusFilter === 'active' ? true : undefined,
+      isPublic: visibilityFilter === 'public' ? true : undefined,
     }));
   }, [search, statusFilter, visibilityFilter]);
 
   const data = queryResult.data;
   const items = (data?.data ?? []) as Media[];
-  const pagination = data?.pagination;
+  const parseBool = (v: any) => {
+    if (v === true || v === 'true' || v === 1 || v === '1') return true;
+    if (v === false || v === 'false' || v === 0 || v === '0') return false;
+    return Boolean(v);
+  };
+
+  const filteredItems = items.filter((m) => {
+    if (statusFilter !== "all") {
+      const shouldBeActive = statusFilter === "active";
+      const actualActive = parseBool((m as any).isActive);
+      if (actualActive !== shouldBeActive) return false;
+    }
+    if (visibilityFilter !== "all") {
+      const shouldBePublic = visibilityFilter === "public";
+      const actualPublic = parseBool((m as any).isPublic);
+      if (actualPublic !== shouldBePublic) return false;
+    }
+    return true;
+  });
+  const pagination = data?.pagination || {
+    page: 1,
+    limit: 12,
+    total: 0,
+    totalPages: 0,
+    hasNext: false,
+    hasPrev: false,
+  };
 
   if (queryResult.isLoading && items.length === 0) {
     return (
@@ -60,9 +93,9 @@ export const MediaList: React.FC<MediaListProps> = ({
 
   return (
     <div className="media-list">
-      {items.length > 0 ? (
+      {filteredItems.length > 0 ? (
         <div className="media-flex">
-          {items.map((m) => {
+          {filteredItems.map((m) => {
             const src =
               m.presignedUrl || m.url
                 ? MediaUrlService.toProxyUrl(m.presignedUrl ?? m.url ?? "")
@@ -136,23 +169,25 @@ export const MediaList: React.FC<MediaListProps> = ({
             <p className="empty-state-description">
               {t("list.emptyDescription")}
             </p>
+            {(statusFilter !== 'all' || visibilityFilter !== 'all' || (query?.search && query.search !== '')) && (
+              <p className="empty-state-help">{t('list.noResultsForFilters', { default: 'No media match the selected filters.' } as any)}</p>
+            )}
           </div>
         </div>
       )}
 
-      {!!pagination && items.length > 0 && (
+      {!!pagination && filteredItems.length > 0 && (
         <div className="pagination-container">
           <Pagination
-            page={pagination.page}
-            pageSize={pagination.limit}
+              page={Number(pagination.page) || 1}
+              pageSize={Number(pagination.limit) || 12}
             pageSizes={[12, 24, 48, 96]}
-            totalItems={pagination.total}
-            onChange={({ page, pageSize }) => {
-              if (page !== undefined) setQuery((prev) => ({ ...prev, page }));
-              if (pageSize !== undefined)
-                setQuery((prev) => ({ ...prev, limit: pageSize, page: 1 }));
-            }}
-            size="md"
+              totalItems={(statusFilter !== 'all' || visibilityFilter !== 'all' || (query?.search && query.search !== '')) ? filteredItems.length : (pagination.total || filteredItems.length)}
+            onChange={({ page, pageSize }) => handlePageChange(page, pageSize)}
+            backwardText="Previous"
+            forwardText="Next"
+            itemsPerPageText="Items per page:"
+            pageNumberText="Page Number"
           />
         </div>
       )}

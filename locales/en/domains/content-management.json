@@ -5,7 +5,13 @@
     "home": "Home",
     "contentManagement": "Content Management"
   },
-  
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "itemsPerPage": "Items per page:",
+    "pageNumber": "Page {pageNumber}"
+  },
+
   "actions": {
     "createNew": "New Content",
     "edit": "Edit",
@@ -84,13 +90,19 @@
         "ne": "Enter title in Nepali"
       }
     },
+    "description": {
+      "label": "Description",
+      "placeholder": {
+        "en": "Enter description in English",
+        "ne": "Enter description in Nepali"
+      }
+    },
     "slug": {
       "label": "Slug",
       "placeholder": "Enter URL-friendly slug",
       "helperText": "URL-friendly version of the title (e.g., 'new-policy-announcement')"
     },
     "slugPlaceholder": "auto-generated-from-title",
-    "description": "Description",
     "descriptionPlaceholder": "Enter description",
     "content": {
       "label": "Content",
@@ -161,13 +173,15 @@
   "validation": {
     "errorsTitle": "Validation Errors",
     "titleRequired": "Title is required",
+    "descriptionRequired": "Description is required",
     "slugRequired": "Slug is required",
     "slugFormat": "Slug may contain lowercase letters, numbers and hyphens only",
     "excerptRequired": "Excerpt is required",
     "contentRequired": "Content is required",
     "categoryRequired": "Category is required",
     "categoryNameRequired": "Category name required (EN/NE)",
-    "orderRange": "Order must be a positive number"
+    "orderRange": "Order must be a positive number",
+    "nameMinLength": "Name must be at least 3 characters"
   },
 
   "attachments": {
@@ -400,5 +414,4 @@
   "list": {
     "title": "Contents"
   }
-} 
-
+}

@@ -1,7 +1,14 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Layer, Breadcrumb, BreadcrumbItem, Dropdown, ButtonSet } from "@carbon/react";
+import {
+  Button,
+  Layer,
+  Breadcrumb,
+  BreadcrumbItem,
+  Dropdown,
+  ButtonSet,
+} from "@carbon/react";
 import { SidePanel, CreateSidePanel } from "@carbon/ibm-products";
 import "@/lib/ibm-products/config";
 import { Add, ArrowLeft, Close, Reset } from "@carbon/icons-react";
@@ -9,8 +16,6 @@ import { useTranslations } from "next-intl";
 import { SliderList } from "./slider-list";
 import { SliderForm } from "./slider-form";
 import SidePanelForm from "@/components/shared/side-panel-form";
-import { unstable_FeatureFlags as FeatureFlags } from "@carbon/ibm-products"; // Not available in latest package
-
 import { useSliderStore } from "../stores/slider-store";
 import { useSliders } from "../hooks/use-slider-queries";
 import "../styles/sliders.css";
@@ -33,7 +38,9 @@ export const SliderContainer: React.FC = () => {
   } = useSliderStore();
 
   const { data: listData, isLoading } = useSliders({ page: 1, limit: 12 });
-  const [statusFilter, setStatusFilter] = useState<"all" | "active" | "inactive">("all");
+  const [statusFilter, setStatusFilter] = useState<
+    "all" | "active" | "inactive"
+  >("all");
 
   const handleCreateNew = () => openCreatePanel();
 
@@ -47,14 +54,17 @@ export const SliderContainer: React.FC = () => {
     setStatusFilter("all");
   };
 
-  const panelTitle = panelMode === "edit" ? t("form.editTitle") : t("form.createTitle");
+  const panelTitle =
+    panelMode === "edit" ? t("form.editTitle") : t("form.createTitle");
 
   return (
     <Layer className="slider-container">
       {/* Page Header */}
       <div className="slider-header">
         <Breadcrumb noTrailingSlash className="slider-breadcrumb">
-          <BreadcrumbItem href="#">{t("breadcrumbs.home", { default: "Home" })}</BreadcrumbItem>
+          <BreadcrumbItem href="#">
+            {t("breadcrumbs.home", { default: "Home" })}
+          </BreadcrumbItem>
           <BreadcrumbItem isCurrentPage>{t("title")}</BreadcrumbItem>
         </Breadcrumb>
         <div className="slider-header-content">
@@ -63,10 +73,17 @@ export const SliderContainer: React.FC = () => {
               {t("title", { default: "Sliders" })}
             </h1>
             <p className="slider-subtitle">
-              {t("subtitle", { default: "Manage homepage sliders, images and visibility." })}
+              {t("subtitle", {
+                default: "Manage homepage sliders, images and visibility.",
+              })}
             </p>
           </div>
-          <Button size="lg" renderIcon={Add} onClick={handleCreateNew} kind="primary">
+          <Button
+            size="lg"
+            renderIcon={Add}
+            onClick={handleCreateNew}
+            kind="primary"
+          >
             {t("actions.createNew")}
           </Button>
         </div>
@@ -84,14 +101,26 @@ export const SliderContainer: React.FC = () => {
             { id: "active", label: t("status.active") },
             { id: "inactive", label: t("status.inactive") },
           ]}
-          selectedItem={{ id: statusFilter, label: statusFilter === "all" ? t("filters.all") : statusFilter === "active" ? t("status.active") : statusFilter === "inactive" ? t("status.inactive") : "" }}
+          selectedItem={{
+            id: statusFilter,
+            label:
+              statusFilter === "all"
+                ? t("filters.all")
+                : statusFilter === "active"
+                  ? t("status.active")
+                  : statusFilter === "inactive"
+                    ? t("status.inactive")
+                    : "",
+          }}
           itemToString={(item) => (item ? item.label : "")}
-          onChange={({ selectedItem }) => setStatusFilter((selectedItem?.id || "all") as any)}
+          onChange={({ selectedItem }) =>
+            setStatusFilter((selectedItem?.id || "all") as any)
+          }
         />
-        <Button 
-          kind="ghost" 
-          size="md" 
-          renderIcon={Reset} 
+        <Button
+          kind="ghost"
+          size="md"
+          renderIcon={Reset}
           onClick={handleResetFilters}
           disabled={statusFilter === "all"}
         >
@@ -105,8 +134,7 @@ export const SliderContainer: React.FC = () => {
       </div>
 
       {/* Right side panel for create/edit */}
-      <FeatureFlags enableSidepanelResizer>
-      <SidePanelForm
+      <CreateSidePanel
         title={panelTitle}
         subtitle={panelMode === "edit" ? panelSlider?.title?.en : undefined}
         open={!!panelOpen}
@@ -117,26 +145,31 @@ export const SliderContainer: React.FC = () => {
         }}
         primaryButtonText={
           isSubmitting
-            ? panelMode === 'edit'
-              ? t('actions.updating')
-              : t('actions.creating')
-            : panelMode === 'edit'
-              ? t('actions.update')
-              : t('actions.createNew')
+            ? panelMode === "edit"
+              ? t("actions.updating")
+              : t("actions.creating")
+            : panelMode === "edit"
+              ? t("actions.update")
+              : t("actions.createNew")
         }
-        secondaryButtonText={t('actions.cancel')}
+        secondaryButtonText={t("actions.cancel")}
         onRequestSubmit={() => {
           if (isSubmitting) return;
           setSubmitting(true);
-          const formContainer = document.getElementById('slider-form');
+          const formContainer = document.getElementById("slider-form");
 
           if (formContainer) {
-            const form = formContainer.closest('form') as HTMLFormElement;
+            const form = formContainer.closest("form") as HTMLFormElement;
             if (form) {
-              const submitEvent = new Event('submit', { cancelable: true, bubbles: true });
+              const submitEvent = new Event("submit", {
+                cancelable: true,
+                bubbles: true,
+              });
               form.dispatchEvent(submitEvent);
             } else {
-              const customSubmitEvent = new CustomEvent('formSubmit', { bubbles: true });
+              const customSubmitEvent = new CustomEvent("formSubmit", {
+                bubbles: true,
+              });
               formContainer.dispatchEvent(customSubmitEvent);
             }
           } else {
@@ -144,7 +177,7 @@ export const SliderContainer: React.FC = () => {
           }
         }}
         selectorPageContent="#main-content"
-        formTitle={t('sections.basicInfo')}
+        formTitle=""
         selectorPrimaryFocus="input, textarea, [tabindex]:not([tabindex='-1'])"
         className="slider-sidepanel-form"
       >
@@ -159,10 +192,14 @@ export const SliderContainer: React.FC = () => {
           />
         </div>
         <div className="slider-form-panel-content">
-          <SliderForm mode={panelMode} slider={panelSlider as any} onSuccess={handleFormSuccess} onCancel={closePanel} />
+          <SliderForm
+            mode={panelMode}
+            slider={panelSlider as any}
+            onSuccess={handleFormSuccess}
+            onCancel={closePanel}
+          />
         </div>
-      </SidePanelForm>
-      </FeatureFlags>
+      </CreateSidePanel>
     </Layer>
   );
 };
