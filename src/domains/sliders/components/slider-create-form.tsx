@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { useSliders } from "../hooks/use-slider-queries";
 import {
   FormGroup,
   NumberInput,
@@ -17,10 +18,7 @@ import { TranslatableField } from "@/components/shared/translatable-field";
 import { SliderImageUpload } from "./slider-image-upload";
 import { SliderFormData } from "../types/slider";
 import { useSliderStore } from "../stores/slider-store";
-import {
-  useCreateSliderWithImage,
-  useSliders,
-} from "../hooks/use-slider-queries";
+import { useCreateSliderWithImage } from "../hooks/use-slider-queries";
 
 interface SliderCreateFormProps {
   onSuccess?: () => void;
@@ -33,9 +31,6 @@ export const SliderCreateForm: React.FC<SliderCreateFormProps> = ({
   onCancel,
   className,
 }) => {
-  // Fetch all sliders to determine the next position
-  const { data: slidersData } = useSliders({ page: 1, limit: 10000 });
-  const sliderCount = slidersData?.data?.length || 0;
   const t = useTranslations("sliders");
   const createMutation = useCreateSliderWithImage();
   const {
@@ -48,17 +43,10 @@ export const SliderCreateForm: React.FC<SliderCreateFormProps> = ({
     resetCreateForm,
   } = useSliderStore();
 
-  // Set default position when form is opened or reset
-  useEffect(() => {
-    if (
-      !createFormState.position ||
-      createFormState.position < 1 ||
-      createFormState.position !== sliderCount + 1
-    ) {
-      updateFormField("create", "position", sliderCount + 1);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sliderCount]);
+  // Form state is managed in store (persisted). Keep only validation locally.
+
+  const { data: slidersData } = useSliders({ page: 1, limit: 10000 });
+  const sliderCount = slidersData?.data?.length || 0;
 
   // Validation state
   const [validationErrors, setValidationErrors] = useState<
@@ -70,6 +58,12 @@ export const SliderCreateForm: React.FC<SliderCreateFormProps> = ({
   const selectedFile = createSelectedFile;
 
   // Per-language validation and tab switching
+
+  // Set position to sliderCount + 1 on mount and after reset
+  useEffect(() => {
+    updateFormField("create", "position", sliderCount + 1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sliderCount]);
   const validateForm = (): boolean => {
     const errors: Record<string, string> = {};
     let firstInvalid: { lang: "en" | "ne" } | null = null;
@@ -283,7 +277,9 @@ export const SliderCreateForm: React.FC<SliderCreateFormProps> = ({
       <div id="slider-form">
         {/* Top action bar */}
         <div className="slider-form-action-bar">
-          <div className="basic-info-title"><h4>{t("sections.basicInfo")}</h4></div>
+          <div className="basic-info-title">
+            <h4>{t("sections.basicInfo")}</h4>
+          </div>
           <Button
             kind="ghost"
             size="sm"
@@ -327,7 +323,11 @@ export const SliderCreateForm: React.FC<SliderCreateFormProps> = ({
                   id="position"
                   label={t("form.position.label")}
                   value={createFormState.position}
-                  readOnly
+                  onChange={(event, { value }) => {
+                    if (value !== undefined) {
+                      handleInputChange("position", value);
+                    }
+                  }}
                   min={1}
                   step={1}
                   invalid={!!validationErrors.position}

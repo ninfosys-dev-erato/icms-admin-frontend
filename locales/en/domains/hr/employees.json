@@ -62,6 +62,8 @@
       "subtitle": "Upload a professional photo for the employee",
       "placeholder": "Drag and drop a photo here, or click to browse",
       "uploadButton": "Choose Photo",
+      "changeButton": "Change Photo",
+      "updateButton": "Update Photo", 
       "remove": "Remove Photo",
       "uploading": "Uploading photo...",
       "loading": "Loading photo..."
@@ -108,15 +110,15 @@
     "deleteFailed": "Failed to delete employee",
     "validation": {
       "nameRequired": "Employee name is required",
-      "nameMinLength": "Employee name must be at least 3 characters",
+      "nameMinLength": "Employee name must be at least 4 characters",
       "nameMaxLength": "Employee name cannot exceed 100 characters",
       "positionRequired": "Position is required",
       "departmentRequired": "Department is required",
-        "orderInvalid": "Order must be a positive number",
-        "nameEnRequired": "English employee name is required",
-        "nameNeRequired": "Nepali employee name is required",
-        "positionEnRequired": "English position is required",
-        "positionNeRequired": "Nepali position is required"
+      "orderInvalid": "Order must be a positive number",
+      "nameEnRequired": "English employee name is required",
+      "nameNeRequired": "Nepali employee name is required",
+      "positionEnRequired": "English position is required",
+      "positionNeRequired": "Nepali position is required"
     }
   },
   "status": {

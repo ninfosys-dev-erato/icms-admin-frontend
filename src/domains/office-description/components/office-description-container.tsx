@@ -19,7 +19,6 @@ import { useDeleteOfficeDescription } from "../hooks/use-office-description-quer
 import ConfirmDeleteModal from "@/components/shared/confirm-delete-modal";
 import { NotificationService } from "@/services/notification-service";
 import { OfficeDescriptionForm } from "./office-description-form";
-import { unstable_FeatureFlags as FeatureFlags } from "@carbon/ibm-products"; // Not available in latest package
 import SidePanelForm from "@/components/shared/side-panel-form";
 import "@/lib/ibm-products/config";
 import "../styles/office-description.css";
@@ -301,7 +300,6 @@ export const OfficeDescriptionContainer: React.FC = () => {
       </div>
 
       {/* Right side panel for create/edit */}
-      <FeatureFlags enableSidepanelResizer>
         <SidePanelForm
           title={
             panelMode === "edit" ? t("form.editTitle") : t("form.createTitle")
@@ -357,7 +355,6 @@ export const OfficeDescriptionContainer: React.FC = () => {
             />
           </div>
         </SidePanelForm>
-      </FeatureFlags>
       <ConfirmDeleteModal
         open={deleteModalOpen}
         title={t("delete.title", { default: "Confirm Deletion" })}

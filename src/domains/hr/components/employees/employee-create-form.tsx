@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Grid,
   Column,
@@ -79,11 +79,17 @@ export const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
         default: t("errors.validation.nameRequired"),
       });
       if (!firstInvalidField) firstInvalidField = "employee-name-en";
+    } else if (createEmployeeForm.name.en.trim().length < 4) {
+      errors.name_en = t("errors.validation.nameMinLength", { min: 4 });
+      if (!firstInvalidField) firstInvalidField = "employee-name-en";
     }
     if (!createEmployeeForm.name.ne.trim()) {
       errors.name_ne = t("errors.validation.nameNeRequired", {
         default: t("errors.validation.nameRequired"),
       });
+      if (!firstInvalidField) firstInvalidField = "employee-name-ne";
+    } else if (createEmployeeForm.name.ne.trim().length < 4) {
+      errors.name_ne = t("errors.validation.nameMinLength", { min: 4 });
       if (!firstInvalidField) firstInvalidField = "employee-name-ne";
     }
     // Position field per-language errors
@@ -135,23 +141,7 @@ export const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
     return Object.keys(errors).length === 0;
   };
 
-  useEffect(() => {
-    const handler = (e: Event) => {
-      e.preventDefault();
-      e.stopPropagation();
-      submit();
-    };
-    const container = document.getElementById("hr-form");
-    const form = container?.closest("form");
-    if (form) {
-      form.addEventListener("submit", handler);
-      return () => form.removeEventListener("submit", handler);
-    }
-    return undefined;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [createEmployeeForm]);
-
-  const submit = async () => {
+  const submit = useCallback(async () => {
     setSubmitting(true);
     if (!validate()) {
       setSubmitting(false);
@@ -245,7 +235,32 @@ export const EmployeeCreateForm: React.FC<EmployeeCreateFormProps> = ({
     } finally {
       setSubmitting(false);
     }
-  };
+  }, [
+    createEmployeeForm,
+    createSelectedFile,
+    createMutation,
+    employeeCount,
+    onSuccess,
+    resetEmployeeForm,
+    resetFormState,
+    setSubmitting,
+    updateEmployeeFormField,
+  ]);
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      e.preventDefault();
+      e.stopPropagation();
+      submit();
+    };
+    const container = document.getElementById("hr-form");
+    const form = container?.closest("form");
+    if (form) {
+      form.addEventListener("submit", handler);
+      return () => form.removeEventListener("submit", handler);
+    }
+    return undefined;
+  }, [submit]);
 
   const handlePhotoUpload = (file: File) => {
     console.log("Photo upload handler called with file:", file);
