@@ -110,6 +110,7 @@ export const useHRUIStore = create<HRUIStore>()(
       isSubmitting: false,
       selectedTabIndex: 0,
       activeFormId: null,
+      uploadPhotoMutation: null, // Placeholder for photo upload mutation
 
       departmentFormById: {},
       employeeFormById: {},

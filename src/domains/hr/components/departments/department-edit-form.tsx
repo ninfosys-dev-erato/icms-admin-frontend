@@ -138,9 +138,6 @@ export const DepartmentEditForm: React.FC<DepartmentEditFormProps> = ({
     <div>
       <div id="hr-form">
         {/* Top action bar */}
-        <div className="department-edit-form-actionbar">
-          {/* removed reset button from edit form */}
-        </div>
         {isSubmitting && (
           <div className="department-edit-form-loading">
             <InlineLoading description={t("form.saving")} />
