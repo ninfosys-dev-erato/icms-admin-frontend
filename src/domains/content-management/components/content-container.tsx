@@ -73,12 +73,25 @@ export const ContentContainer: React.FC = () => {
   const currentActiveEntity = selectedTabIndex === 0 ? 'content' : 'category';
 
   const handleCreateNew = useCallback(() => {
-    if (selectedTabIndex === 0) {
-      openCreateContentPanel();
+    // Close panel first if it's open
+    if (panelOpen) {
+      closePanel();
+      // Small delay to allow panel to close before opening new one
+      setTimeout(() => {
+        if (selectedTabIndex === 0) {
+          openCreateContentPanel();
+        } else {
+          openCreateCategoryPanel();
+        }
+      }, 150);
     } else {
-      openCreateCategoryPanel();
+      if (selectedTabIndex === 0) {
+        openCreateContentPanel();
+      } else {
+        openCreateCategoryPanel();
+      }
     }
-  }, [selectedTabIndex, openCreateContentPanel, openCreateCategoryPanel]);
+  }, [selectedTabIndex, openCreateContentPanel, openCreateCategoryPanel, panelOpen, closePanel]);
 
   const handleEdit = useCallback((content: import("@/domains/content-management/types/content").Content) =>
     openEditContentPanel(content), [openEditContentPanel]);
@@ -162,6 +175,14 @@ export const ContentContainer: React.FC = () => {
     closePanel();
     // TanStack Query will automatically refetch data when mutations succeed
   }, [closePanel]);
+
+  const handleTabChange = useCallback((tabIndex: number) => {
+    // Close panel when switching tabs
+    if (panelOpen) {
+      closePanel();
+    }
+    setSelectedTabIndex(tabIndex);
+  }, [panelOpen, closePanel]);
 
   const handleRequestSubmit = useCallback(() => {
     // Handle form submission - use the same pattern as slider container
@@ -267,14 +288,14 @@ export const ContentContainer: React.FC = () => {
           <button
             type="button"
             className={`hr-tab-button ${selectedTabIndex === 0 ? "active" : ""}`}
-            onClick={() => setSelectedTabIndex(0)}
+            onClick={() => handleTabChange(0)}
           >
             {t("list.title", { default: "Contents" })}
           </button>
           <button
             type="button"
             className={`hr-tab-button ${selectedTabIndex === 1 ? "active" : ""}`}
-            onClick={() => setSelectedTabIndex(1)}
+            onClick={() => handleTabChange(1)}
           >
             {t("categories.list.title", { default: "Categories" })}
           </button>

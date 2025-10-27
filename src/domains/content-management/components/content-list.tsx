@@ -19,8 +19,9 @@ import {
 } from "@carbon/react";
 import { RowActions } from "@/components/shared/row-actions";
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useDeleteContent } from "../hooks/use-content-queries";
+import { useContentStore } from "../stores/content-store";
 import ConfirmDeleteModal from "@/components/shared/confirm-delete-modal";
 import "../styles/content-management.css";
 import { Content, ContentStatus, ContentVisibility } from "../types/content";
@@ -41,6 +42,7 @@ export const ContentList: React.FC<ContentListProps> = ({
   isLoading
 }) => {
   const t = useTranslations("content-management");
+  const { panelOpen, closePanel } = useContentStore();
   const deleteMutation = useDeleteContent();
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [selectedContent, setSelectedContent] = useState<Content | null>(null);
@@ -95,6 +97,19 @@ export const ContentList: React.FC<ContentListProps> = ({
     setIsConfirmOpen(false);
     setSelectedContent(null);
   };
+
+  // Handle row click - close panel if it's open
+  const handleRowClick = useCallback((e: React.MouseEvent) => {
+    // Don't close if clicking on buttons or actions
+    const target = e.target as HTMLElement;
+    if (target.closest('button') || target.closest('[role="menuitem"]')) {
+      return;
+    }
+    
+    if (panelOpen) {
+      closePanel();
+    }
+  }, [panelOpen, closePanel]);
 
   // Handle attachment management
   const handleManageAttachments = (contentId: string) => {
@@ -191,7 +206,12 @@ export const ContentList: React.FC<ContentListProps> = ({
                 }
                 
                 return (
-                  <TableRow key={content.id || index} className="compact-row">
+                  <TableRow 
+                    key={content.id || index} 
+                    className="compact-row"
+                    onClick={handleRowClick}
+                    style={{ cursor: panelOpen ? 'pointer' : 'default' }}
+                  >
                     <TableCell>
                       <div className="content-title-cell">
                         {content.featuredImageId && (

@@ -32,7 +32,7 @@ interface CategoryListProps {
 export const CategoryList: React.FC<CategoryListProps> = React.memo(
   ({ onCreate }) => {
     const t = useTranslations("content-management");
-    const { openEditCategoryPanel } = useContentStore();
+    const { openEditCategoryPanel, closePanel, panelOpen } = useContentStore();
     const deleteMutation = useDeleteCategory();
 
     // Local pagination state (default 10 per page)
@@ -102,6 +102,13 @@ export const CategoryList: React.FC<CategoryListProps> = React.memo(
       },
       [openEditCategoryPanel]
     );
+
+    // Handle row click - close panel if it's open
+    const handleRowClick = useCallback(() => {
+      if (panelOpen) {
+        closePanel();
+      }
+    }, [panelOpen, closePanel]);
 
     // Memoize the delete handler
     const handleDeleteCategory = useCallback(
@@ -200,7 +207,7 @@ export const CategoryList: React.FC<CategoryListProps> = React.memo(
                 </TableHead>
                 <TableBody>
                   {displayCategories.map((cat) => (
-                    <TableRow key={cat.id}>
+                    <TableRow key={cat.id} onClick={handleRowClick} style={{ cursor: panelOpen ? 'pointer' : 'default' }}>
                       <TableCell className="font-en">
                         {cat.name.en || cat.name.ne}
                       </TableCell>
