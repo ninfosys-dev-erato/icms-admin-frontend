@@ -79,7 +79,8 @@ export const NavigationContainer: React.FC = () => {
       .replace(/\p{Diacritic}/gu, "")
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "");
-    router.push(`/admin/dashboard/navigation/${slug || menu.id}`);
+    // router.push(`/admin/dashboard/navigation/${slug || menu.id}`);
+    router.push(`/admin/navigation/${slug || menu.id}`);
   };
 
   const handleBackToMenus = () => {
