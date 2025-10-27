@@ -1375,3 +1375,51 @@
             margin-left: 1rem;
           }
         }
+        /* ===============================
+   NAVIGATION FORM - BASIC INFORMATION HEADER
+   Matches Document Form Styling
+   =============================== */
+
+.navigation-create-form-actionbar,
+.navigation-edit-form-actionbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.navigation-create-form-actionbar h3,
+.navigation-edit-form-actionbar h3 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+  color: var(--cds-text-01);
+}
+
+.navigation-create-form-actionbar .cds--btn--ghost,
+.navigation-edit-form-actionbar .cds--btn--ghost {
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--cds-text-02);
+}
+
+/* Utility for alignment and font */
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.font-16 {
+  font-size: 16px;
+}
+
+/* Responsive adjustment for narrow screens */
+@media (max-width: 768px) {
+  .navigation-create-form-actionbar,
+  .navigation-edit-form-actionbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
