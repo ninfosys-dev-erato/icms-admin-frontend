@@ -204,15 +204,7 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
         {/* Action Bar with Heading */}
         <div className="document-create-form-actionbar flex">
           <h3 className="font-16">{t("sections.basicInfo")}</h3>
-          <Button
-            kind="ghost"
-            size="sm"
-            renderIcon={Reset}
-            onClick={handleResetForm}
-            disabled={isSubmitting || updateMutation.isPending}
-          >
-            {t("actions.reset")}
-          </Button>
+        
         </div>
 
         {isSubmitting && (
