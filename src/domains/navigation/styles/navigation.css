@@ -1434,3 +1434,76 @@
 .navigation-edit-form-actionbar .cds--btn--ghost:hover {
   color: var(--cds-interactive-02);
 }
+
+/* //here new */
+
+
+/* Applies only to the last card in each row */
+.menu-card-premium:nth-child(4n) .cds--overflow-menu-options,
+.menu-card-premium:last-child .cds--overflow-menu-options {
+  transform: translateX(-40%) translateY(4px) !important;
+  right: 0 !important;
+  left: auto !important;
+}
+
+/* ✅ Fix overflow dropdown for rightmost cards */
+.menu-cards-grid > .menu-card-premium:nth-child(4n) .cds--overflow-menu-options,
+.menu-cards-grid > .menu-card-premium:last-child .cds--overflow-menu-options {
+  transform: translateX(-70%) translateY(4px) !important;
+  right: 0 !important;
+  left: auto !important;
+}
+@media (max-width: 1200px) {
+  .menu-cards-grid > .menu-card-premium:nth-child(3n) .cds--overflow-menu-options {
+    transform: translateX(-70%) translateY(4px) !important;
+  }
+}
+/* ========================================
+   Prevent right-edge dropdown overflow
+   ======================================== */
+.menu-card-premium {
+  position: relative;
+}
+
+/* Default dropdown positioning (keep as-is for normal cards) */
+.menu-card-premium .cds--overflow-menu-options {
+  right: 0 !important;
+  left: auto !important;
+  transform: translateY(4px) !important;
+}
+
+/* ✅ Smart adjustment when the card is close to the right edge */
+.menu-card-premium .cds--overflow-menu-options {
+  transform-origin: top right !important;
+}
+
+/* Shift only if dropdown would go off-screen */
+.menu-card-premium .cds--overflow-menu-options[data-overflow='right-edge'] {
+  transform: translateX(-60%) translateY(4px) !important;
+  right: auto !important;
+  left: auto !important;
+}
+/* === OverflowMenu Fix === */
+.menu-card-premium__overflow-wrapper {
+  position: relative;
+}
+
+.menu-card-premium__overflow-wrapper .cds--overflow-menu-options {
+  transform: translateY(4px) translateX(0) !important;
+  transform-origin: top right;
+}
+
+/* When near right edge, push left */
+.menu-card-premium__overflow-wrapper[data-overflow="right-edge"]
+  .cds--overflow-menu-options {
+  transform: translateY(4px) translateX(-60%) !important;
+  transform-origin: top right;
+}
+.cds--overflow-menu-options {
+  z-index: 9999;
+  min-width: 160px;
+  background: var(--cds-ui-01, #fff);
+  border: 1px solid var(--cds-ui-03, #e0e0e0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+}
