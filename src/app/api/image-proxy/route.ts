@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Validate that the URL is from Backblaze (security measure)
+    // Validate that the URL is from cloudflare
     if (!imageUrl.includes('r2.cloudflarestorage.com')) {
       return NextResponse.json(
         { error: 'Invalid image source' },
