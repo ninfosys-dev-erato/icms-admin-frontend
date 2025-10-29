@@ -1,3 +1,5 @@
+
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -11,7 +13,7 @@ import {
   TextInput,
   FormGroup,
 } from "@carbon/react";
-import { Reset, Add } from "@carbon/icons-react";
+import { Reset } from "@carbon/icons-react";
 import { useTranslations } from "next-intl";
 import { TranslatableField } from "@/components/shared/translatable-field";
 
@@ -28,7 +30,6 @@ interface ImportantLinksCreateFormProps {
 export const ImportantLinksCreateForm: React.FC<
   ImportantLinksCreateFormProps
 > = ({ onSuccess, onCancel, className }) => {
-  // Fix: Declare tab state for TranslatableField
   const [titleTab, setTitleTab] = useState<'en' | 'ne'>('en');
   const t = useTranslations("important-links");
   const createMutation = useCreateImportantLink();
@@ -43,7 +44,6 @@ export const ImportantLinksCreateForm: React.FC<
     resetCreateForm,
   } = useImportantLinksStore();
 
-  // Ensure default order is set when form opens or link count changes
   useEffect(() => {
     if (!createFormState.order || createFormState.order < 1) {
       updateFormField("create", "order", linkCount + 1);
@@ -84,7 +84,6 @@ export const ImportantLinksCreateForm: React.FC<
     return Object.keys(errors).length === 0;
   };
 
-  // Listen for parent form submit
   useEffect(() => {
     const handleParentFormSubmit = (e: Event) => {
       e.preventDefault();
@@ -176,7 +175,9 @@ export const ImportantLinksCreateForm: React.FC<
   return (
     <div>
       <div id="important-links-form">
-        <div className="important-links-form-action-bar">
+        {/* Action Bar with Heading */}
+        <div className="document-create-form-actionbar flex">
+          <h3 className="font-16">{t("sections.basicInfo")}</h3>
           <Button
             kind="ghost"
             size="sm"

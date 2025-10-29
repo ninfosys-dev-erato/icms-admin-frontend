@@ -2,7 +2,7 @@
 
 import React, { useMemo, useState } from "react";
 import SidePanelForm from "@/components/shared/side-panel-form";
-import { unstable_FeatureFlags as FeatureFlags } from "@carbon/ibm-products";
+// import { unstable_FeatureFlags as FeatureFlags } from "@carbon/ibm-products";
 import { ArrowLeft, Close } from "@carbon/icons-react";
 import { Layer, Breadcrumb, BreadcrumbItem, Button } from "@carbon/react";
 import { useTranslations } from "next-intl";
@@ -138,7 +138,7 @@ export default function NavigationManageItemsPage({}: PageProps) {
             href="#"
             onClick={(e) => {
               e.preventDefault();
-              router.push("/admin/dashboard/navigation");
+              router.push("/admin/navigation");
             }}
           >
             {t("title", { default: "Navigation" })}
@@ -155,7 +155,8 @@ export default function NavigationManageItemsPage({}: PageProps) {
               kind="ghost"
               size="md"
               className="page-header-premium__button"
-              onClick={() => router.push("/admin/dashboard/navigation")}
+              // onClick={() => router.push("/admin/dashboard/navigation")}
+              onClick={() => router.push("/admin/navigation")}
             >
               <ArrowLeft size={16} style={{ marginRight: "0.5rem" }} />
               {t("actions.backToMenus", { default: "Back to Menus" })}
@@ -185,7 +186,7 @@ export default function NavigationManageItemsPage({}: PageProps) {
       </div>
 
       {/* Side panel (reuse same as container) */}
-      <FeatureFlags enableSidepanelResizer={true}>
+      {/* <FeatureFlags enableSidepanelResizer={true}> */}
         <SidePanelForm
           title={
             panelMenuItem
@@ -267,7 +268,7 @@ export default function NavigationManageItemsPage({}: PageProps) {
             )}
           </div>
         </SidePanelForm>
-      </FeatureFlags>
+      {/* </FeatureFlags> */}
       <ConfirmDeleteModal
         open={deleteModalOpen}
         title={t("menuItems.delete.title", { default: "Confirm Deletion" })}

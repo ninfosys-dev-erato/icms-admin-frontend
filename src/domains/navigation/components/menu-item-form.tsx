@@ -156,6 +156,21 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
       });
     }
 
+
+    // Validate categorySlug (required)
+    if (!formData.categorySlug) {
+      errors.categorySlug = t("navigation.categorySlug", {
+        default: "Category is required",
+      });
+    }
+
+    // Validate contentSlug (required)
+    if (!formData.contentSlug) {
+      errors.contentSlug = t("navigation.contentSlug", {
+        default: "Content is required",
+      });
+    }
+
     // Validate order
     if (formData.order < 1) {
       errors.order = t("menuItems.form.order.validation.minimum", {
@@ -498,7 +513,7 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
                       default: "Icon class or identifier",
                     })}
                     helperText={t("menuItems.form.icon.helper", {
-                      default: "Optional icon for the menu item",
+                      default: "Icon for the menu item",
                     })}
                   />
                 </div>
@@ -540,10 +555,10 @@ export const MenuItemForm: React.FC<MenuItemFormProps> = ({
                       handleInputChange("itemId", event.target.value)
                     }
                     placeholder={t("menuItems.form.itemId.placeholder", {
-                      default: "Optional custom identifier",
+                      default: "Custom identifier",
                     })}
                     helperText={t("menuItems.form.itemId.helper", {
-                      default: "Optional custom ID for linking to content",
+                      default: "Custom ID for linking to content",
                     })}
                   />
                 </div>
