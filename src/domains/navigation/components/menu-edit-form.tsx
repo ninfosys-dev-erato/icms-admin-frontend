@@ -1,3 +1,5 @@
+
+
 "use client";
 
 import React, { useEffect, useMemo, useState, useCallback } from "react";
@@ -64,9 +66,6 @@ export const MenuEditForm: React.FC<MenuEditFormProps> = ({
     isPublished: menu.isPublished,
     categorySlug: menu.categorySlug || "", // Include categorySlug
   };
-
-  // Debug: Log the menu object to see what fields are available
-  // removed debug logging
 
   // Validation state
   const [validationErrors, setValidationErrors] = useState<
@@ -258,6 +257,11 @@ export const MenuEditForm: React.FC<MenuEditFormProps> = ({
   return (
     <div>
       <div id="menu-form">
+        {/* ✅ ADDED: Basic Information header bar like document form */}
+        <div className="navigation-edit-form-actionbar flex">
+          <h3 className="font-16">{t("sections.basicInfo")}</h3>
+        </div>
+
         {isSubmitting && (
           <div style={{ marginBottom: "1rem" }}>
             <InlineLoading
