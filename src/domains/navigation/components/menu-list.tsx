@@ -74,15 +74,13 @@ export const MenuList: React.FC<MenuListProps> = ({
   const safeMenus: MenuType[] = Array.isArray(propMenus)
     ? propMenus
     : Array.isArray(listData?.data)
-      ? listData.data
-      : [];
+    ? listData.data
+    : [];
 
-  // Reset to first page when filters change
   useEffect(() => {
     setCurrentQuery((prev) => ({ ...prev, page: 1 }));
   }, [statusFilter, locationFilter]);
 
-  // Handle pagination
   const handlePageChange = useCallback(
     (page: number) => {
       const newQuery = { ...currentQuery, page };
@@ -99,25 +97,9 @@ export const MenuList: React.FC<MenuListProps> = ({
     [currentQuery]
   );
 
-  // Handle single menu actions
-  const handlePublish = (menu: MenuType) => {
-    if (menu.isPublished) {
-      unpublishMutation.mutate(menu.id);
-    } else {
-      publishMutation.mutate(menu.id);
-    }
-  };
-
   const handleDelete = (menu: MenuType) => {
     setMenuToDelete(menu);
     setDeleteModalOpen(true);
-  };
-
-  const confirmDelete = () => {
-    if (!menuToDelete) return;
-    deleteMutation.mutate(menuToDelete.id);
-    setDeleteModalOpen(false);
-    setMenuToDelete(null);
   };
 
   const goToManageItems = (menu: MenuType) => {
@@ -132,8 +114,6 @@ export const MenuList: React.FC<MenuListProps> = ({
     // router.push(`/admin/dashboard/navigation/${slug || menu.id}`);
   };
 
-  // Apply client-side filtering as a fallback so the UI filters work even when
-  // the server-side query isn't immediately reflecting filter changes.
   const displayMenus = safeMenus.filter((menu) => {
     // statusFilter: 'all' | 'active' | 'inactive'
     if (statusFilter !== "all") {
@@ -157,7 +137,7 @@ export const MenuList: React.FC<MenuListProps> = ({
     if (locationFilter !== "all") {
       if (menu.location !== locationFilter) return false;
     }
-
+    if (locationFilter !== "all" && menu.location !== locationFilter) return false;
     return true;
   });
 
@@ -195,9 +175,39 @@ export const MenuList: React.FC<MenuListProps> = ({
     }
   };
 
+  // ✅ Overflow fix
+  useEffect(() => {
+  function adjustOverflowMenus() {
+    const dropdowns = document.querySelectorAll<HTMLElement>(
+      ".cds--overflow-menu-options"
+    );
+    dropdowns.forEach((el) => {
+      el.style.transform = ""; // reset
+      const rect = el.getBoundingClientRect();
+
+      // if dropdown is near the right edge, shift it left
+      if (rect.right > window.innerWidth - 8) {
+        const overflowAmount = rect.right - (window.innerWidth - 8);
+        el.style.transform = `translateX(-${overflowAmount + 20}px)`; // shift just enough
+      }
+
+      // if dropdown is near the left edge, nudge right
+      if (rect.left < 8) {
+        el.style.transform = `translateX(${Math.abs(rect.left) + 8}px)`;
+      }
+    });
+  }
+
+  document.addEventListener("click", adjustOverflowMenus);
+  window.addEventListener("resize", adjustOverflowMenus);
+  return () => {
+    document.removeEventListener("click", adjustOverflowMenus);
+    window.removeEventListener("resize", adjustOverflowMenus);
+  };
+}, []);
+
   return (
     <div className="menu-list">
-      {/* Content area */}
       {isLoading && safeMenus.length === 0 ? (
         <div className="loading-container">
           <InlineLoading
@@ -206,7 +216,6 @@ export const MenuList: React.FC<MenuListProps> = ({
         </div>
       ) : (
         <>
-          {/* Premium Menu Cards - Slider-Style Design */}
           {displayMenus.length > 0 ? (
             <div className="menu-cards-grid">
               {displayMenus.map((menu: MenuType, index: number) => {
@@ -218,11 +227,8 @@ export const MenuList: React.FC<MenuListProps> = ({
                 return (
                   <div key={menu.id} className="menu-card-wrapper">
                     <div className="menu-card-premium">
-                      {/* Card Header with Number Badge */}
                       <div className="menu-card-premium__header">
-                        <div className="menu-card-premium__number">
-                          #{index + 1}
-                        </div>
+                        <div className="menu-card-premium__number">#{index + 1}</div>
                         <div className="menu-card-premium__actions">
                           <OverflowMenu
                             size="sm"
@@ -259,21 +265,38 @@ export const MenuList: React.FC<MenuListProps> = ({
                               })}
                               onClick={() => handleDelete(menu)}
                             >
-                              <TrashCan size={16} />
-                            </OverflowMenuItem>
-                          </OverflowMenu>
+                              <OverflowMenuItem
+                                itemText={t("table.actions.edit", { default: "Edit" })}
+                                onClick={() => onEdit?.(menu)}
+                              >
+                                <Edit size={16} />
+                              </OverflowMenuItem>
+                              <OverflowMenuItem
+                                itemText={t("table.actions.manageItems", { default: "Manage Items" })}
+                                onClick={() =>
+                                  onManageItems ? onManageItems(menu) : goToManageItems(menu)
+                                }
+                              >
+                                <Menu size={16} />
+                              </OverflowMenuItem>
+                              <OverflowMenuItem
+                                hasDivider
+                                isDelete
+                                itemText={t("table.actions.delete", { default: "Delete" })}
+                                onClick={() => handleDelete(menu)}
+                              >
+                                <TrashCan size={16} />
+                              </OverflowMenuItem>
+                            </OverflowMenu>
+                          </div>
                         </div>
                       </div>
 
-                      {/* Card Content */}
                       <div className="menu-card-premium__content">
                         <div className="menu-card-premium__title-section">
-                          <h3 className="menu-card-premium__title">
-                            {displayName}
-                          </h3>
+                          <h3 className="menu-card-premium__title">{displayName}</h3>
                         </div>
 
-                        {/* Status and Metadata Row */}
                         <div className="menu-card-premium__meta-row">
                           <div className="menu-card-premium__status-tags">
                             <Tag
@@ -320,7 +343,6 @@ export const MenuList: React.FC<MenuListProps> = ({
               })}
             </div>
           ) : (
-            /* Empty State following IBM Carbon Design Guidelines */
             <div className="empty-state">
               <div className="empty-state-content">
                 <div className="empty-state-icon">
@@ -363,7 +385,6 @@ export const MenuList: React.FC<MenuListProps> = ({
             </div>
           )}
 
-          {/* Pagination */}
           {(() => {
             const totalItems = pagination?.total ?? 0;
             const shouldShowPagination =
@@ -376,12 +397,8 @@ export const MenuList: React.FC<MenuListProps> = ({
                   pageSizes={[12, 24, 48, 96]}
                   totalItems={totalItems}
                   onChange={({ page, pageSize }) => {
-                    if (page !== undefined) {
-                      handlePageChange(page);
-                    }
-                    if (pageSize !== undefined) {
-                      handlePageSizeChange(pageSize);
-                    }
+                    if (page !== undefined) handlePageChange(page);
+                    if (pageSize !== undefined) handlePageSizeChange(pageSize);
                   }}
                   size="md"
                 />
