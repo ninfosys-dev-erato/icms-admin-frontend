@@ -1426,3 +1426,14 @@
     gap: 0.5rem;
   }
 }
+.navigation-create-form-actionbar .cds--btn--ghost,
+.navigation-edit-form-actionbar .cds--btn--ghost {
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--cds-interactive-01); /* Matches Document Reset button */
+}
+
+.navigation-create-form-actionbar .cds--btn--ghost:hover,
+.navigation-edit-form-actionbar .cds--btn--ghost:hover {
+  color: var(--cds-interactive-02);
+}
