@@ -32,7 +32,7 @@ import {
 // Using IBM Products for advanced page components, not terminal
 import { PageHeader } from "@carbon/ibm-products";
 import { useTranslations } from "next-intl";
-import { usePathname } from "next/navigation";
+import { usePathname } from "@/lib/i18n/routing";
 import { LanguageSwitcher } from "@/shared/components/language-switcher";
 import { UserProfileMenu } from "@/shared/components/user-profile-menu";
 import { NotificationCenter } from "@/shared/components/notification-center";
