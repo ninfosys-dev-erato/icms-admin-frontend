@@ -21,8 +21,7 @@ import { useTranslations } from "next-intl";
 import { TranslatableField } from "@/components/shared/translatable-field";
 import { MenuFormData, MenuLocation } from "../types/navigation";
 import { useNavigationStore } from "../stores/navigation-store";
-import { useCreateMenu } from "../hooks/use-navigation-queries";
-import { useCategoriesForNavigation } from "../hooks/use-navigation-queries";
+import { useCreateMenu, useMenus, useCategoriesForNavigation } from "../hooks/use-navigation-queries";
 
 interface MenuCreateFormProps {
   onSuccess?: () => void;
@@ -46,12 +45,25 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
   } = useNavigationStore();
 
   const { data: categoriesResponse } = useCategoriesForNavigation();
+  const { data: menusResponse } = useMenus({ page: 1, limit: 1000 }); // ✅ fetch all menus
   const categories = categoriesResponse?.data || [];
 
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
   >({});
   const [nameTab, setNameTab] = useState<"en" | "ne">("en");
+
+  // ✅ Auto-increment order from last existing menu
+  useEffect(() => {
+    if (menusResponse?.data?.length) {
+      const maxOrder = Math.max(
+        ...menusResponse.data.map((menu: any) => menu.order || 0)
+      );
+      updateFormField("create", "order", maxOrder + 1);
+    } else {
+      updateFormField("create", "order", 0);
+    }
+  }, [menusResponse, updateFormField]);
 
   const validateForm = (): boolean => {
     const errors: Record<string, string> = {};
@@ -151,6 +163,15 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
   const handleResetForm = () => {
     resetCreateForm();
     setValidationErrors({});
+    // ✅ reassign auto increment order after reset
+    if (menusResponse?.data?.length) {
+      const maxOrder = Math.max(
+        ...menusResponse.data.map((menu: any) => menu.order || 0)
+      );
+      updateFormField("create", "order", maxOrder + 1);
+    } else {
+      updateFormField("create", "order", 0);
+    }
   };
 
   const locationOptions = [
