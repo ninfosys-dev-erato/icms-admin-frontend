@@ -7,12 +7,14 @@ import "@/domains/content-management/styles/content-management.css";
 import type { ContentQuery } from "@/domains/content-management/types/content";
 import "@/lib/ibm-products/config";
 // import { CreateSidePanel } from "@carbon/ibm-products";
-import SidePanelForm from '@/components/shared/side-panel-form';
+import SidePanelForm from "@/components/shared/side-panel-form";
 import { Add, Close } from "@carbon/icons-react";
 import {
   Breadcrumb,
-  BreadcrumbItem, Button,
-  Layer, Pagination
+  BreadcrumbItem,
+  Button,
+  Layer,
+  Pagination,
 } from "@carbon/react";
 import { useTranslations } from "next-intl";
 import React, { useCallback, useEffect, useState } from "react";
@@ -22,26 +24,41 @@ import { CategoryList } from "./categories/category-list";
 import { ContentForm } from "./content-form";
 import { ContentList } from "./content-list";
 
-
 // Flags are set by importing the config above
 
 export const ContentContainer: React.FC = () => {
   const t = useTranslations("content-management");
-  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+  const [selectedTabIndex, setSelectedTabIndex] = useState(() => {
+    const savedIndex =
+      typeof window !== "undefined"
+        ? localStorage.getItem("cmSelectedTabIndex")
+        : null;
+    return savedIndex !== null ? Number(savedIndex) : 0;
+  });
+  // Persist tab index in localStorage to survive language changes
+  useEffect(() => {
+    localStorage.setItem("cmSelectedTabIndex", String(selectedTabIndex));
+  }, [selectedTabIndex]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentQuery, setCurrentQuery] = useState<ContentQuery>({
     page: 1,
     limit: 10,
-    filters: {}
+    filters: {},
   });
 
   // Attachment modal state
   const [showAttachmentModal, setShowAttachmentModal] = useState(false);
-  const [selectedContentIdForModal, setSelectedContentIdForModal] = useState<string | null>(null);
+  const [selectedContentIdForModal, setSelectedContentIdForModal] = useState<
+    string | null
+  >(null);
 
   // Use TanStack Query for data fetching
-  const { data: contentResponse, isLoading, error } = useAdminContents(currentQuery);
-  
+  const {
+    data: contentResponse,
+    isLoading,
+    error,
+  } = useAdminContents(currentQuery);
+
   const contents = contentResponse?.data || [];
   const pagination = contentResponse?.pagination || {
     page: 1,
@@ -70,25 +87,44 @@ export const ContentContainer: React.FC = () => {
   const { setSelectedContentId } = useAttachmentStore();
 
   // Get active entity based on selected tab
-  const currentActiveEntity = selectedTabIndex === 0 ? 'content' : 'category';
+  const currentActiveEntity = selectedTabIndex === 0 ? "content" : "category";
 
   const handleCreateNew = useCallback(() => {
-    if (selectedTabIndex === 0) {
-      openCreateContentPanel();
+    // Close panel first if it's open
+    if (panelOpen) {
+      closePanel();
+      // Small delay to allow panel to close before opening new one
+      setTimeout(() => {
+        if (selectedTabIndex === 0) {
+          openCreateContentPanel();
+        } else {
+          openCreateCategoryPanel();
+        }
+      }, 150);
     } else {
-      openCreateCategoryPanel();
+      if (selectedTabIndex === 0) {
+        openCreateContentPanel();
+      } else {
+        openCreateCategoryPanel();
+      }
     }
-  }, [selectedTabIndex, openCreateContentPanel, openCreateCategoryPanel]);
+  }, [selectedTabIndex, openCreateContentPanel, openCreateCategoryPanel, panelOpen, closePanel]);
 
-  const handleEdit = useCallback((content: import("@/domains/content-management/types/content").Content) =>
-    openEditContentPanel(content), [openEditContentPanel]);
+  const handleEdit = useCallback(
+    (content: import("@/domains/content-management/types/content").Content) =>
+      openEditContentPanel(content),
+    [openEditContentPanel]
+  );
 
   // Handle attachment management
-  const handleManageAttachments = useCallback((contentId: string) => {
-    setSelectedContentIdForModal(contentId);
-    setSelectedContentId(contentId); // Set in attachment store
-    setShowAttachmentModal(true);
-  }, [setSelectedContentId]);
+  const handleManageAttachments = useCallback(
+    (contentId: string) => {
+      setSelectedContentIdForModal(contentId);
+      setSelectedContentId(contentId); // Set in attachment store
+      setShowAttachmentModal(true);
+    },
+    [setSelectedContentId]
+  );
 
   // Close attachment modal
   const handleCloseAttachmentModal = useCallback(() => {
@@ -107,7 +143,7 @@ export const ContentContainer: React.FC = () => {
 
     const cancelLabel = t("attachments.modal.cancel", { default: "Cancel" });
 
-  const removeCancelButton = (root: Element | Document) => {
+    const removeCancelButton = (root: Element | Document) => {
       // More robust strategy:
       // - Scan all actionable elements (buttons and role="button") in the
       //   document (or provided root)
@@ -116,28 +152,38 @@ export const ContentContainer: React.FC = () => {
       //   the attachments panel root (id=attachments-sidepanel)
       // - Hide it visually and from assistive technology
 
-      const candidates = Array.from(root.querySelectorAll('button, [role="button"]')) as HTMLElement[];
+      const candidates = Array.from(
+        root.querySelectorAll('button, [role="button"]')
+      ) as HTMLElement[];
       for (const el of candidates) {
-        const text = el.textContent ? el.textContent.trim() : '';
+        const text = el.textContent ? el.textContent.trim() : "";
         if (!text) continue;
 
         // case-insensitive match to account for potential whitespace/case differences
         if (text.toLowerCase() === String(cancelLabel).toLowerCase()) {
           // only hide if this button belongs to a side panel (avoid hiding other Cancel buttons)
-          const sidePanel = el.closest('.c4p--side-panel') || el.closest('#attachments-sidepanel');
+          const sidePanel =
+            el.closest(".c4p--side-panel") ||
+            el.closest("#attachments-sidepanel");
           if (sidePanel) {
             // Additionally ensure that this sidepanel's title matches the attachments panel title
-            const titleEl = sidePanel.querySelector('.c4p--side-panel__title, .c4p--side-panel__header__title');
-            const titleText = titleEl ? (titleEl.textContent || '').trim() : '';
-            const attachmentsTitle = String(t('attachments.modal.title', { default: 'Manage Attachments' }));
-            const titleMatches = titleText && titleText.toLowerCase() === attachmentsTitle.toLowerCase();
+            const titleEl = sidePanel.querySelector(
+              ".c4p--side-panel__title, .c4p--side-panel__header__title"
+            );
+            const titleText = titleEl ? (titleEl.textContent || "").trim() : "";
+            const attachmentsTitle = String(
+              t("attachments.modal.title", { default: "Manage Attachments" })
+            );
+            const titleMatches =
+              titleText &&
+              titleText.toLowerCase() === attachmentsTitle.toLowerCase();
             // If it's the explicit attachments panel element (#attachments-sidepanel) or the title matches,
             // hide the button.
-            if (sidePanel.id === 'attachments-sidepanel' || titleMatches) {
-              el.style.setProperty('display', 'none', 'important');
-              el.style.visibility = 'hidden';
-              el.style.pointerEvents = 'none';
-              el.setAttribute('aria-hidden', 'true');
+            if (sidePanel.id === "attachments-sidepanel" || titleMatches) {
+              el.style.setProperty("display", "none", "important");
+              el.style.visibility = "hidden";
+              el.style.pointerEvents = "none";
+              el.setAttribute("aria-hidden", "true");
             }
           }
         }
@@ -147,13 +193,13 @@ export const ContentContainer: React.FC = () => {
     // Run once immediately in case the panel content is already mounted
     removeCancelButton(document);
 
-  // Observe mutations under the sidepanel (or entire body) to catch dynamic re-renders
-  const attachmentsPanel = document.getElementById('attachments-sidepanel');
-  const observerRoot = attachmentsPanel || document.body;
-  // Run once more on the observed root to catch buttons that mount later
-  removeCancelButton(observerRoot);
-  const mo = new MutationObserver(() => removeCancelButton(observerRoot));
-  mo.observe(observerRoot, { childList: true, subtree: true });
+    // Observe mutations under the sidepanel (or entire body) to catch dynamic re-renders
+    const attachmentsPanel = document.getElementById("attachments-sidepanel");
+    const observerRoot = attachmentsPanel || document.body;
+    // Run once more on the observed root to catch buttons that mount later
+    removeCancelButton(observerRoot);
+    const mo = new MutationObserver(() => removeCancelButton(observerRoot));
+    mo.observe(observerRoot, { childList: true, subtree: true });
 
     return () => mo.disconnect();
   }, [showAttachmentModal, t, setSelectedContentId]);
@@ -163,24 +209,37 @@ export const ContentContainer: React.FC = () => {
     // TanStack Query will automatically refetch data when mutations succeed
   }, [closePanel]);
 
+  const handleTabChange = useCallback((tabIndex: number) => {
+    // Close panel when switching tabs
+    if (panelOpen) {
+      closePanel();
+    }
+    setSelectedTabIndex(tabIndex);
+  }, [panelOpen, closePanel]);
+
   const handleRequestSubmit = useCallback(() => {
     // Handle form submission - use the same pattern as slider container
-    const formContainer = document.getElementById('content-form');
-    
+    const formContainer = document.getElementById("content-form");
+
     if (formContainer) {
-      const form = formContainer.closest('form') as HTMLFormElement;
+      const form = formContainer.closest("form") as HTMLFormElement;
       if (form) {
-        const submitEvent = new Event('submit', { cancelable: true, bubbles: true });
+        const submitEvent = new Event("submit", {
+          cancelable: true,
+          bubbles: true,
+        });
         form.dispatchEvent(submitEvent);
       } else {
-        const customSubmitEvent = new CustomEvent('formSubmit', { bubbles: true });
+        const customSubmitEvent = new CustomEvent("formSubmit", {
+          bubbles: true,
+        });
         formContainer.dispatchEvent(customSubmitEvent);
       }
     }
   }, []);
 
   const handlePageChange = useCallback((page: number, pageSize?: number) => {
-    setCurrentQuery(prev => ({
+    setCurrentQuery((prev) => ({
       ...prev,
       page,
       limit: pageSize ?? prev.limit,
@@ -189,13 +248,13 @@ export const ContentContainer: React.FC = () => {
 
   const handleSearch = useCallback((search: string) => {
     setSearchTerm(search);
-    setCurrentQuery(prev => ({
+    setCurrentQuery((prev) => ({
       ...prev,
       page: 1,
-      filters: { 
-        ...prev.filters, 
-        search 
-      }
+      filters: {
+        ...prev.filters,
+        search,
+      },
     }));
   }, []);
 
@@ -267,20 +326,19 @@ export const ContentContainer: React.FC = () => {
           <button
             type="button"
             className={`hr-tab-button ${selectedTabIndex === 0 ? "active" : ""}`}
-            onClick={() => setSelectedTabIndex(0)}
+            onClick={() => handleTabChange(0)}
           >
             {t("list.title", { default: "Contents" })}
           </button>
           <button
             type="button"
             className={`hr-tab-button ${selectedTabIndex === 1 ? "active" : ""}`}
-            onClick={() => setSelectedTabIndex(1)}
+            onClick={() => handleTabChange(1)}
           >
             {t("categories.list.title", { default: "Categories" })}
           </button>
         </div>
       </div>
-
 
       {/* Tab Content */}
       <div className="cm-tab-content-wrapper">
@@ -327,12 +385,12 @@ export const ContentContainer: React.FC = () => {
         primaryButtonText={
           isSubmitting
             ? activeEntity === "category"
-              ? panelMode === 'edit'
-                ? t('categories.actions.updating', { default: 'Updating...' })
-                : t('categories.actions.creating', { default: 'Creating...' })
-              : panelMode === 'edit'
-                ? t('actions.updating', { default: 'Updating...' })
-                : t('actions.creating', { default: 'Creating...' })
+              ? panelMode === "edit"
+                ? t("categories.actions.updating", { default: "Updating..." })
+                : t("categories.actions.creating", { default: "Creating..." })
+              : panelMode === "edit"
+                ? t("actions.updating", { default: "Updating..." })
+                : t("actions.creating", { default: "Creating..." })
             : activeEntity === "category"
               ? panelMode === "edit"
                 ? t("categories.form.update", { default: "Update" })
@@ -379,20 +437,22 @@ export const ContentContainer: React.FC = () => {
       <SidePanelForm
         id="attachments-sidepanel"
         title={t("attachments.modal.title", { default: "Manage Attachments" })}
-        subtitle={t("attachments.modal.subtitle", { default: "Upload and manage content attachments" })}
+        subtitle={t("attachments.modal.subtitle", {
+          default: "Upload and manage content attachments",
+        })}
         open={showAttachmentModal}
         onRequestClose={handleCloseAttachmentModal}
         primaryButtonText={t("attachments.modal.close", { default: "Close" })}
-        secondaryButtonText={t("attachments.modal.cancel", { default: "Cancel" })}
+        secondaryButtonText={t("attachments.modal.cancel", {
+          default: "Cancel",
+        })}
         onRequestSubmit={handleCloseAttachmentModal}
         selectorPageContent="#main-content"
         selectorPrimaryFocus="input, textarea, [tabindex]:not([tabindex='-1'])"
       >
         <div className="cm-sidepanel-attachment-wrap">
           {selectedContentIdForModal && (
-            <AttachmentList 
-              className="sidepanel-attachment-list"
-            />
+            <AttachmentList className="sidepanel-attachment-list" />
           )}
         </div>
       </SidePanelForm>

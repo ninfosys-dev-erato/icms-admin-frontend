@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useCallback, useEffect } from "react";
@@ -7,13 +6,21 @@ import {
   Tag,
   Pagination,
   InlineLoading,
+  Tile,
   OverflowMenu,
   OverflowMenuItem,
+  Dropdown,
 } from "@carbon/react";
 import { Add, Menu, Location, Edit, TrashCan } from "@carbon/icons-react";
 import { useTranslations } from "next-intl";
 import { Menu as MenuType, MenuQuery, MenuLocation } from "../types/navigation";
-import { useMenus, usePublishMenu, useUnpublishMenu, useDeleteMenu } from "../hooks/use-navigation-queries";
+import { useNavigationStore } from "../stores/navigation-store";
+import {
+  useMenus,
+  usePublishMenu,
+  useUnpublishMenu,
+  useDeleteMenu,
+} from "../hooks/use-navigation-queries";
 import { useRouter } from "@/lib/i18n/routing";
 import ConfirmDeleteModal from "@/components/shared/confirm-delete-modal";
 
@@ -38,9 +45,14 @@ export const MenuList: React.FC<MenuListProps> = ({
 }) => {
   const t = useTranslations("navigation");
   const router = useRouter();
-  const [currentQuery, setCurrentQuery] = useState<MenuQuery>({ page: 1, limit: 12 });
+  const [currentQuery, setCurrentQuery] = useState<MenuQuery>({
+    page: 1,
+    limit: 12,
+  });
 
-  const isActiveParam = statusFilter === "all" ? undefined : statusFilter === "active";
+  // Convert filters to backend query parameters
+  const isActiveParam =
+    statusFilter === "all" ? undefined : statusFilter === "active";
   const locationParam = locationFilter === "all" ? undefined : locationFilter;
 
   const queryResult = useMenus({
@@ -98,22 +110,32 @@ export const MenuList: React.FC<MenuListProps> = ({
       .replace(/\p{Diacritic}/gu, "")
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "");
-    router.push(`/admin/dashboard/navigation/${slug || menu.id}`);
+      router.push(`/admin/navigation/${slug || menu.id}`);
+    // router.push(`/admin/dashboard/navigation/${slug || menu.id}`);
   };
 
   const displayMenus = safeMenus.filter((menu) => {
+    // statusFilter: 'all' | 'active' | 'inactive'
     if (statusFilter !== "all") {
       const shouldBeActive = statusFilter === "active";
-      const raw = menu.isActive as any;
-      const normalized =
-        typeof raw === "boolean"
-          ? raw
-          : typeof raw === "string"
-          ? ["true", "active", "1"].includes(raw.toLowerCase())
-          : typeof raw === "number"
-          ? raw === 1
-          : Boolean(raw);
-      if (normalized !== shouldBeActive) return false;
+      // Normalize menu.isActive which may be boolean or string like 'ACTIVE'/'active'/'true'
+      const menuIsActiveNormalized = (() => {
+        const raw = menu.isActive as any;
+        if (typeof raw === "boolean") return raw;
+        if (typeof raw === "string") {
+          const v = raw.toLowerCase();
+          return v === "true" || v === "active" || v === "1";
+        }
+        if (typeof raw === "number") return raw === 1;
+        return Boolean(raw);
+      })();
+
+      if (menuIsActiveNormalized !== shouldBeActive) return false;
+    }
+
+    // locationFilter: MenuLocation | 'all'
+    if (locationFilter !== "all") {
+      if (menu.location !== locationFilter) return false;
     }
     if (locationFilter !== "all" && menu.location !== locationFilter) return false;
     return true;
@@ -188,7 +210,9 @@ export const MenuList: React.FC<MenuListProps> = ({
     <div className="menu-list">
       {isLoading && safeMenus.length === 0 ? (
         <div className="loading-container">
-          <InlineLoading description={t("status.loading", { default: "Loading..." })} />
+          <InlineLoading
+            description={t("status.loading", { default: "Loading..." })}
+          />
         </div>
       ) : (
         <>
@@ -196,19 +220,50 @@ export const MenuList: React.FC<MenuListProps> = ({
             <div className="menu-cards-grid">
               {displayMenus.map((menu: MenuType, index: number) => {
                 const displayName =
-                  menu.name?.en || menu.name?.ne || t("table.noName", { default: "Untitled" });
+                  menu.name?.en ||
+                  menu.name?.ne ||
+                  t("table.noName", { default: "Untitled" });
+
                 return (
                   <div key={menu.id} className="menu-card-wrapper">
                     <div className="menu-card-premium">
                       <div className="menu-card-premium__header">
                         <div className="menu-card-premium__number">#{index + 1}</div>
                         <div className="menu-card-premium__actions">
-                          {/* ✅ Added overflow wrapper */}
-                          <div className="menu-card-premium__overflow-wrapper">
-                            <OverflowMenu
-                              size="sm"
-                              aria-label={t("table.actions.menu", { default: "Menu actions" })}
-                              className="menu-card-premium__overflow"
+                          <OverflowMenu
+                            size="sm"
+                            aria-label={t("table.actions.menu", {
+                              default: "Menu actions",
+                            })}
+                            className="menu-card-premium__overflow"
+                          >
+                            <OverflowMenuItem
+                              itemText={t("table.actions.edit", {
+                                default: "Edit",
+                              })}
+                              onClick={() => onEdit?.(menu)}
+                            >
+                              <Edit size={16} />
+                            </OverflowMenuItem>
+                            <OverflowMenuItem
+                              itemText={t("table.actions.manageItems", {
+                                default: "Manage Items",
+                              })}
+                              onClick={() =>
+                                onManageItems
+                                  ? onManageItems(menu)
+                                  : goToManageItems(menu)
+                              }
+                            >
+                              <Menu size={16} />
+                            </OverflowMenuItem>
+                            <OverflowMenuItem
+                              hasDivider
+                              isDelete
+                              itemText={t("table.actions.delete", {
+                                default: "Delete",
+                              })}
+                              onClick={() => handleDelete(menu)}
                             >
                               <OverflowMenuItem
                                 itemText={t("table.actions.edit", { default: "Edit" })}
@@ -259,7 +314,9 @@ export const MenuList: React.FC<MenuListProps> = ({
                               className="menu-card-premium__status-tag"
                             >
                               {menu.isPublished
-                                ? t("status.published", { default: "Published" })
+                                ? t("status.published", {
+                                    default: "Published",
+                                  })
                                 : t("status.draft", { default: "Draft" })}
                             </Tag>
                           </div>
@@ -274,7 +331,8 @@ export const MenuList: React.FC<MenuListProps> = ({
                               <span>{getLocationLabel(menu.location)}</span>
                             </Tag>
                             <span className="menu-card-premium__item-count">
-                              {menu.menuItemCount} {t("table.items", { default: "items" })}
+                              {menu.menuItemCount}{" "}
+                              {t("table.items", { default: "items" })}
                             </span>
                           </div>
                         </div>
@@ -295,7 +353,9 @@ export const MenuList: React.FC<MenuListProps> = ({
                     ? t("empty.filteredTitle", {
                         status: t(`status.${statusFilter}`),
                         location:
-                          locationFilter !== "all" ? getLocationLabel(locationFilter) : "",
+                          locationFilter !== "all"
+                            ? getLocationLabel(locationFilter)
+                            : "",
                         default: "No menus found",
                       })
                     : t("empty.title", { default: "No menus yet" })}
@@ -303,7 +363,8 @@ export const MenuList: React.FC<MenuListProps> = ({
                 <p className="empty-state-description">
                   {statusFilter !== "all" || locationFilter !== "all"
                     ? t("empty.filteredMessage", {
-                        default: "Try adjusting your filters to see more results.",
+                        default:
+                          "Try adjusting your filters to see more results.",
                       })
                     : t("empty.message", {
                         default:
@@ -311,7 +372,11 @@ export const MenuList: React.FC<MenuListProps> = ({
                       })}
                 </p>
                 {onCreate && (
-                  <Button kind="primary" onClick={onCreate} className="empty-state-action">
+                  <Button
+                    kind="primary"
+                    onClick={onCreate}
+                    className="empty-state-action"
+                  >
                     <Add size={16} style={{ marginRight: "0.5rem" }} />
                     {t("actions.createNew", { default: "Create New Menu" })}
                   </Button>
@@ -322,7 +387,8 @@ export const MenuList: React.FC<MenuListProps> = ({
 
           {(() => {
             const totalItems = pagination?.total ?? 0;
-            const shouldShowPagination = totalItems > 0 && displayMenus.length > 0;
+            const shouldShowPagination =
+              totalItems > 0 && displayMenus.length > 0;
             return shouldShowPagination ? (
               <div className="pagination-container">
                 <Pagination
@@ -341,7 +407,7 @@ export const MenuList: React.FC<MenuListProps> = ({
           })()}
         </>
       )}
-
+      {/* === UPDATED: i18n title + subtitle for the delete modal === */}
       <ConfirmDeleteModal
         open={deleteModalOpen}
         title={
@@ -357,7 +423,8 @@ export const MenuList: React.FC<MenuListProps> = ({
             ? t("modals.deleteMenu.subtitle", {
                 default:
                   'Are you sure you want to delete "{name}"? This action cannot be undone.',
-                name: menuToDelete.name?.en || menuToDelete.name?.ne || "this menu",
+                name:
+                  menuToDelete.name?.en || menuToDelete.name?.ne || "this menu",
               })
             : undefined
         }

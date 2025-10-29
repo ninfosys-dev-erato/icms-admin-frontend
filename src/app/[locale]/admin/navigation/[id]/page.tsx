@@ -138,7 +138,7 @@ export default function NavigationManageItemsPage({}: PageProps) {
             href="#"
             onClick={(e) => {
               e.preventDefault();
-              router.push("/admin/dashboard/navigation");
+              router.push("/admin/navigation");
             }}
           >
             {t("title", { default: "Navigation" })}
@@ -155,7 +155,8 @@ export default function NavigationManageItemsPage({}: PageProps) {
               kind="ghost"
               size="md"
               className="page-header-premium__button"
-              onClick={() => router.push("/admin/dashboard/navigation")}
+              // onClick={() => router.push("/admin/dashboard/navigation")}
+              onClick={() => router.push("/admin/navigation")}
             >
               <ArrowLeft size={16} style={{ marginRight: "0.5rem" }} />
               {t("actions.backToMenus", { default: "Back to Menus" })}
