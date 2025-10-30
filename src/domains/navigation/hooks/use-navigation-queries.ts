@@ -40,17 +40,34 @@ export const navigationKeys = {
   },
 };
 
-// ========================================
-// MENU QUERIES
-// ========================================
+
 
 export const useMenus = (query: Partial<MenuQuery> = {}) => {
+  const { page = 1, limit = 12, isActive, location } = query;
+
   return useQuery<MenuListResponse>({
-    queryKey: navigationKeys.menus.list(query),
-    queryFn: () => NavigationService.getMenus(query),
-    placeholderData: (previousData) => previousData,
+    queryKey: [
+      'navigation',
+      'menus',
+      'list',
+      page,
+      limit,
+      isActive ?? 'all',
+      location ?? 'all',
+    ],
+    queryFn: () =>
+      NavigationService.getMenus({
+        page,
+        limit,
+        isActive,
+        location,
+      }),
+    placeholderData: (prev) => prev, // ✅ replaces keepPreviousData
+    refetchOnWindowFocus: false,
   });
 };
+
+
 
 export const usePublishedMenus = (query: Partial<MenuQuery> = {}) => {
   return useQuery<MenuListResponse>({

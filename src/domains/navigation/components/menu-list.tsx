@@ -1,4 +1,5 @@
 
+//ggggg
 "use client";
 
 import React, { useState, useCallback, useEffect } from "react";
@@ -13,7 +14,12 @@ import {
 import { Add, Menu, Location, Edit, TrashCan } from "@carbon/icons-react";
 import { useTranslations } from "next-intl";
 import { Menu as MenuType, MenuQuery, MenuLocation } from "../types/navigation";
-import { useMenus, usePublishMenu, useUnpublishMenu, useDeleteMenu } from "../hooks/use-navigation-queries";
+import {
+  useMenus,
+  usePublishMenu,
+  useUnpublishMenu,
+  useDeleteMenu,
+} from "../hooks/use-navigation-queries";
 import { useRouter } from "@/lib/i18n/routing";
 import ConfirmDeleteModal from "@/components/shared/confirm-delete-modal";
 
@@ -38,18 +44,25 @@ export const MenuList: React.FC<MenuListProps> = ({
 }) => {
   const t = useTranslations("navigation");
   const router = useRouter();
-  const [currentQuery, setCurrentQuery] = useState<MenuQuery>({ page: 1, limit: 12 });
 
-  const isActiveParam = statusFilter === "all" ? undefined : statusFilter === "active";
+  const [query, setQuery] = useState<Partial<MenuQuery>>({
+    page: 1,
+    limit: 12,
+  });
+
+  const isActiveParam =
+    statusFilter === "all" ? undefined : statusFilter === "active";
   const locationParam = locationFilter === "all" ? undefined : locationFilter;
 
+  // include page, limit, filters in query params (pass the partial query object)
   const queryResult = useMenus({
-    ...currentQuery,
+    ...(query as Partial<MenuQuery>),
     isActive: isActiveParam,
     location: locationParam,
   });
+
   const listData = queryResult.data;
-  const isLoading = queryResult.isLoading;
+  const isLoading = queryResult.isLoading || queryResult.isFetching;
   const pagination = listData?.pagination;
 
   const publishMutation = usePublishMenu();
@@ -59,31 +72,22 @@ export const MenuList: React.FC<MenuListProps> = ({
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [menuToDelete, setMenuToDelete] = useState<MenuType | null>(null);
 
-  const safeMenus: MenuType[] = Array.isArray(propMenus)
-    ? propMenus
-    : Array.isArray(listData?.data)
+  // Always use query data — don't freeze first page
+  const safeMenus: MenuType[] = Array.isArray(listData?.data)
     ? listData.data
+    : Array.isArray(propMenus)
+    ? propMenus
     : [];
 
+  // Reset to first page when filters change
   useEffect(() => {
-    setCurrentQuery((prev) => ({ ...prev, page: 1 }));
+    setQuery((prev) => ({ ...prev, page: 1 }));
   }, [statusFilter, locationFilter]);
 
-  const handlePageChange = useCallback(
-    (page: number) => {
-      const newQuery = { ...currentQuery, page };
-      setCurrentQuery(newQuery);
-    },
-    [currentQuery]
-  );
-
-  const handlePageSizeChange = useCallback(
-    (pageSize: number) => {
-      const newQuery = { ...currentQuery, limit: pageSize, page: 1 };
-      setCurrentQuery(newQuery);
-    },
-    [currentQuery]
-  );
+  // unified handler (page, optional pageSize) — same pattern as media list
+  const handlePageChange = useCallback((page: number, pageSize?: number) => {
+    setQuery((prev) => ({ ...prev, page, limit: pageSize ?? prev.limit }));
+  }, []);
 
   const handleDelete = (menu: MenuType) => {
     setMenuToDelete(menu);
@@ -115,7 +119,8 @@ export const MenuList: React.FC<MenuListProps> = ({
           : Boolean(raw);
       if (normalized !== shouldBeActive) return false;
     }
-    if (locationFilter !== "all" && menu.location !== locationFilter) return false;
+    if (locationFilter !== "all" && menu.location !== locationFilter)
+      return false;
     return true;
   });
 
@@ -153,42 +158,38 @@ export const MenuList: React.FC<MenuListProps> = ({
     }
   };
 
-  // ✅ Overflow fix
+  // Overflow fix for menu dropdown
   useEffect(() => {
-  function adjustOverflowMenus() {
-    const dropdowns = document.querySelectorAll<HTMLElement>(
-      ".cds--overflow-menu-options"
-    );
-    dropdowns.forEach((el) => {
-      el.style.transform = ""; // reset
-      const rect = el.getBoundingClientRect();
-
-      // if dropdown is near the right edge, shift it left
-      if (rect.right > window.innerWidth - 8) {
-        const overflowAmount = rect.right - (window.innerWidth - 8);
-        el.style.transform = `translateX(-${overflowAmount + 20}px)`; // shift just enough
-      }
-
-      // if dropdown is near the left edge, nudge right
-      if (rect.left < 8) {
-        el.style.transform = `translateX(${Math.abs(rect.left) + 8}px)`;
-      }
-    });
-  }
-
-  document.addEventListener("click", adjustOverflowMenus);
-  window.addEventListener("resize", adjustOverflowMenus);
-  return () => {
-    document.removeEventListener("click", adjustOverflowMenus);
-    window.removeEventListener("resize", adjustOverflowMenus);
-  };
-}, []);
+    function adjustOverflowMenus() {
+      const dropdowns =
+        document.querySelectorAll<HTMLElement>(".cds--overflow-menu-options");
+      dropdowns.forEach((el) => {
+        el.style.transform = "";
+        const rect = el.getBoundingClientRect();
+        if (rect.right > window.innerWidth - 8) {
+          const overflowAmount = rect.right - (window.innerWidth - 8);
+          el.style.transform = `translateX(-${overflowAmount + 20}px)`;
+        }
+        if (rect.left < 8) {
+          el.style.transform = `translateX(${Math.abs(rect.left) + 8}px)`;
+        }
+      });
+    }
+    document.addEventListener("click", adjustOverflowMenus);
+    window.addEventListener("resize", adjustOverflowMenus);
+    return () => {
+      document.removeEventListener("click", adjustOverflowMenus);
+      window.removeEventListener("resize", adjustOverflowMenus);
+    };
+  }, []);
 
   return (
     <div className="menu-list">
       {isLoading && safeMenus.length === 0 ? (
         <div className="loading-container">
-          <InlineLoading description={t("status.loading", { default: "Loading..." })} />
+          <InlineLoading
+            description={t("status.loading", { default: "Loading..." })}
+          />
         </div>
       ) : (
         <>
@@ -196,30 +197,41 @@ export const MenuList: React.FC<MenuListProps> = ({
             <div className="menu-cards-grid">
               {displayMenus.map((menu: MenuType, index: number) => {
                 const displayName =
-                  menu.name?.en || menu.name?.ne || t("table.noName", { default: "Untitled" });
+                  menu.name?.en ||
+                  menu.name?.ne ||
+                  t("table.noName", { default: "Untitled" });
                 return (
                   <div key={menu.id} className="menu-card-wrapper">
                     <div className="menu-card-premium">
                       <div className="menu-card-premium__header">
-                        <div className="menu-card-premium__number">#{index + 1}</div>
+                        <div className="menu-card-premium__number">
+                          #{index + 1}
+                        </div>
                         <div className="menu-card-premium__actions">
-                          {/* ✅ Added overflow wrapper */}
                           <div className="menu-card-premium__overflow-wrapper">
                             <OverflowMenu
                               size="sm"
-                              aria-label={t("table.actions.menu", { default: "Menu actions" })}
+                              aria-label={t("table.actions.menu", {
+                                default: "Menu actions",
+                              })}
                               className="menu-card-premium__overflow"
                             >
                               <OverflowMenuItem
-                                itemText={t("table.actions.edit", { default: "Edit" })}
+                                itemText={t("table.actions.edit", {
+                                  default: "Edit",
+                                })}
                                 onClick={() => onEdit?.(menu)}
                               >
                                 <Edit size={16} />
                               </OverflowMenuItem>
                               <OverflowMenuItem
-                                itemText={t("table.actions.manageItems", { default: "Manage Items" })}
+                                itemText={t("table.actions.manageItems", {
+                                  default: "Manage Items",
+                                })}
                                 onClick={() =>
-                                  onManageItems ? onManageItems(menu) : goToManageItems(menu)
+                                  onManageItems
+                                    ? onManageItems(menu)
+                                    : goToManageItems(menu)
                                 }
                               >
                                 <Menu size={16} />
@@ -227,7 +239,9 @@ export const MenuList: React.FC<MenuListProps> = ({
                               <OverflowMenuItem
                                 hasDivider
                                 isDelete
-                                itemText={t("table.actions.delete", { default: "Delete" })}
+                                itemText={t("table.actions.delete", {
+                                  default: "Delete",
+                                })}
                                 onClick={() => handleDelete(menu)}
                               >
                                 <TrashCan size={16} />
@@ -239,7 +253,9 @@ export const MenuList: React.FC<MenuListProps> = ({
 
                       <div className="menu-card-premium__content">
                         <div className="menu-card-premium__title-section">
-                          <h3 className="menu-card-premium__title">{displayName}</h3>
+                          <h3 className="menu-card-premium__title">
+                            {displayName}
+                          </h3>
                         </div>
 
                         <div className="menu-card-premium__meta-row">
@@ -251,7 +267,9 @@ export const MenuList: React.FC<MenuListProps> = ({
                             >
                               {menu.isActive
                                 ? t("status.active", { default: "Active" })
-                                : t("status.inactive", { default: "Inactive" })}
+                                : t("status.inactive", {
+                                    default: "Inactive",
+                                  })}
                             </Tag>
                             <Tag
                               type={menu.isPublished ? "blue" : "gray"}
@@ -259,7 +277,9 @@ export const MenuList: React.FC<MenuListProps> = ({
                               className="menu-card-premium__status-tag"
                             >
                               {menu.isPublished
-                                ? t("status.published", { default: "Published" })
+                                ? t("status.published", {
+                                    default: "Published",
+                                  })
                                 : t("status.draft", { default: "Draft" })}
                             </Tag>
                           </div>
@@ -274,7 +294,8 @@ export const MenuList: React.FC<MenuListProps> = ({
                               <span>{getLocationLabel(menu.location)}</span>
                             </Tag>
                             <span className="menu-card-premium__item-count">
-                              {menu.menuItemCount} {t("table.items", { default: "items" })}
+                              {menu.menuItemCount}{" "}
+                              {t("table.items", { default: "items" })}
                             </span>
                           </div>
                         </div>
@@ -295,7 +316,9 @@ export const MenuList: React.FC<MenuListProps> = ({
                     ? t("empty.filteredTitle", {
                         status: t(`status.${statusFilter}`),
                         location:
-                          locationFilter !== "all" ? getLocationLabel(locationFilter) : "",
+                          locationFilter !== "all"
+                            ? getLocationLabel(locationFilter)
+                            : "",
                         default: "No menus found",
                       })
                     : t("empty.title", { default: "No menus yet" })}
@@ -303,7 +326,8 @@ export const MenuList: React.FC<MenuListProps> = ({
                 <p className="empty-state-description">
                   {statusFilter !== "all" || locationFilter !== "all"
                     ? t("empty.filteredMessage", {
-                        default: "Try adjusting your filters to see more results.",
+                        default:
+                          "Try adjusting your filters to see more results.",
                       })
                     : t("empty.message", {
                         default:
@@ -311,7 +335,11 @@ export const MenuList: React.FC<MenuListProps> = ({
                       })}
                 </p>
                 {onCreate && (
-                  <Button kind="primary" onClick={onCreate} className="empty-state-action">
+                  <Button
+                    kind="primary"
+                    onClick={onCreate}
+                    className="empty-state-action"
+                  >
                     <Add size={16} style={{ marginRight: "0.5rem" }} />
                     {t("actions.createNew", { default: "Create New Menu" })}
                   </Button>
@@ -322,18 +350,16 @@ export const MenuList: React.FC<MenuListProps> = ({
 
           {(() => {
             const totalItems = pagination?.total ?? 0;
-            const shouldShowPagination = totalItems > 0 && displayMenus.length > 0;
+            const shouldShowPagination =
+              totalItems > 0 && displayMenus.length > 0;
             return shouldShowPagination ? (
               <div className="pagination-container">
                 <Pagination
-                  page={pagination!.page}
-                  pageSize={pagination!.limit}
+                  page={query.page}
+                  pageSize={query.limit}
                   pageSizes={[12, 24, 48, 96]}
-                  totalItems={totalItems}
-                  onChange={({ page, pageSize }) => {
-                    if (page !== undefined) handlePageChange(page);
-                    if (pageSize !== undefined) handlePageSizeChange(pageSize);
-                  }}
+                  totalItems={pagination?.total ?? 0}
+                  onChange={({ page, pageSize }) => handlePageChange(page ?? 1, pageSize)}
                   size="md"
                 />
               </div>
@@ -348,7 +374,10 @@ export const MenuList: React.FC<MenuListProps> = ({
           menuToDelete
             ? t("modals.deleteMenu.title", {
                 default: 'Delete "{name}"',
-                name: menuToDelete.name?.en || menuToDelete.name?.ne || "menu",
+                name:
+                  menuToDelete.name?.en ||
+                  menuToDelete.name?.ne ||
+                  "menu",
               })
             : t("modals.confirm.title", { default: "Confirm Deletion" })
         }
@@ -357,7 +386,10 @@ export const MenuList: React.FC<MenuListProps> = ({
             ? t("modals.deleteMenu.subtitle", {
                 default:
                   'Are you sure you want to delete "{name}"? This action cannot be undone.',
-                name: menuToDelete.name?.en || menuToDelete.name?.ne || "this menu",
+                name:
+                  menuToDelete.name?.en ||
+                  menuToDelete.name?.ne ||
+                  "this menu",
               })
             : undefined
         }
