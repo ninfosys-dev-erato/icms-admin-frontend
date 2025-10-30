@@ -705,7 +705,7 @@
 
 /* Enhanced Dropdown Styling */
 .document-container .cds--dropdown {
-  min-width: 180px;
+  min-width: 140px;
 }
 
 .document-container .cds--dropdown__label {

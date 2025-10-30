@@ -19,6 +19,7 @@
   "actions": {
     "create": "Upload",
     "update": "Update",
+    "delete": "Delete",
     "cancel": "Cancel",
     "reset": "Reset",
     "chooseFiles": "Choose files",
@@ -41,6 +42,9 @@
     "actions": "Media actions",
     "edit": "Edit",
     "delete": "Delete"
+    ,
+    "confirmDeleteTitle": "Confirm deletion",
+    "confirmDeleteSubtitle": "Are you sure you want to delete \"{name}\"? This action cannot be undone."
   },
   "form": {
     "uploadTitle": "Upload Media",

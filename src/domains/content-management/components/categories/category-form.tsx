@@ -73,6 +73,13 @@ export const CategoryForm: React.FC<CategoryFormProps> = React.memo(
     const nameEnRef = useRef<HTMLInputElement>(null);
     const nameNeRef = useRef<HTMLInputElement>(null);
 
+    // Memoize query params and parent items to prevent unnecessary re-renders
+    const queryParams = useMemo(() => ({ page: 1, limit: 100 }), []);
+    const categoriesQuery = useCategories(queryParams);
+
+    // Get the count of available categories
+    const categoryCount = categoriesQuery.data?.data?.length || 0;
+
     // Initialize form with existing category data when in edit mode
     useEffect(() => {
       if (mode === "edit" && category && category.id) {
@@ -93,10 +100,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = React.memo(
       }
     }, [mode, category, formId, updateCategoryFormField]);
 
-    // Memoize query params and parent items to prevent unnecessary re-renders
-    const queryParams = useMemo(() => ({ page: 1, limit: 100 }), []);
-    const categoriesQuery = useCategories(queryParams);
-
     const parentItems = useMemo(
       () =>
         (categoriesQuery.data?.data ?? [])
@@ -112,6 +115,30 @@ export const CategoryForm: React.FC<CategoryFormProps> = React.memo(
       () => parentItems.find((i) => i.id === form.parentId) || null,
       [parentItems, form.parentId]
     );
+
+    // Auto order increment logic (same as slider-create-form)
+    // Always set order to parentItems.length + 1 on create mode and whenever parentItems changes or form is opened
+    useEffect(() => {
+      if (mode === "create") {
+        updateCategoryFormField("create", "order", parentItems.length + 1);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [parentItems.length, mode, formId]);
+
+    // On reset, set order to parentItems.length + 1 (same as slider-create-form)
+    const handleResetForm = useCallback(() => {
+      resetCategoryFormState(formId);
+      setValidationErrors({});
+      if (mode === "create") {
+        updateCategoryFormField("create", "order", parentItems.length + 1);
+      }
+    }, [
+      formId,
+      resetCategoryFormState,
+      mode,
+      parentItems.length,
+      updateCategoryFormField,
+    ]);
 
     // Robust per-language validation for name field
     const validateName = (name: { en: string; ne: string }) => {
@@ -187,11 +214,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = React.memo(
       },
       [formId, updateCategoryFormField]
     );
-
-    const handleResetForm = useCallback(() => {
-      resetCategoryFormState(formId);
-      setValidationErrors({});
-    }, [formId, resetCategoryFormState]);
 
     // On submit, validate all fields and switch tab/focus if needed
     const submit = useCallback(async () => {
@@ -307,9 +329,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = React.memo(
       () => (
         <Grid fullWidth>
           <Column lg={16} md={8} sm={4}>
-            <FormGroup
-              legendText=""
-            >
+            <FormGroup legendText="">
               <TranslatableField
                 label={t("categories.form.name.label", { default: "Name" })}
                 value={form.name}
