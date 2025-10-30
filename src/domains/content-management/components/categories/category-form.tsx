@@ -223,21 +223,20 @@ export const CategoryForm: React.FC<CategoryFormProps> = React.memo(
       setValidationErrors(errors);
 
       // Find first invalid language for name and switch tab/focus
-      if (errors.name_en || errors.name_ne) {
-        let firstInvalidLang: "en" | "ne" | null = null;
-        if (errors.name_en) firstInvalidLang = "en";
-        else if (errors.name_ne) firstInvalidLang = "ne";
-
-        // Switch tab by simulating click on tab button
+      if (errors.name_en) {
+        setActiveNameLang("en");
         setTimeout(() => {
-          const tabSelector = `.translatable-field .tab-button${firstInvalidLang === "en" ? ".active" : ":not(.active)"}`;
-          const tabBtn = document.querySelector(tabSelector);
-          if (tabBtn)
-            tabBtn.dispatchEvent(new MouseEvent("click", { bubbles: true }));
-          const inputId = `${t("categories.form.name.label", { default: "Name" }).toLowerCase().replace(/\s+/g, "-")}-${firstInvalidLang}`;
+          const inputId = `${t("categories.form.name.label", { default: "Name" }).toLowerCase().replace(/\s+/g, "-")}-en`;
           const input = document.getElementById(inputId);
           if (input) (input as HTMLElement).focus();
-        }, 0);
+        }, 100);
+      } else if (errors.name_ne) {
+        setActiveNameLang("ne");
+        setTimeout(() => {
+          const inputId = `${t("categories.form.name.label", { default: "Name" }).toLowerCase().replace(/\s+/g, "-")}-ne`;
+          const input = document.getElementById(inputId);
+          if (input) (input as HTMLElement).focus();
+        }, 100);
       }
 
       if (
@@ -334,7 +333,6 @@ export const CategoryForm: React.FC<CategoryFormProps> = React.memo(
                 label={t("categories.form.name.label", { default: "Name" })}
                 value={form.name}
                 onChange={handleNameChange}
-                // No auto tab switching, only manual
                 placeholder={{
                   en: t("categories.form.name.placeholder.en", {
                     default: "English",
@@ -344,6 +342,8 @@ export const CategoryForm: React.FC<CategoryFormProps> = React.memo(
                   }),
                 }}
                 required
+                activeTab={activeNameLang}
+                setActiveTab={setActiveNameLang}
                 invalid={
                   !!validationErrors.name_en || !!validationErrors.name_ne
                 }
