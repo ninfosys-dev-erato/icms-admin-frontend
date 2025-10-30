@@ -485,7 +485,7 @@ export const DocumentCreateForm: React.FC<DocumentCreateFormProps> = ({
                     }
                   }}
                   placeholder={t("form.order.placeholder")}
-                  min={0}
+                  min={1}
                   step={1}
                   size="sm"
                   invalid={!!validationErrors.order}
