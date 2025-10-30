@@ -185,7 +185,7 @@ export const MediaList: React.FC<MediaListProps> = ({
         <ConfirmDeleteModal
           open={isConfirmOpen}
           title={t('card.confirmDeleteTitle', { default: 'Confirm deletion' } as any)}
-          subtitle={t('card.confirmDeleteSubtitle', { default: `Are you sure you want to delete "${selectedItem.title || selectedItem.originalName}"? This action cannot be undone.` } as any)}
+          subtitle={t('card.confirmDeleteSubtitle', { name: selectedItem.title || selectedItem.originalName, default: `Are you sure you want to delete "${selectedItem.title || selectedItem.originalName}"? This action cannot be undone.` } as any)}
           confirmLabel={t('actions.delete', { default: 'Delete' } as any)}
           cancelLabel={t('actions.cancel', { default: 'Cancel' } as any)}
           onCancel={() => {

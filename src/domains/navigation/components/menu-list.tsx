@@ -265,30 +265,9 @@ export const MenuList: React.FC<MenuListProps> = ({
                               })}
                               onClick={() => handleDelete(menu)}
                             >
-                              <OverflowMenuItem
-                                itemText={t("table.actions.edit", { default: "Edit" })}
-                                onClick={() => onEdit?.(menu)}
-                              >
-                                <Edit size={16} />
-                              </OverflowMenuItem>
-                              <OverflowMenuItem
-                                itemText={t("table.actions.manageItems", { default: "Manage Items" })}
-                                onClick={() =>
-                                  onManageItems ? onManageItems(menu) : goToManageItems(menu)
-                                }
-                              >
-                                <Menu size={16} />
-                              </OverflowMenuItem>
-                              <OverflowMenuItem
-                                hasDivider
-                                isDelete
-                                itemText={t("table.actions.delete", { default: "Delete" })}
-                                onClick={() => handleDelete(menu)}
-                              >
-                                <TrashCan size={16} />
-                              </OverflowMenuItem>
-                            </OverflowMenu>
-                          </div>
+                              <TrashCan size={16} />
+                            </OverflowMenuItem>
+                          </OverflowMenu>
                         </div>
                       </div>
 
