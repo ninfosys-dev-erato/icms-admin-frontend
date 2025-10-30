@@ -1,5 +1,3 @@
-
-//ggggg
 "use client";
 
 import React, { useState, useCallback, useEffect } from "react";
@@ -8,10 +6,8 @@ import {
   Tag,
   Pagination,
   InlineLoading,
-  Tile,
   OverflowMenu,
   OverflowMenuItem,
-  Dropdown,
 } from "@carbon/react";
 import { Add, Menu, Location, Edit, TrashCan } from "@carbon/icons-react";
 import { useTranslations } from "next-intl";
@@ -104,32 +100,22 @@ export const MenuList: React.FC<MenuListProps> = ({
       .replace(/\p{Diacritic}/gu, "")
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "");
-      router.push(`/admin/navigation/${slug || menu.id}`);
-    // router.push(`/admin/dashboard/navigation/${slug || menu.id}`);
+    router.push(`/admin/dashboard/navigation/${slug || menu.id}`);
   };
 
   const displayMenus = safeMenus.filter((menu) => {
-    // statusFilter: 'all' | 'active' | 'inactive'
     if (statusFilter !== "all") {
       const shouldBeActive = statusFilter === "active";
-      // Normalize menu.isActive which may be boolean or string like 'ACTIVE'/'active'/'true'
-      const menuIsActiveNormalized = (() => {
-        const raw = menu.isActive as any;
-        if (typeof raw === "boolean") return raw;
-        if (typeof raw === "string") {
-          const v = raw.toLowerCase();
-          return v === "true" || v === "active" || v === "1";
-        }
-        if (typeof raw === "number") return raw === 1;
-        return Boolean(raw);
-      })();
-
-      if (menuIsActiveNormalized !== shouldBeActive) return false;
-    }
-
-    // locationFilter: MenuLocation | 'all'
-    if (locationFilter !== "all") {
-      if (menu.location !== locationFilter) return false;
+      const raw = menu.isActive as any;
+      const normalized =
+        typeof raw === "boolean"
+          ? raw
+          : typeof raw === "string"
+          ? ["true", "active", "1"].includes(raw.toLowerCase())
+          : typeof raw === "number"
+          ? raw === 1
+          : Boolean(raw);
+      if (normalized !== shouldBeActive) return false;
     }
     if (locationFilter !== "all" && menu.location !== locationFilter)
       return false;
@@ -212,7 +198,6 @@ export const MenuList: React.FC<MenuListProps> = ({
                   menu.name?.en ||
                   menu.name?.ne ||
                   t("table.noName", { default: "Untitled" });
-
                 return (
                   <div key={menu.id} className="menu-card-wrapper">
                     <div className="menu-card-premium">
@@ -259,9 +244,10 @@ export const MenuList: React.FC<MenuListProps> = ({
                               >
                                 <TrashCan size={16} />
                               </OverflowMenuItem>
-                              </OverflowMenu>
+                            </OverflowMenu>
                           </div>
                         </div>
+                      </div>
 
                       <div className="menu-card-premium__content">
                         <div className="menu-card-premium__title-section">
@@ -379,7 +365,7 @@ export const MenuList: React.FC<MenuListProps> = ({
           })()}
         </>
       )}
-      {/* === UPDATED: i18n title + subtitle for the delete modal === */}
+
       <ConfirmDeleteModal
         open={deleteModalOpen}
         title={
