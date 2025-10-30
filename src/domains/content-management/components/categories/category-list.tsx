@@ -15,6 +15,7 @@ import {
 } from "@carbon/react";
 import { RowActions } from "@/components/shared/row-actions";
 import { useTranslations } from "next-intl";
+import { useLanguageFont } from "@/shared/hooks/use-language-font";
 import React, { useCallback, useMemo, useState } from "react";
 import {
   useCategories,
@@ -172,6 +173,28 @@ export const CategoryList: React.FC<CategoryListProps> = React.memo(
       );
     }
 
+    const { locale } = useLanguageFont();
+
+    // Helper to get name in selected language
+    const getCategoryName = (cat: Category) => {
+      if (locale === "ne") {
+        return cat.name?.ne || cat.name?.en || cat.slug || "";
+      }
+      return cat.name?.en || cat.name?.ne || cat.slug || "";
+    };
+
+    const getParentName = (cat: Category) => {
+      if (!cat.parent) return "";
+      if (locale === "ne") {
+        return (
+          cat.parent.name?.ne || cat.parent.name?.en || cat.parent.slug || ""
+        );
+      }
+      return (
+        cat.parent.name?.en || cat.parent.name?.ne || cat.parent.slug || ""
+      );
+    };
+
     return (
       <div className="category-list">
         {categories.length > 0 ? (
@@ -204,11 +227,15 @@ export const CategoryList: React.FC<CategoryListProps> = React.memo(
                       onClick={handleRowClick}
                       style={{ cursor: panelOpen ? "pointer" : "default" }}
                     >
-                      <TableCell className="font-en">
-                        {cat.name.en || cat.name.ne}
+                      <TableCell
+                        className={locale === "ne" ? "font-ne" : "font-en"}
+                      >
+                        {getCategoryName(cat)}
                       </TableCell>
-                      <TableCell className="font-en">
-                        {cat.parent?.name?.en || cat.parent?.name?.ne || ""}
+                      <TableCell
+                        className={locale === "ne" ? "font-ne" : "font-en"}
+                      >
+                        {getParentName(cat)}
                       </TableCell>
                       <TableCell>{cat.order ?? 0}</TableCell>
                       <TableCell>
@@ -222,7 +249,7 @@ export const CategoryList: React.FC<CategoryListProps> = React.memo(
                       </TableCell>
                       <TableCell className="table-cell-right">
                         <div
-                          onClick={e => {
+                          onClick={(e) => {
                             // Prevent row click from closing the panel when interacting with RowActions
                             e.stopPropagation();
                           }}
@@ -268,7 +295,7 @@ export const CategoryList: React.FC<CategoryListProps> = React.memo(
               subtitle={
                 catToDelete
                   ? t(`categories.deleteModal.subtitle`, {
-                      default: `Are you sure you want to delete "${catToDelete.name?.en || catToDelete.name?.ne || catToDelete.slug || "this category"}"? This action cannot be undone.`,
+                      default: `Are you sure you want to delete "${getCategoryName(catToDelete)}"? This action cannot be undone.`,
                     })
                   : undefined
               }
