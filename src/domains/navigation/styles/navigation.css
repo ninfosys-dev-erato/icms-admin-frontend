@@ -1065,6 +1065,9 @@
   color: var(--cds-text-primary, #161616);
   font-weight: 500;
 }
+.c4p--side-panel{
+  z-index: 0 !important;
+}
 
 /* Enhanced Form Content Styles */
 .form-content--enhanced {
