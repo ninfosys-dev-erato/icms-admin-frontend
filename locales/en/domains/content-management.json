@@ -349,6 +349,10 @@
       "empty": "No categories yet",
       "emptyDescription": "Create your first category to organize content."
     },
+    "deleteModal": {
+      "title": "Delete Category",
+      "subtitle": "Are you sure you want to delete the category? This action cannot be undone."
+    },
     "subtitle": "Manage content categories",
     "actions": {
       "createNew": "Create Category",
