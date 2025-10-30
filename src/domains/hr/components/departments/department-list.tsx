@@ -17,7 +17,7 @@ import {
   TableContainer,
 } from "@carbon/react";
 import { Building, User } from "@carbon/icons-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import {
   useDeleteDepartment,
   useDepartments,
@@ -36,6 +36,7 @@ export const DepartmentList: React.FC<DepartmentListProps> = ({
   queryOverrides = {},
 }) => {
   const t = useTranslations("hr-departments");
+  const locale = useLocale();
   const [query, setQuery] = useState<Partial<DepartmentQueryDto>>({
     page: 1,
     limit: 12,
@@ -57,6 +58,18 @@ export const DepartmentList: React.FC<DepartmentListProps> = ({
   const data = queryResult.data;
   const departments = (data?.data ?? []) as DepartmentResponseDto[];
   const pagination = data?.pagination;
+
+  // format numbers into Nepali digits when locale is 'ne'
+  const formatNumber = (n: number | string) => {
+    if (locale === "ne") {
+      const digits = ["०","१","२","३","४","५","६","७","८","९"];
+      return String(n)
+        .split("")
+        .map((ch) => (/[0-9]/.test(ch) ? digits[Number(ch)] : ch))
+        .join("");
+    }
+    return String(n);
+  };
 
   if (queryResult.isLoading && departments.length === 0) {
     return (
@@ -85,20 +98,17 @@ export const DepartmentList: React.FC<DepartmentListProps> = ({
               {departments.map((dept) => (
                 <TableRow key={dept.id}>
                   <TableCell className="font-en">
-                    {dept.departmentName.en || dept.departmentName.ne}
+                    {dept.departmentName?.[locale as 'en' | 'ne'] || dept.departmentName?.en || dept.departmentName?.ne}
                   </TableCell>
                   <TableCell className="font-en">
-                    {dept.parent?.departmentName?.en ||
-                      dept.parent?.departmentName?.ne ||
-                      ""}
+                    {dept.parent?.departmentName?.[locale as 'en' | 'ne'] || dept.parent?.departmentName?.en || dept.parent?.departmentName?.ne || ""}
                   </TableCell>
                   <TableCell className="font-en">
                     {dept.departmentHead
-                      ? dept.departmentHead.name.en ||
-                        dept.departmentHead.name.ne
+                      ? dept.departmentHead.name?.[locale as 'en' | 'ne'] || dept.departmentHead.name?.en || dept.departmentHead.name?.ne || ""
                       : ""}
                   </TableCell>
-                  <TableCell>{dept.employees?.length ?? 0}</TableCell>
+                  <TableCell>{formatNumber(dept.employees?.length ?? 0)}</TableCell>
                   <TableCell>
                     <Tag type={dept.isActive ? "green" : "gray"} size="sm">
                       {dept.isActive ? t("card.active") : t("card.inactive")}
