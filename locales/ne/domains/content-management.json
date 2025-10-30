@@ -179,7 +179,8 @@
     "categoryRequired": "श्रेणी आवश्यक छ",
     "categoryNameRequired": "श्रेणीको नाम आवश्यक छ (EN/NE)",
     "orderRange": "क्रम धनात्मक संख्या हुनुपर्छ",
-    "nameMinLength": "नाम कम्तिमा ३ अक्षरको हुनुपर्छ"
+    "nameMinLength": "नाम कम्तिमा ३ अक्षरको हुनुपर्छ",
+    "titleMinLength": "शीर्षक कम्तिमा ३ अक्षरको हुनुपर्छ"
   },
 
   "attachments": {

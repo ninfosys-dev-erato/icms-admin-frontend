@@ -181,7 +181,8 @@
     "categoryRequired": "Category is required",
     "categoryNameRequired": "Category name required (EN/NE)",
     "orderRange": "Order must be a positive number",
-    "nameMinLength": "Name must be at least 3 characters"
+    "nameMinLength": "Name must be at least 3 characters",
+    "titleMinLength": "Title must be at least 3 characters"
   },
 
   "attachments": {
