@@ -1,3 +1,5 @@
+
+//ggggg
 "use client";
 
 import React, { useState, useCallback, useEffect } from "react";
@@ -14,7 +16,6 @@ import {
 import { Add, Menu, Location, Edit, TrashCan } from "@carbon/icons-react";
 import { useTranslations } from "next-intl";
 import { Menu as MenuType, MenuQuery, MenuLocation } from "../types/navigation";
-import { useNavigationStore } from "../stores/navigation-store";
 import {
   useMenus,
   usePublishMenu,
@@ -45,23 +46,25 @@ export const MenuList: React.FC<MenuListProps> = ({
 }) => {
   const t = useTranslations("navigation");
   const router = useRouter();
-  const [currentQuery, setCurrentQuery] = useState<MenuQuery>({
+
+  const [query, setQuery] = useState<Partial<MenuQuery>>({
     page: 1,
     limit: 12,
   });
 
-  // Convert filters to backend query parameters
   const isActiveParam =
     statusFilter === "all" ? undefined : statusFilter === "active";
   const locationParam = locationFilter === "all" ? undefined : locationFilter;
 
+  // include page, limit, filters in query params (pass the partial query object)
   const queryResult = useMenus({
-    ...currentQuery,
+    ...(query as Partial<MenuQuery>),
     isActive: isActiveParam,
     location: locationParam,
   });
+
   const listData = queryResult.data;
-  const isLoading = queryResult.isLoading;
+  const isLoading = queryResult.isLoading || queryResult.isFetching;
   const pagination = listData?.pagination;
 
   const publishMutation = usePublishMenu();
@@ -71,31 +74,22 @@ export const MenuList: React.FC<MenuListProps> = ({
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [menuToDelete, setMenuToDelete] = useState<MenuType | null>(null);
 
-  const safeMenus: MenuType[] = Array.isArray(propMenus)
-    ? propMenus
-    : Array.isArray(listData?.data)
+  // Always use query data — don't freeze first page
+  const safeMenus: MenuType[] = Array.isArray(listData?.data)
     ? listData.data
+    : Array.isArray(propMenus)
+    ? propMenus
     : [];
 
+  // Reset to first page when filters change
   useEffect(() => {
-    setCurrentQuery((prev) => ({ ...prev, page: 1 }));
+    setQuery((prev) => ({ ...prev, page: 1 }));
   }, [statusFilter, locationFilter]);
 
-  const handlePageChange = useCallback(
-    (page: number) => {
-      const newQuery = { ...currentQuery, page };
-      setCurrentQuery(newQuery);
-    },
-    [currentQuery]
-  );
-
-  const handlePageSizeChange = useCallback(
-    (pageSize: number) => {
-      const newQuery = { ...currentQuery, limit: pageSize, page: 1 };
-      setCurrentQuery(newQuery);
-    },
-    [currentQuery]
-  );
+  // unified handler (page, optional pageSize) — same pattern as media list
+  const handlePageChange = useCallback((page: number, pageSize?: number) => {
+    setQuery((prev) => ({ ...prev, page, limit: pageSize ?? prev.limit }));
+  }, []);
 
   const handleDelete = (menu: MenuType) => {
     setMenuToDelete(menu);
@@ -137,7 +131,8 @@ export const MenuList: React.FC<MenuListProps> = ({
     if (locationFilter !== "all") {
       if (menu.location !== locationFilter) return false;
     }
-    if (locationFilter !== "all" && menu.location !== locationFilter) return false;
+    if (locationFilter !== "all" && menu.location !== locationFilter)
+      return false;
     return true;
   });
 
@@ -175,36 +170,30 @@ export const MenuList: React.FC<MenuListProps> = ({
     }
   };
 
-  // ✅ Overflow fix
+  // Overflow fix for menu dropdown
   useEffect(() => {
-  function adjustOverflowMenus() {
-    const dropdowns = document.querySelectorAll<HTMLElement>(
-      ".cds--overflow-menu-options"
-    );
-    dropdowns.forEach((el) => {
-      el.style.transform = ""; // reset
-      const rect = el.getBoundingClientRect();
-
-      // if dropdown is near the right edge, shift it left
-      if (rect.right > window.innerWidth - 8) {
-        const overflowAmount = rect.right - (window.innerWidth - 8);
-        el.style.transform = `translateX(-${overflowAmount + 20}px)`; // shift just enough
-      }
-
-      // if dropdown is near the left edge, nudge right
-      if (rect.left < 8) {
-        el.style.transform = `translateX(${Math.abs(rect.left) + 8}px)`;
-      }
-    });
-  }
-
-  document.addEventListener("click", adjustOverflowMenus);
-  window.addEventListener("resize", adjustOverflowMenus);
-  return () => {
-    document.removeEventListener("click", adjustOverflowMenus);
-    window.removeEventListener("resize", adjustOverflowMenus);
-  };
-}, []);
+    function adjustOverflowMenus() {
+      const dropdowns =
+        document.querySelectorAll<HTMLElement>(".cds--overflow-menu-options");
+      dropdowns.forEach((el) => {
+        el.style.transform = "";
+        const rect = el.getBoundingClientRect();
+        if (rect.right > window.innerWidth - 8) {
+          const overflowAmount = rect.right - (window.innerWidth - 8);
+          el.style.transform = `translateX(-${overflowAmount + 20}px)`;
+        }
+        if (rect.left < 8) {
+          el.style.transform = `translateX(${Math.abs(rect.left) + 8}px)`;
+        }
+      });
+    }
+    document.addEventListener("click", adjustOverflowMenus);
+    window.addEventListener("resize", adjustOverflowMenus);
+    return () => {
+      document.removeEventListener("click", adjustOverflowMenus);
+      window.removeEventListener("resize", adjustOverflowMenus);
+    };
+  }, []);
 
   return (
     <div className="menu-list">
@@ -228,8 +217,11 @@ export const MenuList: React.FC<MenuListProps> = ({
                   <div key={menu.id} className="menu-card-wrapper">
                     <div className="menu-card-premium">
                       <div className="menu-card-premium__header">
-                        <div className="menu-card-premium__number">#{index + 1}</div>
+                        <div className="menu-card-premium__number">
+                          #{index + 1}
+                        </div>
                         <div className="menu-card-premium__actions">
+                          <div className="menu-card-premium__overflow-wrapper">
                             <OverflowMenu
                               size="sm"
                               aria-label={t("table.actions.menu", {
@@ -273,7 +265,9 @@ export const MenuList: React.FC<MenuListProps> = ({
 
                       <div className="menu-card-premium__content">
                         <div className="menu-card-premium__title-section">
-                          <h3 className="menu-card-premium__title">{displayName}</h3>
+                          <h3 className="menu-card-premium__title">
+                            {displayName}
+                          </h3>
                         </div>
 
                         <div className="menu-card-premium__meta-row">
@@ -285,7 +279,9 @@ export const MenuList: React.FC<MenuListProps> = ({
                             >
                               {menu.isActive
                                 ? t("status.active", { default: "Active" })
-                                : t("status.inactive", { default: "Inactive" })}
+                                : t("status.inactive", {
+                                    default: "Inactive",
+                                  })}
                             </Tag>
                             <Tag
                               type={menu.isPublished ? "blue" : "gray"}
@@ -371,14 +367,11 @@ export const MenuList: React.FC<MenuListProps> = ({
             return shouldShowPagination ? (
               <div className="pagination-container">
                 <Pagination
-                  page={pagination!.page}
-                  pageSize={pagination!.limit}
+                  page={query.page}
+                  pageSize={query.limit}
                   pageSizes={[12, 24, 48, 96]}
-                  totalItems={totalItems}
-                  onChange={({ page, pageSize }) => {
-                    if (page !== undefined) handlePageChange(page);
-                    if (pageSize !== undefined) handlePageSizeChange(pageSize);
-                  }}
+                  totalItems={pagination?.total ?? 0}
+                  onChange={({ page, pageSize }) => handlePageChange(page ?? 1, pageSize)}
                   size="md"
                 />
               </div>
@@ -393,7 +386,10 @@ export const MenuList: React.FC<MenuListProps> = ({
           menuToDelete
             ? t("modals.deleteMenu.title", {
                 default: 'Delete "{name}"',
-                name: menuToDelete.name?.en || menuToDelete.name?.ne || "menu",
+                name:
+                  menuToDelete.name?.en ||
+                  menuToDelete.name?.ne ||
+                  "menu",
               })
             : t("modals.confirm.title", { default: "Confirm Deletion" })
         }
@@ -403,7 +399,9 @@ export const MenuList: React.FC<MenuListProps> = ({
                 default:
                   'Are you sure you want to delete "{name}"? This action cannot be undone.',
                 name:
-                  menuToDelete.name?.en || menuToDelete.name?.ne || "this menu",
+                  menuToDelete.name?.en ||
+                  menuToDelete.name?.ne ||
+                  "this menu",
               })
             : undefined
         }
