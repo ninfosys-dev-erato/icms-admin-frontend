@@ -409,9 +409,7 @@ export const DocumentCreateForm: React.FC<DocumentCreateFormProps> = ({
                   id="status"
                   labelText={t("form.status.label")}
                   value={createFormState.status}
-                  onChange={(event) =>
-                    handleInputChange("status", event.target.value)
-                  }
+                  onChange={(event) => handleInputChange("status", event.target.value)}
                   invalid={!!validationErrors.status}
                   invalidText={
                     typeof validationErrors.status === "string"
@@ -424,7 +422,11 @@ export const DocumentCreateForm: React.FC<DocumentCreateFormProps> = ({
                     <SelectItem
                       key={status}
                       value={status}
-                      text={t(`status.${status.toLowerCase()}`)}
+                      text={
+                        t(`status.${status.toLowerCase()}`).length > 15
+                          ? `${t(`status.${status.toLowerCase()}`).slice(0, 15)}...`
+                          : t(`status.${status.toLowerCase()}`)
+                      }
                     />
                   ))}
                 </Select>
@@ -462,7 +464,11 @@ export const DocumentCreateForm: React.FC<DocumentCreateFormProps> = ({
                   value={createFormState.publishDate}
                   onChange={(date) => handleInputChange("publishDate", date)}
                   invalid={!!validationErrors.publishDate}
-                  invalidText={validationErrors.publishDate}
+                  invalidText={
+                    typeof validationErrors.publishDate === "string"
+                      ? validationErrors.publishDate
+                      : validationErrors.publishDate?.en || validationErrors.publishDate?.ne || undefined
+                  }
                 />
               </Column>
             </div>
