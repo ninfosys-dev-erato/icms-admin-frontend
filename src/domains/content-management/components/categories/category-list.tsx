@@ -225,29 +225,36 @@ export const CategoryList: React.FC<CategoryListProps> = React.memo(
                         </Tag>
                       </TableCell>
                       <TableCell className="table-cell-right">
-                        <RowActions
-                          ariaLabel={t("categories.card.actions", {
-                            default: "Actions",
-                          })}
-                          actions={[
-                            {
-                              key: "edit",
-                              itemText: t("categories.card.edit", {
-                                default: "Edit",
-                              }),
-                              onClick: () => handleEditCategory(cat),
-                            },
-                            {
-                              key: "delete",
-                              itemText: t("categories.card.delete", {
-                                default: "Delete",
-                              }),
-                              onClick: () => handleDeleteCategory(cat),
-                              hasDivider: true,
-                              isDelete: true,
-                            },
-                          ]}
-                        />
+                        <div
+                          onClick={e => {
+                            // Prevent row click from closing the panel when interacting with RowActions
+                            e.stopPropagation();
+                          }}
+                        >
+                          <RowActions
+                            ariaLabel={t("categories.card.actions", {
+                              default: "Actions",
+                            })}
+                            actions={[
+                              {
+                                key: "edit",
+                                itemText: t("categories.card.edit", {
+                                  default: "Edit",
+                                }),
+                                onClick: () => handleEditCategory(cat),
+                              },
+                              {
+                                key: "delete",
+                                itemText: t("categories.card.delete", {
+                                  default: "Delete",
+                                }),
+                                onClick: () => handleDeleteCategory(cat),
+                                hasDivider: true,
+                                isDelete: true,
+                              },
+                            ]}
+                          />
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
