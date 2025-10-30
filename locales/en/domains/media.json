@@ -75,6 +75,20 @@
       }
     }
   },
+  "folders": {
+    "sliders": "Sliders",
+    "office-settings": "Office settings",
+    "users": "Users",
+    "content": "Content",
+    "documents": "Documents",
+    "reports": "Reports",
+    "videos": "Videos",
+    "audio": "Audio",
+    "general": "General"
+  },
+  "formAdditional": {
+    "additionalSettings": "Additional Settings"
+  },
   "albums": {
     "formTitle": "Album",
     "title": "Albums",

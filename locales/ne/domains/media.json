@@ -75,6 +75,20 @@
       }
     }
   },
+  "folders": {
+    "sliders": "स्लाइडर",
+    "office-settings": "कार्यालय सेटिङ",
+    "users": "प्रयोगकर्ता",
+    "content": "सामग्री",
+    "documents": "कागजात",
+    "reports": "प्रतिवेदन",
+    "videos": "भिडियो",
+    "audio": "अडियो",
+    "general": "सामान्य"
+  },
+  "formAdditional": {
+    "additionalSettings": "थप सेटिङहरू"
+  },
   "albums": {
     "formTitle": "एल्बम",
     "title": "एल्बमहरू",
