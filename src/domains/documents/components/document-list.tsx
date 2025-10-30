@@ -231,6 +231,10 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                         aria-label={t("table.actions.menu")}
                       >
                         <OverflowMenuItem
+                          itemText={t("table.actions.edit", { default: "Edit" })}
+                          onClick={() => onEdit && onEdit(document)}
+                        />
+                        <OverflowMenuItem
                           itemText={t("table.actions.download")}
                           onClick={() => handleDownload(document)}
                         />
