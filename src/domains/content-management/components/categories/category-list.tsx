@@ -20,7 +20,7 @@ import {
   useCategories,
   useDeleteCategory,
 } from "../../hooks/use-category-queries";
-import { ContentNotificationService } from "../../services/content-notification-service";
+import ConfirmDeleteModal from "@/components/shared/confirm-delete-modal";
 import { useContentStore } from "../../stores/content-store";
 
 import type { Category } from "../../types/content";
@@ -110,23 +110,15 @@ export const CategoryList: React.FC<CategoryListProps> = React.memo(
       }
     }, [panelOpen, closePanel]);
 
-    // Memoize the delete handler
-    const handleDeleteCategory = useCallback(
-      (category: Category) => {
-        const categoryName =
-          category.name?.en ||
-          category.name?.ne ||
-          category.slug ||
-          "Unnamed Category";
-        ContentNotificationService.showCategoryDeleteConfirmation(
-          categoryName,
-          () => {
-            deleteMutation.mutate(category.id);
-          }
-        );
-      },
-      [deleteMutation]
-    );
+    // State for delete modal
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [catToDelete, setCatToDelete] = useState<Category | null>(null);
+
+    // Handler to open modal
+    const handleDeleteCategory = useCallback((category: Category) => {
+      setCatToDelete(category);
+      setDeleteModalOpen(true);
+    }, []);
 
     // Handle pagination change from Carbon Pagination component
     const handlePageChange = useCallback(
@@ -207,7 +199,11 @@ export const CategoryList: React.FC<CategoryListProps> = React.memo(
                 </TableHead>
                 <TableBody>
                   {displayCategories.map((cat) => (
-                    <TableRow key={cat.id} onClick={handleRowClick} style={{ cursor: panelOpen ? 'pointer' : 'default' }}>
+                    <TableRow
+                      key={cat.id}
+                      onClick={handleRowClick}
+                      style={{ cursor: panelOpen ? "pointer" : "default" }}
+                    >
                       <TableCell className="font-en">
                         {cat.name.en || cat.name.ne}
                       </TableCell>
@@ -256,6 +252,29 @@ export const CategoryList: React.FC<CategoryListProps> = React.memo(
             </TableContainer>
             {/* Always show pagination for the table view */}
             {paginationElement}
+            {/* Confirm Delete Modal for category deletion */}
+            <ConfirmDeleteModal
+              open={deleteModalOpen}
+              title={t("categories.deleteModal.title", {
+                default: "Confirm Deletion",
+              })}
+              subtitle={
+                catToDelete
+                  ? t(`categories.deleteModal.subtitle`, {
+                      default: `Are you sure you want to delete "${catToDelete.name?.en || catToDelete.name?.ne || catToDelete.slug || "this category"}"? This action cannot be undone.`,
+                    })
+                  : undefined
+              }
+              onConfirm={() => {
+                if (catToDelete) deleteMutation.mutate(catToDelete.id);
+                setDeleteModalOpen(false);
+                setCatToDelete(null);
+              }}
+              onCancel={() => {
+                setDeleteModalOpen(false);
+                setCatToDelete(null);
+              }}
+            />
           </>
         ) : (
           /* Carbon Design System compliant empty state */
