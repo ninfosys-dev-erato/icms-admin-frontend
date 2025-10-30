@@ -230,51 +230,29 @@ export const MenuList: React.FC<MenuListProps> = ({
                       <div className="menu-card-premium__header">
                         <div className="menu-card-premium__number">#{index + 1}</div>
                         <div className="menu-card-premium__actions">
-                          <OverflowMenu
-                            size="sm"
-                            aria-label={t("table.actions.menu", {
-                              default: "Menu actions",
-                            })}
-                            className="menu-card-premium__overflow"
-                          >
-                            <OverflowMenuItem
-                              itemText={t("table.actions.edit", {
-                                default: "Edit",
+                            <OverflowMenu
+                              size="sm"
+                              aria-label={t("table.actions.menu", {
+                                default: "Menu actions",
                               })}
-                              onClick={() => onEdit?.(menu)}
-                            >
-                              <Edit size={16} />
-                            </OverflowMenuItem>
-                            <OverflowMenuItem
-                              itemText={t("table.actions.manageItems", {
-                                default: "Manage Items",
-                              })}
-                              onClick={() =>
-                                onManageItems
-                                  ? onManageItems(menu)
-                                  : goToManageItems(menu)
-                              }
-                            >
-                              <Menu size={16} />
-                            </OverflowMenuItem>
-                            <OverflowMenuItem
-                              hasDivider
-                              isDelete
-                              itemText={t("table.actions.delete", {
-                                default: "Delete",
-                              })}
-                              onClick={() => handleDelete(menu)}
+                              className="menu-card-premium__overflow"
                             >
                               <OverflowMenuItem
-                                itemText={t("table.actions.edit", { default: "Edit" })}
+                                itemText={t("table.actions.edit", {
+                                  default: "Edit",
+                                })}
                                 onClick={() => onEdit?.(menu)}
                               >
                                 <Edit size={16} />
                               </OverflowMenuItem>
                               <OverflowMenuItem
-                                itemText={t("table.actions.manageItems", { default: "Manage Items" })}
+                                itemText={t("table.actions.manageItems", {
+                                  default: "Manage Items",
+                                })}
                                 onClick={() =>
-                                  onManageItems ? onManageItems(menu) : goToManageItems(menu)
+                                  onManageItems
+                                    ? onManageItems(menu)
+                                    : goToManageItems(menu)
                                 }
                               >
                                 <Menu size={16} />
@@ -282,15 +260,16 @@ export const MenuList: React.FC<MenuListProps> = ({
                               <OverflowMenuItem
                                 hasDivider
                                 isDelete
-                                itemText={t("table.actions.delete", { default: "Delete" })}
+                                itemText={t("table.actions.delete", {
+                                  default: "Delete",
+                                })}
                                 onClick={() => handleDelete(menu)}
                               >
                                 <TrashCan size={16} />
                               </OverflowMenuItem>
-                            </OverflowMenu>
+                              </OverflowMenu>
                           </div>
                         </div>
-                      </div>
 
                       <div className="menu-card-premium__content">
                         <div className="menu-card-premium__title-section">
