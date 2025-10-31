@@ -423,6 +423,46 @@
   padding: 0;
 }
 
+/* Responsiveness: create flexible items similar to document section */
+.slider-flex-item {
+  flex: 1 1 calc(25% - 0.75rem);
+  min-width: 280px;
+  max-width: 340px;
+}
+
+@media (max-width: 1200px) {
+  .slider-flex-item {
+    flex: 1 1 calc(33.333% - 0.667rem);
+  }
+}
+
+@media (max-width: 900px) {
+  .slider-flex-item {
+    flex: 1 1 calc(50% - 0.5rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .slider-flex-item {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  /* Compact header & filters on small screens */
+  .slider-header {
+    padding: 1.5rem 1rem 1rem 1rem;
+  }
+
+  .slider-title {
+    font-size: 1.5rem;
+  }
+
+  .slider-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
 .c4p--create-side-panel__form-title-text,
 .c4p--create-side-panel__content-text {
   padding: 0 !important;
