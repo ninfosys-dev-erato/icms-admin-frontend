@@ -18,6 +18,7 @@ import { Reset } from "@carbon/icons-react";
 import { useMediaStore } from "../stores/media-store";
 import { useBulkUploadMedia, useUploadMedia } from "../hooks/use-media-queries";
 import { useTranslations } from "next-intl";
+import { NotificationService } from '@/services/notification-service';
 import FileUpload from "@/components/shared/file-upload/FileUpload";
 import { MediaFilePreview } from "./media-file-preview";
 import TranslatableField from "@/components/shared/translatable-field";
@@ -97,6 +98,11 @@ export const MediaUploadForm: React.FC<{ onSuccess?: () => void }> = ({
       errs.folder = t("form.validation.folderRequired");
 
     setErrors(errs);
+    // show a notification when no file is selected
+    if (errs.file) {
+      // use a concise validation notification
+      NotificationService.showError(t("form.validation.fileRequired") as string);
+    }
 
     // Switch tabs for first invalid language in each field
     if (firstInvalidTitleLang) setTitleTab(firstInvalidTitleLang);
@@ -130,6 +136,17 @@ export const MediaUploadForm: React.FC<{ onSuccess?: () => void }> = ({
     return undefined;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [createFormState, files]);
+
+  // Clear the create form when this component unmounts (e.g., when the upload modal is closed)
+  useEffect(() => {
+    return () => {
+      // reset form state and local UI state so titles/fields are cleared on close
+      resetFormState("create");
+      setFiles([]);
+      setErrors({});
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const submit = async () => {
     setSubmitting(true);
