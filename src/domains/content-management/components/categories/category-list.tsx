@@ -20,7 +20,7 @@ import {
   useCategories,
   useDeleteCategory,
 } from "../../hooks/use-category-queries";
-import { ContentNotificationService } from "../../services/content-notification-service";
+import ConfirmDeleteModal from "@/components/shared/confirm-delete-modal";
 import { useContentStore } from "../../stores/content-store";
 
 import type { Category } from "../../types/content";
@@ -32,7 +32,7 @@ interface CategoryListProps {
 export const CategoryList: React.FC<CategoryListProps> = React.memo(
   ({ onCreate }) => {
     const t = useTranslations("content-management");
-    const { openEditCategoryPanel } = useContentStore();
+    const { openEditCategoryPanel, closePanel, panelOpen } = useContentStore();
     const deleteMutation = useDeleteCategory();
 
     // Local pagination state (default 10 per page)
@@ -103,23 +103,22 @@ export const CategoryList: React.FC<CategoryListProps> = React.memo(
       [openEditCategoryPanel]
     );
 
-    // Memoize the delete handler
-    const handleDeleteCategory = useCallback(
-      (category: Category) => {
-        const categoryName =
-          category.name?.en ||
-          category.name?.ne ||
-          category.slug ||
-          "Unnamed Category";
-        ContentNotificationService.showCategoryDeleteConfirmation(
-          categoryName,
-          () => {
-            deleteMutation.mutate(category.id);
-          }
-        );
-      },
-      [deleteMutation]
-    );
+    // Handle row click - close panel if it's open
+    const handleRowClick = useCallback(() => {
+      if (panelOpen) {
+        closePanel();
+      }
+    }, [panelOpen, closePanel]);
+
+    // State for delete modal
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [catToDelete, setCatToDelete] = useState<Category | null>(null);
+
+    // Handler to open modal
+    const handleDeleteCategory = useCallback((category: Category) => {
+      setCatToDelete(category);
+      setDeleteModalOpen(true);
+    }, []);
 
     // Handle pagination change from Carbon Pagination component
     const handlePageChange = useCallback(
@@ -200,7 +199,11 @@ export const CategoryList: React.FC<CategoryListProps> = React.memo(
                 </TableHead>
                 <TableBody>
                   {displayCategories.map((cat) => (
-                    <TableRow key={cat.id}>
+                    <TableRow
+                      key={cat.id}
+                      onClick={handleRowClick}
+                      style={{ cursor: panelOpen ? "pointer" : "default" }}
+                    >
                       <TableCell className="font-en">
                         {cat.name.en || cat.name.ne}
                       </TableCell>
@@ -218,29 +221,36 @@ export const CategoryList: React.FC<CategoryListProps> = React.memo(
                         </Tag>
                       </TableCell>
                       <TableCell className="table-cell-right">
-                        <RowActions
-                          ariaLabel={t("categories.card.actions", {
-                            default: "Actions",
-                          })}
-                          actions={[
-                            {
-                              key: "edit",
-                              itemText: t("categories.card.edit", {
-                                default: "Edit",
-                              }),
-                              onClick: () => handleEditCategory(cat),
-                            },
-                            {
-                              key: "delete",
-                              itemText: t("categories.card.delete", {
-                                default: "Delete",
-                              }),
-                              onClick: () => handleDeleteCategory(cat),
-                              hasDivider: true,
-                              isDelete: true,
-                            },
-                          ]}
-                        />
+                        <div
+                          onClick={e => {
+                            // Prevent row click from closing the panel when interacting with RowActions
+                            e.stopPropagation();
+                          }}
+                        >
+                          <RowActions
+                            ariaLabel={t("categories.card.actions", {
+                              default: "Actions",
+                            })}
+                            actions={[
+                              {
+                                key: "edit",
+                                itemText: t("categories.card.edit", {
+                                  default: "Edit",
+                                }),
+                                onClick: () => handleEditCategory(cat),
+                              },
+                              {
+                                key: "delete",
+                                itemText: t("categories.card.delete", {
+                                  default: "Delete",
+                                }),
+                                onClick: () => handleDeleteCategory(cat),
+                                hasDivider: true,
+                                isDelete: true,
+                              },
+                            ]}
+                          />
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -249,6 +259,29 @@ export const CategoryList: React.FC<CategoryListProps> = React.memo(
             </TableContainer>
             {/* Always show pagination for the table view */}
             {paginationElement}
+            {/* Confirm Delete Modal for category deletion */}
+            <ConfirmDeleteModal
+              open={deleteModalOpen}
+              title={t("categories.deleteModal.title", {
+                default: "Confirm Deletion",
+              })}
+              subtitle={
+                catToDelete
+                  ? t(`categories.deleteModal.subtitle`, {
+                      default: `Are you sure you want to delete "${catToDelete.name?.en || catToDelete.name?.ne || catToDelete.slug || "this category"}"? This action cannot be undone.`,
+                    })
+                  : undefined
+              }
+              onConfirm={() => {
+                if (catToDelete) deleteMutation.mutate(catToDelete.id);
+                setDeleteModalOpen(false);
+                setCatToDelete(null);
+              }}
+              onCancel={() => {
+                setDeleteModalOpen(false);
+                setCatToDelete(null);
+              }}
+            />
           </>
         ) : (
           /* Carbon Design System compliant empty state */

@@ -30,7 +30,7 @@
 .translatable-tabs {
   display: flex;
   border-bottom: 1px solid var(--cds-ui-03);
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
 }
 
 .tab-button {
@@ -908,12 +908,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
-  margin-top: -2rem;
-}
-
-.section-title {
-  font-size: 16px;
 }
 
 .submitting-indicator {
@@ -940,15 +934,7 @@
   font-size: 0.875rem;
 }
 
-/* Form Section Titles */
-.form-section-title {
-  margin: 2rem 0 1rem 0;
-  padding-bottom: 0.5rem;
-  /* border-bottom: 1px solid #e0e0e0; */
-}
-
 .form-section-title h3 {
-  margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
   color: #161616;
@@ -1368,25 +1354,16 @@
   background: white;
 }
 
-/* Content form utilities and section header styles */
-.section-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-  margin-top: -2rem;
-}
-
 .section-title {
   font-size: 16px;
-}
-
-.section-title-with-margin {
-  margin-bottom: 1rem;
+  margin: 0;
 }
 
 .edit-section-title{
-  margin-top: -2rem;
+  margin-bottom: 1rem;
+}
+.section-title-with-margin {
+  margin-bottom: 1rem;
 }
 
 .submitting-indicator {
@@ -1726,7 +1703,7 @@
   max-width: 720px;
 }
 
-.attachment-list .upload-section .section-title {
+.attachment-list, .upload-section{
   margin: 0;
   /* margin-bottom: 1rem; */
   font-size: 1.125rem;
@@ -2895,9 +2872,6 @@
     margin-bottom: 1.5rem;
   }
 }
-.section-title-with-margin{
-    margin: 1rem 0;
-}
 /* Responsive adjustments for attachment table */
 @media (max-width: 768px) {
   .attachment-preview-cell {
@@ -2936,7 +2910,7 @@
 }
 
 /* Scoped section title inside attachment upload form */
-.attachment-upload-form .section-title {
+.attachment-upload-form {
   font-size: 1rem;
   font-weight: 600;
   color: var(--cds-text-01);
@@ -3002,7 +2976,6 @@
 .upload-icon {
   color: var(--cds-text-03);
 }
-
 /* Ensure the upload button is always visible and properly styled */
 .upload-content .cds--btn {
   background-color: var(--cds-interactive-02) !important;
@@ -3311,3 +3284,9 @@
 }
 
 /* Hide tooltip caret and content */
+.c4p--create-side-panel__form-title-text, .c4p--create-side-panel__content-text {
+  display: none;
+}
+.cds--form.c4p--create-side-panel__form {
+  padding: 0;
+}

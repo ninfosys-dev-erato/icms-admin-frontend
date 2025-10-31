@@ -89,7 +89,7 @@
 }
 
 .section-header-row{
-  margin-top: -1rem;
+  margin-top: 0.5rem;
   margin-bottom: 1rem;
 }
 .section-title{
@@ -417,4 +417,7 @@
   width: 100%;
   box-sizing: border-box;
   padding-right: 0;
+}
+.cds--form.c4p--create-side-panel__form{
+  padding: 0;
 }

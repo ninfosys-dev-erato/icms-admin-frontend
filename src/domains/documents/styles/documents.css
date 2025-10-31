@@ -705,7 +705,7 @@
 
 /* Enhanced Dropdown Styling */
 .document-container .cds--dropdown {
-  min-width: 180px;
+  min-width: 140px;
 }
 
 .document-container .cds--dropdown__label {
@@ -1359,4 +1359,18 @@
 .c4p--create-side-panel__form-title-text,
 .c4p--create-side-panel__content-text {
   display: none;
+}
+
+/* Serial number badge for document cards */
+.card-order-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #0f62fe;
+  color: #fff;
+  border-radius: 8px;
+  padding: 2px 10px;
+  font-weight: bold;
+  font-size: 16px;
+  z-index: 2;
 }

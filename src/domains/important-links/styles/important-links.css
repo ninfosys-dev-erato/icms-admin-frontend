@@ -667,3 +667,61 @@
   width: 100%;
   height: 80px;
 }
+/* ===============================
+   IMPORTANT LINKS FORM HEADING
+   Matches Document Form "Basic Information"
+   =============================== */
+
+.important-links-form-actionbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.important-links-form-actionbar h3 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+  color: var(--cds-text-01);
+}
+
+.important-links-form-actionbar .cds--btn--ghost {
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--cds-text-02);
+}
+
+/* Inline loading below heading (same as document form) */
+.important-links-inline-loading {
+  margin-bottom: 0.5rem;
+}
+
+/* Compact spacing for all input groups */
+.important-links-field-margin {
+  margin-top: 1rem;
+}
+
+.important-links-toggle-margin {
+  margin-top: 1rem;
+}
+
+/* Keep the flex utility consistent */
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.font-16 {
+  font-size: 16px;
+}
+
+/* Responsive adjustment for side panels */
+@media (max-width: 768px) {
+  .important-links-form-actionbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}

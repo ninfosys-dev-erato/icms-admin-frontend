@@ -1065,6 +1065,9 @@
   color: var(--cds-text-primary, #161616);
   font-weight: 500;
 }
+.c4p--side-panel{
+  z-index: 0 !important;
+}
 
 /* Enhanced Form Content Styles */
 .form-content--enhanced {
@@ -1375,3 +1378,135 @@
             margin-left: 1rem;
           }
         }
+        /* ===============================
+   NAVIGATION FORM - BASIC INFORMATION HEADER
+   Matches Document Form Styling
+   =============================== */
+
+.navigation-create-form-actionbar,
+.navigation-edit-form-actionbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.navigation-create-form-actionbar h3,
+.navigation-edit-form-actionbar h3 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+  color: var(--cds-text-01);
+}
+
+.navigation-create-form-actionbar .cds--btn--ghost,
+.navigation-edit-form-actionbar .cds--btn--ghost {
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--cds-text-02);
+}
+
+/* Utility for alignment and font */
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.font-16 {
+  font-size: 16px;
+}
+
+/* Responsive adjustment for narrow screens */
+@media (max-width: 768px) {
+  .navigation-create-form-actionbar,
+  .navigation-edit-form-actionbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+.navigation-create-form-actionbar .cds--btn--ghost,
+.navigation-edit-form-actionbar .cds--btn--ghost {
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--cds-interactive-01); /* Matches Document Reset button */
+}
+
+.navigation-create-form-actionbar .cds--btn--ghost:hover,
+.navigation-edit-form-actionbar .cds--btn--ghost:hover {
+  color: var(--cds-interactive-02);
+}
+
+/* //here new */
+
+
+/* Applies only to the last card in each row */
+.menu-card-premium:nth-child(4n) .cds--overflow-menu-options,
+.menu-card-premium:last-child .cds--overflow-menu-options {
+  transform: translateX(-40%) translateY(4px) !important;
+  right: 0 !important;
+  left: auto !important;
+}
+
+/* ✅ Fix overflow dropdown for rightmost cards */
+.menu-cards-grid > .menu-card-premium:nth-child(4n) .cds--overflow-menu-options,
+.menu-cards-grid > .menu-card-premium:last-child .cds--overflow-menu-options {
+  transform: translateX(-70%) translateY(4px) !important;
+  right: 0 !important;
+  left: auto !important;
+}
+@media (max-width: 1200px) {
+  .menu-cards-grid > .menu-card-premium:nth-child(3n) .cds--overflow-menu-options {
+    transform: translateX(-70%) translateY(4px) !important;
+  }
+}
+/* ========================================
+   Prevent right-edge dropdown overflow
+   ======================================== */
+.menu-card-premium {
+  position: relative;
+}
+
+/* Default dropdown positioning (keep as-is for normal cards) */
+.menu-card-premium .cds--overflow-menu-options {
+  right: 0 !important;
+  left: auto !important;
+  transform: translateY(4px) !important;
+}
+
+/* ✅ Smart adjustment when the card is close to the right edge */
+.menu-card-premium .cds--overflow-menu-options {
+  transform-origin: top right !important;
+}
+
+/* Shift only if dropdown would go off-screen */
+.menu-card-premium .cds--overflow-menu-options[data-overflow='right-edge'] {
+  transform: translateX(-60%) translateY(4px) !important;
+  right: auto !important;
+  left: auto !important;
+}
+/* === OverflowMenu Fix === */
+.menu-card-premium__overflow-wrapper {
+  position: relative;
+}
+
+.menu-card-premium__overflow-wrapper .cds--overflow-menu-options {
+  transform: translateY(4px) translateX(0) !important;
+  transform-origin: top right;
+}
+
+/* When near right edge, push left */
+.menu-card-premium__overflow-wrapper[data-overflow="right-edge"]
+  .cds--overflow-menu-options {
+  transform: translateY(4px) translateX(-60%) !important;
+  transform-origin: top right;
+}
+.cds--overflow-menu-options {
+  z-index: 9999;
+  min-width: 160px;
+  background: var(--cds-ui-01, #fff);
+  border: 1px solid var(--cds-ui-03, #e0e0e0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+}

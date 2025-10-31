@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { InlineLoading, Pagination, OverflowMenu, OverflowMenuItem, Tag, Table, TableHead, TableRow, TableHeader, TableBody, TableCell, TableContainer } from '@carbon/react';
 import { DataBase } from '@carbon/icons-react';
 import { useAlbums, useDeleteAlbum } from '../hooks/use-album-queries';
-import { AlbumNotificationService } from '../services/album-notification-service';
+import ConfirmDeleteModal from '@/components/shared/confirm-delete-modal';
 import type { Album, AlbumQuery } from '../types/album';
 import { useAlbumStore } from '../stores/album-store';
 import { useTranslations } from 'next-intl';
@@ -21,6 +21,8 @@ export const AlbumList: React.FC<AlbumListProps> = ({ search = '', statusFilter 
   const t = useTranslations('media.albums');
   const tMedia = useTranslations('media');
   const deleteMutation = useDeleteAlbum();
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
 
   useEffect(() => {
     setQuery((prev) => ({ ...prev, page: 1, search: search || undefined, isActive: statusFilter === 'all' ? undefined : statusFilter === 'active' }));
@@ -63,7 +65,7 @@ export const AlbumList: React.FC<AlbumListProps> = ({ search = '', statusFilter 
   return (
     <div>
       {filteredItems.length > 0 ? (
-        <TableContainer title={t('title')} description={t('subtitle')}>
+        <TableContainer title={""} description="">
           <Table size="md" useZebraStyles>
             <TableHead>
               <TableRow>
@@ -94,10 +96,8 @@ export const AlbumList: React.FC<AlbumListProps> = ({ search = '', statusFilter 
                         itemText={tMedia('card.delete')}
                         disabled={deleteMutation.isPending}
                         onClick={() => {
-                          const title = a?.name?.en || a?.name?.ne || 'Album';
-                          AlbumNotificationService.showDeleteConfirmation(title, () => {
-                            deleteMutation.mutate(a.id);
-                          });
+                          setSelectedAlbum(a);
+                          setIsConfirmOpen(true);
                         }}
                       />
                     </OverflowMenu>
@@ -106,6 +106,25 @@ export const AlbumList: React.FC<AlbumListProps> = ({ search = '', statusFilter 
               ))}
             </TableBody>
           </Table>
+              {selectedAlbum && (
+                <ConfirmDeleteModal
+                  open={isConfirmOpen}
+                  title={tMedia('card.confirmDeleteTitle', { default: 'Confirm deletion' } as any)}
+                  subtitle={tMedia('card.confirmDeleteSubtitle', {
+                    name: selectedAlbum?.name?.en || selectedAlbum?.name?.ne,
+                    default: `Are you sure you want to delete "${selectedAlbum?.name?.en || selectedAlbum?.name?.ne}"? This action cannot be undone.`,
+                  } as any)}
+                  onConfirm={() => {
+                    if (selectedAlbum) deleteMutation.mutate(selectedAlbum.id);
+                    setIsConfirmOpen(false);
+                    setSelectedAlbum(null);
+                  }}
+                  onCancel={() => {
+                    setIsConfirmOpen(false);
+                    setSelectedAlbum(null);
+                  }}
+                />
+              )}
         </TableContainer>
       ) : (
         <div className="empty-state">

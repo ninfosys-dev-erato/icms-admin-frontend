@@ -1,3 +1,5 @@
+
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -7,11 +9,11 @@ import {
   Toggle,
   Grid,
   Column,
-  Stack,
   InlineLoading,
+  Button,
   TextInput,
 } from "@carbon/react";
-import { Save, Close, Link } from "@carbon/icons-react";
+import { Reset } from "@carbon/icons-react";
 import { useTranslations } from "next-intl";
 import { TranslatableField } from "@/components/shared/translatable-field";
 
@@ -43,7 +45,6 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
     initializeEditForm,
   } = useImportantLinksStore();
 
-  // Initialize store-backed form on mount/link change
   useEffect(() => {
     initializeEditForm(link);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,14 +57,10 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
     isActive: link.isActive,
   };
 
-  // Validation state
-  const [validationErrors, setValidationErrors] = useState<
-    Record<string, string>
-  >({});
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const [titleTab, setTitleTab] = useState<"en" | "ne">("en");
   const [hasChanges, setHasChanges] = useState(false);
 
-  // Check for changes
   useEffect(() => {
     const hasFormChanges =
       formData.linkTitle.en !== (link.linkTitle?.en || "") ||
@@ -79,7 +76,6 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
     const errors: Record<string, string> = {};
     let firstInvalidTitleLang: "en" | "ne" | null = null;
 
-    // Validate title (per language, only first error shown)
     if (!formData.linkTitle.en.trim()) {
       errors.linkTitle = t("form.linkTitle.validation.required");
       if (!firstInvalidTitleLang) firstInvalidTitleLang = "en";
@@ -88,7 +84,6 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
       if (!firstInvalidTitleLang) firstInvalidTitleLang = "ne";
     }
 
-    // Validate URL
     if (!formData.linkUrl.trim()) {
       errors.linkUrl = t("form.linkUrl.validation.required");
     } else {
@@ -99,7 +94,6 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
       }
     }
 
-    // Validate order
     if (formData.order < 1) {
       errors.order = t("form.order.validation.minimum");
     }
@@ -109,14 +103,12 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
     return Object.keys(errors).length === 0;
   };
 
-  // Listen for form submission from the parent CreateSidePanel
   useEffect(() => {
     const handleParentFormSubmit = (e: Event) => {
       e.preventDefault();
       e.stopPropagation();
       setSubmitting(true);
 
-      // Validate and submit the form
       if (!validateForm()) {
         setSubmitting(false);
         return;
@@ -194,7 +186,6 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
   ) => {
     updateFormField(link.id, field, value);
 
-    // Clear validation error for this field
     if (validationErrors[field]) {
       const newErrors = { ...validationErrors };
       delete newErrors[field];
@@ -202,9 +193,20 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
     }
   };
 
+  const handleResetForm = () => {
+    initializeEditForm(link);
+    setValidationErrors({});
+  };
+
   return (
     <div>
       <div id="important-links-form">
+        {/* Action Bar with Heading */}
+        <div className="document-create-form-actionbar flex">
+          <h3 className="font-16">{t("sections.basicInfo")}</h3>
+        
+        </div>
+
         {isSubmitting && (
           <div className="important-links-inline-loading">
             <InlineLoading description={t("actions.updating")} />
@@ -212,9 +214,7 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
         )}
 
         <Grid fullWidth>
-          {/* Basic Information Section */}
           <Column lg={16} md={8} sm={4}>
-            {/* Link Title */}
             <TranslatableField
               label={t("form.linkTitle.label")}
               value={formData.linkTitle}
@@ -231,7 +231,6 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
               setActiveTab={setTitleTab}
             />
 
-            {/* Link URL */}
             <div className="important-links-field-margin">
               <TextInput
                 id="linkUrl"
@@ -244,8 +243,6 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
               />
             </div>
 
-            {/* Order and Active Status - VERTICAL LAYOUT */}
-            {/* Order Input */}
             <div className="important-links-field-margin">
               <NumberInput
                 id="order"
@@ -264,7 +261,6 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
               />
             </div>
 
-            {/* Active Status Toggle - Positioned below Order */}
             <div className="important-links-toggle-margin">
               <Toggle
                 id="isActive"
@@ -273,18 +269,6 @@ export const ImportantLinksEditForm: React.FC<ImportantLinksEditFormProps> = ({
                 onToggle={(checked) => handleInputChange("isActive", checked)}
               />
             </div>
-
-            {/*
-            ORDER AND ACTIVE STATUS - SIDE BY SIDE LAYOUT (COMMENTED FOR FUTURE USE)
-            <div className="important-links-side-by-side">
-              <Column lg={8} md={4} sm={4}>
-                <NumberInput ... />
-              </Column>
-              <Column lg={8} md={4} sm={4}>
-                <Toggle ... className="important-links-toggle-side-margin" />
-              </Column>
-            </div>
-            */}
           </Column>
         </Grid>
       </div>

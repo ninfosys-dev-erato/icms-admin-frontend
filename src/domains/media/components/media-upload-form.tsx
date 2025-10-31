@@ -234,11 +234,11 @@ export const MediaUploadForm: React.FC<{ onSuccess?: () => void }> = ({
                   "videos",
                   "audio",
                   "general",
-                ].map((f) => ({ id: f, label: f }))}
+                ].map((f) => ({ id: f, label: t(`folders.${f}`, { default: f }) }))}
                 itemToString={(i) => (i ? i.label : "")}
                 selectedItem={{
                   id: createFormState.folder,
-                  label: createFormState.folder,
+                  label: t(`folders.${createFormState.folder}`, { default: createFormState.folder }),
                 }}
                 onChange={({ selectedItem }) =>
                   updateFormField(
@@ -275,8 +275,8 @@ export const MediaUploadForm: React.FC<{ onSuccess?: () => void }> = ({
                 }
               />
             </div>
-            <Accordion className="media-upload-accordion">
-              <AccordionItem title="Additional Settings">
+              <Accordion className="media-upload-accordion">
+              <AccordionItem title={t('formAdditional.additionalSettings') as any}>
                 {/* description */}
                 <div className="m--mt-1">
                   <TranslatableField

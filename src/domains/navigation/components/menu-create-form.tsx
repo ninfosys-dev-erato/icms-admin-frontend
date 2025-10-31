@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
@@ -20,8 +21,7 @@ import { useTranslations } from "next-intl";
 import { TranslatableField } from "@/components/shared/translatable-field";
 import { MenuFormData, MenuLocation } from "../types/navigation";
 import { useNavigationStore } from "../stores/navigation-store";
-import { useCreateMenu } from "../hooks/use-navigation-queries";
-import { useCategoriesForNavigation } from "../hooks/use-navigation-queries";
+import { useCreateMenu, useMenus, useCategoriesForNavigation } from "../hooks/use-navigation-queries";
 
 interface MenuCreateFormProps {
   onSuccess?: () => void;
@@ -44,24 +44,31 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
     resetCreateForm,
   } = useNavigationStore();
 
-  // Fetch categories for autocomplete
   const { data: categoriesResponse } = useCategoriesForNavigation();
+  const { data: menusResponse } = useMenus({ page: 1, limit: 1000 }); // ✅ fetch all menus
   const categories = categoriesResponse?.data || [];
 
-  // Debug: Monitor store state changes
-  // removed debug logging
-
-  // Validation state
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
   >({});
   const [nameTab, setNameTab] = useState<"en" | "ne">("en");
 
+  // ✅ Auto-increment order from last existing menu
+  useEffect(() => {
+    if (menusResponse?.data?.length) {
+      const maxOrder = Math.max(
+        ...menusResponse.data.map((menu: any) => menu.order || 0)
+      );
+      updateFormField("create", "order", maxOrder + 1);
+    } else {
+      updateFormField("create", "order", 0);
+    }
+  }, [menusResponse, updateFormField]);
+
   const validateForm = (): boolean => {
     const errors: Record<string, string> = {};
     let firstInvalidNameLang: "en" | "ne" | null = null;
 
-    // Validate name (per language, only first error shown)
     if (!createFormState.name.en.trim()) {
       errors.name = t("form.name.validation.required", {
         default: "Menu name is required in at least one language",
@@ -74,14 +81,12 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
       if (!firstInvalidNameLang) firstInvalidNameLang = "ne";
     }
 
-    // Validate location
     if (!createFormState.location) {
       errors.location = t("form.location.validation.required", {
         default: "Menu location is required",
       });
     }
 
-    // Validate order
     if (createFormState.order < 0) {
       errors.order = t("form.order.validation.min", {
         default: "Order must be a non-negative number",
@@ -95,23 +100,19 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
 
   const handleFormSubmission = useCallback(async () => {
     try {
-      // prepare payload and submit
       const payload = {
         name: createFormState.name,
         location: createFormState.location,
-        order: createFormState.order, // Add order field
+        order: createFormState.order,
         isActive: createFormState.isActive,
         isPublished: createFormState.isPublished,
-        categorySlug: createFormState.categorySlug || undefined, // Include categorySlug
+        categorySlug: createFormState.categorySlug || undefined,
       };
 
       const result = await createMutation.mutateAsync(payload);
 
-      // Reset form
       resetCreateForm();
       setValidationErrors({});
-
-      // Call success callback immediately
       onSuccess?.();
     } catch (error) {
       console.error("MenuCreateForm - Creation error:", error);
@@ -126,7 +127,6 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
     setSubmitting,
   ]);
 
-  // Listen for form submission from the parent CreateSidePanel
   useEffect(() => {
     const handleParentFormSubmit = (e: Event) => {
       e.preventDefault();
@@ -149,45 +149,10 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
       };
     }
     return undefined;
-  }, [handleFormSubmission, setSubmitting, validateForm]); // Empty dependency array to prevent re-renders
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    event.stopPropagation();
-    setSubmitting(true);
-
-    if (!validateForm()) {
-      setSubmitting(false);
-      return;
-    }
-
-    try {
-      await createMutation.mutateAsync({
-        name: createFormState.name,
-        location: createFormState.location,
-        order: createFormState.order, // Add order field
-        isActive: createFormState.isActive,
-        isPublished: createFormState.isPublished,
-        categorySlug: createFormState.categorySlug || undefined, // Include categorySlug
-      });
-
-      // Reset form
-      resetCreateForm();
-      setValidationErrors({});
-
-      // Call success callback immediately
-      onSuccess?.();
-    } catch (error) {
-      console.error("Menu creation error:", error);
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  }, [handleFormSubmission, setSubmitting, validateForm]);
 
   const handleInputChange = (field: keyof MenuFormData, value: unknown) => {
     updateFormField("create", field, value);
-
-    // Clear validation error for this field
     if (validationErrors[field]) {
       const newErrors = { ...validationErrors };
       delete newErrors[field];
@@ -198,6 +163,15 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
   const handleResetForm = () => {
     resetCreateForm();
     setValidationErrors({});
+    // ✅ reassign auto increment order after reset
+    if (menusResponse?.data?.length) {
+      const maxOrder = Math.max(
+        ...menusResponse.data.map((menu: any) => menu.order || 0)
+      );
+      updateFormField("create", "order", maxOrder + 1);
+    } else {
+      updateFormField("create", "order", 0);
+    }
   };
 
   const locationOptions = [
@@ -208,7 +182,6 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
     { value: "CUSTOM", label: "Custom" },
   ];
 
-  // Prepare category options for autocomplete
   const categoryOptions = categories.map((cat) => ({
     id: cat.slug,
     text: cat.name?.en || cat.name?.ne || cat.slug || "Unknown",
@@ -218,14 +191,9 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
   return (
     <div>
       <div id="menu-form">
-        {/* Top action bar */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            marginBottom: "0.5rem",
-          }}
-        >
+        {/* ✅ Added "Basic Information" Heading */}
+        <div className="navigation-create-form-actionbar flex">
+          <h3 className="font-16">{t("sections.basicInfo")}</h3>
           <Button
             kind="ghost"
             size="sm"
@@ -246,7 +214,6 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
         )}
 
         <Grid fullWidth>
-          {/* Basic Information Section */}
           <Column lg={16} md={8} sm={4}>
             {/* Name */}
             <TranslatableField
@@ -267,8 +234,6 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
               activeTab={nameTab}
               setActiveTab={setNameTab}
             />
-
-            {/* Description removed as per compliance */}
 
             {/* Location */}
             <div>
@@ -302,10 +267,8 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
                 label={t("form.order.label", { default: "Order" })}
                 value={createFormState.order ?? 0}
                 onChange={(e, { value }) => {
-                  // NumberInput onChange processed
                   const numericValue =
                     value !== undefined && value !== null ? Number(value) : 0;
-                  // Numeric value processed
                   handleInputChange("order", numericValue);
                 }}
                 invalid={!!validationErrors.order}
@@ -318,7 +281,7 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
               />
             </div>
 
-            {/* Category Slug with Autocomplete */}
+            {/* Category Slug */}
             <div style={{ marginTop: "1rem" }}>
               <ComboBox
                 id="categorySlug"
@@ -336,15 +299,11 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
                   ) || null
                 }
                 onChange={({ selectedItem }) => {
-                  // ComboBox onChange called
                   const newValue = selectedItem?.id || "";
-                  // Setting categorySlug
                   handleInputChange("categorySlug", newValue);
                 }}
                 onInputChange={(inputValue) => {
-                  // Filter categories based on input
                   if (!inputValue) {
-                    // Clearing categorySlug
                     handleInputChange("categorySlug", "");
                   }
                 }}
