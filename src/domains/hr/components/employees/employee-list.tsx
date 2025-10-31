@@ -16,7 +16,7 @@ import {
   TableContainer,
 } from "@carbon/react";
 import { User, Building } from "@carbon/icons-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useDeleteEmployee, useEmployees } from "../../hooks/use-hr-queries";
 import type {
   EmployeeResponseDto,
@@ -35,6 +35,7 @@ export const EmployeeList: React.FC<EmployeeListProps> = ({
   queryOverrides = {},
 }) => {
   const t = useTranslations("hr-employees");
+  const locale = useLocale();
   const [query, setQuery] = useState<Partial<EmployeeQueryDto>>({
     page: 1,
     limit: 12,
@@ -100,24 +101,22 @@ export const EmployeeList: React.FC<EmployeeListProps> = ({
                 <TableRow key={emp.id}>
                   <TableCell>
                     <div className="employee-photo-table-cell">
-                      <EmployeePhotoPreview
-                        mediaId={emp.photoMediaId}
-                        directUrl={emp.photo?.presignedUrl}
-                        alt={`${emp.name.en || emp.name.ne} photo`}
-                        className="employee-photo-table"
-                      />
+                        <EmployeePhotoPreview
+                          mediaId={emp.photoMediaId}
+                          directUrl={emp.photo?.presignedUrl}
+                          alt={`${(emp.name?.[locale as 'en' | 'ne'] || emp.name?.en || emp.name?.ne) || ''} photo`}
+                          className="employee-photo-table"
+                        />
                     </div>
                   </TableCell>
                   <TableCell className="font-en">
-                    {emp.name.en || emp.name.ne}
+                    {emp.name?.[locale as 'en' | 'ne'] || emp.name?.en || emp.name?.ne}
                   </TableCell>
                   <TableCell className="font-en">
-                    {emp.position?.en || emp.position?.ne || ""}
+                    {emp.position?.[locale as 'en' | 'ne'] || emp.position?.en || emp.position?.ne || ""}
                   </TableCell>
                   <TableCell className="font-en">
-                    {emp.department?.departmentName?.en ||
-                      emp.department?.departmentName?.ne ||
-                      ""}
+                    {emp.department?.departmentName?.[locale as 'en' | 'ne'] || emp.department?.departmentName?.en || emp.department?.departmentName?.ne || ""}
                   </TableCell>
                   <TableCell>
                     <Tag type={emp.isActive ? "green" : "gray"} size="sm">
