@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
@@ -34,9 +35,7 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
   employee,
   onSuccess,
 }) => {
-  // Temporary state for instant preview after upload
   const t = useTranslations("hr-employees");
-  // Use shared HR namespace for common labels like sections and actions
   const tHr = useTranslations("hr");
   const updateMutation = useUpdateEmployee();
   const uploadPhotoMutation = useUploadEmployeePhoto();
@@ -51,7 +50,7 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
     setSelectedFile,
     resetFormState,
   } = useHRUIStore();
-  // Temporary state for instant preview after upload
+
   const [tempImageUrl, setTempImageUrl] = useState<string | undefined>(
     undefined
   );
@@ -97,12 +96,9 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
 
   useEffect(() => {
     const handler = (e: Event) => {
-      // Prevent default for native submit events
       try {
         e.preventDefault();
-      } catch (_) {
-        // some custom events may not support preventDefault
-      }
+      } catch (_) {}
       try {
         e.stopPropagation();
       } catch (_) {}
@@ -111,14 +107,9 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
 
     const container = document.getElementById("hr-form");
     const form = container?.closest("form");
-
-    // Attach to native form submit if a form element exists
     if (form) {
       form.addEventListener("submit", handler as EventListener);
     }
-
-    // Also listen for a custom 'formSubmit' event on the container.
-    // The sidebar may dispatch this when there is no enclosing <form>.
     if (container) {
       container.addEventListener("formSubmit", handler as EventListener);
     }
@@ -131,9 +122,6 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
         container.removeEventListener("formSubmit", handler as EventListener);
       }
     };
-    // Re-run effect when selectedFile changes so the attached handler uses
-    // the latest submit closure (which captures the current selectedFile).
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [employee.id, formData, selectedFile]);
 
   const validate = (): boolean => {
@@ -185,9 +173,6 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
       return;
     }
     try {
-      // If a new photo file is selected, upload it first so we can include
-      // the resulting media id in the main update payload. This prevents
-      // ordering/race issues where the payload update expects the photo id.
       let uploadedPhotoMediaId: string | undefined =
         formData.photoMediaId || undefined;
       if (selectedFile) {
@@ -196,24 +181,19 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
             id: employee.id,
             file: selectedFile,
           });
-          // The upload returns the updated employee; prefer its photoMediaId if present
           uploadedPhotoMediaId = (uploaded &&
             (uploaded.photoMediaId || uploaded.photo?.id)) as
             | string
             | undefined;
-          // Use the new image URL for instant preview
           if (uploaded && uploaded.photo?.presignedUrl) {
             setTempImageUrl(uploaded.photo.presignedUrl);
           }
-          // Clear the selected file from UI state after successful upload
           setSelectedFile(employee.id, null);
         } catch (err) {
           console.error("Employee photo upload failed during submit:", err);
-          // Let the update proceed without the photo if upload failed
         }
       }
 
-      // Update employee data (include uploadedPhotoMediaId when available)
       await updateMutation.mutateAsync({
         id: employee.id,
         data: {
@@ -239,7 +219,6 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
       setValidationErrors({});
       onSuccess?.();
     } catch (err) {
-      // handled upstream
     } finally {
       setSubmitting(false);
     }
@@ -251,10 +230,8 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
 
   const handlePhotoRemove = async () => {
     if (selectedFile) {
-      // Remove the newly selected file
       setSelectedFile(employee.id, null);
     } else if (employee.photoMediaId) {
-      // Remove the existing photo from the server
       try {
         await removePhotoMutation.mutateAsync(employee.id);
       } catch (error) {
@@ -264,26 +241,13 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
   };
 
   const getCurrentImageUrl = (): string | undefined => {
-    // 1. If a new file is selected, show its preview instantly
-    if (selectedFile) {
-      return URL.createObjectURL(selectedFile);
-    }
-    // 2. If a temp image URL is set (after upload), show it
-    if (tempImageUrl) {
-      return tempImageUrl;
-    }
-    // 3. Otherwise, show the employee's current photo
-    if (employee.photo?.presignedUrl) {
-      return employee.photo.presignedUrl;
-    }
-    if (employee.photo?.url) {
-      return employee.photo.url;
-    }
-    // 4. No image available
+    if (selectedFile) return URL.createObjectURL(selectedFile);
+    if (tempImageUrl) return tempImageUrl;
+    if (employee.photo?.presignedUrl) return employee.photo.presignedUrl;
+    if (employee.photo?.url) return employee.photo.url;
     return undefined;
   };
 
-  // Clear tempImageUrl when employee object updates (after refetch)
   useEffect(() => {
     setTempImageUrl(undefined);
   }, [employee.photoMediaId, employee.photo?.presignedUrl]);
@@ -291,10 +255,7 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
   return (
     <div>
       <div id="hr-form">
-        {/* Top action bar */}
-        {/* reset button removed from edit form */}
-        <div className="employee-form-actionbar employee-form-actionbar--edit">
-        </div>
+        <div className="employee-form-actionbar employee-form-actionbar--edit"></div>
         {isSubmitting && (
           <div className="employee-form-loading">
             <InlineLoading description={t("form.saving")} />
@@ -302,7 +263,6 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
         )}
 
         <Grid fullWidth>
-          {/* Basic Information Section */}
           <Column lg={16} md={8} sm={4}>
             <FormGroup legendText={""}>
               <h3 className="employee-form-title">{tHr("sections.basicInfo")}</h3>
@@ -406,7 +366,7 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
           </Column>
         </Grid>
 
-        {/* Photo Section - robust slider logic parity */}
+        {/* Photo Section */}
         <div className="employee-form-photo-section">
           <FormGroup legendText={t("form.photo.label")}>
             {getCurrentImageUrl() && (
@@ -455,25 +415,7 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
           </FormGroup>
         </div>
 
-        {/* Photo Section */}
-        {/* <div className="employee-form-photo-section">
-              <FormGroup legendText={t("form.photo.label")}>
-                <EmployeePhotoUpload
-                  currentImage={getCurrentImageUrl()}
-                  onUpload={handlePhotoUpload}
-                  onRemove={handlePhotoRemove}
-                  isUploading={
-                    uploadPhotoMutation.isPending ||
-                    removePhotoMutation.isPending
-                  }
-                  showPreview={true}
-                  showHeader={false}
-                  allowRemove={true}
-                />
-              </FormGroup>
-            </div> */}
-
-        {/* Contact Information Section */}
+        {/* Contact Info */}
         <div className="employee-form-contact-section">
           <FormGroup legendText={t("form.contactInfo.label")}>
             <ContactInfoForm
@@ -516,6 +458,43 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
                 updateEmployeeFormField(employee.id, "isActive", checked)
               }
             />
+          </FormGroup>
+        </div>
+
+        {/* Homepage Display Section (Added from Create Form) */}
+        <div className="employee-form-homepage-section">
+          <FormGroup legendText={t("form.homepageDisplay.label")}>
+            <div className="employee-form-homepage-desc">
+              <p className="employee-form-homepage-desc-text">
+                {t("form.homepageDisplay.description")}
+              </p>
+            </div>
+            <div className="employee-form-homepage-toggles">
+              <Toggle
+                id="employee-showUpInHomepage"
+                labelText={t("form.homepageDisplay.showUpInHomepage.label")}
+                toggled={formData.showUpInHomepage}
+                onToggle={(checked) =>
+                  updateEmployeeFormField(
+                    employee.id,
+                    "showUpInHomepage",
+                    checked
+                  )
+                }
+              />
+              <Toggle
+                id="employee-showDownInHomepage"
+                labelText={t("form.homepageDisplay.showDownInHomepage.label")}
+                toggled={formData.showDownInHomepage}
+                onToggle={(checked) =>
+                  updateEmployeeFormField(
+                    employee.id,
+                    "showDownInHomepage",
+                    checked
+                  )
+                }
+              />
+            </div>
           </FormGroup>
         </div>
       </div>
