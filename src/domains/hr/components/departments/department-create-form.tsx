@@ -37,6 +37,9 @@ export const DepartmentCreateForm: React.FC<DepartmentCreateFormProps> = ({
     createDepartmentForm,
     updateDepartmentFormField,
     resetDepartmentForm,
+    panelOpen,
+    panelMode,
+    activeEntity,
   } = useHRUIStore();
 
   const [validationErrors, setValidationErrors] = useState<
@@ -59,6 +62,20 @@ export const DepartmentCreateForm: React.FC<DepartmentCreateFormProps> = ({
     updateDepartmentFormField("create", "order", departmentCount + 1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [departmentCount]);
+
+  // Reset and unmount if the active panel no longer matches department create
+  useEffect(() => {
+    if (!panelOpen || activeEntity !== "department" || panelMode !== "create") {
+      try {
+        resetDepartmentForm("create");
+      } catch {}
+      setValidationErrors({});
+    }
+  }, [panelOpen, activeEntity, panelMode, resetDepartmentForm]);
+
+  if (!panelOpen || activeEntity !== "department" || panelMode !== "create") {
+    return null;
+  }
 
   const departmentsQuery = useDepartments({ page: 1, limit: 100 });
   const locale = useLocale();
