@@ -15,6 +15,7 @@ import {
 import { useTranslations } from "next-intl";
 
 import { useCategories } from "../hooks/use-category-queries";
+import { useLanguageFont } from "@/shared/hooks/use-language-font";
 import { useCreateContent } from "../hooks/use-content-queries";
 import { useContentStore } from "../stores/content-store";
 import "../styles/content-management.css";
@@ -65,10 +66,16 @@ export const ContentCreateForm: React.FC<ContentCreateFormProps> = ({
     Record<string, string>
   >({});
 
-  // Memoize category items for dropdown
+  // Get current language
+  const { locale } = useLanguageFont();
+
+  // Memoize category items for dropdown, show name in selected language
   const categoryItems = categories.map((cat) => ({
     id: cat.id,
-    label: cat.name?.en || cat.name?.ne || cat.slug || "Unknown",
+    label:
+      locale === "ne"
+        ? cat.name?.ne || cat.name?.en || cat.slug || "Unknown"
+        : cat.name?.en || cat.name?.ne || cat.slug || "Unknown",
   }));
 
   const selectedCategory =
@@ -433,7 +440,9 @@ export const ContentCreateForm: React.FC<ContentCreateFormProps> = ({
                       default: "Description",
                     })}
                     value={createFormState.seoDescription}
-                    onChange={(desc) => handleInputChange("seoDescription", desc)}
+                    onChange={(desc) =>
+                      handleInputChange("seoDescription", desc)
+                    }
                     placeholder={{
                       en: t("form.description.placeholder.en", {
                         default: "Enter description in English",

@@ -207,10 +207,7 @@
 }
 
 .cds--overflow-menu-options {
-  left: 1152px !important;
-  top: 411.5px !important;
-  box-shadow: none !important;
-  border: 1px solid var(--cds-ui-03);
+  width: 87px;
 }
 
 .empty-state-content {

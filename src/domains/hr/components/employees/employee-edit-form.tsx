@@ -12,7 +12,7 @@ import {
   Button,
 } from "@carbon/react";
 import { Reset } from "@carbon/icons-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useHRUIStore } from "../../stores/hr-ui-store";
 import {
   useDepartments,
@@ -80,9 +80,13 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
   );
 
   const departmentsQuery = useDepartments({ page: 1, limit: 100 });
+  const locale = useLocale();
   const departmentItems = (departmentsQuery.data?.data ?? []).map((d) => ({
     id: d.id,
-    label: d.departmentName.en,
+    label:
+      d.departmentName?.[locale as "en" | "ne"] ||
+      d.departmentName.en ||
+      d.departmentName.ne,
   }));
   const selectedDepartmentItem = useMemo(
     () => departmentItems.find((d) => d.id === formData.departmentId) || null,

@@ -3,7 +3,7 @@
 import React, { useMemo, useState } from "react";
 import { Layer, Button, Breadcrumb, BreadcrumbItem } from "@carbon/react";
 import { Add } from "@carbon/icons-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import "@/lib/ibm-products/config";
 import { useHRUIStore } from "../../stores/hr-ui-store";
 import { useDepartments, useEmployees } from "../../hooks/use-hr-queries";
@@ -51,6 +51,7 @@ export const HRContainer: React.FC = () => {
   const tHr = useTranslations("hr");
   const tEmp = useTranslations("hr-employees");
   const tDept = useTranslations("hr-departments");
+  const locale = useLocale();
 
   const panelTitle = useMemo(() => {
     if (activeEntity === "department")

@@ -13,7 +13,7 @@ import {
   Button,
 } from "@carbon/react";
 import { Reset } from "@carbon/icons-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useHRUIStore } from "../../stores/hr-ui-store";
 import {
   useDepartments,
@@ -57,9 +57,16 @@ export const DepartmentEditForm: React.FC<DepartmentEditFormProps> = ({
   );
 
   const departmentsQuery = useDepartments({ page: 1, limit: 100 });
+  const locale = useLocale();
   const parentItems = (departmentsQuery.data?.data ?? [])
     .filter((d) => d.id !== department.id)
-    .map((d) => ({ id: d.id, label: d.departmentName.en }));
+    .map((d) => ({
+      id: d.id,
+      label:
+        d.departmentName?.[locale as "en" | "ne"] ||
+        d.departmentName.en ||
+        d.departmentName.ne,
+    }));
   const selectedParentItem = useMemo(
     () => parentItems.find((d) => d.id === formData.parentId) || null,
     [parentItems, formData.parentId]

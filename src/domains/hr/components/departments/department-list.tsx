@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -16,8 +17,8 @@ import {
   TableCell,
   TableContainer,
 } from "@carbon/react";
-import { Building, User } from "@carbon/icons-react";
-import { useTranslations } from "next-intl";
+import { Building } from "@carbon/icons-react";
+import { useTranslations, useLocale } from "next-intl";
 import {
   useDeleteDepartment,
   useDepartments,
@@ -36,11 +37,13 @@ export const DepartmentList: React.FC<DepartmentListProps> = ({
   queryOverrides = {},
 }) => {
   const t = useTranslations("hr-departments");
+  const locale = useLocale();
   const [query, setQuery] = useState<Partial<DepartmentQueryDto>>({
     page: 1,
     limit: 12,
     ...queryOverrides,
   });
+
   const { openEditDepartment } = useHRUIStore();
   const queryResult = useDepartments(query);
   const deleteMutation = useDeleteDepartment();
@@ -57,6 +60,19 @@ export const DepartmentList: React.FC<DepartmentListProps> = ({
   const data = queryResult.data;
   const departments = (data?.data ?? []) as DepartmentResponseDto[];
   const pagination = data?.pagination;
+
+  const formatNumber = (n: number | string) => {
+    if (locale === "ne") {
+      const digits = ["०","१","२","३","४","५","६","७","८","९"];
+      return String(n).replace(/[0-9]/g, (ch) => digits[Number(ch)] || ch);
+    }
+    return String(n);
+  };
+
+  const localizedPageSizes =
+    locale === "ne"
+      ? [12, 24, 48, 96].map((n) => ({ text: formatNumber(n), value: n }))
+      : [12, 24, 48, 96].map((n) => ({ text: String(n), value: n }));
 
   if (queryResult.isLoading && departments.length === 0) {
     return (
@@ -85,31 +101,32 @@ export const DepartmentList: React.FC<DepartmentListProps> = ({
               {departments.map((dept) => (
                 <TableRow key={dept.id}>
                   <TableCell className="font-en">
-                    {dept.departmentName.en || dept.departmentName.ne}
+                    {dept.departmentName?.[locale as "en" | "ne"] ||
+                      dept.departmentName?.en ||
+                      dept.departmentName?.ne}
                   </TableCell>
                   <TableCell className="font-en">
-                    {dept.parent?.departmentName?.en ||
+                    {dept.parent?.departmentName?.[locale as "en" | "ne"] ||
+                      dept.parent?.departmentName?.en ||
                       dept.parent?.departmentName?.ne ||
                       ""}
                   </TableCell>
                   <TableCell className="font-en">
                     {dept.departmentHead
-                      ? dept.departmentHead.name.en ||
-                        dept.departmentHead.name.ne
+                      ? dept.departmentHead.name?.[locale as "en" | "ne"] ||
+                        dept.departmentHead.name?.en ||
+                        dept.departmentHead.name?.ne ||
+                        ""
                       : ""}
                   </TableCell>
-                  <TableCell>{dept.employees?.length ?? 0}</TableCell>
+                  <TableCell>{formatNumber(dept.employees?.length ?? 0)}</TableCell>
                   <TableCell>
                     <Tag type={dept.isActive ? "green" : "gray"} size="sm">
                       {dept.isActive ? t("card.active") : t("card.inactive")}
                     </Tag>
                   </TableCell>
                   <TableCell className="department-list-actions-cell">
-                    <OverflowMenu
-                      flipped
-                      size="sm"
-                      aria-label={t("card.actions")}
-                    >
+                    <OverflowMenu flipped size="sm" aria-label={t("card.actions")}>
                       <OverflowMenuItem
                         itemText={t("card.edit")}
                         onClick={() => openEditDepartment(dept)}
@@ -146,9 +163,18 @@ export const DepartmentList: React.FC<DepartmentListProps> = ({
           <Pagination
             page={pagination.page}
             pageSize={pagination.limit}
-            pageSizes={[12, 24, 48, 96]}
+            pageSizes={localizedPageSizes.map((p) => p.value)}
             totalItems={pagination.total}
-            onChange={({ page, pageSize }) => {
+            itemsPerPageText={
+              locale === "ne" ? "प्रति पृष्ठ वस्तुहरू" : "Items per page"
+            }
+            pageNumberText={locale === "ne" ? "पृष्ठ" : "Page"}
+            itemRangeText={(min, max, total) =>
+              `${formatNumber(min)}–${formatNumber(max)} ${
+                locale === "ne" ? "मध्ये" : "of"
+              } ${formatNumber(total)}`
+            }
+            onChange={({ page, pageSize }: any) => {
               if (page !== undefined) setQuery((prev) => ({ ...prev, page }));
               if (pageSize !== undefined)
                 setQuery((prev) => ({ ...prev, limit: pageSize, page: 1 }));
@@ -157,6 +183,59 @@ export const DepartmentList: React.FC<DepartmentListProps> = ({
           />
         </div>
       )}
+
+      <PaginationNepaliFix locale={locale} />
     </div>
   );
+};
+
+// ✅ Shared Pagination localization hook
+const PaginationNepaliFix = ({ locale }: { locale: string }) => {
+  useEffect(() => {
+    if (locale !== "ne") return;
+
+    const digitMap: Record<string, string> = {
+      "0": "०",
+      "1": "१",
+      "2": "२",
+      "3": "३",
+      "4": "४",
+      "5": "५",
+      "6": "६",
+      "7": "७",
+      "8": "८",
+      "9": "९",
+    };
+
+    const convertToNepali = (text: string): string => {
+      if (!text) return text;
+      let result = text.replace(/[0-9]/g, (d) => digitMap[d] || d);
+      result = result
+        .replace(/\bof\b/gi, "मध्ये")
+        .replace(/\bpage\b/gi, "पृष्ठ");
+      return result;
+    };
+
+    const updatePaginationText = () => {
+      document
+        .querySelectorAll(
+          ".cds--pagination__button, .cds--select-option, .cds--pagination__text"
+        )
+        .forEach((el) => {
+          el.childNodes.forEach((n) => {
+            if (n.nodeType === Node.TEXT_NODE) {
+              n.textContent = convertToNepali(n.textContent || "");
+            }
+          });
+        });
+    };
+
+    const observer = new MutationObserver(updatePaginationText);
+    observer.observe(document.body, { subtree: true, childList: true });
+
+    updatePaginationText();
+    return () => observer.disconnect();
+  }, [locale]);
+
+  return null;
 };

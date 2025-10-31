@@ -108,7 +108,13 @@ export const ContentContainer: React.FC = () => {
         openCreateCategoryPanel();
       }
     }
-  }, [selectedTabIndex, openCreateContentPanel, openCreateCategoryPanel, panelOpen, closePanel]);
+  }, [
+    selectedTabIndex,
+    openCreateContentPanel,
+    openCreateCategoryPanel,
+    panelOpen,
+    closePanel,
+  ]);
 
   const handleEdit = useCallback(
     (content: import("@/domains/content-management/types/content").Content) =>
@@ -209,13 +215,16 @@ export const ContentContainer: React.FC = () => {
     // TanStack Query will automatically refetch data when mutations succeed
   }, [closePanel]);
 
-  const handleTabChange = useCallback((tabIndex: number) => {
-    // Close panel when switching tabs
-    if (panelOpen) {
-      closePanel();
-    }
-    setSelectedTabIndex(tabIndex);
-  }, [panelOpen, closePanel]);
+  const handleTabChange = useCallback(
+    (tabIndex: number) => {
+      // Close panel when switching tabs
+      if (panelOpen) {
+        closePanel();
+      }
+      setSelectedTabIndex(tabIndex);
+    },
+    [panelOpen, closePanel]
+  );
 
   const handleRequestSubmit = useCallback(() => {
     // Handle form submission - use the same pattern as slider container
@@ -364,10 +373,12 @@ export const ContentContainer: React.FC = () => {
             pageSizes={[10, 20, 30]}
             totalItems={pagination.total}
             onChange={({ page, pageSize }) => handlePageChange(page, pageSize)}
-            backwardText="Previous"
-            forwardText="Next"
-            itemsPerPageText="Items per page:"
-            pageNumberText="Page Number"
+            backwardText={t("pagination.previous", { default: "Previous" })}
+            forwardText={t("pagination.next", { default: "Next" })}
+            itemsPerPageText={t("pagination.itemsPerPage", {
+              default: "Items per page:",
+            })}
+            pageNumberText={t("pagination.pageNumber", { pageNumber: pagination.page, default: "Page Number" })}
           />
         </div>
       )}

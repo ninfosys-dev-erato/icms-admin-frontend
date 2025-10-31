@@ -1,3 +1,6 @@
+
+
+//lll
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -15,8 +18,8 @@ import {
   TableCell,
   TableContainer,
 } from "@carbon/react";
-import { User, Building } from "@carbon/icons-react";
-import { useTranslations } from "next-intl";
+import { User } from "@carbon/icons-react";
+import { useTranslations, useLocale } from "next-intl";
 import { useDeleteEmployee, useEmployees } from "../../hooks/use-hr-queries";
 import type {
   EmployeeResponseDto,
@@ -35,42 +38,39 @@ export const EmployeeList: React.FC<EmployeeListProps> = ({
   queryOverrides = {},
 }) => {
   const t = useTranslations("hr-employees");
+  const locale = useLocale();
+
   const [query, setQuery] = useState<Partial<EmployeeQueryDto>>({
     page: 1,
     limit: 12,
     ...(departmentId ? { departmentId } : {}),
     ...queryOverrides,
   });
+
   const { openEditEmployee } = useHRUIStore();
   const queryResult = useEmployees(query);
   const deleteMutation = useDeleteEmployee();
 
-  useEffect(() => {
-    setQuery((prev) => {
-      const nextDept = departmentId || undefined;
-      if (prev.departmentId === nextDept && prev.page === 1) return prev;
-      return {
-        ...prev,
-        page: 1,
-        ...(nextDept
-          ? { departmentId: nextDept }
-          : { departmentId: undefined }),
-      };
-    });
-  }, [departmentId]);
-
-  useEffect(() => {
-    setQuery((prev) => {
-      const next = { ...prev, page: 1, ...queryOverrides };
-      const changed =
-        JSON.stringify({ ...prev, page: 1 }) !== JSON.stringify(next);
-      return changed ? next : prev;
-    });
-  }, [JSON.stringify(queryOverrides)]);
-
   const data = queryResult.data;
   const employees = (data?.data ?? []) as EmployeeResponseDto[];
   const pagination = data?.pagination;
+
+  // ✅ Convert to Nepali digits
+  const formatNumber = (n: number | string): string => {
+    if (locale === "ne") {
+      const digits = ["०", "१", "२", "३", "४", "५", "६", "७", "८", "९"];
+      return String(n).replace(/[0-9]/g, (ch) => {
+        const idx = Number(ch);
+        return Number.isNaN(idx) ? ch : digits[idx] ?? ch;
+      });
+    }
+    return String(n);
+  };
+
+  const localizedPageSizes =
+    locale === "ne"
+      ? [12, 24, 48, 96].map((n) => ({ text: formatNumber(n), value: n }))
+      : [12, 24, 48, 96].map((n) => ({ text: String(n), value: n }));
 
   if (queryResult.isLoading && employees.length === 0) {
     return (
@@ -103,19 +103,32 @@ export const EmployeeList: React.FC<EmployeeListProps> = ({
                       <EmployeePhotoPreview
                         mediaId={emp.photoMediaId}
                         directUrl={emp.photo?.presignedUrl}
-                        alt={`${emp.name.en || emp.name.ne} photo`}
+                        alt={`${
+                          emp.name?.[locale as "en" | "ne"] ||
+                          emp.name?.en ||
+                          emp.name?.ne ||
+                          ""
+                        } photo`}
                         className="employee-photo-table"
                       />
                     </div>
                   </TableCell>
                   <TableCell className="font-en">
-                    {emp.name.en || emp.name.ne}
+                    {emp.name?.[locale as "en" | "ne"] ||
+                      emp.name?.en ||
+                      emp.name?.ne}
                   </TableCell>
                   <TableCell className="font-en">
-                    {emp.position?.en || emp.position?.ne || ""}
+                    {emp.position?.[locale as "en" | "ne"] ||
+                      emp.position?.en ||
+                      emp.position?.ne ||
+                      ""}
                   </TableCell>
                   <TableCell className="font-en">
-                    {emp.department?.departmentName?.en ||
+                    {emp.department?.departmentName?.[
+                      locale as "en" | "ne"
+                    ] ||
+                      emp.department?.departmentName?.en ||
                       emp.department?.departmentName?.ne ||
                       ""}
                   </TableCell>
@@ -166,20 +179,84 @@ export const EmployeeList: React.FC<EmployeeListProps> = ({
           <Pagination
             page={query.page || pagination.page}
             pageSize={query.limit || pagination.limit}
-            pageSizes={[12, 24, 48, 96]}
+            pageSizes={localizedPageSizes.map((p) => p.value)}
             totalItems={pagination.total}
-            onChange={({ page, pageSize }) => {
-              // Always update both page and pageSize for consistency
-              setQuery((prev) => ({
-                ...prev,
-                page: page ?? prev.page ?? 1,
-                limit: pageSize ?? prev.limit ?? 12,
-              }));
+            itemsPerPageText={
+              locale === "ne" ? "प्रति पृष्ठ वस्तुहरू" : "Items per page"
+            }
+            pageNumberText={locale === "ne" ? "पृष्ठ" : "Page"}
+            itemRangeText={(min, max, total) =>
+              `${formatNumber(min)}–${formatNumber(max)} ${
+                locale === "ne" ? "मध्ये" : "of"
+              } ${formatNumber(total)}`
+            }
+            onChange={({ page, pageSize }: any) => {
+              if (page !== undefined)
+                setQuery((prev) => ({ ...prev, page }));
+              if (pageSize !== undefined)
+                setQuery((prev) => ({
+                  ...prev,
+                  limit: pageSize,
+                  page: 1,
+                }));
             }}
             size="md"
           />
         </div>
       )}
+
+      <PaginationNepaliFix locale={locale} />
     </div>
   );
+};
+
+// ✅ Nepali number + text patch for Carbon pagination
+const PaginationNepaliFix = ({ locale }: { locale: string }) => {
+  useEffect(() => {
+    if (locale !== "ne") return;
+
+    const digitMap: Record<string, string> = {
+      "0": "०",
+      "1": "१",
+      "2": "२",
+      "3": "३",
+      "4": "४",
+      "5": "५",
+      "6": "६",
+      "7": "७",
+      "8": "८",
+      "9": "९",
+    };
+
+    const convertToNepali = (text: string): string => {
+      if (!text) return text;
+      let result = text.replace(/[0-9]/g, (d) => digitMap[d] || d);
+      result = result
+        .replace(/\bof\b/gi, "मध्ये")
+        .replace(/\bpage\b/gi, "पृष्ठ");
+      return result;
+    };
+
+    const updatePaginationText = () => {
+      document
+        .querySelectorAll(
+          ".cds--pagination__button, .cds--select-option, .cds--pagination__text"
+        )
+        .forEach((el) => {
+          el.childNodes.forEach((n) => {
+            if (n.nodeType === Node.TEXT_NODE) {
+              n.textContent = convertToNepali(n.textContent || "");
+            }
+          });
+        });
+    };
+
+    const observer = new MutationObserver(updatePaginationText);
+    observer.observe(document.body, { subtree: true, childList: true });
+
+    updatePaginationText();
+    return () => observer.disconnect();
+  }, [locale]);
+
+  return null;
 };
