@@ -516,34 +516,73 @@ export const DocumentCreateForm: React.FC<DocumentCreateFormProps> = ({
               </FormGroup>
             </div>
 
-            <div className="document-create-form-row">
-              <Column lg={8} md={4} sm={4}>
+            <FormGroup legendText={t("form.tags.label")}> 
+              <div className="document-create-form-tags-row-centered">
+                <TextInput
+                  id="newTag"
+                  labelText=""
+                  value={newTag}
+                  onChange={(event) => setNewTag(event.target.value)}
+                  placeholder={t("form.tags.placeholder")}
+                  onKeyPress={(event) => {
+                    if (event.key === "Enter") {
+                      event.preventDefault();
+                      handleAddTag();
+                    }
+                  }}
+                />
+                <div className="document-create-form-addtag-center">
+                  <Button
+                    kind="secondary"
+                    size="sm"
+                    renderIcon={Add}
+                    onClick={handleAddTag}
+                    disabled={!newTag.trim()}
+                  >
+                    {t("form.tags.addTag")}
+                  </Button>
+                </div>
+              </div>
+              {tags.length > 0 && (
+                <div className="document-create-form-tags-list">
+                  {tags.map((tag) => (
+                    <DismissibleTag
+                      key={tag}
+                      onDismiss={() => handleRemoveTag(tag)}
+                      className="document-create-form-tag"
+                    >
+                      {tag}
+                    </DismissibleTag>
+                  ))}
+                </div>
+              )}
+            </FormGroup>
+
+            <div className="document-create-form-toggles-column" style={{ marginTop: '2rem' }}>
+              <div className="document-toggle-group">
                 <Toggle
                   id="isPublic"
                   labelText={t("form.isPublic.label")}
                   toggled={createFormState.isPublic}
                   onToggle={(checked) => handleInputChange("isPublic", checked)}
                 />
-              </Column>
-              <Column lg={8} md={4} sm={4}>
+              </div>
+              <div className="document-toggle-group">
                 <Toggle
                   id="requiresAuth"
                   labelText={t("form.requiresAuth.label")}
                   toggled={createFormState.requiresAuth}
-                  onToggle={(checked) =>
-                    handleInputChange("requiresAuth", checked)
-                  }
+                  onToggle={(checked) => handleInputChange("requiresAuth", checked)}
                 />
-              </Column>
-            </div>
-
-            <div className="document-create-form-section">
-              <Toggle
-                id="isActive"
-                labelText={t("form.isActive.label")}
-                toggled={createFormState.isActive}
-                onToggle={(checked) => handleInputChange("isActive", checked)}
-              />
+              </div>
+              <div className="document-toggle-group">
+                <Toggle
+                  id="isActive"
+                  labelText={t("form.isActive.label")}
+                  toggled={createFormState.isActive}
+                  onToggle={(checked) => handleInputChange("isActive", checked)}
+                />
+              </div>
             </div>
           </Column>
         </Grid>

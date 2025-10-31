@@ -1,3 +1,10 @@
+/* Toggles column layout for edit form */
+.document-edit-form-toggles-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
 /* IBM Products Side Panel Override */
 .c4p--side-panel.c4p--side-panel--slide-in,
 .c4p--side-panel:not(.c4p--side-panel--has-overlay) {
@@ -228,7 +235,8 @@
 /* Flex Layout for Document Cards */
 .document-flex {
   display: grid;
-  gap: 1rem;
+  column-gap: 0.5rem; /* Reduce horizontal gap */
+  row-gap: 1rem;      /* Keep vertical gap as is */
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
