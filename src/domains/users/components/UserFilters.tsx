@@ -13,7 +13,9 @@ export const UserFilters: React.FC<{ onChange?: () => void }> = ({
   const { currentQuery, setQuery, resetQuery } = useUserUIStore();
   const t = useTranslations("users");
 
-  const [searchTerm, setSearchTerm] = useState<string>(currentQuery.search ?? "");
+  const [searchTerm, setSearchTerm] = useState<string>(
+    currentQuery.search ?? ""
+  );
 
   // Initialize searchTerm from store on mount only. After mount, avoid overwriting
   // the user's in-progress input from `currentQuery.search` (which may be trimmed)
@@ -62,29 +64,29 @@ export const UserFilters: React.FC<{ onChange?: () => void }> = ({
   return (
     <div style={{ padding: "0 1rem 1rem 1rem" }}>
       <div style={{ marginBottom: "0.75rem" }} className="search-box">
-        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-        <Search
-          id="user-search"
-          size="lg"
-          labelText={t("filters.search")}
-          placeholder={t("filters.search")}
-          closeButtonLabelText={t("filters.reset")}
-          value={searchTerm}
-          onChange={(e) => {
-            // keep local input in sync while typing
-            setSearchTerm(e.target.value);
-          }}
-          onKeyDown={(e) => {
-            // Support Enter to submit
-            if (e.key === 'Enter') {
-              const next = searchTerm?.trim() || undefined;
-              if ((currentQuery.search ?? undefined) !== next) {
-                setQuery((prev) => ({ ...prev, search: next, page: 1 }));
-                onChange?.();
+        <div style={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+          <Search
+            id="user-search"
+            size="lg"
+            labelText={t("filters.search")}
+            placeholder={t("filters.search")}
+            closeButtonLabelText={t("filters.reset")}
+            value={searchTerm}
+            onChange={(e) => {
+              // keep local input in sync while typing
+              setSearchTerm(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              // Support Enter to submit
+              if (e.key === "Enter") {
+                const next = searchTerm?.trim() || undefined;
+                if ((currentQuery.search ?? undefined) !== next) {
+                  setQuery((prev) => ({ ...prev, search: next, page: 1 }));
+                  onChange?.();
+                }
               }
-            }
-          }}
-        />
+            }}
+          />
         </div>
       </div>
       <div
@@ -92,42 +94,9 @@ export const UserFilters: React.FC<{ onChange?: () => void }> = ({
           display: "flex",
           gap: "1rem",
           alignItems: "center",
-          justifyContent: "flex-end",
+          justifyContent: "space-between",
         }}
       >
-        <Dropdown
-          id="user-role-dropdown"
-          size="md"
-          label={t("filters.role")}
-          titleText={t("filters.role")}
-          items={roleItems}
-          selectedItem={roleItems.find(
-            (i) => i.id === (currentQuery.role || "ALL")
-          )}
-          itemToString={(item) => (item ? item.label : "")}
-          onChange={({ selectedItem }) => {
-            const nextRole = (selectedItem?.id as UserRole | "ALL") ?? "ALL";
-            setQuery((prev) => ({ ...prev, role: nextRole, page: 1 }));
-            onChange?.();
-          }}
-        />
-        <Dropdown
-          id="user-status-dropdown"
-          size="md"
-          label={t("filters.status")}
-          titleText={t("filters.status")}
-          items={statusItems}
-          selectedItem={statusItems.find(
-            (i) => i.id === (currentQuery.status || "ALL")
-          )}
-          itemToString={(item) => (item ? item.label : "")}
-          onChange={({ selectedItem }) => {
-            const nextStatus =
-              (selectedItem?.id as UserStatus | "ALL") ?? "ALL";
-            setQuery((prev) => ({ ...prev, status: nextStatus, page: 1 }));
-            onChange?.();
-          }}
-        />
         <Button
           kind="ghost"
           size="md"
@@ -135,12 +104,56 @@ export const UserFilters: React.FC<{ onChange?: () => void }> = ({
           onClick={() => {
             resetQuery();
             // also clear local search input
-            setSearchTerm('');
+            setSearchTerm("");
             onChange?.();
           }}
+          disabled={
+            (currentQuery.role ?? "ALL") === "ALL" &&
+            (currentQuery.status ?? "ALL") === "ALL" &&
+            !searchTerm
+          }
         >
           {t("filters.reset")}
         </Button>
+        <div style={{
+          display: "flex",
+          gap: "1rem",
+          alignItems: "center",
+          justifyContent: "flex-end",}}>
+          <Dropdown
+            id="user-role-dropdown"
+            size="md"
+            label={t("filters.role")}
+            titleText={t("filters.role")}
+            items={roleItems}
+            selectedItem={roleItems.find(
+              (i) => i.id === (currentQuery.role || "ALL")
+            )}
+            itemToString={(item) => (item ? item.label : "")}
+            onChange={({ selectedItem }) => {
+              const nextRole = (selectedItem?.id as UserRole | "ALL") ?? "ALL";
+              setQuery((prev) => ({ ...prev, role: nextRole, page: 1 }));
+              onChange?.();
+            }}
+          />
+          <Dropdown
+            id="user-status-dropdown"
+            size="md"
+            label={t("filters.status")}
+            titleText={t("filters.status")}
+            items={statusItems}
+            selectedItem={statusItems.find(
+              (i) => i.id === (currentQuery.status || "ALL")
+            )}
+            itemToString={(item) => (item ? item.label : "")}
+            onChange={({ selectedItem }) => {
+              const nextStatus =
+                (selectedItem?.id as UserStatus | "ALL") ?? "ALL";
+              setQuery((prev) => ({ ...prev, status: nextStatus, page: 1 }));
+              onChange?.();
+            }}
+          />
+        </div>
       </div>
     </div>
   );

@@ -73,7 +73,7 @@ export const UserContainer: React.FC = () => {
         </div>
       </div>
 
-      <div style={{ padding: "0 1rem 2rem 1rem", textAlign: "left" }}>
+      <div>
         <UserList hideHeader />
       </div>
 
@@ -116,7 +116,7 @@ export const UserContainer: React.FC = () => {
             }
           }}
           selectorPageContent="#main-content"
-          formTitle={t("sections.basicInfo")}
+          // formTitle={t("sections.basicInfo")}
           selectorPrimaryFocus="input, textarea, [tabindex]:not([tabindex='-1'])"
           className="users-sidepanel-form"
         >
