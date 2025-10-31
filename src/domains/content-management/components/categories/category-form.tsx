@@ -26,6 +26,7 @@ import {
 } from "../../hooks/use-category-queries";
 import { useContentStore } from "../../stores/content-store";
 import type { Category, CreateCategoryRequest } from "../../types/content";
+import { useLanguageFont } from "@/shared/hooks/use-language-font";
 import { TranslatableField } from "@/components/shared/translatable-field";
 
 interface CategoryFormProps {
@@ -100,15 +101,19 @@ export const CategoryForm: React.FC<CategoryFormProps> = React.memo(
       }
     }, [mode, category, formId, updateCategoryFormField]);
 
+    const { locale } = useLanguageFont();
     const parentItems = useMemo(
       () =>
         (categoriesQuery.data?.data ?? [])
           .filter((c) => c.id !== category?.id)
           .map((c) => ({
             id: c.id,
-            label: c.name.en || c.name.ne || "Unnamed",
+            label:
+              locale === "ne"
+                ? c.name.ne || c.name.en || "Unnamed"
+                : c.name.en || c.name.ne || "Unnamed",
           })),
-      [categoriesQuery.data?.data, category?.id]
+      [categoriesQuery.data?.data, category?.id, locale]
     );
 
     const selectedParentItem = useMemo(
