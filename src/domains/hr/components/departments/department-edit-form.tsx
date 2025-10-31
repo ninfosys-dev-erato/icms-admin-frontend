@@ -40,6 +40,9 @@ export const DepartmentEditForm: React.FC<DepartmentEditFormProps> = ({
     departmentFormById,
     updateDepartmentFormField,
     resetDepartmentForm,
+    panelOpen,
+    panelMode,
+    activeEntity,
   } = useHRUIStore();
   const formData = departmentFormById[department.id] ?? {
     departmentName: department.departmentName,
@@ -87,6 +90,19 @@ export const DepartmentEditForm: React.FC<DepartmentEditFormProps> = ({
     return undefined;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [department.id, formData]);
+
+  // Reset and unmount if the panel no longer matches department edit
+  useEffect(() => {
+    if (!panelOpen || activeEntity !== "department" || panelMode !== "edit") {
+      try {
+        resetDepartmentForm(department.id);
+      } catch {}
+    }
+  }, [panelOpen, activeEntity, panelMode, department.id, resetDepartmentForm]);
+
+  if (!panelOpen || activeEntity !== "department" || panelMode !== "edit") {
+    return null;
+  }
 
   const validate = (): boolean => {
     const errors: Record<string, string> = {};

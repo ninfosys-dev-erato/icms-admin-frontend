@@ -49,6 +49,9 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
     selectedFileById,
     setSelectedFile,
     resetFormState,
+    panelOpen,
+    panelMode,
+    activeEntity,
   } = useHRUIStore();
 
   const [tempImageUrl, setTempImageUrl] = useState<string | undefined>(
@@ -123,6 +126,25 @@ export const EmployeeEditForm: React.FC<EmployeeEditFormProps> = ({
       }
     };
   }, [employee.id, formData, selectedFile]);
+
+  // Reset and unmount if the active panel no longer matches this edit form
+  useEffect(() => {
+    if (!panelOpen || activeEntity !== "employee" || panelMode !== "edit") {
+      try {
+        resetEmployeeForm(employee.id);
+      } catch {}
+      try {
+        resetFormState(employee.id);
+      } catch {}
+      try {
+        setSelectedFile(employee.id, null);
+      } catch {}
+    }
+  }, [panelOpen, activeEntity, panelMode, employee.id, resetEmployeeForm, resetFormState, setSelectedFile]);
+
+  if (!panelOpen || activeEntity !== "employee" || panelMode !== "edit") {
+    return null;
+  }
 
   const validate = (): boolean => {
     const errors: Record<string, string> = {};

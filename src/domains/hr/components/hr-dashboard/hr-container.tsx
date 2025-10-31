@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { Layer, Button, Breadcrumb, BreadcrumbItem } from "@carbon/react";
 import { Add } from "@carbon/icons-react";
 import { useTranslations, useLocale } from "next-intl";
@@ -86,6 +86,22 @@ export const HRContainer: React.FC = () => {
       openCreateDepartment();
     }
   };
+
+  // If the user switches tabs while the side panel is open, update the
+  // open panel to show the matching create form for the newly selected tab.
+  // This keeps the panel in sync with the current tab (Employees / Departments).
+  useEffect(() => {
+    if (!panelOpen) return;
+    if (selectedTabIndex === 0) {
+      // Switch to Employee create form
+      openCreateEmployee();
+    } else {
+      // Switch to Department create form
+      openCreateDepartment();
+    }
+    // Intentionally only depend on selectedTabIndex and panelOpen and the
+    // openCreate handlers so this effect runs when the user changes tabs.
+  }, [selectedTabIndex, panelOpen, openCreateEmployee, openCreateDepartment]);
 
   return (
     <Layer className="hr-container">
@@ -240,6 +256,8 @@ export const HRContainer: React.FC = () => {
         </div>
         <div id="hr-form">
           <HRPanelForms onSuccess={closePanel} />
+         
+
         </div>
       </SidePanelForm>
     </Layer>
