@@ -110,7 +110,10 @@ export const BackgroundPhotoUpload: React.FC<BackgroundPhotoUploadProps> = ({
             <BackgroundPhotoPreview
               directUrl={currentPhoto}
               alt="Office background photo preview"
-              className="preview-image"
+              /* Use a dedicated wrapper class so we don't accidentally apply
+                 the image-specific `.preview-image` styles to the outer
+                 container (which caused the layout/overflow issues). */
+              className="preview-wrapper"
             />
             <Button
               kind="danger"
