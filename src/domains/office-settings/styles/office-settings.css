@@ -40,7 +40,7 @@
 
 /* Form Header */
 .form-header {
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem; /* reduce gap after header */
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--cds-ui-03);
 }
@@ -70,10 +70,15 @@
   display: flex;
   gap: 0.75rem;
   align-items: center;
+  margin-top: 1rem;  
+  margin-right: 1.5rem; 
 }
+
+
 
 .edit-button {
   flex-shrink: 0;
+  
 }
 
 /* Error Notification */
@@ -399,6 +404,9 @@
   .form-header-actions {
     align-self: stretch;
     justify-content: flex-end;
+    margin-top: 3rem;  
+    margin-right: 1.5rem; 
+
   }
 
   .form-header-actions .action-buttons {
