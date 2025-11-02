@@ -91,7 +91,12 @@ export const MenuList: React.FC<MenuListProps> = ({
   };
 
   const goToManageItems = (menu: MenuType) => {
-    const name = (menu.name?.en || menu.name?.ne || "untitled").trim();
+    const name = (
+      menu.name?.[locale as "en" | "ne"] ||
+      menu.name?.en ||
+      menu.name?.ne ||
+      "untitled"
+    ).trim();
     const slug = name
       .toLowerCase()
       .normalize("NFKD")
@@ -201,6 +206,7 @@ export const MenuList: React.FC<MenuListProps> = ({
             <div className="menu-cards-grid">
               {displayMenus.map((menu: MenuType, index: number) => {
                 const displayName =
+                  menu.name?.[locale as "en" | "ne"] ||
                   menu.name?.en ||
                   menu.name?.ne ||
                   t("table.noName", { default: "Untitled" });
@@ -258,7 +264,7 @@ export const MenuList: React.FC<MenuListProps> = ({
                       <div className="menu-card-premium__content">
                         <div className="menu-card-premium__title-section">
                           <h3 className="menu-card-premium__title">
-                            {displayName}
+                                        {displayName}
                           </h3>
                         </div>
 
@@ -390,6 +396,7 @@ export const MenuList: React.FC<MenuListProps> = ({
             ? t("modals.deleteMenu.title", {
                 default: 'Delete "{name}"',
                 name:
+                  menuToDelete.name?.[locale as "en" | "ne"] ||
                   menuToDelete.name?.en ||
                   menuToDelete.name?.ne ||
                   "menu",
@@ -402,6 +409,7 @@ export const MenuList: React.FC<MenuListProps> = ({
                 default:
                   'Are you sure you want to delete "{name}"? This action cannot be undone.',
                 name:
+                  menuToDelete.name?.[locale as "en" | "ne"] ||
                   menuToDelete.name?.en ||
                   menuToDelete.name?.ne ||
                   "this menu",
