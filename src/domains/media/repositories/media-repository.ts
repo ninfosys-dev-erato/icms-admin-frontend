@@ -259,26 +259,31 @@ class MediaRepositoryImpl implements MediaRepository {
   }
 
   async update(id: string, data: Partial<Media>): Promise<Media> {
-    // Transform translatable payload into a flat object when needed
+    // Send nested translatable objects to match backend contract and avoid stale overwrites
     const payload: any = { ...data };
-    const t: any = (data as any).title;
-    const d: any = (data as any).description;
-    const a: any = (data as any).altText;
-    if (t && typeof t === 'object') {
-      payload.titleEn = t.en;
-      payload.titleNe = t.ne;
-      payload.title = t.en || t.ne;
-    }
-    if (d && typeof d === 'object') {
-      payload.descriptionEn = d.en;
-      payload.descriptionNe = d.ne;
-      payload.description = d.en || d.ne;
-    }
-    if (a && typeof a === 'object') {
-      payload.altTextEn = a.en;
-      payload.altTextNe = a.ne;
-      payload.altText = a.en || a.ne;
-    }
+
+    const normalizeTranslatable = (val: any) => {
+      if (val && typeof val === 'object') {
+        return {
+          en: (val.en ?? '').toString(),
+          ne: (val.ne ?? '').toString(),
+        };
+      }
+      return val;
+    };
+
+    if ('title' in payload) payload.title = normalizeTranslatable(payload.title);
+    if ('description' in payload) payload.description = normalizeTranslatable(payload.description);
+    if ('altText' in payload) payload.altText = normalizeTranslatable(payload.altText);
+
+    // Ensure no flat alias keys sneak in that could confuse backend
+    delete payload.titleEn;
+    delete payload.titleNe;
+    delete payload.descriptionEn;
+    delete payload.descriptionNe;
+    delete payload.altTextEn;
+    delete payload.altTextNe;
+
     const res = await httpClient.put<Media>(`${this.BASE_URL}/${id}`, payload);
     if (!res.success || !res.data) throw new Error(this.normalizeErrorMessage(res.error?.message) || 'Failed to update media');
     return res.data;
