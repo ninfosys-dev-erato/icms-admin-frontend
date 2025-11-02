@@ -13,6 +13,7 @@ import {
   useToggleImportantLinkStatus 
 } from "../hooks/use-important-links-queries";
 import { ImportantLinksService } from "../services/important-links-service";
+import { useLanguageFont } from '@/shared/hooks/use-language-font';
 import ConfirmDeleteModal from '@/components/shared/confirm-delete-modal';
 import { NotificationService } from '@/services/notification-service';
 
@@ -47,7 +48,17 @@ export const ImportantLinksList: React.FC<ImportantLinksListProps> = ({
   const deleteMutation = useDeleteImportantLink();
 
   const safeLinks: ImportantLink[] = Array.isArray(listData?.data) ? listData.data : [];
+  
+  // Prefer titles based on current locale (show Nepali when locale === 'ne')
+  const { locale } = useLanguageFont();
 
+  const getLocalizedTitle = (link: ImportantLink | null | undefined) => {
+    if (!link) return '';
+    const en = link.linkTitle?.en?.trim();
+    const ne = link.linkTitle?.ne?.trim();
+    if (locale === 'ne') return ne || en || 'Untitled Link';
+    return en || ne || 'Untitled Link';
+  };
   // Reset to first page when status filter or search term changes
   useEffect(() => {
     setCurrentQuery((prev) => ({ ...prev, page: 1 }));
@@ -80,8 +91,8 @@ export const ImportantLinksList: React.FC<ImportantLinksListProps> = ({
   };
 
   const confirmDelete = async () => {
-    const link = linkToDelete;
-    const display = link ? ImportantLinksService.getDisplayTitle(link) : '';
+  const link = linkToDelete;
+  const display = link ? getLocalizedTitle(link) : '';
     try {
       if (link) await deleteMutation.mutateAsync(link.id);
       NotificationService.showSuccess(t('notifications.deleted', { default: `${display} deleted` }));
@@ -118,7 +129,7 @@ export const ImportantLinksList: React.FC<ImportantLinksListProps> = ({
         {displayLinks.length > 0 ? (
           <div className="links-grid">
             {displayLinks.map((link: ImportantLink) => {
-              const displayTitle = ImportantLinksService.getDisplayTitle(link);
+              const displayTitle = getLocalizedTitle(link);
               const formattedUrl = ImportantLinksService.formatUrl(link.linkUrl);
               return (
                 <Tile key={link.id} className="link-card link-card--compact">
@@ -207,7 +218,7 @@ export const ImportantLinksList: React.FC<ImportantLinksListProps> = ({
       <ConfirmDeleteModal
         open={deleteModalOpen}
         title={t('delete.title', { default: 'Confirm Deletion' })}
-        subtitle={linkToDelete ? t('delete.confirmation', { title: ImportantLinksService.getDisplayTitle(linkToDelete), default: `Are you sure you want to delete "${ImportantLinksService.getDisplayTitle(linkToDelete)}"? This action cannot be undone.` }) : undefined}
+        subtitle={linkToDelete ? t('delete.confirmation', { title: getLocalizedTitle(linkToDelete), default: `Are you sure you want to delete "${getLocalizedTitle(linkToDelete)}"? This action cannot be undone.` }) : undefined}
         onConfirm={confirmDelete}
         onCancel={() => { setDeleteModalOpen(false); setLinkToDelete(null); }}
       />
