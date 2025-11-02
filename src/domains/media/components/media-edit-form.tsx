@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import type { TranslatableEntity } from "@/domains/content-management/types/content";
+import type { TranslatableEntity } from "../types/media";
 import {
   Button,
   Column,
@@ -37,9 +37,18 @@ export const MediaEditForm: React.FC<{
     resetFormState,
   } = useMediaStore();
   const formData = formStateById[media.id] ?? {
-    title: { en: media.title ?? "", ne: "" },
-    description: { en: media.description ?? "", ne: "" },
-    altText: { en: media.altText ?? "", ne: "" },
+    title:
+      media.title && typeof media.title === 'object'
+        ? { en: String((media.title as any).en || ''), ne: String((media.title as any).ne || '') }
+        : { en: String(media.title ?? ''), ne: '' },
+    description:
+      media.description && typeof media.description === 'object'
+        ? { en: String((media.description as any).en || ''), ne: String((media.description as any).ne || '') }
+        : { en: String(media.description ?? ''), ne: '' },
+    altText:
+      media.altText && typeof media.altText === 'object'
+        ? { en: String((media.altText as any).en || ''), ne: String((media.altText as any).ne || '') }
+        : { en: String(media.altText ?? ''), ne: '' },
     tags: [...(media.tags ?? [])],
     folder: media.folder,
     isPublic: !!media.isPublic,
@@ -167,7 +176,10 @@ export const MediaEditForm: React.FC<{
       return;
     }
     try {
-      await updateMutation.mutateAsync({ id: media.id, data: formData as any });
+      // Always read the freshest form state from the store to avoid submitting a stale snapshot
+      const state = useMediaStore.getState();
+      const latest = state.formStateById[media.id] ?? formData;
+      await updateMutation.mutateAsync({ id: media.id, data: latest as any });
       setErrors({});
       onSuccess?.();
     } catch (err) {

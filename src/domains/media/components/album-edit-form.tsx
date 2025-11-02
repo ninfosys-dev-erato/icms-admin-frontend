@@ -25,13 +25,14 @@ import type { Album } from "../types/album";
 import { usePublicGalleryMedia } from "../hooks/use-media-queries";
 import MediaUrlService from "@/services/media-url-service";
 import type { Media as MediaType } from "../types/media";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import TranslatableField from "@/components/shared/translatable-field";
 
 export const AlbumEditForm: React.FC<{
   album: Album;
   onSuccess?: () => void;
 }> = ({ album, onSuccess }) => {
+  const locale = useLocale();
   const {
     isSubmitting,
     setSubmitting,
@@ -62,6 +63,17 @@ export const AlbumEditForm: React.FC<{
     } catch {
       return fallback;
     }
+  };
+
+  // Helper to coerce possible translatable values into a string
+  const toDisplayText = (value: unknown, fallback: string = ""): string => {
+    if (typeof value === 'string') return value || fallback;
+    if (value && typeof value === 'object') {
+      const v: any = value as any;
+      const localized = (typeof locale === 'string' && v[locale]) || v.en || v.ne;
+      if (typeof localized === 'string') return localized || fallback;
+    }
+    return fallback;
   };
 
   // Local UI-only state for media layout (presentation only; no logic yet)
@@ -697,7 +709,7 @@ export const AlbumEditForm: React.FC<{
                                 // eslint-disable-next-line @next/next/no-img-element
                                 <img
                                   src={src}
-                                  alt={m.altText || m.title || m.originalName}
+                                  alt={toDisplayText((m as any).altText, toDisplayText((m as any).title, m.originalName))}
                                   style={{
                                     width: "100%",
                                     height: "100%",

@@ -13,7 +13,7 @@ import { Image, TrashCan } from "@carbon/icons-react";
 import { useMedia, useDeleteMedia } from "../hooks/use-media-queries";
 import type { Media, MediaQuery } from "../types/media";
 import { useMediaStore } from "../stores/media-store";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import MediaUrlService from "@/services/media-url-service";
 import ConfirmDeleteModal from '@/components/shared/confirm-delete-modal';
 
@@ -28,6 +28,7 @@ export const MediaList: React.FC<MediaListProps> = ({
   statusFilter = "all",
   visibilityFilter = "all",
 }) => {
+  const locale = useLocale();
   const [query, setQuery] = useState<Partial<MediaQuery>>({
     page: 1,
     limit: 12,
@@ -95,6 +96,18 @@ export const MediaList: React.FC<MediaListProps> = ({
     );
   }
 
+  // Helpers to safely display localized or plain string fields
+  const toDisplayText = (value: unknown, fallback: string = ''): string => {
+    if (typeof value === 'string') return value || fallback;
+    if (value && typeof value === 'object') {
+      const v: any = value as any;
+      // Prefer current locale, then English, then Nepali
+      const localized = (typeof locale === 'string' && v[locale]) || v.en || v.ne;
+      if (typeof localized === 'string') return localized || fallback;
+    }
+    return fallback;
+  };
+
   return (
     <div className="media-list">
       {filteredItems.length > 0 ? (
@@ -104,6 +117,8 @@ export const MediaList: React.FC<MediaListProps> = ({
               m.presignedUrl || m.url
                 ? MediaUrlService.toProxyUrl(m.presignedUrl ?? m.url ?? "")
                 : null;
+            const displayTitle = toDisplayText(m.title, m.originalName);
+            const displayAlt = toDisplayText((m as any).altText, displayTitle || m.originalName);
             return (
               <Tile key={m.id} className="media-card media-flex-item">
                 <div className="card-image">
@@ -111,7 +126,7 @@ export const MediaList: React.FC<MediaListProps> = ({
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={src}
-                      alt={m.altText || m.title || m.originalName}
+                      alt={displayAlt || displayTitle || m.originalName}
                       className="preview-image"
                     />
                   ) : (
@@ -144,9 +159,9 @@ export const MediaList: React.FC<MediaListProps> = ({
                 <div className="card-content card-content--compact">
                   <h3
                     className="card-title card-title--compact"
-                    title={m.originalName}
+                    title={displayTitle || m.originalName}
                   >
-                    {m.title || m.originalName}
+                    {displayTitle || m.originalName}
                   </h3>
                   <div className="media-card__meta">
                     <Tag size="sm" type={m.isActive ? "green" : "gray"}>
@@ -185,7 +200,7 @@ export const MediaList: React.FC<MediaListProps> = ({
         <ConfirmDeleteModal
           open={isConfirmOpen}
           title={t('card.confirmDeleteTitle', { default: 'Confirm deletion' } as any)}
-          subtitle={t('card.confirmDeleteSubtitle', { name: selectedItem.title || selectedItem.originalName, default: `Are you sure you want to delete "${selectedItem.title || selectedItem.originalName}"? This action cannot be undone.` } as any)}
+          subtitle={t('card.confirmDeleteSubtitle', { name: toDisplayText(selectedItem.title, selectedItem.originalName), default: `Are you sure you want to delete "${toDisplayText(selectedItem.title, selectedItem.originalName)}"? This action cannot be undone.` } as any)}
           confirmLabel={t('actions.delete', { default: 'Delete' } as any)}
           cancelLabel={t('actions.cancel', { default: 'Cancel' } as any)}
           onCancel={() => {

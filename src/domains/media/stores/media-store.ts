@@ -58,10 +58,17 @@ export const useMediaStore = create<MediaUIStore>()(
       },
 
       openEditPanel: (media: Media) => {
-           const initial: MediaFormData = {
-           title: { en: media.title ?? '', ne: '' },
-           description: { en: media.description ?? '', ne: '' },
-           altText: { en: media.altText ?? '', ne: '' },
+        const toTranslatable = (val: unknown) => {
+          if (val && typeof val === 'object') {
+            const v: any = val as any;
+            return { en: (v.en ?? '').toString(), ne: (v.ne ?? '').toString() };
+          }
+          return { en: (val ?? '').toString(), ne: '' };
+        };
+        const initial: MediaFormData = {
+          title: toTranslatable(media.title),
+          description: toTranslatable(media.description),
+          altText: toTranslatable(media.altText),
           tags: [...(media.tags ?? [])],
           folder: media.folder,
           isPublic: !!media.isPublic,
@@ -127,10 +134,17 @@ export const useMediaStore = create<MediaUIStore>()(
           return;
         }
         const media = get().panelMedia;
+        const toTranslatable = (val: unknown) => {
+          if (val && typeof val === 'object') {
+            const v: any = val as any;
+            return { en: (v.en ?? '').toString(), ne: (v.ne ?? '').toString() };
+          }
+          return { en: (val ?? '').toString(), ne: '' };
+        };
         const resetTo: MediaFormData = media && media.id === id ? {
-          title: { en: media.title ?? '', ne: '' },
-          description: { en: media.description ?? '', ne: '' },
-          altText: { en: media.altText ?? '', ne: '' },
+          title: toTranslatable(media.title),
+          description: toTranslatable(media.description),
+          altText: toTranslatable(media.altText),
           tags: [...(media.tags ?? [])],
           folder: media.folder,
           isPublic: !!media.isPublic,

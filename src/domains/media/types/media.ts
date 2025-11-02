@@ -17,9 +17,9 @@ export interface Media {
   uploadedBy: string;
   folder: string;
   category: MediaCategory;
-  altText?: string;
-  title?: string;
-  description?: string;
+  altText?: string | TranslatableEntity;
+  title?: string | TranslatableEntity;
+  description?: string | TranslatableEntity;
   tags?: string[];
   isPublic: boolean;
   isActive: boolean;
