@@ -375,8 +375,8 @@ export const MenuEditForm: React.FC<MenuEditFormProps> = ({
             </div>
 
             {/* Status Toggles */}
-            <div style={{ marginTop: "2rem" }}>
-              <Stack gap={4}>
+            <div style={{ marginTop: "0.5rem" }}>
+              <Stack gap={2}>
                 <Toggle
                   id="isActive"
                   labelText={t("form.isActive.label", { default: "Active" })}
