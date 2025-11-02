@@ -40,7 +40,7 @@
 
 /* Form Header */
 .form-header {
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem; /* reduce gap after header */
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--cds-ui-03);
 }
@@ -70,10 +70,15 @@
   display: flex;
   gap: 0.75rem;
   align-items: center;
+  margin-top: 1rem;  
+  margin-right: 1.5rem; 
 }
+
+
 
 .edit-button {
   flex-shrink: 0;
+  
 }
 
 /* Error Notification */
@@ -330,6 +335,29 @@
 
 .remove-button { align-self: flex-start; }
 
+/* Constrain wrapper so the preview stays inside the tile/container */
+.preview-wrapper {
+  width: 100%;
+  max-width: 400px; /* keeps large images from overflowing */
+}
+
+/* Ensure the actual <img> fits its wrapper and preserves aspect ratio */
+.preview-wrapper .preview-image,
+.background-photo-preview .preview-image {
+  width: 100%;
+  height: auto;
+  max-height: 250px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Prevent the remove button from expanding to full container width */
+.photo-preview .remove-button {
+  align-self: flex-start;
+  width: auto;
+  min-width: 120px;
+}
+
 /* Background Photo Preview Component */
 .background-photo-preview {
   position: relative;
@@ -399,6 +427,9 @@
   .form-header-actions {
     align-self: stretch;
     justify-content: flex-end;
+    margin-top: 3rem;  
+    margin-right: 1.5rem; 
+
   }
 
   .form-header-actions .action-buttons {
