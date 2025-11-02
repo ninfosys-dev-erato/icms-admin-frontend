@@ -84,7 +84,18 @@ export const useOfficeDescriptionUIStore = create<OfficeDescriptionUIStore>()(
       },
 
       closePanel: () => {
-        set({ panelOpen: false, isSubmitting: false });
+        // If the panel was in create mode, reset the create form so that
+        // previously entered data does not persist when the panel is reopened.
+        try {
+          const mode = get().panelMode;
+          if (mode === 'create') {
+            get().resetCreateForm();
+          }
+        } catch (e) {
+          // swallow any errors during close
+          console.error('Error while resetting create form on closePanel', e);
+        }
+        set({ panelOpen: false, isSubmitting: false, panelDescription: null, activeFormId: null });
       },
 
       setSubmitting: (isSubmitting) => set({ isSubmitting }),
@@ -157,7 +168,11 @@ export const useOfficeDescriptionUIStore = create<OfficeDescriptionUIStore>()(
         panelMode: state.panelMode,
         activeFormId: state.activeFormId,
         formStateById: state.formStateById,
-        createFormState: state.createFormState,
+        // Persist only the selected type for the create form but not the content
+        createFormState: {
+          officeDescriptionType: state.createFormState.officeDescriptionType,
+          content: { en: '', ne: '' },
+        },
       }),
     }
   )

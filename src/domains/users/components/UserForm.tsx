@@ -169,10 +169,14 @@ export const UserForm: React.FC<Props> = ({ mode, user, onSuccess }) => {
         <div
           style={{
             display: "flex",
-            justifyContent: "flex-end",
+            justifyContent: "space-between",
             marginBottom: "0.5rem",
+            marginTop: '-0.5rem'
           }}
         >
+          <h3 style={{fontSize:'16px'}}>{t("sections.basicInfo")}</h3>
+          {mode === 'create' ?
+
           <Button
             kind="ghost"
             size="sm"
@@ -185,6 +189,9 @@ export const UserForm: React.FC<Props> = ({ mode, user, onSuccess }) => {
           >
             Reset
           </Button>
+          : 
+          ""
+          }
         </div>
         <Grid fullWidth>
           <Column lg={16} md={8} sm={4}>

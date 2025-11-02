@@ -928,3 +928,343 @@
 .c4p--side-panel, .c4p--side-panel__inner-content--no-animated-title {
   padding-top: 0;
 }
+/* new */
+/* =========================================================
+   COMPACT FORM LAYOUT FIXES – DEPARTMENT + EMPLOYEE
+   Applies to: Create + Edit forms
+   ========================================================= */
+
+/* --- Top Action Bar (Basic Information + Reset) --- */
+.employee-form-actionbar,
+.department-create-form-actionbar,
+.department-edit-form-actionbar {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  margin-bottom: 0.75rem !important; /* keeps subtle separation */
+  align-items: center !important;
+}
+
+/* --- Title / Section Heading --- */
+.employee-form-title,
+.department-create-form-actionbar h3,
+.department-edit-form-actionbar h3 {
+  margin-top: 0 !important;
+  margin-bottom: 0.25rem !important;
+  line-height: 1.2;
+}
+
+/* --- Remove Excessive Gaps Between Sections --- */
+.employee-form-photo-section,
+.employee-form-contact-section,
+.employee-form-status-section,
+.employee-form-homepage-section,
+.department-create-form-status-section,
+.department-edit-form-status-section {
+  margin-top: 1rem !important; /* tightened from 2–2.5rem */
+  padding-top: 0 !important;
+}
+
+/* --- Homepage Display Section Compactness --- */
+.employee-form-homepage-desc {
+  margin-bottom: 0.5rem !important;
+}
+
+.employee-form-homepage-desc-text {
+  margin-bottom: 0.5rem !important;
+}
+
+/* --- General FormGroup Compactness --- */
+.bx--form-group {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* --- Field Group Adjustments (Side-by-Side Fields) --- */
+.employee-form-field-group,
+.department-create-form-row,
+.department-edit-form-row {
+  margin-top: 0.5rem !important;
+  gap: 1rem !important;
+}
+
+/* --- Compact Layout for Edit Forms (Employee & Department) --- */
+.employee-form-actionbar--edit,
+.department-edit-form-actionbar {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0.5rem !important;
+  justify-content: flex-end !important;
+}
+
+/* --- Overall Side Panel / Container Padding --- */
+.c4p--side-panel,
+.c4p--side-panel__inner-content--no-animated-title {
+  padding-top: 0 !important;
+}
+
+
+/* add */
+/* Remove margin between Basic Information, Reset button, and language tabs */
+.employee-form-actionbar,
+.department-create-form-actionbar,
+.department-edit-form-actionbar {
+  margin-bottom:0 !important;
+  padding-bottom: 0 !important;
+}
+
+.employee-form-actionbar h3,
+.department-create-form-actionbar h3,
+.department-edit-form-actionbar h3 {
+  margin-bottom: 1.25rem !important;
+  padding-bottom: 0 !important;
+}
+
+.translatable-tabs {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.translatable-tabs + .bx--form-item {
+  margin-top: 0 !important;
+}
+
+/* Optional: tighter vertical rhythm for all form sections */
+.employee-form-field-group,
+.department-create-form-row,
+.department-edit-form-row {
+  margin-top: 0.25rem !important;
+}
+/* //new */
+/* Remove spacing between panel title and Basic Information */
+.employee-form-actionbar,
+.department-create-form-actionbar,
+.department-edit-form-actionbar {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Target Carbon side panel inner content for full alignment */
+.c4p--side-panel .bx--form-section:first-child,
+.c4p--side-panel__inner-content--no-animated-title .bx--form-section:first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Ensure Basic Information sits directly under the panel header */
+.employee-form-actionbar:first-of-type,
+.department-create-form-actionbar:first-of-type,
+.department-edit-form-actionbar:first-of-type {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Override any default Carbon spacing */
+.c4p--side-panel .bx--form-section {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+/* //new added */
+/* =========================================================
+   ALIGN ACTION BAR POSITION ACROSS ALL FORMS (UNIFIED)
+   Applies to: Create + Edit (Employee + Department)
+   ========================================================= */
+
+/* --- Align the top of "Basic Information" exactly under panel header --- */
+.employee-form-actionbar,
+.employee-form-actionbar--edit,
+.department-create-form-actionbar,
+.department-edit-form-actionbar {
+  margin-top: 0.5rem !important;   /* identical offset for all */
+  padding-top: 0 !important;
+  margin-bottom: 0.75rem !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* --- Heading text alignment and vertical rhythm --- */
+.employee-form-actionbar h3,
+.employee-form-actionbar--edit h3,
+.department-create-form-actionbar h3,
+.department-edit-form-actionbar h3 {
+  margin: 0 !important;
+  line-height: 1.25 !important;
+  font-weight: 600 !important;
+}
+
+/* --- Ensure side panel top padding doesn’t push content down unevenly --- */
+.c4p--side-panel__inner-content--no-animated-title,
+.c4p--side-panel .bx--form-section:first-child {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* --- Maintain consistent spacing below Basic Information --- */
+.translatable-tabs {
+  margin-top: 0.75rem !important;
+  padding-top: 0 !important;
+}
+
+
+
+/* /added */
+/* =========================================================
+   REMOVE ONLY TOP MARGIN OF TRANSLATABLE TABS
+   Applies to: Employee + Department (Create + Edit forms)
+   ========================================================= */
+
+.employee-form-actionbar + .translatable-tabs,
+.employee-form-actionbar--edit + .translatable-tabs,
+.department-create-form-actionbar + .translatable-tabs,
+.department-edit-form-actionbar + .translatable-tabs,
+.translatable-tabs {
+  margin-top: 0 !important;
+}
+
+
+/* =========================================================
+   ALIGN "EDIT EMPLOYEE" HEADER SPACING TO MATCH CREATE FORM
+   ========================================================= */
+
+.employee-form-actionbar--edit {
+  margin-top: 0 !important;          /* removes extra top gap */
+  padding-top: 0 !important;
+}
+
+.c4p--side-panel__inner-content--no-animated-title .employee-form-actionbar--edit,
+.c4p--side-panel .employee-form-actionbar--edit {
+  margin-top: 0 !important;          /* align under side panel title */
+  padding-top: 0 !important;
+}
+
+/* Optional: tighten the area above Basic Information slightly */
+.employee-form-actionbar--edit h3 {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+
+/* =========================================================
+   SET 12PX MARGIN-BOTTOM FOR "BASIC INFORMATION"
+   Applies only to: Edit Employee Form
+   ========================================================= */
+
+.employee-form-actionbar--edit {
+  margin-bottom: 12px !important;  /* precise spacing under Basic Information */
+}
+
+
+
+/* =========================================================
+   FINAL FIX — ALIGN EDIT EMPLOYEE FORM SPACING
+   ========================================================= */
+
+/* Align top spacing (match create form) */
+.c4p--side-panel__inner-content--no-animated-title .employee-form-actionbar--edit,
+.c4p--side-panel .employee-form-actionbar--edit {
+  margin-top: 0 !important;   /* match create form header spacing */
+  padding-top: 0 !important;
+}
+
+/* Add exact 12px bottom margin under "Basic Information" */
+.employee-form-actionbar--edit {
+  margin-bottom: 12px !important;  /* consistent spacing below Basic Information */
+}
+
+/* Ensure the Basic Information heading stays flush and aligned */
+.employee-form-actionbar--edit h3 {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+
+/* //ll */
+/* =========================================================
+   TUNE EMPLOYEE FORM TITLE SPACING
+   ========================================================= */
+
+.employee-form-title {
+  /* ensure uniform compactness */
+  margin-bottom: 12px !important;   /* clean consistent gap below title */
+}
+
+
+
+/* //hh */
+/* =========================================================
+   MATCH EDIT EMPLOYEE HEADER SPACING WITH CREATE EMPLOYEE
+   ========================================================= */
+
+.c4p--side-panel__title.c4p--side-panel__title--no-label {
+  padding-bottom: 16px !important; /* make it same as Create form */
+}
+
+.c4p--side-panel__header::before {
+  top: auto !important;
+  bottom: 0 !important;
+}
+
+/* =========================================================
+   MATCH EDIT EMPLOYEE HEADER SPACING TO CREATE EMPLOYEE
+   ========================================================= */
+
+/* Apply only to Edit Employee side panel header title */
+.c4p--side-panel:has(.employee-form-actionbar--edit)
+  .c4p--side-panel__title.c4p--side-panel__title--no-label {
+ 
+  padding-bottom: 16px !important;
+}
+
+/* =========================================================
+   SET BORDER SPACING BELOW EDIT EMPLOYEE HEADER TO 16PX
+   ========================================================= */
+.c4p--side-panel:has(.employee-form-actionbar--edit)
+  .c4p--side-panel__header::before {
+  bottom: -16px !important; /* pushes the border line down */
+}
+
+
+
+/* =========================================================
+   MAKE EDIT EMPLOYEE HEADER 100% IDENTICAL TO CREATE EMPLOYEE
+   ========================================================= */
+.c4p--side-panel:has(.employee-form-actionbar--edit)
+  .c4p--side-panel__header.c4p--side-panel__header--no-title-animation {
+  padding: 16px 16px 0px 16px !important; /* same as create */
+  margin: 0 !important;
+  position: relative !important;
+  border: none !important; /* ensure clean baseline */
+}
+
+/* Recreate exact bottom divider line position and spacing */
+.c4p--side-panel:has(.employee-form-actionbar--edit)
+  .c4p--side-panel__header.c4p--side-panel__header--no-title-animation::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--cds-ui-03);
+}
+
+/* =========================================================
+   FIX: Make Edit Employee header border spacing 16px
+   ========================================================= */
+.c4p--side-panel:has(.employee-form-actionbar--edit)
+  .c4p--side-panel__header.c4p--side-panel__header--no-title-animation::before {
+  bottom: -8px !important; /* move border line 16px down */
+}
+/* =========================================================
+   ALIGN DEPARTMENT EDIT HEADER SPACING TO EMPLOYEE EDIT
+   ========================================================= */
+.c4p--side-panel:has(.department-edit-form-actionbar)
+  .c4p--side-panel__header.c4p--side-panel__header--no-title-animation::before {
+  bottom: -8px !important; /* same spacing as Employee Edit */
+}
+
+.c4p--side-panel:has(.department-edit-form-actionbar)
+  .c4p--side-panel__header.c4p--side-panel__header--no-title-animation {
+  position: relative !important;
+  padding: 16px !important; /* match padding used in employee edit header */
+}
