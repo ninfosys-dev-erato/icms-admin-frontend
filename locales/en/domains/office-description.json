@@ -51,7 +51,9 @@
         "en": "Enter content in English",
         "ne": "Enter content in Nepali"
       }
-    }
+    },
+    "duplicateTitle": "Description already exists",
+    "duplicateMessage": "A description for \"{type}\" already exists. Please edit the existing one."
   },
   "list": {
     "title": "Office Descriptions",

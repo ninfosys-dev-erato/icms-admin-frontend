@@ -12,6 +12,7 @@ import {
 } from "@carbon/react";
 import { useTranslations } from "next-intl";
 import { useCategories } from "../hooks/use-category-queries";
+import { useLanguageFont } from "@/shared/hooks/use-language-font";
 import { useUpdateContent } from "../hooks/use-content-queries";
 import { useContentStore } from "../stores/content-store";
 import "../styles/content-management.css";
@@ -101,10 +102,14 @@ export const ContentEditForm: React.FC<ContentEditFormProps> = ({
     setHasChanges(hasFormChanges);
   }, [formData, content]);
 
-  // Memoize category items for dropdown
+  // Memoize category items for dropdown, show name in selected language
+  const { locale } = useLanguageFont();
   const categoryItems = categories.map((cat) => ({
     id: cat.id,
-    label: cat.name?.en || cat.name?.ne || cat.slug || "Unknown",
+    label:
+      locale === "ne"
+        ? cat.name?.ne || cat.name?.en || cat.slug || "Unknown"
+        : cat.name?.en || cat.name?.ne || cat.slug || "Unknown",
   }));
 
   const selectedCategory =
@@ -341,7 +346,9 @@ export const ContentEditForm: React.FC<ContentEditFormProps> = ({
           <Column lg={16} md={8} sm={4}>
             {/* Basic Information Section */}
             <FormGroup legendText={""}>
-              <h3 className="section-title edit-section-title">{t("sections.basicInfo")}</h3>
+              <h3 className="section-title edit-section-title">
+                {t("sections.basicInfo")}
+              </h3>
               <TranslatableField
                 label={t("form.title.label", { default: "Title" })}
                 value={formData.title}

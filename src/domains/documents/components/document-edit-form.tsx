@@ -606,7 +606,7 @@ export const DocumentEditForm: React.FC<DocumentEditFormProps> = ({
             {/* Tags */}
             <div className="document-edit-form-section">
               <FormGroup legendText={t("form.tags.label")}>
-                <div className="document-edit-form-tags-row">
+                <div className="document-edit-form-tags-row-centered">
                   <TextInput
                     id="newTag"
                     labelText=""
@@ -620,15 +620,17 @@ export const DocumentEditForm: React.FC<DocumentEditFormProps> = ({
                       }
                     }}
                   />
-                  <Button
-                    kind="secondary"
-                    size="sm"
-                    renderIcon={Add}
-                    onClick={handleAddTag}
-                    disabled={!newTag.trim()}
-                  >
-                    {t("form.tags.addTag")}
-                  </Button>
+                  <div className="document-edit-form-addtag-center">
+                    <Button
+                      kind="secondary"
+                      size="sm"
+                      renderIcon={Add}
+                      onClick={handleAddTag}
+                      disabled={!newTag.trim()}
+                    >
+                      {t("form.tags.addTag")}
+                    </Button>
+                  </div>
                 </div>
                 {tags.length > 0 && (
                   <div className="document-edit-form-tags-list">
@@ -711,27 +713,31 @@ export const DocumentEditForm: React.FC<DocumentEditFormProps> = ({
 
             {/* Toggles */}
             <div className="document-edit-form-section">
-              <div className="document-edit-form-toggles">
-                <Toggle
-                  id="isPublic"
-                  labelText={t("form.isPublic.label")}
-                  toggled={formState.isPublic}
-                  onToggle={(checked) => handleInputChange("isPublic", checked)}
-                />
-                <Toggle
-                  id="requiresAuth"
-                  labelText={t("form.requiresAuth.label")}
-                  toggled={formState.requiresAuth}
-                  onToggle={(checked) =>
-                    handleInputChange("requiresAuth", checked)
-                  }
-                />
-                <Toggle
-                  id="isActive"
-                  labelText={t("form.isActive.label")}
-                  toggled={formState.isActive}
-                  onToggle={(checked) => handleInputChange("isActive", checked)}
-                />
+              <div className="document-edit-form-toggles-column" style={{ marginTop: '2rem' }}>
+                <div className="document-toggle-group">
+                  <Toggle
+                    id="isPublic"
+                    labelText={t("form.isPublic.label")}
+                    toggled={formState.isPublic}
+                    onToggle={(checked) => handleInputChange("isPublic", checked)}
+                  />
+                </div>
+                <div className="document-toggle-group">
+                  <Toggle
+                    id="requiresAuth"
+                    labelText={t("form.requiresAuth.label")}
+                    toggled={formState.requiresAuth}
+                    onToggle={(checked) => handleInputChange("requiresAuth", checked)}
+                  />
+                </div>
+                <div className="document-toggle-group">
+                  <Toggle
+                    id="isActive"
+                    labelText={t("form.isActive.label")}
+                    toggled={formState.isActive}
+                    onToggle={(checked) => handleInputChange("isActive", checked)}
+                  />
+                </div>
               </div>
             </div>
           </Column>

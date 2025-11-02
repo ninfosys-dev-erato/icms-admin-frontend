@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  Document,
-  Image,
-  OverflowMenuVertical
-} from "@carbon/icons-react";
+import { Document, Image, OverflowMenuVertical } from "@carbon/icons-react";
 import {
   Button,
   DataTable,
@@ -15,12 +11,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  Tag
+  Tag,
 } from "@carbon/react";
 import { RowActions } from "@/components/shared/row-actions";
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
+import { useLanguageFont } from "@/shared/hooks/use-language-font";
 import { useDeleteContent } from "../hooks/use-content-queries";
+import { useContentStore } from "../stores/content-store";
 import ConfirmDeleteModal from "@/components/shared/confirm-delete-modal";
 import "../styles/content-management.css";
 import { Content, ContentStatus, ContentVisibility } from "../types/content";
@@ -33,46 +31,59 @@ interface ContentListProps {
   isLoading: boolean;
 }
 
-export const ContentList: React.FC<ContentListProps> = ({ 
-  onEdit, 
+export const ContentList: React.FC<ContentListProps> = ({
+  onEdit,
   onCreate,
   onManageAttachments,
   contents,
-  isLoading
+  isLoading,
 }) => {
   const t = useTranslations("content-management");
+  const { panelOpen, closePanel } = useContentStore();
   const deleteMutation = useDeleteContent();
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [selectedContent, setSelectedContent] = useState<Content | null>(null);
 
   // Get status color
-  const getStatusColor = (status: ContentStatus): "blue" | "green" | "gray" | "purple" => {
+  const getStatusColor = (
+    status: ContentStatus
+  ): "blue" | "green" | "gray" | "purple" => {
     switch (status) {
-      case 'PUBLISHED': return 'green';
-      case 'DRAFT': return 'blue';
-      case 'ARCHIVED': return 'gray';
-      default: return 'gray';
+      case "PUBLISHED":
+        return "green";
+      case "DRAFT":
+        return "blue";
+      case "ARCHIVED":
+        return "gray";
+      default:
+        return "gray";
     }
   };
 
   // Get visibility color
-  const getVisibilityColor = (visibility: ContentVisibility): "blue" | "green" | "red" => {
+  const getVisibilityColor = (
+    visibility: ContentVisibility
+  ): "blue" | "green" | "red" => {
     switch (visibility) {
-      case 'public': return 'green';
-      case 'private': return 'red';
-      case 'role-based': return 'blue';
-      default: return 'blue';
+      case "public":
+        return "green";
+      case "private":
+        return "red";
+      case "role-based":
+        return "blue";
+      default:
+        return "blue";
     }
   };
 
   // Format date
-    const formatDate = (dateString: string) => {
-      const date = new Date(dateString);
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0');
-      const day = String(date.getDate()).padStart(2, '0');
-      return `${year}/${month}/${day}`;
-    };
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}/${month}/${day}`;
+  };
 
   // Handle content actions
   const handleEdit = (content: Content) => {
@@ -96,23 +107,45 @@ export const ContentList: React.FC<ContentListProps> = ({
     setSelectedContent(null);
   };
 
+  // Handle row click - close panel if it's open
+  const handleRowClick = useCallback(
+    (e: React.MouseEvent) => {
+      // Don't close if clicking on buttons or actions
+      const target = e.target as HTMLElement;
+      if (target.closest("button") || target.closest('[role="menuitem"]')) {
+        return;
+      }
+
+      if (panelOpen) {
+        closePanel();
+      }
+    },
+    [panelOpen, closePanel]
+  );
+
   // Handle attachment management
   const handleManageAttachments = (contentId: string) => {
     onManageAttachments(contentId);
   };
 
-  // Get display title (prefer English, fallback to Nepali)
+  // Get display title in selected language, fallback to other
+  const { locale } = useLanguageFont();
   const getDisplayTitle = (content: Content) => {
-    if (content.title?.en) return content.title.en;
-    if (content.title?.ne) return content.title.ne;
-    return content.slug || 'Untitled';
+    if (locale === "ne") {
+      if (content.title?.ne) return content.title.ne;
+      if (content.title?.en) return content.title.en;
+    } else {
+      if (content.title?.en) return content.title.en;
+      if (content.title?.ne) return content.title.ne;
+    }
+    return content.slug || "Untitled";
   };
 
   // Get display excerpt (prefer English, fallback to Nepali)
   const getDisplayExcerpt = (content: Content) => {
     if (content.excerpt?.en) return content.excerpt.en;
     if (content.excerpt?.ne) return content.excerpt.ne;
-    return '';
+    return "";
   };
 
   // Get category display name
@@ -120,7 +153,7 @@ export const ContentList: React.FC<ContentListProps> = ({
     if (content.category?.name?.en) return content.category.name.en;
     if (content.category?.name?.ne) return content.category.name.ne;
     if (content.category?.slug) return content.category.slug;
-    return 'Uncategorized';
+    return "Uncategorized";
   };
 
   // Get author display name
@@ -131,7 +164,7 @@ export const ContentList: React.FC<ContentListProps> = ({
     if (content.createdBy?.firstName) return content.createdBy.firstName;
     if (content.createdBy?.lastName) return content.createdBy.lastName;
     if (content.createdBy?.email) return content.createdBy.email;
-    return 'Unknown';
+    return "Unknown";
   };
 
   if (isLoading) {
@@ -159,15 +192,22 @@ export const ContentList: React.FC<ContentListProps> = ({
   return (
     <div className="content-list-view">
       {/* Render modal when a content item is selected for deletion */}
-      <DataTable rows={contents} headers={[
-        { key: 'title', header: t("table.headers.title") },
-        { key: 'slug', header: t("table.headers.slug") },
-        { key: 'category', header: t("table.headers.category") },
-        { key: 'status', header: t("table.headers.status") },
-        { key: 'createdAt', header: t("table.headers.createdAt") },
-        { key: 'attachments', header: t("table.headers.attachments", { default: "Attachments" }) },
-        { key: 'actions', header: t("table.headers.actions") }
-      ]} size="lg">
+      <DataTable
+        rows={contents}
+        headers={[
+          { key: "title", header: t("table.headers.title") },
+          { key: "slug", header: t("table.headers.slug") },
+          { key: "category", header: t("table.headers.category") },
+          { key: "status", header: t("table.headers.status") },
+          { key: "createdAt", header: t("table.headers.createdAt") },
+          {
+            key: "attachments",
+            header: t("table.headers.attachments", { default: "Attachments" }),
+          },
+          { key: "actions", header: t("table.headers.actions") },
+        ]}
+        size="lg"
+      >
         {({ rows, headers, getTableProps, getHeaderProps, getRowProps }) => (
           <Table {...getTableProps()} useZebraStyles={false}>
             <TableHead>
@@ -186,12 +226,17 @@ export const ContentList: React.FC<ContentListProps> = ({
             <TableBody>
               {contents.map((content, index) => {
                 // Add safety check for content data
-                if (!content || typeof content !== 'object') {
+                if (!content || typeof content !== "object") {
                   return null;
                 }
-                
+
                 return (
-                  <TableRow key={content.id || index} className="compact-row">
+                  <TableRow
+                    key={content.id || index}
+                    className="compact-row"
+                    onClick={handleRowClick}
+                    style={{ cursor: panelOpen ? "pointer" : "default" }}
+                  >
                     <TableCell>
                       <div className="content-title-cell">
                         {content.featuredImageId && (
@@ -205,14 +250,13 @@ export const ContentList: React.FC<ContentListProps> = ({
                           <div className="content-title">
                             {getDisplayTitle(content)}
                           </div>
-           
                         </div>
                       </div>
                     </TableCell>
                     <TableCell>
                       <div className="content-slug">
                         <Tag type="warm-gray" size="sm" className="slug-tag">
-                          {content.slug || 'No slug'}
+                          {content.slug || "No slug"}
                         </Tag>
                       </div>
                     </TableCell>
@@ -225,7 +269,9 @@ export const ContentList: React.FC<ContentListProps> = ({
                     </TableCell>
                     <TableCell>
                       <Tag type={getStatusColor(content.status)} size="sm">
-                        {t(`status.${content.status?.toLowerCase() || 'draft'}`)}
+                        {t(
+                          `status.${content.status?.toLowerCase() || "draft"}`
+                        )}
                       </Tag>
                     </TableCell>
                     {/* <TableCell>
@@ -243,7 +289,11 @@ export const ContentList: React.FC<ContentListProps> = ({
                     </TableCell> */}
                     <TableCell>
                       <div className="content-date">
-                        <span>{formatDate(content.createdAt || new Date().toISOString())}</span>
+                        <span>
+                          {formatDate(
+                            content.createdAt || new Date().toISOString()
+                          )}
+                        </span>
                       </div>
                     </TableCell>
                     {/* <TableCell>
@@ -259,17 +309,31 @@ export const ContentList: React.FC<ContentListProps> = ({
                         size="sm"
                         // renderIcon={Attachment}
                         onClick={() => handleManageAttachments(content.id)}
-                        iconDescription={t("table.actions.manageAttachments", { default: "Manage Attachments" })}
+                        iconDescription={t("table.actions.manageAttachments", {
+                          default: "Manage Attachments",
+                        })}
                       >
-                        {t("table.actions.attachments", { default: "Attachments" })}
+                        {t("table.actions.attachments", {
+                          default: "Attachments",
+                        })}
                       </Button>
                     </TableCell>
                     <TableCell>
                       <RowActions
-                        ariaLabel={t('table.actions.menu')}
+                        ariaLabel={t("table.actions.menu")}
                         actions={[
-                          { key: 'edit', itemText: t('table.actions.edit'), onClick: () => handleEdit(content) },
-                          { key: 'delete', itemText: t('table.actions.delete'), onClick: () => handleDelete(content), hasDivider: true, isDelete: true },
+                          {
+                            key: "edit",
+                            itemText: t("table.actions.edit"),
+                            onClick: () => handleEdit(content),
+                          },
+                          {
+                            key: "delete",
+                            itemText: t("table.actions.delete"),
+                            onClick: () => handleDelete(content),
+                            hasDivider: true,
+                            isDelete: true,
+                          },
                         ]}
                       />
                     </TableCell>
@@ -283,14 +347,14 @@ export const ContentList: React.FC<ContentListProps> = ({
       {isConfirmOpen && selectedContent && (
         <ConfirmDeleteModal
           open={isConfirmOpen}
-          title={'Confirm Deletion'}
+          title={"Confirm Deletion"}
           subtitle={`Are you sure you want to delete content "${getDisplayTitle(selectedContent)}"? This action cannot be undone.`}
-          confirmLabel={'Delete'}
-          cancelLabel={'Cancel'}
+          confirmLabel={"Delete"}
+          cancelLabel={"Cancel"}
           onConfirm={handleConfirmDelete}
           onCancel={handleCancelDelete}
         />
       )}
     </div>
   );
-}; 
+};

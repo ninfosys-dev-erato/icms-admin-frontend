@@ -91,7 +91,6 @@ export const MediaEditForm: React.FC<{
     //   errs.description = { ...(errs.description || {}), ne: t("form.validation.descriptionRequiredNe") };
     //   if (!firstInvalidDescLang) firstInvalidDescLang = "ne";
     // }
-
     // AltText validation (if required)
     // if (!altText.en?.trim()) {
     //   errs.altText = { ...(errs.altText || {}), en: t("form.validation.altTextRequiredEn") };
@@ -115,9 +114,8 @@ export const MediaEditForm: React.FC<{
   };
 
   useEffect(() => {
-    // Resolve preview image: prefer existing presigned/url; fallback to fresh presigned URL
     let mounted = true;
-    const existing = media.presignedUrl || media.url || "";
+    const existing = media.presignedUrl || media.url || null;
     const setIfMounted = (u: string | null) => {
       if (mounted) setImageUrl(u ? MediaUrlService.toProxyUrl(u) : null);
     };
@@ -253,9 +251,9 @@ export const MediaEditForm: React.FC<{
                   "videos",
                   "audio",
                   "general",
-                ].map((f) => ({ id: f, label: f }))}
+                ].map((f) => ({ id: f, label: t(`folders.${f}`, { default: f }) }))}
                 itemToString={(i) => (i ? i.label : "")}
-                selectedItem={{ id: formData.folder, label: formData.folder }}
+                selectedItem={{ id: formData.folder, label: t(`folders.${formData.folder}`, { default: formData.folder }) }}
                 onChange={({ selectedItem }) =>
                   updateFormField(
                     media.id,
@@ -291,7 +289,7 @@ export const MediaEditForm: React.FC<{
             </div>
 
             <Accordion className="media-upload-accordion">
-              <AccordionItem title="Additional Settings">
+              <AccordionItem title={t('formAdditional.additionalSettings') as any}>
                 <div className="m--mt-1">
                   <TranslatableField
                     type="textarea"

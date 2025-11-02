@@ -1,3 +1,10 @@
+/* Toggles column layout for edit form */
+.document-edit-form-toggles-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
 /* IBM Products Side Panel Override */
 .c4p--side-panel.c4p--side-panel--slide-in,
 .c4p--side-panel:not(.c4p--side-panel--has-overlay) {
@@ -228,7 +235,8 @@
 /* Flex Layout for Document Cards */
 .document-flex {
   display: grid;
-  gap: 1rem;
+  column-gap: 0.5rem; /* Reduce horizontal gap */
+  row-gap: 1rem;      /* Keep vertical gap as is */
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 }
 
@@ -705,7 +713,7 @@
 
 /* Enhanced Dropdown Styling */
 .document-container .cds--dropdown {
-  min-width: 180px;
+  min-width: 140px;
 }
 
 .document-container .cds--dropdown__label {
@@ -1359,4 +1367,18 @@
 .c4p--create-side-panel__form-title-text,
 .c4p--create-side-panel__content-text {
   display: none;
+}
+
+/* Serial number badge for document cards */
+.card-order-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #0f62fe;
+  color: #fff;
+  border-radius: 8px;
+  padding: 2px 10px;
+  font-weight: bold;
+  font-size: 16px;
+  z-index: 2;
 }

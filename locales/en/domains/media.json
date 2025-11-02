@@ -19,6 +19,7 @@
   "actions": {
     "create": "Upload",
     "update": "Update",
+    "delete": "Delete",
     "cancel": "Cancel",
     "reset": "Reset",
     "chooseFiles": "Choose files",
@@ -41,6 +42,9 @@
     "actions": "Media actions",
     "edit": "Edit",
     "delete": "Delete"
+    ,
+    "confirmDeleteTitle": "Confirm deletion",
+    "confirmDeleteSubtitle": "Are you sure you want to delete \"{name}\"? This action cannot be undone."
   },
   "form": {
     "uploadTitle": "Upload Media",
@@ -70,6 +74,20 @@
         "button": "Choose files"
       }
     }
+  },
+  "folders": {
+    "sliders": "Sliders",
+    "office-settings": "Office settings",
+    "users": "Users",
+    "content": "Content",
+    "documents": "Documents",
+    "reports": "Reports",
+    "videos": "Videos",
+    "audio": "Audio",
+    "general": "General"
+  },
+  "formAdditional": {
+    "additionalSettings": "Additional Settings"
   },
   "albums": {
     "formTitle": "Album",

@@ -30,7 +30,7 @@ export const UserList: React.FC<{ hideHeader?: boolean }> = ({
   return (
     <Layer className="users-container">
       {!hideHeader && (
-        <div style={{ padding: "2rem 1rem 1rem 1rem" }}>
+        <div>
           {/* Header is now provided by UserContainer when used there */}
         </div>
       )}
