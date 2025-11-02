@@ -1,0 +1,60 @@
+/* ...existing code... */
+.document-create-form-section {
+  margin-top: 2rem;
+}
+
+.document-create-form-tags-row-centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.document-create-form-addtag-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.document-create-form-toggles-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+  align-items: flex-start;
+}
+
+.document-create-form-toggles-row {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  align-items: flex-start;
+}
+
+.document-edit-form-toggles-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.document-edit-form-tags-row-centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.document-edit-form-addtag-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.document-toggle-group {
+  margin-bottom: 1rem;
+}
+/* ...existing code... */

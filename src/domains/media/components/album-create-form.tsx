@@ -148,7 +148,7 @@ export const AlbumCreateForm: React.FC<{ onSuccess?: () => void }> = ({
 
       <Grid fullWidth>
         <Column lg={16} md={8} sm={4}>
-          <FormGroup legendText={t("form.basicInfo")}>
+          <FormGroup legendText={""}>
             <TranslatableField
               label={t("form.nameEn") as any}
               value={createFormState.name}

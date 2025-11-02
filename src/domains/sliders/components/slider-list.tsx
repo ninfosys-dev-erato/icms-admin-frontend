@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState, useCallback, useEffect } from "react";
-import { Button, Tag, Pagination, InlineLoading, Tile, OverflowMenu, OverflowMenuItem } from "@carbon/react";
-import { Add, Image } from "@carbon/icons-react";
-import { useTranslations } from "next-intl";
-import { Slider, SliderQuery } from "../types/slider";
-import { useSliderStore } from "../stores/slider-store";
-import { SliderImagePreview } from "./slider-image-preview";
 import MediaUrlService from "@/services/media-url-service";
+import { Add, Image } from "@carbon/icons-react";
+import { Button, InlineLoading, OverflowMenu, OverflowMenuItem, Pagination, Tag, Tile } from "@carbon/react";
+import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDeleteSlider, usePublishSlider, useSliders, useUnpublishSlider } from "../hooks/use-slider-queries";
+import { Slider, SliderQuery } from "../types/slider";
+import { SliderImagePreview } from "./slider-image-preview";
 
 interface SliderListProps {
   sliders?: Slider[];
@@ -29,6 +29,8 @@ export const SliderList: React.FC<SliderListProps> = ({
 }) => {
   const t = useTranslations("sliders");
   const [currentQuery, setCurrentQuery] = useState<SliderQuery>({ page: 1, limit: 12 });
+  const router = useParams();
+  const { locale } = router;
   
   // Convert status filter to backend query parameter
   const isActiveParam = statusFilter === 'all' ? undefined : statusFilter === 'active';
@@ -95,6 +97,7 @@ export const SliderList: React.FC<SliderListProps> = ({
           <div className="slider-flex slider-list-flex">
             {displaySliders.map((slider: Slider) => {
               const img = MediaUrlService.getImageSourceFromSlider(slider);
+                console.log(`Slider: ${slider}`)
               
               // Debug logging removed
 
@@ -150,7 +153,8 @@ export const SliderList: React.FC<SliderListProps> = ({
 
                   <div className="card-content card-content--compact">
                     <h3 className="card-title card-title--compact">
-                      {slider.title?.en || slider.title?.ne || t('table.noTitle')}
+                      {locale === 'ne' ? slider.title?.ne : slider.title?.en || t('table.noTitle')}
+                      
                     </h3>
                     <div className="card-meta">
                       <Tag type={slider.isActive ? 'green' : 'gray'} size="sm">
