@@ -1510,3 +1510,182 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border-radius: 6px;
 }
+
+
+/* //new */
+/* 🔧 Remove top padding/margin between side panel title and Basic Information */
+.c4p--side-panel__content {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* 🔧 Target only Navigation panels */
+.navigation-container .c4p--side-panel__content {
+  padding-top: 0.25rem !important;
+  margin-top: 0 !important;
+}
+
+/* 🔧 Tighten the Basic Information section specifically */
+.navigation-create-form-actionbar,
+.navigation-edit-form-actionbar {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  margin-bottom: 0.25rem !important;
+}
+
+/* 🔧 Remove any form-section padding before Basic Information */
+.form-section-header:first-child,
+.form-content--enhanced > :first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* 🔧 Ensure the form fields start immediately after the header */
+#menu-form,
+.menu-form {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+/* //added */
+/* ========================================
+   🔧 FINAL FIX — Remove extra vertical gaps
+   ======================================== */
+
+/* Remove top padding between panel title and Basic Information */
+.navigation-container .c4p--side-panel__content {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Remove top margin Carbon adds to the first Grid/Column block */
+.navigation-container .c4p--side-panel__content .cds--grid:first-child,
+.navigation-container .c4p--side-panel__content .cds--row:first-child,
+.navigation-container .c4p--side-panel__content .cds--col:first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Remove top gap before “Basic Information” action bar */
+.navigation-create-form-actionbar,
+.navigation-edit-form-actionbar {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Remove bottom margin below “Basic Information” to pull fields closer */
+.navigation-create-form-actionbar,
+.navigation-edit-form-actionbar {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Fix Carbon Grid’s default top spacing before first field (like Category) */
+#menu-form .cds--form-item:first-of-type,
+#menu-form .cds--form-item > .cds--select:first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Eliminate redundant top spacing inside ComboBox + Select containers */
+#menu-form .cds--combo-box,
+#menu-form .cds--select {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Slightly tighten spacing between sections (Category → Active) */
+#menu-form .cds--form-item,
+#menu-form .cds--number,
+#menu-form .cds--select {
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+}
+/* //gg */
+/* ========================================
+   🎯 Precise Fix — Remove Side Panel Inner Padding
+   ======================================== */
+
+/* Target only the CREATE PANEL under navigation container */
+.navigation-container .c4p--create-side-panel__inner-content {
+  padding: 0 !important; /* remove all internal padding */
+  margin: 0 !important;
+}
+
+/* Also ensure outer container doesn’t reintroduce padding */
+.navigation-container .c4p--side-panel__content {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Keep header (Create New Menu) visually intact */
+.navigation-container .c4p--side-panel__header {
+  padding-bottom: 0.25rem !important;
+}
+
+/* Optional: maintain consistent space below title text */
+.navigation-container .c4p--create-side-panel__form-title {
+  margin-bottom: 0.25rem !important;
+}
+
+/* Ensure Basic Information header aligns tightly below */
+.navigation-create-form-actionbar,
+.navigation-edit-form-actionbar {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* 🎯 Remove the top padding shown in your DevTools screenshot */
+.navigation-container .c4p--create-side-panel__inner-content,
+.navigation-container .c4p--side-panel__content {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;   /* optional */
+  margin-top: 0 !important;
+}
+
+/* Keep the panel header spacing tidy */
+.navigation-container .c4p--side-panel__header {
+  padding-bottom: 0.25rem !important;
+}
+
+/* Tighten the title itself */
+.navigation-container .c4p--create-side-panel__form-title {
+  margin-bottom: 0.25rem !important;
+}
+
+/* Pull “Basic Information” flush under the title */
+.navigation-create-form-actionbar,
+.navigation-edit-form-actionbar {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+/* ========================================
+   🎯 Remove 16px default padding inside form
+   ======================================== */
+
+/* Targets only the Create panel form inside navigation container */
+.navigation-container form.cds--form.c4p--create-side-panel__form {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Optional: also ensure Edit panels are consistent */
+.navigation-container form.cds--form.c4p--edit-side-panel__form {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+/* ========================================
+   🎯 Remove 8px padding from side-panel title
+   ======================================== */
+
+.navigation-container h3.c4p--create-side-panel__form-title-text {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Optional: match Edit panels too */
+.navigation-container h3.c4p--edit-side-panel__form-title-text {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+
