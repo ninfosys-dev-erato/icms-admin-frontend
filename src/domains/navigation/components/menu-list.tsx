@@ -1,5 +1,4 @@
 
-//ggggg
 "use client";
 
 import React, { useState, useCallback, useEffect } from "react";
@@ -12,7 +11,7 @@ import {
   OverflowMenuItem,
 } from "@carbon/react";
 import { Add, Menu, Location, Edit, TrashCan } from "@carbon/icons-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Menu as MenuType, MenuQuery, MenuLocation } from "../types/navigation";
 import {
   useMenus,
@@ -44,6 +43,7 @@ export const MenuList: React.FC<MenuListProps> = ({
 }) => {
   const t = useTranslations("navigation");
   const router = useRouter();
+  const locale = useLocale();
 
   const [query, setQuery] = useState<Partial<MenuQuery>>({
     page: 1,
@@ -54,7 +54,6 @@ export const MenuList: React.FC<MenuListProps> = ({
     statusFilter === "all" ? undefined : statusFilter === "active";
   const locationParam = locationFilter === "all" ? undefined : locationFilter;
 
-  // include page, limit, filters in query params (pass the partial query object)
   const queryResult = useMenus({
     ...(query as Partial<MenuQuery>),
     isActive: isActiveParam,
@@ -72,19 +71,16 @@ export const MenuList: React.FC<MenuListProps> = ({
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [menuToDelete, setMenuToDelete] = useState<MenuType | null>(null);
 
-  // Always use query data — don't freeze first page
   const safeMenus: MenuType[] = Array.isArray(listData?.data)
     ? listData.data
     : Array.isArray(propMenus)
     ? propMenus
     : [];
 
-  // Reset to first page when filters change
   useEffect(() => {
     setQuery((prev) => ({ ...prev, page: 1 }));
   }, [statusFilter, locationFilter]);
 
-  // unified handler (page, optional pageSize) — same pattern as media list
   const handlePageChange = useCallback((page: number, pageSize?: number) => {
     setQuery((prev) => ({ ...prev, page, limit: pageSize ?? prev.limit }));
   }, []);
@@ -158,7 +154,6 @@ export const MenuList: React.FC<MenuListProps> = ({
     }
   };
 
-  // Overflow fix for menu dropdown
   useEffect(() => {
     function adjustOverflowMenus() {
       const dropdowns =
@@ -182,6 +177,15 @@ export const MenuList: React.FC<MenuListProps> = ({
       window.removeEventListener("resize", adjustOverflowMenus);
     };
   }, []);
+
+  // ✅ Helper for Nepali digits
+  const formatNumber = (n: number | string): string => {
+    if (locale === "ne") {
+      const digits = ["०", "१", "२", "३", "४", "५", "६", "७", "८", "९"];
+      return String(n).replace(/[0-9]/g, (ch) => digits[Number(ch)] ?? ch);
+    }
+    return String(n);
+  };
 
   return (
     <div className="menu-list">
@@ -359,7 +363,18 @@ export const MenuList: React.FC<MenuListProps> = ({
                   pageSize={query.limit}
                   pageSizes={[12, 24, 48, 96]}
                   totalItems={pagination?.total ?? 0}
-                  onChange={({ page, pageSize }) => handlePageChange(page ?? 1, pageSize)}
+                  itemsPerPageText={
+                    locale === "ne" ? "प्रति पृष्ठ वस्तुहरू" : "Items per page"
+                  }
+                  itemRangeText={(min, max, total) =>
+                    `${formatNumber(min)}–${formatNumber(max)} ${
+                      locale === "ne" ? "मध्ये" : "of"
+                    } ${formatNumber(total)}`
+                  }
+                  pageNumberText={locale === "ne" ? "पृष्ठ" : "Page"}
+                  onChange={({ page, pageSize }) =>
+                    handlePageChange(page ?? 1, pageSize)
+                  }
                   size="md"
                 />
               </div>
@@ -403,6 +418,59 @@ export const MenuList: React.FC<MenuListProps> = ({
           setMenuToDelete(null);
         }}
       />
+
+      <PaginationNepaliFix locale={locale} />
     </div>
   );
+};
+
+// ✅ Nepali number + text patch for Carbon pagination
+const PaginationNepaliFix = ({ locale }: { locale: string }) => {
+  useEffect(() => {
+    if (locale !== "ne") return;
+
+    const digitMap: Record<string, string> = {
+      "0": "०",
+      "1": "१",
+      "2": "२",
+      "3": "३",
+      "4": "४",
+      "5": "५",
+      "6": "६",
+      "7": "७",
+      "8": "८",
+      "9": "९",
+    };
+
+    const convertToNepali = (text: string): string => {
+      if (!text) return text;
+      let result = text.replace(/[0-9]/g, (d) => digitMap[d] || d);
+      result = result
+        .replace(/\bof\b/gi, "मध्ये")
+        .replace(/\bpage\b/gi, "पृष्ठ");
+      return result;
+    };
+
+    const updatePaginationText = () => {
+      document
+        .querySelectorAll(
+          ".cds--pagination__button, .cds--select-option, .cds--pagination__text"
+        )
+        .forEach((el) => {
+          el.childNodes.forEach((n) => {
+            if (n.nodeType === Node.TEXT_NODE) {
+              n.textContent = convertToNepali(n.textContent || "");
+            }
+          });
+        });
+    };
+
+    const observer = new MutationObserver(updatePaginationText);
+    observer.observe(document.body, { subtree: true, childList: true });
+
+    updatePaginationText();
+    return () => observer.disconnect();
+  }, [locale]);
+
+  return null;
 };
