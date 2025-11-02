@@ -102,7 +102,8 @@ export const DocumentList: React.FC<DocumentListProps> = ({
   );
 
   // No client-side filtering since search is server-side
-  const displayDocuments = safeDocuments;
+  // Sort documents by 'order' property (ascending)
+  const displayDocuments = [...safeDocuments].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
   // Handle document download using presigned URL endpoints
   const handleDownload = useCallback(
@@ -196,19 +197,18 @@ export const DocumentList: React.FC<DocumentListProps> = ({
           {/* Document Cards - Flex layout with wrapping */}
           {displayDocuments.length > 0 ? (
             <div className="document-flex">
-              {displayDocuments.map((document: DocumentType) => {
+              {displayDocuments.map((document: DocumentType, index) => {
                 return (
                   <Tile
                     key={document.id}
                     className="document-card document-card--compact document-flex-item"
+                    style={{ position: "relative" }}
                   >
-                    <div className="card-header">
-                      {/* Document type icon */}
-                      <div className="document-type-icon">
-                        {DocumentService.getFileTypeIcon(document.documentType)}
-                      </div>
+                    {/* Serial Number Badge */}
+                    <span className="card-order-badge">#{index + 1}</span>
 
-                      {/* Status badge */}
+                    <div className="card-header">
+                   
                       <div className="status-badge">
                         <Tag
                           type={
@@ -230,6 +230,10 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                         size="sm"
                         aria-label={t("table.actions.menu")}
                       >
+                        <OverflowMenuItem
+                          itemText={t("table.actions.edit", { default: "Edit" })}
+                          onClick={() => onEdit && onEdit(document)}
+                        />
                         <OverflowMenuItem
                           itemText={t("table.actions.download")}
                           onClick={() => handleDownload(document)}

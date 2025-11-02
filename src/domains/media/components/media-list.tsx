@@ -10,11 +10,12 @@ import {
   Tile,
 } from "@carbon/react";
 import { Image, TrashCan } from "@carbon/icons-react";
-import { useMedia } from "../hooks/use-media-queries";
+import { useMedia, useDeleteMedia } from "../hooks/use-media-queries";
 import type { Media, MediaQuery } from "../types/media";
 import { useMediaStore } from "../stores/media-store";
 import { useTranslations } from "next-intl";
 import MediaUrlService from "@/services/media-url-service";
+import ConfirmDeleteModal from '@/components/shared/confirm-delete-modal';
 
 interface MediaListProps {
   search?: string;
@@ -33,7 +34,10 @@ export const MediaList: React.FC<MediaListProps> = ({
   });
   const { openEditPanel } = useMediaStore();
   const queryResult = useMedia(query);
+  const deleteMutation = useDeleteMedia();
   const t = useTranslations("media");
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<Media | null>(null);
 
   const handlePageChange = useCallback((page: number, pageSize?: number) => {
     setQuery((prev) => ({
@@ -131,7 +135,8 @@ export const MediaList: React.FC<MediaListProps> = ({
                       hasDivider
                       itemText={t("card.delete")}
                       onClick={() => {
-                        /* to be wired */
+                        setSelectedItem(m);
+                        setIsConfirmOpen(true);
                       }}
                     />
                   </OverflowMenu>
@@ -174,6 +179,29 @@ export const MediaList: React.FC<MediaListProps> = ({
             )}
           </div>
         </div>
+      )}
+
+      {isConfirmOpen && selectedItem && (
+        <ConfirmDeleteModal
+          open={isConfirmOpen}
+          title={t('card.confirmDeleteTitle', { default: 'Confirm deletion' } as any)}
+          subtitle={t('card.confirmDeleteSubtitle', { name: selectedItem.title || selectedItem.originalName, default: `Are you sure you want to delete "${selectedItem.title || selectedItem.originalName}"? This action cannot be undone.` } as any)}
+          confirmLabel={t('actions.delete', { default: 'Delete' } as any)}
+          cancelLabel={t('actions.cancel', { default: 'Cancel' } as any)}
+          onCancel={() => {
+            setIsConfirmOpen(false);
+            setSelectedItem(null);
+          }}
+          onConfirm={() => {
+            if (!selectedItem) return;
+            try {
+              deleteMutation.mutate(selectedItem.id);
+            } finally {
+              setIsConfirmOpen(false);
+              setSelectedItem(null);
+            }
+          }}
+        />
       )}
 
       {!!pagination && filteredItems.length > 0 && (

@@ -16,7 +16,9 @@ import { useOfficeDescriptionUIStore } from "../stores/office-description-ui-sto
 import {
   useCreateOfficeDescription,
   useUpdateOfficeDescription,
+  useAdminOfficeDescriptions,
 } from "../hooks/use-office-description-queries";
+import { useNotificationStore } from '@/stores/notification-store';
 import { safeErrorToString } from "@/shared/utils/error-utils";
 import { TranslatableField } from "@/components/shared/translatable-field";
 
@@ -60,6 +62,8 @@ export const OfficeDescriptionForm: React.FC<OfficeDescriptionFormProps> = ({
 
   const createMutation = useCreateOfficeDescription();
   const updateMutation = useUpdateOfficeDescription();
+  const { data: adminDescriptions } = useAdminOfficeDescriptions();
+  const { showWarning } = useNotificationStore();
 
   // Get current form data based on mode and activeFormId
   const getCurrentFormData = useCallback(() => {
@@ -114,6 +118,20 @@ export const OfficeDescriptionForm: React.FC<OfficeDescriptionFormProps> = ({
     setError(null);
     if (!validateForm()) {
       return;
+    }
+    // Prevent duplicate by type on create
+    try {
+      if (mode === 'create' && adminDescriptions && adminDescriptions.some(d => d.officeDescriptionType === formData.officeDescriptionType)) {
+        // show a user-friendly notification and abort
+        const title = t("form.duplicateTitle");
+        const typeLabel = t(`types.${formData.officeDescriptionType}`) || formData.officeDescriptionType;
+        const message = t("form.duplicateMessage", { type: typeLabel });
+        showWarning(title, message);
+        return;
+      }
+    } catch (e) {
+      // if anything goes wrong with the duplicate check, continue to attempt submission
+      console.warn('Duplicate check failed, proceeding with submission', e);
     }
 
     setSubmitting(true);
