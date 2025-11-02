@@ -15,7 +15,7 @@ import {
   ComboBox,
   NumberInput,
 } from "@carbon/react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { TranslatableField } from "@/components/shared/translatable-field";
 import { MenuFormData, Menu, MenuLocation } from "../types/navigation";
 import { useNavigationStore } from "../stores/navigation-store";
@@ -239,18 +239,36 @@ export const MenuEditForm: React.FC<MenuEditFormProps> = ({
     }
   };
 
+  const locale = useLocale();
+  const resolve = (primaryKey: string, fallbackKey: string, def: string) => {
+    try {
+      const res = t(primaryKey);
+      if (res && res !== primaryKey && !res.includes("navigation.")) return res;
+    } catch {}
+    try {
+      const alt = t(fallbackKey);
+      if (alt && alt !== fallbackKey && !alt.includes("navigation.")) return alt;
+    } catch {}
+    return def;
+  };
+
   const locationOptions = [
-    { value: "HEADER", label: "Header" },
-    { value: "FOOTER", label: "Footer" },
-    { value: "SIDEBAR", label: "Sidebar" },
-    { value: "MOBILE", label: "Mobile" },
-    { value: "CUSTOM", label: "Custom" },
+    { value: "HEADER", label: resolve("form.location.options.header", "locations.HEADER", "Header") },
+    { value: "FOOTER", label: resolve("form.location.options.footer", "locations.FOOTER", "Footer") },
+    { value: "SIDEBAR", label: resolve("form.location.options.sidebar", "locations.SIDEBAR", "Sidebar") },
+    { value: "MOBILE", label: resolve("form.location.options.mobile", "locations.MOBILE", "Mobile") },
+    { value: "CUSTOM", label: resolve("form.location.options.custom", "locations.CUSTOM", "Custom") },
   ];
 
   // Prepare category options for autocomplete
   const categoryOptions = categories.map((cat) => ({
     id: cat.slug,
-    text: cat.name?.en || cat.name?.ne || cat.slug || "Unknown",
+    text:
+      cat.name?.[locale as "en" | "ne"] ||
+      cat.name?.en ||
+      cat.name?.ne ||
+      cat.slug ||
+      "Unknown",
     slug: cat.slug,
   }));
 

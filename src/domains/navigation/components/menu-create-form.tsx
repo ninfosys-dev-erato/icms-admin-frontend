@@ -17,7 +17,7 @@ import {
   NumberInput,
 } from "@carbon/react";
 import { Add, Reset } from "@carbon/icons-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { TranslatableField } from "@/components/shared/translatable-field";
 import { MenuFormData, MenuLocation } from "../types/navigation";
 import { useNavigationStore } from "../stores/navigation-store";
@@ -174,17 +174,37 @@ export const MenuCreateForm: React.FC<MenuCreateFormProps> = ({
     }
   };
 
+  const locale = useLocale();
+  // Helper: resolve translation and fall back to a default if the translator
+  // returned the raw key (happens when the translation is missing).
+  const resolve = (primaryKey: string, fallbackKey: string, def: string) => {
+    try {
+      const res = t(primaryKey);
+      if (res && res !== primaryKey && !res.includes("navigation.")) return res;
+    } catch {}
+    try {
+      const alt = t(fallbackKey);
+      if (alt && alt !== fallbackKey && !alt.includes("navigation.")) return alt;
+    } catch {}
+    return def;
+  };
+
   const locationOptions = [
-    { value: "HEADER", label: "Header" },
-    { value: "FOOTER", label: "Footer" },
-    { value: "SIDEBAR", label: "Sidebar" },
-    { value: "MOBILE", label: "Mobile" },
-    { value: "CUSTOM", label: "Custom" },
+    { value: "HEADER", label: resolve("form.location.options.header", "locations.HEADER", "Header") },
+    { value: "FOOTER", label: resolve("form.location.options.footer", "locations.FOOTER", "Footer") },
+    { value: "SIDEBAR", label: resolve("form.location.options.sidebar", "locations.SIDEBAR", "Sidebar") },
+    { value: "MOBILE", label: resolve("form.location.options.mobile", "locations.MOBILE", "Mobile") },
+    { value: "CUSTOM", label: resolve("form.location.options.custom", "locations.CUSTOM", "Custom") },
   ];
 
   const categoryOptions = categories.map((cat) => ({
     id: cat.slug,
-    text: cat.name?.en || cat.name?.ne || cat.slug || "Unknown",
+    text:
+      cat.name?.[locale as "en" | "ne"] ||
+      cat.name?.en ||
+      cat.name?.ne ||
+      cat.slug ||
+      "Unknown",
     slug: cat.slug,
   }));
 
