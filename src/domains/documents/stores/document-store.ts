@@ -275,12 +275,17 @@ export const useDocumentStore = create<DocumentStoreType>()(
 
       // Panel management
       openCreatePanel: () => {
-        set({ 
-          panelOpen: true, 
-          panelMode: 'create', 
-          panelDocument: null,
-          createFormState: { ...initialFormState },
-          selectedFile: null,
+        // Auto-increment order: set to (count of existing documents) + 1, fallback to 1
+        set((state) => {
+          const docs = state.documents || [];
+          const nextOrder = Math.max(1, docs.length + 1);
+          return {
+            panelOpen: true,
+            panelMode: 'create',
+            panelDocument: null,
+            createFormState: { ...initialFormState, order: nextOrder },
+            selectedFile: null,
+          };
         });
       },
 
@@ -316,15 +321,18 @@ export const useDocumentStore = create<DocumentStoreType>()(
       },
 
       updateFormFieldById: (id: string, field: keyof DocumentFormData, value: unknown) => {
-        set((state) => ({
-          formStateById: {
-            ...state.formStateById,
-            [id]: {
-              ...state.formStateById[id],
-              [field]: value,
+        set((state) => {
+          const existing = state.formStateById[id] ?? ({} as DocumentFormData);
+          return {
+            formStateById: {
+              ...state.formStateById,
+              [id]: {
+                ...existing,
+                [field]: value,
+              },
             },
-          },
-        }));
+          };
+        });
       },
 
       initializeEditForm: (document: Document) => {
