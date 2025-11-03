@@ -516,7 +516,7 @@ export const DocumentCreateForm: React.FC<DocumentCreateFormProps> = ({
               </FormGroup>
             </div>
 
-            <FormGroup legendText={t("form.tags.label")}> 
+            <FormGroup legendText={t("form.tags.label")} className="tags"> 
               <div className="document-create-form-tags-row-centered">
                 <TextInput
                   id="newTag"
