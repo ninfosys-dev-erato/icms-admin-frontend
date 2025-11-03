@@ -26,7 +26,7 @@ import {
   DocumentStatus,
 } from "../types/document";
 import { useDocumentStore } from "../stores/document-store";
-import { useCreateDocumentWithFile } from "../hooks/use-document-queries";
+import { useCreateDocumentWithFile, useDocumentStatistics } from "../hooks/use-document-queries";
 
 interface DocumentCreateFormProps {
   onSuccess?: () => void;
@@ -51,6 +51,9 @@ export const DocumentCreateForm: React.FC<DocumentCreateFormProps> = ({
     setSelectedFile,
     resetCreateForm,
   } = useDocumentStore();
+
+  // Get server-side document statistics to determine total count
+  const statsQuery = useDocumentStatistics();
 
   // Validation state
   const [validationErrors, setValidationErrors] = useState<
@@ -138,7 +141,18 @@ export const DocumentCreateForm: React.FC<DocumentCreateFormProps> = ({
     return Object.keys(errors).length === 0;
   };
 
-  // Listen for form submission from the parent CreateSidePanel
+  // When document statistics (total) is available, set default order to total + 1
+  useEffect(() => {
+    if (statsQuery.data && typeof statsQuery.data.total === 'number') {
+      const nextOrder = Math.max(1, statsQuery.data.total + 1);
+      if (createFormState.order !== nextOrder) {
+        handleInputChange('order', nextOrder);
+      }
+    }
+
+    // Listen for form submission from the parent CreateSidePanel
+  }, [statsQuery.data, createFormState.order]);
+
   useEffect(() => {
     const handleParentFormSubmit = (e: Event) => {
       e.preventDefault();
